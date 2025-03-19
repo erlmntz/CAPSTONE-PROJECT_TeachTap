@@ -1,0 +1,155 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+}
+
+.background-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(/IMAGE/LogInBG.jpg) no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(8px);
+    z-index: -1;
+}
+
+.login-container, .sign-up-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-width: 500px;
+    width: 90%;
+    margin: 2rem auto;
+    display: none; /* Hide both containers by default */
+}
+
+.login-container.active, .sign-up-container.active {
+    display: block; /* Show the active container */
+}
+
+.otp-input-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.otp-input {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 1.2rem;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+}
+
+@media (max-width: 576px) {
+    .login-container, .sign-up-container {
+        padding: 1.5rem;
+    }
+    .otp-input {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevent body scrolling */
+    position: relative;
+}
+
+/* Fixed and blurred background */
+body::before {
+    content: '';
+    position: fixed; /* Fixed to the viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(LogInBG.jpg) no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(8px); /* Apply blur effect */
+    z-index: -1; /* Ensure it stays behind the content */
+}
+
+.sign-up-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 500px; /* Wider container for better usability */
+    width: 90%; /* Responsive width */
+    max-height: 90vh; /* Limit height to viewport */
+    overflow-y: auto; /* Enable scrolling if content overflows */
+    margin: 2rem;
+}
+
+.form-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-control {
+    font-size: 0.95rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: rgb(0, 123, 255);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+.btn {
+    font-size: 1rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    background-color: #007bff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.text-center a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.text-center a:hover {
+    color: #0056b3;
+}
+
+@media (max-width: 576px) {
+    .sign-up-container {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+
+    .form-control {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        font-size: 0.95rem;
+        padding: 0.7rem;
+    }
+}

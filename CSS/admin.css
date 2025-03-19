@@ -1,0 +1,120 @@
+:root {
+    --primary-blue: rgb(26, 115, 232);
+    --secondary-blue: #4A90E2;
+    --background-white: #FFFFFF;
+    --sidebar-bg: #E3F2FD;
+    --status-green: rgb(26, 115, 232);
+    --status-red: rgb(26, 115, 232);
+    --status-yellow: rgb(26, 115, 232);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-white);
+}
+
+.sidebar {
+    background: var(--sidebar-bg);
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    transition: all 0.3s;
+}
+
+.sidebar .nav-link {
+    color: #1A237E;
+    padding: 12px 20px;
+    transition: all 0.3s;
+}
+
+.sidebar .nav-link.active {
+    background: var(--primary-blue);
+    color: var(--background-white);
+}
+
+.main-content {
+    margin-left: 280px;
+    padding: 30px;
+    transition: all 0.3s;
+}
+
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.fas.fa-calendar-alt {
+    color: var(--primary-blue) !important;
+}
+
+.widget {
+    background: var(--background-white);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.widget h6 {
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+}
+
+.widget .icon {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.status-green {
+    color: var(--status-green);
+}
+
+.status-red {
+    color: var(--status-red);
+}
+
+.status-yellow {
+    color: var(--status-yellow);
+}
+
+.d-block text-muted mt-1 {
+    font-weight: bold;
+}
+
+.zoom-effect:hover {
+    transform: scale(1.1);
+    transition: 0.3s ease-in-out;
+}
+
+.modal-content {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.list-group-item {
+    font-size: 1rem;
+    padding: 0.75rem 1.25rem;
+}
+
+.fw-bold {
+    font-weight: 600;
+}
+
+.text-uppercase {
+    letter-spacing: 0.05em;
+}
+
+#account-settings-section .card-body {
+    padding: 2rem;
+}
+
+#account-settings-section h6 {
+    color: var(--primary-blue);
+    margin-bottom: 1.5rem;
+}
+
+#account-settings-section .form-control {
+    max-width: 400px;
+}

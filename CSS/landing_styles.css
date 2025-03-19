@@ -1,0 +1,217 @@
+/* General Styles for Body and HTML */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-image: url('/IMAGE/Office_BG.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+}
+
+/* Header Styles */
+header {
+  background-color: #004FFF;
+  padding: 5px 0;
+}
+
+.hover-effect:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.navbar-brand,
+.navbar-text {
+  color: white;
+  font-weight: bold;
+}
+
+.navbar-brand {
+  font-size: 20px;
+}
+
+.navbar-text {
+  font-size: 30px;
+}
+
+.navbar-nav {
+  margin-left: auto;
+}
+
+.nav-item {
+  margin-left: 15px;
+}
+
+/* Button Styles */
+.account-button {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 30px;
+  background-color: #004FFF;
+  color: white;
+  border: none;
+  width: 400px;
+  max-width: 100%;
+  height: 80px;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.account-button:hover {
+  background-color: #87a5ff;
+}
+
+/* Footer Styles */
+footer {
+  background-color: #004FFF;
+  padding: 10px 0;
+}
+
+/* Title & Text Styles */
+.teach,
+.tap {
+  font-weight: bold;
+  font-size: 80px;
+}
+
+.teach {
+  color: rgb(0, 53, 170);
+}
+
+.tap {
+  color: rgb(207, 9, 33);
+}
+
+.account-text {
+  color: white;
+}
+
+.sub {
+  font-size: 25px;
+}
+
+.caps-title {
+  margin-top: 10px;
+}
+
+/* Account Selection Styles */
+.account-selection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 40px;
+}
+
+.account-selection p {
+  color: white;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.account-selection div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-heading {
+  font-size: medium;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .logo {
+    height: 40px;
+  }
+
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+
+  .navbar-text {
+    font-size: 0.9rem;
+  }
+
+  .caps-title h1 {
+    font-size: 1.1rem;
+  }
+
+  .caps-title h3 {
+    font-size: 1rem;
+  }
+
+  .qr-container img,
+  .gmap-container img {
+    width: 120px;
+    height: 120px;
+  }
+
+  .account-button {
+    width: 80%;
+    max-width: 350px;
+  }
+
+  .teach,
+  .tap {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1rem;
+  }
+
+  .caps-title h1 {
+    font-size: 1.2rem;
+  }
+
+  .caps-title h3 {
+    font-size: 0.9rem;
+  }
+
+  .navbar-text {
+    font-size: 0.8rem;
+  }
+
+  .qr-container img,
+  .gmap-container img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .account-button {
+    width: 150%;
+    max-width: 320px;
+    padding: 12px 15px;
+  }
+
+  .teach,
+  .tap {
+    font-size: 40px;
+  }
+}
+
+/* Full Screen Styles */
+@media (min-width: 992px) {
+  .navbar .container-fluid {
+    justify-content: flex-end;
+  }
+
+  .navbar .d-flex {
+    margin-right: auto;
+  }
+}
