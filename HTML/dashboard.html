@@ -30,7 +30,7 @@
                 <i class="fas fa-home me-2"></i> Dashboard
             </a>
             <a class="nav-link" href="#attendance" id="attendance-link">
-                <i class="fas fa-clipboard-list me-2"></i> Attendance
+                <i class="fas fa-clipboard-list me-2"></i> NFC Attendance
             </a>
             <a class="nav-link" href="#payroll" id="payroll-link">
                 <i class="fas fa-wallet me-2"></i> Payroll
@@ -49,10 +49,9 @@
         <!-- Logout Button (Always at the Bottom) -->
         <div class="sidebar-footer p-3">
             <button class="btn w-100" id="logout-btn" data-bs-toggle="modal" data-bs-target="#logoutModal"
-            style="background-color: rgb(207, 9, 33); border-color: rgb(207, 9, 33); color: white; font-weight: bold;">
-            <i class="fas fa-sign-out-alt me-2"></i> Log Out
-        </button>
-        
+                style="background-color: rgb(207, 9, 33); border-color: rgb(207, 9, 33); color: white; font-weight: bold;">
+                <i class="fas fa-sign-out-alt me-2"></i> Log Out
+            </button>
         </div>
     </div>
 
@@ -80,6 +79,7 @@
 
     <!-- Main Content Section -->
     <div class="main-content">
+        
         <!-- Header Section -->
         <header class="d-flex justify-content-between align-items-center mb-5">
             <div id="dashboard-header">
@@ -89,76 +89,161 @@
             <img id="header-profile-picture" src="/IMAGES/MaamAlma.png" class="rounded-circle border border-3 border-primary" width="80" height="80" alt="Teacher's profile picture">
         </header>
 
-        <!-- Dashboard Section -->  
+        <!-- DASHBOARD -->  
         <div id="dashboard-section" class="content-section active">
-            <div class="row g-4">
-                <!-- Profile Card -->
+            <div class="row g-3">
+               <!-- Cumulative Leave Credits Card -->
                 <div class="col-lg-4">
-                    <div class="profile-card text-center p-4 rounded-3 shadow-sm border">
-                        <div class="mb-3">
-                            <i class="fas fa-chalkboard-user fa-3x" style="color: #1a73e8;"></i>
+                    <div class="card border-0 shadow-sm" style="border-radius: 12px;">
+                        <div class="card-body text-center p-4">
+                            <!-- Progress Circle -->
+                            <div class="progress-circle mx-auto mb-4" style="width: 100px; height: 100px;">
+                                <div class="position-relative h-100 w-100">
+                                <!-- Background circle -->
+                                <div class="position-absolute rounded-circle" 
+                                    style="
+                                        width: 100%;
+                                        height: 100%;
+                                        background: conic-gradient(#1a73e8 70%, #e9ecef 0);
+                                        clip-path: circle(50% at center);
+                                    "></div>
+                                
+                                <!-- Inner white circle -->
+                                <div class="position-absolute rounded-circle bg-white"
+                                    style="
+                                        width: 80%;
+                                        height: 80%;
+                                        top: 10%;
+                                        left: 10%;
+                                    "></div>
+                                
+                                <!-- Points display -->
+                                <div class="position-absolute top-50 start-50 translate-middle text-center">
+                                    <span class="h4 fw-bold text-primary">7</span>
+                                    <span class="text-muted small">points</span>
+                                </div>
+                                </div>
+                            </div>
+
+                            <!-- Main Title -->
+                            <h4 class="fw-bold mb-3" style="color: #1a73e8;">Leave Credits</h4>
+
+                            <!-- Points Breakdown -->
+                            <div class="points-breakdown mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-start small">Base Points:</span>
+                                    <span class="badge bg-primary bg-opacity-10 text-primary">5</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-start small">Election Duty:</span>
+                                    <span class="badge bg-primary bg-opacity-10 text-primary">+3</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-start small">Absences:</span>
+                                    <span class="badge bg-primary bg-opacity-10 text-primary">-1</span>
+                                </div>
+                            </div>
+
+                            <!-- Current Status -->
+                            <div class="alert alert-primary bg-opacity-10 d-inline-flex align-items-center py-2 px-3">
+                                <i class="fas fa-coins text-primary me-2"></i>
+                                <div class="text-start">
+                                    <div class="fw-bold">7 Available Points</div>
+                                    <div class="small">Last deduction: May 15 (1 point)</div>
+                                </div>
+                            </div>
                         </div>
-                        <h5 class="mb-1 fw-semibold">Teachers Schedule</h5>
-                        <p class="text-muted mb-3">Grade 3</p>
-                        <button class="btn btn-outline-primary w-100">View Schedule</button>
                     </div>
                 </div>
-
+        
                 <!-- Attendance Summary -->
                 <div class="col-lg-8">
-                    <div class="attendance-summary-card p-4 rounded-3 shadow-sm border">
-                        <h5 class="fw-semibold mb-4" style="color: var(--primary-blue);">Monthly Attendance Overview</h5>
-                        <div class="row g-3 mb-4">
-                            <!-- Present Badge -->
-                            <div class="col">
-                                <div class="status-badge badge-present p-3 rounded-3 text-center">
-                                    <i class="fas fa-check-circle me-2"></i> Present: 22
+                    <div class="card border-0 shadow-sm mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">
+                                <i class="fas fa-calendar me-1"></i> Monthly Attendance
+                            </h5>
+                            
+                            <!-- Stats -->
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-4">
+                                    <div class="p-2 bg-primary bg-opacity-10 rounded text-center">
+                                        <span class="text-primary">Present</span><br>
+                                        <strong>22/23</strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-2 bg-primary bg-opacity-10 rounded text-center">
+                                        <span class="text-primary">Late</span><br>
+                                        <strong>2</strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-2 bg-primary bg-opacity-10 rounded text-center">
+                                        <span class="text-primary">Absent</span><br>
+                                        <strong>1</strong>
+                                    </div>
                                 </div>
                             </div>
-                            <!-- Late Badge -->
-                            <div class="col">
-                                <div class="status-badge badge-late p-3 rounded-3 text-center">
-                                    <i class="fas fa-clock me-2"></i> Late: 2
+        
+                            <!-- Buttons -->
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary w-100">
+                                        <i class="fas fa-list me-1"></i> Log
+                                    </button>
                                 </div>
-                            </div>
-                            <!-- Absent Badge -->
-                            <div class="col">
-                                <div class="status-badge badge-absent p-3 rounded-3 text-center">
-                                    <i class="fas fa-times-circle me-2"></i> Absent: 1
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-primary w-100">
+                                        <i class="fas fa-file-invoice me-1"></i> Payroll
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-primary w-100">
+                                        <i class="fas fa-edit me-1"></i> Request
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="row g-3">
-                            <!-- View Log Button -->
-                            <div class="col-md-4">
-                                <button class="btn btn-primary w-100 py-2 rounded-3">
-                                    <i class="fas fa-list me-2"></i> View Log
-                                </button>
-                            </div>
-                            <!-- Payroll Button -->
-                            <div class="col-md-4">
-                                <button class="btn btn-secondary w-100 py-2 rounded-3">
-                                    <i class="fas fa-file-invoice me-2"></i> Payroll
-                                </button>
-                            </div>
-                            <!-- Request Button -->
-                            <div class="col-md-4">
-                                <button class="btn btn-outline-primary w-100 py-2 rounded-3" id="request-btn">
-                                    <i class="fas fa-edit me-2"></i> Request
-                                </button>
-                            </div>
+                    </div>
+        
+                    <!-- Recent Activity -->
+                    <div class="card border-0 shadow-sm" style="padding-top: 5px;">
+                        <div class="card-body">
+                            <h6 class="card-title text-primary">
+                                <i class="fas fa-history me-1"></i> Recent Activity
+                            </h6>
+                            <ul class="list-unstyled small mb-0">
+                                <li class="mb-1"><i class="fas fa-check-circle text-primary me-1"></i> Checked-in: Today 08:00 AM</li>
+                                <li><i class="fas fa-clock text-primary me-1"></i> Late entry: Fri 08:45 AM</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Reminders -->
+                    <div class="card border-0 shadow-sm mt-3" style="padding-top: 5px;">
+                        <div class="card-body">
+                            <h6 class="card-title text-primary">
+                                <i class="fas fa-bell me-1"></i> Reminders
+                            </h6>
+                            <ul class="list-unstyled small mb-0">
+                                <li class="mb-1"><i class="fas fa-exclamation-circle text-primary me-1"></i> Lorem ipsum dolor sit amet</li>
+                                <li class="mb-1"><i class="fas fa-exclamation-circle text-primary me-1"></i> Consectetur adipiscing elit</li>
+                                <li><i class="fas fa-exclamation-circle text-primary me-1"></i> Sed do eiusmod tempor incididunt</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Attendance Section -->
+        <!-- NFC ATTENDANCE -->
         <div id="attendance-section" class="content-section">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-clipboard-list me-2"></i> Attendance Management</h5>
-
+                    <h5 class="card-title pb-3 text-primary">
+                        <i class="fas fa-clipboard-list me-2"></i>NFC  TAG Attendance
+                      </h5>                                     
                     <!-- Calendar Section -->
                     <div class="mb-4">
                         <label for="attendance-calendar" class="form-label">Select Date</label>
@@ -168,7 +253,7 @@
                     <h6>Today's Attendance Records</h6>
                     <table class="table table-bordered">
                         <thead>
-                            <tr>
+                            <tr class="table-primary">  <!-- Bootstrap primary color class -->
                                 <th>Date</th>
                                 <th>Log-in Time</th>
                                 <th>Login Status</th>
@@ -177,7 +262,6 @@
                             </tr>
                         </thead>
                         <tbody id="attendance-records">
-                            <!-- Attendance records will be populated dynamically -->
                             <tr>
                                 <td id="dummy-date">2025-03-24</td>
                                 <td id="dummy-login-time">09:00 AM</td>
@@ -190,44 +274,128 @@
                 </div>
             </div>
         </div>
-
-        <!-- Monthly Summary Section -->
-        <div id="monthly-summary-section" class="content-section">
+        
+        <!-- PAYROLL -->
+        <div id="payroll-section" class="content-section">
+            <!-- Month and Year Selection -->
+            <div class="card mb-4" style="border-radius: 10px;">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">
+                        <i class="fas fa-calendar-alt me-2"></i> Select Payroll Date
+                    </h5>
+                    <div class="d-flex align-items-end mb-4 gap-3">
+                        <!-- Month Selector -->
+                        <div class="flex-grow-1" style="max-width: 200px;">
+                            <label for="month-select" class="form-label fw-semibold">Month</label>
+                            <select id="month-select" class="form-select shadow-sm" style="border-radius: 8px; border: 1px solid #ccc;">
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03" selected>March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <!-- Year and Button Column -->
+                        <div class="d-flex gap-3">
+                            <!-- Year Selector -->
+                            <div style="width: 120px;">
+                                <label for="year-select" class="form-label fw-semibold">Year</label>
+                                <select id="year-select" class="form-select shadow-sm" style="border-radius: 8px; border: 1px solid #ccc;">
+                                    <option value="2025" selected>2025</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2023">2023</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Pay Slip -->
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-calendar-alt me-2"></i> Monthly Attendance Summary</h5>
-                    <h6>Summary by Month</h6>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Month</th>
-                                <th>Total Days</th>
-                                <th>Days Present</th>
-                                <th>Days Absent</th>
-                                <th>Average Check-in</th>
-                                <th>Average Check-out</th>
-                            </tr>
-                        </thead>
-                        <tbody id="monthly-summary">
-                            <tr>
-                                <td>March 2025</td>
-                                <td>5</td>
-                                <td>4</td>
-                                <td>1</td>
-                                <td>7:50 am</td>
-                                <td>5:30 pm</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <!-- Card Header with Date -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title text-primary mb-0">
+                            <i class="fas fa-wallet me-2"></i> Payroll
+                        </h5>
+                        <small class="text-muted">March 2025</small>
+                    </div>
+                    
+                    <!-- Pay Slip Content -->
+                    <div id="pay-slip-content">
+                        <!-- Header with Logos and Date -->
+                        <div class="header-section mb-4">
+                            <img src="/IMAGES/LOGO2.png" alt="School Logo" class="School-logo">
+                            <div class="text-center">
+                                <h1 class="fw-semibold mb-1">Payroll Slip</h1>
+                                <small class="text-muted">Pay Period: March 1-31, 2025</small>
+                            </div>
+                            <img src="/IMAGES/DepEd.png" alt="DepEd Logo" class="deped-logo">
+                        </div>
+            
+                        <!-- Payroll Details Table -->
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <td width="30%"><strong>Name:</strong></td>
+                                    <td id="name">Ma. Alma Balanza</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Position:</strong></td>
+                                    <td id="position">School Principal IV</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Pay Date:</strong></td>
+                                    <td>March 25, 2025</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Basic Salary:</strong></td>
+                                    <td id="salary">₱85,000.00</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Deductions:</strong></td>
+                                    <td>
+                                        <ul class="list-unstyled mb-0">
+                                            <li id="gsis">GSIS: ₱2,400.00</li>
+                                            <li id="philhealth">PhilHealth: ₱800.00</li>
+                                            <li id="pagibig">Pag-IBIG: ₱100.00</li>
+                                            <li id="tax">Tax: ₱6,000</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total Deductions:</strong></td>
+                                    <td id="total-deductions">₱9,300.00</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Net Pay:</strong></td>
+                                    <td><strong id="net-pay">₱82,700.00</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Download Button -->
+                    <div class="text-end mt-3">
+                        <button class="btn btn-primary" onclick="downloadPaySlip()">
+                            <i class="fas fa-download me-2"></i>Download Pay Slip
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Attendance Missed -->
-        <div id="requests-section" class="content-section">
+         <!-- ATTENDANCE MISSED -->
+         <div id="requests-section" class="content-section">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-edit me-2"></i> Submit a Request</h5>
+                    <h5 class="card-title text-primary"><i class="fas fa-edit me-2"></i> Submit a Request</h5>
                     <form id="request-form">
                         <div class="mb-3">
                             <label for="teacherNameRequest" class="form-label">Teacher Name</label>
@@ -260,12 +428,12 @@
             </div>
         </div>
 
-        <!-- Activity Log Section -->
+         <!-- ACTIVITY LOG-->
         <div id="activity-log-section" class="content-section">
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h5 class="card-title mb-0"><i class="fas fa-history me-2"></i> Activity Log</h5>
+                        <h5 class="card-title mb-0 text-primary"><i class="fas fa-history me-2"></i> Activity Log</h5>
                         <div class="dropdown">
                             <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="activityFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-filter me-1"></i> Filter
@@ -284,229 +452,134 @@
                     <!-- Activity Log Timeline -->
                     <div class="activity-timeline">
                         <!-- Today's Activities -->
-                        <div class="timeline-date mb-3">Today</div>
-                        
-                        <!-- Activity 1 -->
-                        <div class="timeline-item attendance" data-category="attendance">
-                            <div class="timeline-badge success">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="mb-1">On-Time Login</h6>
-                                    <small class="text-muted">08:15 AM</small>
+                        <div class="timeline-group" data-group="today">
+                            <div class="timeline-date mb-3">Today</div>
+                            
+                            <!-- Activity 1 -->
+                            <div class="timeline-item attendance" data-category="attendance">
+                                <div class="timeline-badge success">
+                                    <i class="fas fa-check-circle"></i>
                                 </div>
-                                <p class="mb-0 text-muted">Logged in successfully at school premises</p>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="mb-1">On-Time Login</h6>
+                                        <small class="text-muted">08:15 AM</small>
+                                    </div>
+                                    <p class="mb-0 text-muted">Logged in successfully at school premises</p>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Activity 2 -->
-                        <div class="timeline-item payroll" data-category="payroll">
-                            <div class="timeline-badge info">
-                                <i class="fas fa-file-invoice-dollar"></i>
-                            </div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="mb-1">Payslip Viewed</h6>
-                                    <small class="text-muted">10:30 AM</small>
+                            <!-- Activity 2 -->
+                            <div class="timeline-item payroll" data-category="payroll">
+                                <div class="timeline-badge info">
+                                    <i class="fas fa-file-invoice-dollar"></i>
                                 </div>
-                                <p class="mb-0 text-muted">Viewed March 2025 payroll details</p>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="mb-1">Payslip Viewed</h6>
+                                        <small class="text-muted">10:30 AM</small>
+                                    </div>
+                                    <p class="mb-0 text-muted">Viewed March 2025 payroll details</p>
+                                </div>
                             </div>
                         </div>
 
                         <!-- Yesterday's Activities -->
-                        <div class="timeline-date mb-3">Yesterday</div>
-                        
-                        <!-- Activity 3 -->
-                        <div class="timeline-item attendance" data-category="attendance">
-                            <div class="timeline-badge warning">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="mb-1">Late Login</h6>
-                                    <small class="text-muted">08:32 AM</small>
+                        <div class="timeline-group" data-group="yesterday">
+                            <div class="timeline-date mb-3">Yesterday</div>
+                            
+                            <!-- Activity 3 -->
+                            <div class="timeline-item attendance" data-category="attendance">
+                                <div class="timeline-badge warning">
+                                    <i class="fas fa-clock"></i>
                                 </div>
-                                <p class="mb-0 text-muted">Logged in 32 minutes late due to traffic</p>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="mb-1">Late Login</h6>
+                                        <small class="text-muted">08:32 AM</small>
+                                    </div>
+                                    <p class="mb-0 text-muted">Logged in 32 minutes late due to traffic</p>
+                                </div>
                             </div>
                         </div>
 
                         <!-- This Week's Activities -->
-                        <div class="timeline-date mb-3">This Week</div>
-                        
-                        <!-- Activity 4 -->
-                        <div class="timeline-item requests" data-category="requests">
-                            <div class="timeline-badge primary">
-                                <i class="fas fa-edit"></i>
-                            </div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="mb-1">Request Submitted</h6>
-                                    <small class="text-muted">Mar 24, 09:15 AM</small>
+                        <div class="timeline-group" data-group="this-week">
+                            <div class="timeline-date mb-3">This Week</div>
+                            
+                            <!-- Activity 4 -->
+                            <div class="timeline-item requests" data-category="requests">
+                                <div class="timeline-badge primary">
+                                    <i class="fas fa-edit"></i>
                                 </div>
-                                <p class="mb-0 text-muted">Attendance correction for March 23</p>
-                                <span class="badge bg-primary mt-1">Pending Approval</span>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="mb-1">Request Submitted</h6>
+                                        <small class="text-muted">Mar 24, 09:15 AM</small>
+                                    </div>
+                                    <p class="mb-0 text-muted">Attendance correction for March 23</p>
+                                    <span class="badge bg-primary mt-1">Pending Approval</span>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Activity 5 -->
-                        <div class="timeline-item settings" data-category="settings">
-                            <div class="timeline-badge secondary">
-                                <i class="fas fa-user-cog"></i>
-                            </div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="mb-1">Profile Updated</h6>
-                                    <small class="text-muted">Mar 23, 02:45 PM</small>
+                            <!-- Activity 5 -->
+                            <div class="timeline-item settings" data-category="settings">
+                                <div class="timeline-badge secondary">
+                                    <i class="fas fa-user-cog"></i>
                                 </div>
-                                <p class="mb-0 text-muted">Changed contact number to 0912-345-6789</p>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="mb-1">Profile Updated</h6>
+                                        <small class="text-muted">Mar 23, 02:45 PM</small>
+                                    </div>
+                                    <p class="mb-0 text-muted">Changed contact number to 0912-345-6789</p>
+                                </div>
                             </div>
                         </div>
 
                         <!-- Older Activities -->
-                        <div class="timeline-date mb-3">Earlier This Month</div>
-                        
-                        <!-- Activity 6 -->
-                        <div class="timeline-item attendance" data-category="attendance">
-                            <div class="timeline-badge danger">
-                                <i class="fas fa-times-circle"></i>
-                            </div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="mb-1">Missed Check-In</h6>
-                                    <small class="text-muted">Mar 18</small>
+                        <div class="timeline-group" data-group="earlier">
+                            <div class="timeline-date mb-3">Earlier This Month</div>
+                            
+                            <!-- Activity 6 -->
+                            <div class="timeline-item attendance" data-category="attendance">
+                                <div class="timeline-badge danger">
+                                    <i class="fas fa-times-circle"></i>
                                 </div>
-                                <p class="mb-0 text-muted">No login recorded for this day</p>
-                            </div>
-                        </div>
-
-                        <!-- Activity 7 -->
-                        <div class="timeline-item payroll" data-category="payroll">
-                            <div class="timeline-badge success">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="mb-1">Payslip Downloaded</h6>
-                                    <small class="text-muted">Mar 15, 03:20 PM</small>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="mb-1">Missed Check-In</h6>
+                                        <small class="text-muted">Mar 18</small>
+                                    </div>
+                                    <p class="mb-0 text-muted">No login recorded for this day</p>
                                 </div>
-                                <p class="mb-0 text-muted">Downloaded February 2025 payslip (PDF)</p>
+                            </div>
+
+                            <!-- Activity 7 -->
+                            <div class="timeline-item payroll" data-category="payroll">
+                                <div class="timeline-badge success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="mb-1">Payslip Downloaded</h6>
+                                        <small class="text-muted">Mar 15, 03:20 PM</small>
+                                    </div>
+                                    <p class="mb-0 text-muted">Downloaded February 2025 payslip (PDF)</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Payroll Section -->
-        <div id="payroll-section" class="content-section">
-            <!-- Month and Year Selection -->
-            <div class="card mb-4" style="border-radius: 10px;">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-calendar-alt me-2"></i> Select Payroll Date</h5>
-                    <div class="d-flex align-items-end mb-4 gap-3">
-                        <!-- Month Selector -->
-                        <div class="flex-grow-1" style="max-width: 200px;">
-                            <label for="month-select" class="form-label fw-semibold">Month</label>
-                            <select id="month-select" class="form-select shadow-sm" style="border-radius: 8px; border: 1px solid #ccc;">
-                                <option value="01">January</option>
-                                <option value="02">February</option>
-                                <option value="03" selected>March</option>
-                                <option value="04">April</option>
-                                <option value="05">May</option>
-                                <option value="06">June</option>
-                                <option value="07">July</option>
-                                <option value="08">August</option>
-                                <option value="09">September</option>
-                                <option value="10">October</option>
-                                <option value="11">November</option>
-                                <option value="12">December</option>
-                            </select>
-                        </div>
-            
-                        <!-- Year and Button Column -->
-                        <div class="d-flex gap-3">
-                            <!-- Year Selector -->
-                            <div style="width: 120px;">
-                                <label for="year-select" class="form-label fw-semibold">Year</label>
-                                <select id="year-select" class="form-select shadow-sm" style="border-radius: 8px; border: 1px solid #ccc;">
-                                    <option value="2025" selected>2025</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2023">2023</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-
-            <!-- Header for Payroll -->
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <h1 id="payroll-header" style="margin-left: 50px; font-size: 1.8rem; font-style: italic;">
-                        Pay Slip for March 2025
-                    </h1>   
-                </div>
-            
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-wallet me-2"></i>Payroll</h5>
-                    <!-- Pay Slip Content -->
-                    <div id="pay-slip-content">
-                        <!-- Header with Logos -->
-                        <div class="header-section">
-                            <img src="/IMAGES/LOGO2.png" alt="School Logo" class="School-logo">
-                            <h1 class="fw-semibold">Payroll Slip</h1>
-                            <img src="/IMAGES/DepEd.png" alt="DepEd Logo" class="deped-logo">
-                        </div>
-
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <td><strong>Name:</strong></td>
-                                    <td id="name">Ma. Alma Balanza</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Position:</strong></td>
-                                    <td id="position">School Principal IV</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Basic Salary:</strong></td>
-                                    <td id="salary">₱85,000.00</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Deductions:</strong></td>
-                                    <td>
-                                        <ul class="list-unstyled">
-                                            <li id="gsis">GSIS: ₱2,400.00</li>
-                                            <li id="philhealth">PhilHealth: ₱800.00</li>
-                                            <li id="pagibig">Pag-IBIG: ₱100.00</li>
-                                            <li id="tax">Tax: ₱6,000</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Total Deductions:</strong></td>
-                                    <td id="total-deductions">₱9,300.00</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Net Pay:</strong></td>
-                                    <td><strong id="net-pay">₱82,700.00</strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <button class="btn btn-primary" onclick="downloadPaySlip()">Download Pay Slip</button>
                 </div>
             </div>
         </div>
     
-       <!-- Account Settings Box Section -->
+       <!-- ACCOUNT SETTINGS -->
        <div id="account-settings-section" class="content-section" style="background-color: #ffffff;">
             <div class="card mb-4">
                 <div class="card-body">
                     <!-- Title Section with Icon -->
-                    <h5 class="card-title"><i class="fas fa-user me-2"></i> Personal Information</h5>
+                    <h5 class="card-title text-primary"><i class="fas fa-user me-2"></i> Personal Information</h5>
                     <!-- Row for Profile Picture and Personal Info -->
                     <div class="row align-items-center">
                         <!-- Left Column: Profile Picture -->
@@ -517,14 +590,30 @@
 
                             <!-- Change Picture Button -->
                             <button id="change-profile-picture-btn" class="btn btn-primary btn-lg mt-3">
-                                <i class="fas fa-camera me-1"></i> Change Picture
+                                <i class="fas fa-camera me-1"></i>Select Picture
                             </button>
                         </div>
                         <div class="col-12 col-md-8">
                             <form id="personal-info-form">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="firstname" class="form-label" style="font-weight: 500;">First Name:</label>
+                                        <input type="text" id="firstname" class="form-control" value="Ma. Alma">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="lastname" class="form-label" style="font-weight: 500;">Last Name:</label>
+                                        <input type="text" id="lastname" class="form-control" value="Balanza">
+                                    </div>
+                                </div>
                                 <div class="mb-3">
-                                    <label for="name" class="form-label" style="font-weight: 500;">Name:</label>
-                                    <input type="text" id="name1" class="form-control" value="Ma. Alma Balanza">
+                                    <label for="status" class="form-label" style="font-weight: 500;">Status:</label>
+                                    <select id="status" class="form-select">
+                                        <option value="single">Single</option>
+                                        <option value="married">Married</option>
+                                        <option value="divorced">Divorced</option>
+                                        <option value="widowed">Widowed</option>
+                                        <option value="separated">Separated</option>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label" style="font-weight: 500;">Email:</label>
@@ -538,10 +627,10 @@
                                     <label for="address" class="form-label" style="font-weight: 500;">Address:</label>
                                     <input type="text" id="address" class="form-control" value="0248 Lola's Way St., Caingin, San Rafael, Bulacan">
                                 </div>
-
+                        
                                 <!-- Buttons: Save and Cancel -->
                                 <div class="mt-4 d-flex justify-content-end">
-                                    <button type="button" class="btn btn-primary me-2" onclick="saveChanges()">Save</button>
+                                    <button type="button" class="btn btn-primary me-2" onclick="saveChanges()">Requst Appeal</button>
                                     <button type="button" class="btn btn-danger" onclick="cancelChanges()">Cancel</button>
                                 </div>
                             </form>
@@ -552,154 +641,206 @@
         </div>  
 
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <!-- Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
-<script>
-    // Set current date dynamically
-    document.getElementById('current-date').innerHTML = new Date().toLocaleDateString('en-US', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-    });
-
-    //Welcome message and pfp
-    document.addEventListener("DOMContentLoaded", function () {
-        // Get all sidebar links
-        const sidebarLinks = document.querySelectorAll(".nav-link");
-
-        // Get the elements to show/hide
-        const dashboardHeader = document.getElementById("dashboard-header");
-        const profilePicture = document.getElementById("header-profile-picture");
-
-        // Function to show or hide elements based on active link
-        function updateVisibility(activeLink) {
-            if (activeLink.id === "dashboard-link") {
-                dashboardHeader.style.display = "block";
-                profilePicture.style.display = "block";
-            } else {
-                dashboardHeader.style.display = "none";
-                profilePicture.style.display = "none";
-            }
-        }
-
-        // Add event listeners to sidebar links
-        sidebarLinks.forEach(link => {
-            link.addEventListener("click", function () {
-                // Remove active class from all links
-                sidebarLinks.forEach(l => l.classList.remove("active"));
-                // Add active class to clicked link
-                this.classList.add("active");
-
-                // Update visibility based on the clicked link
-                updateVisibility(this);
+        <script>
+            // Set current date dynamically
+            document.getElementById('current-date').innerHTML = new Date().toLocaleDateString('en-US', {
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric'
             });
-        });
 
-        // Ensure the dashboard section is visible by default
-        updateVisibility(document.getElementById("dashboard-link"));
-    });
-    
+            // Welcome message and pfp
+            document.addEventListener("DOMContentLoaded", function() {
+                // Get all sidebar links
+                const sidebarLinks = document.querySelectorAll(".nav-link");
 
-    // Function to hide all sections and show the selected one
-    function showSection(sectionId) {
-        const sections = document.querySelectorAll('.content-section');
-        sections.forEach(section => section.classList.remove('active'));
-        document.getElementById(sectionId).classList.add('active');
-    }
+                // Get the elements to show/hide
+                const dashboardHeader = document.getElementById("dashboard-header");
+                const profilePicture = document.getElementById("header-profile-picture");
 
-    // Function to handle sidebar link active state
-    function setActiveLink(linkId) {
-        const links = document.querySelectorAll('.sidebar .nav-link');
-        links.forEach(link => link.classList.remove('active'));
-        document.getElementById(linkId).classList.add('active');
-    }
+                // Function to show or hide elements based on active link
+                function updateVisibility(activeLink) {
+                    if (activeLink.id === "dashboard-link") {
+                        dashboardHeader.style.display = "block";
+                        profilePicture.style.display = "block";
+                    } else {
+                        dashboardHeader.style.display = "none";
+                        profilePicture.style.display = "none";
+                    }
+                }
 
-    // Sidebar links functionality
-    document.getElementById('dashboard-link').addEventListener('click', function () {
-        setActiveLink('dashboard-link');
-        showSection('dashboard-section');
-    });
-    document.getElementById('attendance-link').addEventListener('click', function () {
-        setActiveLink('attendance-link');
-        showSection('attendance-section');
-    });
-    document.getElementById('payroll-link').addEventListener('click', function () {
-        setActiveLink('payroll-link');
-        showSection('payroll-section');
-    });
-    document.getElementById('requests-link').addEventListener('click', function () {
-        setActiveLink('requests-link');
-        showSection('requests-section');
-    });
-    document.getElementById('activity-log-link').addEventListener('click', function () {
-        setActiveLink('activity-log-link');
-        showSection('activity-log-section');
-    });
-    document.getElementById('account-settings-link').addEventListener('click', function () {
-        setActiveLink('account-settings-link');
-        showSection('account-settings-section');
-    });
+                // Add event listeners to sidebar links
+                sidebarLinks.forEach(link => {
+                    link.addEventListener("click", function() {
+                        // Remove active class from all links
+                        sidebarLinks.forEach(l => l.classList.remove("active"));
+                        // Add active class to clicked link
+                        this.classList.add("active");
 
-    // Function to submit a request - dummy function only
-    function submitRequest() {
-        const teacherName = document.getElementById('teacherNameRequest').value;
-        const reason = document.getElementById('reasonRequest').value;
-        const proofFile = document.getElementById('proofUpload').files[0];
-
-        if (teacherName && reason && proofFile) {
-            document.getElementById('response-message').innerHTML = `
-                <div class="alert alert-success">
-                    Your request has been successfully submitted. Thank you!
-                </div>
-            `;
-            document.getElementById('request-form').reset();
-        } else {
-            document.getElementById('response-message').innerHTML = `
-                <div class="alert alert-danger">
-                    Please fill out all fields and attach a proof.
-                </div>
-            `;
-        }
-    }
-
-    //Payroll Section
-    function updatePayrollHeader() {
-        const monthSelect = document.getElementById('month-select');
-        const yearSelect = document.getElementById('year-select');
-        const payrollHeader = document.getElementById('payroll-header');
-        
-        // Get the selected month text (not the value)
-        const selectedMonth = monthSelect.options[monthSelect.selectedIndex].text;
-        const selectedYear = yearSelect.value;
-        
-        // Update the header text
-        payrollHeader.textContent = `Pay Slip for ${selectedMonth} ${selectedYear}`;
-    }
-    document.getElementById('month-select').addEventListener('change', updatePayrollHeader);
-    document.getElementById('year-select').addEventListener('change', updatePayrollHeader);
-
-    // Activity Log Filter Functionality
-    document.querySelectorAll('[data-filter]').forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-            const filter = this.getAttribute('data-filter');
-            
-            // Update active state
-            document.querySelectorAll('[data-filter]').forEach(el => el.classList.remove('active'));
-            this.classList.add('active');
-            
-            // Filter items
-            if (filter === 'all') {
-                document.querySelectorAll('.timeline-item').forEach(el => el.style.display = 'block');
-            } else {
-                document.querySelectorAll('.timeline-item').forEach(el => {
-                    el.style.display = el.dataset.category === filter ? 'block' : 'none';
+                        // Update visibility based on the clicked link
+                        updateVisibility(this);
+                    });
                 });
-            }
-        });
-});
 
-    </script>
+                // Ensure the dashboard section is visible by default
+                updateVisibility(document.getElementById("dashboard-link"));
+            });
+
+            // Function to hide all sections and show the selected one
+            function showSection(sectionId) {
+                const sections = document.querySelectorAll('.content-section');
+                sections.forEach(section => section.classList.remove('active'));
+                document.getElementById(sectionId).classList.add('active');
+            }
+
+            // Function to handle sidebar link active state
+            function setActiveLink(linkId) {
+                const links = document.querySelectorAll('.sidebar .nav-link');
+                links.forEach(link => link.classList.remove('active'));
+                document.getElementById(linkId).classList.add('active');
+            }
+
+            // Sidebar links functionality
+            document.getElementById('dashboard-link').addEventListener('click', function() {
+                setActiveLink('dashboard-link');
+                showSection('dashboard-section');
+            });
+            document.getElementById('attendance-link').addEventListener('click', function() {
+                setActiveLink('attendance-link');
+                showSection('attendance-section');
+            });
+            document.getElementById('payroll-link').addEventListener('click', function() {
+                setActiveLink('payroll-link');
+                showSection('payroll-section');
+            });
+            document.getElementById('requests-link').addEventListener('click', function() {
+                setActiveLink('requests-link');
+                showSection('requests-section');
+            });
+            document.getElementById('activity-log-link').addEventListener('click', function() {
+                setActiveLink('activity-log-link');
+                showSection('activity-log-section');
+            });
+            document.getElementById('account-settings-link').addEventListener('click', function() {
+                setActiveLink('account-settings-link');
+                showSection('account-settings-section');
+            });
+
+            // Function to submit a request - dummy function only
+            function submitRequest() {
+                const teacherName = document.getElementById('teacherNameRequest').value;
+                const reason = document.getElementById('reasonRequest').value;
+                const proofFile = document.getElementById('proofUpload').files[0];
+
+                if (teacherName && reason && proofFile) {
+                    document.getElementById('response-message').innerHTML = `
+                        <div class="alert alert-success">
+                            Your request has been successfully submitted. Thank you!
+                        </div>
+                    `;
+                    document.getElementById('request-form').reset();
+                } else {
+                    document.getElementById('response-message').innerHTML = `
+                        <div class="alert alert-danger">
+                            Please fill out all fields and attach a proof.
+                        </div>
+                    `;
+                }
+            }
+
+            // PAYROLL FILTERING
+            document.addEventListener('DOMContentLoaded', function() {
+                const filterItems = document.querySelectorAll('.dropdown-item[data-filter]');
+                const timelineItems = document.querySelectorAll('.timeline-item');
+                const dateGroups = document.querySelectorAll('.timeline-date-group');
+                const dropdownButton = document.getElementById('activityFilterDropdown');
+
+                filterItems.forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Update active state
+                        filterItems.forEach(filter => filter.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Get filter value
+                        const filterValue = this.getAttribute('data-filter');
+                        
+                        // Filter items
+                        let anyVisible = false;
+                        timelineItems.forEach(item => {
+                            const matchesFilter = filterValue === 'all' || item.getAttribute('data-category') === filterValue;
+                            item.style.display = matchesFilter ? '' : 'none';
+                            if (matchesFilter) anyVisible = true;
+                        });
+                        
+                        // Handle date groups and headers
+                        dateGroups.forEach(group => {
+                            const itemsInGroup = group.querySelectorAll('.timeline-item');
+                            const hasVisibleItems = Array.from(itemsInGroup).some(item => 
+                                item.style.display !== 'none'
+                            );
+                            
+                            // Toggle group visibility
+                            group.style.display = hasVisibleItems ? 'block' : 'none';
+                            
+                            // Ensure date header is always visible if any items are visible
+                            if (hasVisibleItems) {
+                                const dateHeader = group.querySelector('.timeline-date');
+                                if (dateHeader) dateHeader.style.display = 'block';
+                            }
+                        });
+                        
+                        // Update dropdown button text
+                        const filterText = this.textContent.trim();
+                        dropdownButton.innerHTML = `<i class="fas fa-filter me-1"></i> ${filterText}`;
+                        
+                        // Close dropdown
+                        const dropdown = this.closest('.dropdown-menu');
+                        if (dropdown) {
+                            const dropdownInstance = bootstrap.Dropdown.getInstance(dropdownButton);
+                            if (dropdownInstance) dropdownInstance.hide();
+                        }
+                    });
+                });
+            });
+
+            function downloadPaySlip() {
+            // Get the current month and year from the select elements
+            const monthSelect = document.getElementById('month-select');
+            const yearSelect = document.getElementById('year-select');
+            const selectedMonth = monthSelect.options[monthSelect.selectedIndex].text;
+            const selectedYear = yearSelect.value;
+            
+            // Update the pay period in the slip
+            const payPeriodElement = document.querySelector('.header-section small');
+            payPeriodElement.textContent = `Pay Period: ${selectedMonth} 1-31, ${selectedYear}`;
+            
+            // Update the date in the card header
+            const dateElement = document.querySelector('.card-body small.text-muted');
+            dateElement.textContent = `${selectedMonth} ${selectedYear}`;
+            
+            // Options for html2pdf
+            const options = {
+                margin: 10,
+                filename: `PaySlip_${selectedMonth}_${selectedYear}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+            };
+            
+            // Create the PDF
+            const element = document.getElementById('pay-slip-content');
+            html2pdf().from(element).set(options).save();
+        }
+        </script>
+
 </body>
+
 </html>
