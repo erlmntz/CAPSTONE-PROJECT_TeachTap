@@ -1,76 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TeachTap</title>
+    <link rel="icon" type="image/x-icon" href="/IMAGES/Logo_NoBG.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/CSS/landing_styles.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TeachTap</title>
-  <link rel="icon" type="image/x-icon" href="/IMAGES/Logo_NoBG.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;500;700&display=swap" rel="stylesheet">
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="/CSS/landing_styles.css">
-</head>
+  <body>
+    <!-- Header -->
+    <header class="bg-primary">
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center">
+            <img
+              src="/IMAGES/LOGO2.png"
+              alt="School Logo"
+              class="logo me-3"
+              style="height: 50px"
+            />
+            <span class="navbar-brand fw-bold">Maguinao Elementary School</span>
+          </div>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="collapse navbar-collapse justify-content-end"
+            id="navbarNav"
+          >
+            <!-- Changed to justify-content-end -->
+            <ul class="navbar-nav">
+              <!-- Removed text-center -->
+              <li class="nav-item">
+                <a
+                  class="nav-link fw-bold fs-5 text-white"
+                  href="https://sites.google.com/deped.gov.ph/105120maguinaoes/about/history"
+                  >About Us</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
 
-<body>
-<!-- Header -->
-<header class="bg-primary">
-  <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container-fluid">
-      <div class="d-flex align-items-center">
-        <img src="/IMAGES/LOGO2.png" alt="School Logo" class="logo me-3" style="height: 50px">
-        <span class="navbar-brand fw-bold">Maguinao Elementary School</span>
+    <!-- Main Section -->
+    <section class="text-center text-white my-5">
+      <div class="caps-title">
+        <h1>
+          <span class="teach" style="font-size: 3rem">Teach</span
+          ><span class="tap" style="font-size: 3rem">TAP</span>
+        </h1>
+        <h3>
+          <span class="sub" style="font-size: 1.5rem"
+            >NFC-Integrated Attendance and Payroll System for Maguinao
+            Elementary School</span
+          >
+        </h3>
       </div>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav"> <!-- Changed to justify-content-end -->
-        <ul class="navbar-nav"> <!-- Removed text-center -->
-          <li class="nav-item">
-            <a class="nav-link fw-bold fs-5 text-white" href="https://sites.google.com/deped.gov.ph/105120maguinaoes/about/history">About Us</a>
-          </li>
-        </ul>
+    </section>
+
+    <!-- Account Selection Section -->
+    <section class="account-selection text-center my-4">
+      <h2 class="section-heading mb-4" style="font-size: 1rem">
+        Choose which account to log into:
+      </h2>
+      <div>
+        <a href="/HTML/admin_login.html">
+          <button
+            class="account-button btn btn-primary mb-3"
+            style="padding: 10px 20px; font-size: 1.2rem"
+          >
+            Admin
+          </button>
+        </a>
+        <!-- Updated button with href to the login/signup page -->
+        <button
+          class="account-button btn btn-primary mb-3"
+          onclick="window.location.href='/HTML/login_signup.html';"
+          style="padding: 10px 20px; font-size: 1.2rem"
+        >
+          Teachers/Staff
+        </button>
       </div>
-    </div>
-  </nav>
-</header>
+    </section>
 
-  <!-- Main Section -->
-  <section class="text-center text-white my-5">
-    <div class="caps-title">
-      <h1>
-        <span class="teach" style="font-size: 3rem;">Teach</span><span class="tap" style="font-size: 3rem;">TAP</span>
-      </h1>
-      <h3><span class="sub" style="font-size: 1.5rem;">NFC-Integrated Attendance and Payroll System for Maguinao Elementary School</span></h3>
-    </div>
-  </section>
+    <!-- Footer -->
+    <footer class="navbar navbar-expand-lg navbar-dark bg-primary fixed-bottom">
+      <div class="container-fluid d-flex justify-content-center">
+        <span class="navbar-text fw-bold" style="font-size: 1rem"
+          >@ 2025 - Synergetic Minds</span
+        >
+      </div>
+    </footer>
 
-  <!-- Account Selection Section -->
-  <section class="account-selection text-center my-4">
-    <h2 class="section-heading mb-4" style="font-size: 1rem;">Choose which account to log into:</h2>
-    <div>
-      <a href="/HTML/admin_login.html">
-        <button class="account-button btn btn-primary mb-3" style="padding: 10px 20px; font-size: 1.2rem;">Admin</button>
-      </a>
-      <!-- Updated button with href to the login/signup page -->
-      <button class="account-button btn btn-primary mb-3" onclick="window.location.href='/HTML/login_signup.html';" style="padding: 10px 20px; font-size: 1.2rem;">
-        Teachers/Staff
-      </button>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="navbar navbar-expand-lg navbar-dark bg-primary fixed-bottom">
-    <div class="container-fluid d-flex justify-content-center">
-      <span class="navbar-text fw-bold" style="font-size: 1rem;">@ 2025 - Synergetic Minds</span>
-    </div>
-  </footer>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>

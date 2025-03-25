@@ -17,10 +17,13 @@
 <body>
     <!-- Sidebar Section -->
     <div class="sidebar d-flex flex-column position-fixed h-100" style="width: 280px;">
-        <div class="sidebar-header p-3">
-            <h4 class="mb-0" style="color: var(--primary-blue);">TeachTap</h4>
-            <small class="text-muted">K-6 Staff Portal</small>
+        <div class="sidebar-header p-3 text-center"> 
+            <img src="/IMAGES/Logo_NoBG.png" alt="Logo" class="logo-img mb-2" width="100">
+            <h4 class="mb-0 logo-text fw-bolder">
+                <span class="teach">Teach</span><span class="tap">Tap</span>
+            </h4>            
         </div>
+        
 
         <!-- Sidebar Navigation -->
         <nav class="nav flex-column flex-grow-1 mt-3 p-2">
@@ -34,7 +37,10 @@
                 <i class="fas fa-wallet me-2"></i> Payroll
             </a>
             <a class="nav-link" href="#requests" id="requests-link">
-                <i class="fas fa-edit me-2"></i> Requests
+                <i class="fas fa-edit me-2"></i>Attendance Missed
+            </a>
+            <a class="nav-link" href="#activity-log" id="activity-log-link">
+                <i class="fas fa-history me-2"></i> Activity Log
             </a>
             <a class="nav-link" href="#account-settings" id="account-settings-link">
                 <i class="fas fa-user-cog me-2"></i> Account Settings
@@ -43,9 +49,11 @@
 
         <!-- Logout Button (Always at the Bottom) -->
         <div class="sidebar-footer p-3">
-            <button class="btn btn-danger w-100" id="logout-btn" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                <i class="fas fa-sign-out-alt me-2"></i> Log Out
-            </button>
+            <button class="btn w-100" id="logout-btn" data-bs-toggle="modal" data-bs-target="#logoutModal"
+            style="background-color: rgb(207, 9, 33); border-color: rgb(207, 9, 33); color: white; font-weight: bold;">
+            <i class="fas fa-sign-out-alt me-2"></i> Log Out
+        </button>
+        
         </div>
     </div>
 
@@ -62,7 +70,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <a href="/HTML/landing.html" class="btn btn-danger" id="confirm-logout">Yes, Log Out</a>
+                        <a href="/HTML/landing.html" class="btn" id="confirm-logout"
+                        style="background-color: rgb(207, 9, 33); border-color: rgb(207, 9, 33); color: white; font-weight: bold;">
+                        Yes, Log Out
+                        </a>
                 </div>
             </div>
         </div>
@@ -71,65 +82,69 @@
     <!-- Main Content Section -->
     <div class="main-content">
         <!-- Header Section -->
-        <header class="d-flex justify-content-between align-items-center mb-4">
+        <header class="d-flex justify-content-between align-items-center mb-5">
             <div id="dashboard-header">
-                <h3 class="fw-semibold" style="color: var(--primary-blue);">Welcome Back, Adrian!</h3>
+                <h3 class="fw-semibold" style="color: var(--primary-blue);">Welcome Back, Ma'am Alma</h3>
                 <p class="text-muted mb-0" id="current-date"></p>
             </div>
-            <img id="header-profile-picture" src="/IMAGES/Teacher_profile.jpg" class="rounded-circle border border-3 border-primary" width="60" height="60" alt="Teacher's profile picture">
+            <img id="header-profile-picture" src="/IMAGES/MaamAlma.png" class="rounded-circle border border-3 border-primary" width="80" height="80" alt="Teacher's profile picture">
         </header>
 
-        <!-- Dashboard Section -->
+        <!-- Dashboard Section -->  
         <div id="dashboard-section" class="content-section active">
             <div class="row g-4">
                 <!-- Profile Card -->
                 <div class="col-lg-4">
-                    <div class="profile-card text-center">
+                    <div class="profile-card text-center p-4 rounded-3 shadow-sm border">
                         <div class="mb-3">
-                            <i class="fas fa-school fa-3x" style="color: var(--primary-blue);"></i>
+                            <i class="fas fa-chalkboard-user fa-3x" style="color: #1a73e8;"></i>
                         </div>
-                        <h5 class="mb-1">Elementary Faculty</h5>
-                        <p class="text-muted">Grade 3 Lead Teacher</p>
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-outline-primary">View Schedule</button>
-                        </div>
+                        <h5 class="mb-1 fw-semibold">Teachers Schedule</h5>
+                        <p class="text-muted mb-3">Grade 3</p>
+                        <button class="btn btn-outline-primary w-100">View Schedule</button>
                     </div>
                 </div>
 
                 <!-- Attendance Summary -->
                 <div class="col-lg-8">
-                    <div class="attendance-summary-card">
+                    <div class="attendance-summary-card p-4 rounded-3 shadow-sm border">
                         <h5 class="fw-semibold mb-4" style="color: var(--primary-blue);">Monthly Attendance Overview</h5>
                         <div class="row g-3 mb-4">
+                            <!-- Present Badge -->
                             <div class="col">
-                                <div class="status-badge badge-present">
+                                <div class="status-badge badge-present p-3 rounded-3 text-center">
                                     <i class="fas fa-check-circle me-2"></i> Present: 22
                                 </div>
                             </div>
+                            <!-- Late Badge -->
                             <div class="col">
-                                <div class="status-badge badge-late">
+                                <div class="status-badge badge-late p-3 rounded-3 text-center">
                                     <i class="fas fa-clock me-2"></i> Late: 2
                                 </div>
                             </div>
+                            <!-- Absent Badge -->
                             <div class="col">
-                                <div class="status-badge badge-absent">
+                                <div class="status-badge badge-absent p-3 rounded-3 text-center">
                                     <i class="fas fa-times-circle me-2"></i> Absent: 1
                                 </div>
                             </div>
                         </div>
                         <div class="row g-3">
+                            <!-- View Log Button -->
                             <div class="col-md-4">
-                                <button class="btn btn-primary w-100">
+                                <button class="btn btn-primary w-100 py-2 rounded-3">
                                     <i class="fas fa-list me-2"></i> View Log
                                 </button>
                             </div>
+                            <!-- Payroll Button -->
                             <div class="col-md-4">
-                                <button class="btn btn-secondary w-100">
+                                <button class="btn btn-secondary w-100 py-2 rounded-3">
                                     <i class="fas fa-file-invoice me-2"></i> Payroll
                                 </button>
                             </div>
+                            <!-- Request Button -->
                             <div class="col-md-4">
-                                <button class="btn btn-outline-primary w-100" id="request-btn">
+                                <button class="btn btn-outline-primary w-100 py-2 rounded-3" id="request-btn">
                                     <i class="fas fa-edit me-2"></i> Request
                                 </button>
                             </div>
@@ -144,7 +159,14 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title"><i class="fas fa-clipboard-list me-2"></i> Attendance Management</h5>
-                    <h6>Recent Attendance Records</h6>
+
+                    <!-- Calendar Section -->
+                    <div class="mb-4">
+                        <label for="attendance-calendar" class="form-label">Select Date</label>
+                        <input type="date" id="attendance-calendar" class="form-control" onchange="loadAttendanceByDate()">
+                    </div>
+
+                    <h6>Today's Attendance Records</h6>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -156,21 +178,13 @@
                             </tr>
                         </thead>
                         <tbody id="attendance-records">
+                            <!-- Attendance records will be populated dynamically -->
                             <tr>
-                                <td>3/5/2025</td>
-                                <td>7:45 am</td>
-                                <td><span class="badge-present status-badge">On time</span></td>
-                                <td>--:--</td>
-                                <td>
-                                    <a href="#requests-section" class="badge-missing status-badge">Missing or Request</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3/4/2025</td>
-                                <td>8:00 am</td>
-                                <td><span class="badge-late status-badge">Late</span></td>
-                                <td>4:00 pm</td>
-                                <td><span class="badge-present status-badge">On time</span></td>
+                                <td id="dummy-date">2025-03-24</td>
+                                <td id="dummy-login-time">09:00 AM</td>
+                                <td id="dummy-login-status">On Time</td>
+                                <td id="dummy-logout-time">05:00 PM</td>
+                                <td id="dummy-logout-status">On Time Leave</td>
                             </tr>
                         </tbody>
                     </table>
@@ -218,7 +232,7 @@
                     <form id="request-form">
                         <div class="mb-3">
                             <label for="teacherNameRequest" class="form-label">Teacher Name</label>
-                            <input type="text" id="teacherNameRequest" class="form-control" required>
+                            <input type="text" id="teacherNameRequest" class="form-control" value="Ma. Alma S. Balanza" readonly disabled required>
                         </div>
                         <div class="mb-3">
                             <label for="dateRequest" class="form-label">Date</label>
@@ -249,49 +263,98 @@
 
         <!-- Payroll Section -->
         <div id="payroll-section" class="content-section">
+            <!-- Month and Year Selection -->
+            <div class="card mb-4" style="border-radius: 10px;">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-calendar-alt me-2"></i> Select Payroll Date</h5>
+                    <div class="d-flex align-items-end mb-4 gap-3">
+                        <!-- Month Selector -->
+                        <div class="flex-grow-1" style="max-width: 200px;">
+                            <label for="month-select" class="form-label fw-semibold">Month</label>
+                            <select id="month-select" class="form-select shadow-sm" style="border-radius: 8px; border: 1px solid #ccc;">
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03" selected>March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+            
+                        <!-- Year and Button Column -->
+                        <div class="d-flex gap-3">
+                            <!-- Year Selector -->
+                            <div style="width: 120px;">
+                                <label for="year-select" class="form-label fw-semibold">Year</label>
+                                <select id="year-select" class="form-select shadow-sm" style="border-radius: 8px; border: 1px solid #ccc;">
+                                    <option value="2025" selected>2025</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2023">2023</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <!-- Header for Payroll -->
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <h1 id="payroll-header" style="margin-left: 50px; font-size: 1.8rem; font-style: italic;">
+                        Pay Slip for March 2025
+                    </h1>   
+                </div>
+            
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-wallet me-2"></i> Payroll</h5>
+                    <h5 class="card-title"><i class="fas fa-wallet me-2"></i>Payroll</h5>
                     <!-- Pay Slip Content -->
                     <div id="pay-slip-content">
                         <!-- Header with Logos -->
                         <div class="header-section">
                             <img src="/IMAGES/LOGO2.png" alt="School Logo" class="School-logo">
-                            <h5 class="pay-slip-title">Pay Slip for March 2025</h5>
+                            <h1 class="fw-semibold">Payroll Slip</h1>
                             <img src="/IMAGES/DepEd.png" alt="DepEd Logo" class="deped-logo">
                         </div>
+
                         <table class="table table-striped">
                             <tbody>
                                 <tr>
                                     <td><strong>Name:</strong></td>
-                                    <td>Maria Clara</td>
+                                    <td id="name">Ma. Alma Balanza</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Position:</strong></td>
-                                    <td>Teacher I</td>
+                                    <td id="position">School Principal IV</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Salary:</strong></td>
-                                    <td>₱28,000.00</td>
+                                    <td><strong>Basic Salary:</strong></td>
+                                    <td id="salary">₱85,000.00</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Deductions:</strong></td>
                                     <td>
                                         <ul class="list-unstyled">
-                                            <li>SSS: ₱1,000.00</li>
-                                            <li>PhilHealth: ₱450.00</li>
-                                            <li>Pag-IBIG: ₱100.00</li>
-                                            <li>Tax: ₱200.00</li>
+                                            <li id="gsis">GSIS: ₱2,400.00</li>
+                                            <li id="philhealth">PhilHealth: ₱800.00</li>
+                                            <li id="pagibig">Pag-IBIG: ₱100.00</li>
+                                            <li id="tax">Tax: ₱6,000</li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><strong>Total Deductions:</strong></td>
-                                    <td>₱1,750.00</td>
+                                    <td id="total-deductions">₱9,300.00</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Net Pay:</strong></td>
-                                    <td><strong>₱26,250.00</strong></td>
+                                    <td><strong id="net-pay">₱82,700.00</strong></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -300,71 +363,57 @@
                 </div>
             </div>
         </div>
-
-        <!-- Account Settings Section -->
-        <div id="account-settings-section" class="content-section">
+    
+       <!-- Account Settings Box Section -->
+       <div id="account-settings-section" class="content-section" style="background-color: #ffffff;">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-user-cog me-2"></i> Account Settings</h5>
-        
-                    <!-- Profile Picture Section -->
-                    <form id="profile-picture-form">
-                        <!-- Current Profile Picture -->
-                        <div class="mb-3">
-                            <label class="form-label">Current Profile Picture</label>
-                            <div>
-                                <img id="current-profile-picture" src="/IMAGES/Teacher_profile.jpg" class="rounded-circle border border-3 border-primary" width="60" height="60" alt="Teacher's profile picture">
+                    <!-- Title Section with Icon -->
+                    <h5 class="card-title"><i class="fas fa-user me-2"></i> Personal Information</h5>
+
+                    <!-- Row for Profile Picture and Personal Info -->
+                    <div class="row align-items-center">
+                        <!-- Left Column: Profile Picture -->
+                        <div class="col-12 col-md-4 text-center mb-4 mb-md-0">
+                            <div class="mb-3">
+                                <img id="current-profile-picture" src="/IMAGES/MaamAlma.png" class="rounded-circle border border-3 border-primary" width="180" height="180" alt="Profile Picture">
                             </div>
+                            <!-- Change Picture Button -->
+                            <button id="change-profile-picture-btn" class="btn btn-primary btn-lg mt-3">
+                                <i class="fas fa-camera me-1"></i> Change Picture
+                            </button>
                         </div>
-        
-                        <!-- New Profile Picture Upload -->
-                        <div class="mb-3">
-                            <label for="profile-picture" class="form-label">Change Profile Picture</label>
-                            <input type="file" id="profile-picture" class="form-control" accept="image/*" onchange="previewImage(event)">
+                        <div class="col-12 col-md-8">
+                            <!-- Editable Personal Information Form -->
+                            <form id="personal-info-form">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label" style="font-weight: 500;">Name:</label>
+                                    <input type="text" id="name" class="form-control" value="Ma. Alma Balanza">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label" style="font-weight: 500;">Email:</label>
+                                    <input type="email" id="email" class="form-control" value="maalma.balanza@deoed.gov.ph">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label" style="font-weight: 500;">Phone:</label>
+                                    <input type="tel" id="phone" class="form-control" value="09228951325">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="address" class="form-label" style="font-weight: 500;">Address:</label>
+                                    <input type="text" id="address" class="form-control" value="0248 Lola's Way St., Caingin, San Rafael, Bulacan">
+                                </div>
+
+                                <!-- Buttons: Save and Cancel -->
+                                <div class="mt-4 d-flex justify-content-end">
+                                    <button type="button" class="btn btn-primary me-2" onclick="saveChanges()">Save</button>
+                                    <button type="button" class="btn btn-danger" onclick="cancelChanges()">Cancel</button>
+                                </div>
+                            </form>
                         </div>
-        
-                        <!-- Preview of New Profile Picture -->
-                        <div class="mb-3">
-                            <label class="form-label">New Profile Picture Preview</label>
-                            <div>
-                                <img id="new-profile-picture-preview" src="#" alt="New Profile Picture Preview" class="rounded-circle border border-3 border-primary" width="60" height="60" style="display: none;">
-                            </div>
-                        </div>
-        
-                        <!-- Save Profile Picture Button -->
-                        <button type="button" class="btn btn-primary" onclick="updateProfilePicture()">Save Profile Picture</button>
-                    </form>
-        
-                    <!-- Username, Email, and Password Section -->
-                    <form id="account-details-form" class="mt-4">
-                        <!-- Username Field -->
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" id="username" class="form-control" required>
-                        </div>
-        
-                        <!-- Email Field -->
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" id="email" class="form-control" required>
-                        </div>
-        
-                        <!-- Password Field -->
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" id="password" class="form-control" required>
-                        </div>
-        
-                        <!-- Save Account Details Button -->
-                        <button type="button" class="btn btn-primary" onclick="updateAccountDetails()">Save Changes</button>
-                    </form>
-        
-                    <!-- Response Message -->
-                    <div id="profile-response-message" class="mt-3"></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -446,17 +495,16 @@
         setActiveLink('requests-link');
         showSection('requests-section');
     });
+    document.getElementById('activity-log-link').addEventListener('click', function () {
+        setActiveLink('activity-log-link');
+        showSection('activity-log-section');
+    });
     document.getElementById('account-settings-link').addEventListener('click', function () {
         setActiveLink('account-settings-link');
         showSection('account-settings-section');
     });
 
-    // Add event listener to the "Missing or Request" link
-    document.querySelector('a[href="#requests-section"].badge-missing').addEventListener('click', function (event) {
-        event.preventDefault();
-        setActiveLink('requests-link');
-        showSection('requests-section');
-    });
+
 
     // Function to submit a request - dummy function only
     function submitRequest() {
@@ -480,73 +528,26 @@
         }
     }
 
-    // Function to generate PDF
-    function generatePDF() {
-        const element = document.getElementById('pay-slip-content');
-        const options = {
-            margin: [10, 10, 10, 10], // Margins: top, right, bottom, left
-            filename: 'PaySlip_March_2025.pdf', // Name of the PDF file
-            image: { type: 'jpeg', quality: 0.98 }, // Image quality
-            html2canvas: { scale: 2, logging: true, useCORS: true }, // html2canvas options
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' } // jsPDF options
-        };
-
-        // Generate the PDF
-        html2pdf().from(element).set(options).save();
+    //Payroll Section
+    function updatePayrollHeader() {
+        const monthSelect = document.getElementById('month-select');
+        const yearSelect = document.getElementById('year-select');
+        const payrollHeader = document.getElementById('payroll-header');
+        
+        // Get the selected month text (not the value)
+        const selectedMonth = monthSelect.options[monthSelect.selectedIndex].text;
+        const selectedYear = yearSelect.value;
+        
+        // Update the header text
+        payrollHeader.textContent = `Pay Slip for ${selectedMonth} ${selectedYear}`;
+        
+        // You can also trigger any other content updates here
+        // updatePayrollContent();
     }
-
-    // Function to update the profile picture
-    function updateProfilePicture() {
-        const newProfilePicture = document.getElementById('profile-picture').files[0];
-        const currentProfilePicture = document.getElementById('current-profile-picture');
-        const headerProfilePicture = document.getElementById('header-profile-picture');
-        const newProfilePicturePreview = document.getElementById('new-profile-picture-preview');
-
-        if (newProfilePicture) {
-            // Update the current profile picture with the new one
-            const reader = new FileReader();
-            reader.onload = function() {
-                // Update the profile picture in the form
-                currentProfilePicture.src = reader.result;
-                // Update the profile picture in the header
-                headerProfilePicture.src = reader.result;
-                // Hide the preview after updating
-                newProfilePicturePreview.style.display = 'none';
-            }
-            reader.readAsDataURL(newProfilePicture);
-
-            // Display a success message
-            document.getElementById('profile-response-message').innerHTML = `
-                <div class="alert alert-success" role="alert">
-                    Profile picture updated successfully!
-                </div>
-            `;
-        } else {
-            // Display an error message if no file is selected
-            document.getElementById('profile-response-message').innerHTML = `
-                <div class="alert alert-danger" role="alert">
-                    Please select a new profile picture.
-                </div>
-            `;
-        }
-    }
-
-    // Function to update account details (username, email, password)
-    function updateAccountDetails() {
-        const username = document.getElementById('username').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        // Example: Send data to the server (you can use fetch or AJAX)
-        console.log("Updating account details with:", { username, email, password });
-
-        // Display a success message
-        document.getElementById('profile-response-message').innerHTML = `
-            <div class="alert alert-success" role="alert">
-                Account details updated successfully!
-            </div>
-        `;
-    }
+    
+    // Optional: Update the header immediately when selections change (without needing to click the button)
+    document.getElementById('month-select').addEventListener('change', updatePayrollHeader);
+    document.getElementById('year-select').addEventListener('change', updatePayrollHeader);
 </script>
 </body>
 </html>
