@@ -155,6 +155,96 @@ body {
   text-align: center;
 }
 
+/* Activity Log Timeline - Primary Color Only */
+.activity-timeline {
+  position: relative;
+  padding-left: 30px;
+}
+
+.timeline-date {
+  font-weight: 600;
+  color: var(--primary-blue);
+  position: relative;
+  margin: 15px 0 10px;
+}
+
+.timeline-date::before {
+  content: "";
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--primary-blue);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  margin-left: 8px;
+  border-left: 2px solid rgba(0, 0, 0, 0.08);
+}
+
+.timeline-badge {
+  position: absolute;
+  left: -31px;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-blue);
+  color: white;
+}
+
+/* Status variations using opacity only */
+.timeline-badge.strong { opacity: 1; }     /* Important events */
+.timeline-badge.medium { opacity: 0.75; }  /* Regular events */
+.timeline-badge.light { opacity: 0.5; }    /* Secondary events */
+
+.timeline-content {
+  background: rgba(0, 0, 0, 0.02);
+  padding: 12px 15px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  border-left: 3px solid var(--primary-blue);
+  transition: all 0.2s ease;
+}
+
+.timeline-content:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* Status badges */
+.status-indicator {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  background-color: var(--primary-blue);
+  color: white;
+  opacity: 0.9;
+}
+
+/* Filter dropdown */
+.dropdown-item.active {
+  background-color: var(--primary-blue);
+  color: white;
+}
+
+/* Timeline icons */
+.timeline-badge i {
+  color: white;
+  font-size: 0.75rem;
+}
+
+
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   .sidebar {

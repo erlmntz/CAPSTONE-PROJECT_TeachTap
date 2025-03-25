@@ -24,7 +24,6 @@
             </h4>            
         </div>
         
-
         <!-- Sidebar Navigation -->
         <nav class="nav flex-column flex-grow-1 mt-3 p-2">
             <a class="nav-link active" href="#dashboard" id="dashboard-link">
@@ -224,7 +223,7 @@
             </div>
         </div>
 
-        <!-- Requests Section -->
+        <!-- Attendance Missed -->
         <div id="requests-section" class="content-section">
             <div class="card mb-4">
                 <div class="card-body">
@@ -257,6 +256,144 @@
                         <button type="button" class="btn btn-primary" onclick="submitRequest()">Submit Request</button>
                     </form>
                     <div id="response-message" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Log Section -->
+        <div id="activity-log-section" class="content-section">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="card-title mb-0"><i class="fas fa-history me-2"></i> Activity Log</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="activityFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-filter me-1"></i> Filter
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="activityFilterDropdown">
+                                <li><a class="dropdown-item active" href="#" data-filter="all">All Activities</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" data-filter="attendance">Attendance</a></li>
+                                <li><a class="dropdown-item" href="#" data-filter="payroll">Payroll</a></li>
+                                <li><a class="dropdown-item" href="#" data-filter="requests">Requests</a></li>
+                                <li><a class="dropdown-item" href="#" data-filter="settings">Account Settings</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Activity Log Timeline -->
+                    <div class="activity-timeline">
+                        <!-- Today's Activities -->
+                        <div class="timeline-date mb-3">Today</div>
+                        
+                        <!-- Activity 1 -->
+                        <div class="timeline-item attendance" data-category="attendance">
+                            <div class="timeline-badge success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="mb-1">On-Time Login</h6>
+                                    <small class="text-muted">08:15 AM</small>
+                                </div>
+                                <p class="mb-0 text-muted">Logged in successfully at school premises</p>
+                            </div>
+                        </div>
+
+                        <!-- Activity 2 -->
+                        <div class="timeline-item payroll" data-category="payroll">
+                            <div class="timeline-badge info">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="mb-1">Payslip Viewed</h6>
+                                    <small class="text-muted">10:30 AM</small>
+                                </div>
+                                <p class="mb-0 text-muted">Viewed March 2025 payroll details</p>
+                            </div>
+                        </div>
+
+                        <!-- Yesterday's Activities -->
+                        <div class="timeline-date mb-3">Yesterday</div>
+                        
+                        <!-- Activity 3 -->
+                        <div class="timeline-item attendance" data-category="attendance">
+                            <div class="timeline-badge warning">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="mb-1">Late Login</h6>
+                                    <small class="text-muted">08:32 AM</small>
+                                </div>
+                                <p class="mb-0 text-muted">Logged in 32 minutes late due to traffic</p>
+                            </div>
+                        </div>
+
+                        <!-- This Week's Activities -->
+                        <div class="timeline-date mb-3">This Week</div>
+                        
+                        <!-- Activity 4 -->
+                        <div class="timeline-item requests" data-category="requests">
+                            <div class="timeline-badge primary">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="mb-1">Request Submitted</h6>
+                                    <small class="text-muted">Mar 24, 09:15 AM</small>
+                                </div>
+                                <p class="mb-0 text-muted">Attendance correction for March 23</p>
+                                <span class="badge bg-primary mt-1">Pending Approval</span>
+                            </div>
+                        </div>
+
+                        <!-- Activity 5 -->
+                        <div class="timeline-item settings" data-category="settings">
+                            <div class="timeline-badge secondary">
+                                <i class="fas fa-user-cog"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="mb-1">Profile Updated</h6>
+                                    <small class="text-muted">Mar 23, 02:45 PM</small>
+                                </div>
+                                <p class="mb-0 text-muted">Changed contact number to 0912-345-6789</p>
+                            </div>
+                        </div>
+
+                        <!-- Older Activities -->
+                        <div class="timeline-date mb-3">Earlier This Month</div>
+                        
+                        <!-- Activity 6 -->
+                        <div class="timeline-item attendance" data-category="attendance">
+                            <div class="timeline-badge danger">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="mb-1">Missed Check-In</h6>
+                                    <small class="text-muted">Mar 18</small>
+                                </div>
+                                <p class="mb-0 text-muted">No login recorded for this day</p>
+                            </div>
+                        </div>
+
+                        <!-- Activity 7 -->
+                        <div class="timeline-item payroll" data-category="payroll">
+                            <div class="timeline-badge success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="mb-1">Payslip Downloaded</h6>
+                                    <small class="text-muted">Mar 15, 03:20 PM</small>
+                                </div>
+                                <p class="mb-0 text-muted">Downloaded February 2025 payslip (PDF)</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -370,7 +507,6 @@
                 <div class="card-body">
                     <!-- Title Section with Icon -->
                     <h5 class="card-title"><i class="fas fa-user me-2"></i> Personal Information</h5>
-
                     <!-- Row for Profile Picture and Personal Info -->
                     <div class="row align-items-center">
                         <!-- Left Column: Profile Picture -->
@@ -378,17 +514,17 @@
                             <div class="mb-3">
                                 <img id="current-profile-picture" src="/IMAGES/MaamAlma.png" class="rounded-circle border border-3 border-primary" width="180" height="180" alt="Profile Picture">
                             </div>
+
                             <!-- Change Picture Button -->
                             <button id="change-profile-picture-btn" class="btn btn-primary btn-lg mt-3">
                                 <i class="fas fa-camera me-1"></i> Change Picture
                             </button>
                         </div>
                         <div class="col-12 col-md-8">
-                            <!-- Editable Personal Information Form -->
                             <form id="personal-info-form">
                                 <div class="mb-3">
                                     <label for="name" class="form-label" style="font-weight: 500;">Name:</label>
-                                    <input type="text" id="name" class="form-control" value="Ma. Alma Balanza">
+                                    <input type="text" id="name1" class="form-control" value="Ma. Alma Balanza">
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label" style="font-weight: 500;">Email:</label>
@@ -413,7 +549,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>  
+
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -504,8 +641,6 @@
         showSection('account-settings-section');
     });
 
-
-
     // Function to submit a request - dummy function only
     function submitRequest() {
         const teacherName = document.getElementById('teacherNameRequest').value;
@@ -540,14 +675,31 @@
         
         // Update the header text
         payrollHeader.textContent = `Pay Slip for ${selectedMonth} ${selectedYear}`;
-        
-        // You can also trigger any other content updates here
-        // updatePayrollContent();
     }
-    
-    // Optional: Update the header immediately when selections change (without needing to click the button)
     document.getElementById('month-select').addEventListener('change', updatePayrollHeader);
     document.getElementById('year-select').addEventListener('change', updatePayrollHeader);
-</script>
+
+    // Activity Log Filter Functionality
+    document.querySelectorAll('[data-filter]').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const filter = this.getAttribute('data-filter');
+            
+            // Update active state
+            document.querySelectorAll('[data-filter]').forEach(el => el.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Filter items
+            if (filter === 'all') {
+                document.querySelectorAll('.timeline-item').forEach(el => el.style.display = 'block');
+            } else {
+                document.querySelectorAll('.timeline-item').forEach(el => {
+                    el.style.display = el.dataset.category === filter ? 'block' : 'none';
+                });
+            }
+        });
+});
+
+    </script>
 </body>
 </html>
