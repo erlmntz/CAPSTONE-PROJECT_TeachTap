@@ -4,31 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TeachTap - Admin Portal</title>
-    <!-- External CSS and Fonts -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <!-- Datepicker CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="/CSS/admin.css" />
   </head>
+
   <body>
-    <!-- Sidebar Section -->
+    <!-- ==================== SIDEBAR SECTION ==================== -->
     <div class="sidebar d-flex flex-column" style="height: 100vh">
       <div class="sidebar-header p-3">
-        <img
-          src="/IMAGES/LOGO2.png"
-          alt="TeachTap Logo"
-          style="width: 150px; height: auto; margin-left: 40px"
-        />
+        <img src="/IMAGES/LOGO2.png" alt="TeachTap Logo" style="width: 150px; height: auto; margin-left: 40px" />
       </div>
+
       <!-- Navigation Links -->
       <nav class="nav flex-column mt-3 mb-auto">
         <a class="nav-link active" href="#dashboard">
@@ -50,18 +50,14 @@
           <i class="fas fa-cog me-2"></i> Admin Settings
         </a>
       </nav>
+
       <!-- Log Out Button -->
-      <a
-        class="nav-link text-danger mt-auto"
-        href="#"
-        onclick="logout()"
-        style="cursor: pointer"
-      >
+      <a class="nav-link text-danger mt-auto" href="#" onclick="logout()" style="cursor: pointer">
         <i class="fas fa-sign-out-alt me-2"></i> Log Out
       </a>
     </div>
 
-    <!-- Main Content Section -->
+    <!-- ==================== MAIN CONTENT SECTION ==================== -->
     <div class="main-content">
       <!-- Header Section -->
       <header class="d-flex justify-content-between align-items-center mb-4">
@@ -75,94 +71,326 @@
 
       <!-- Monthly Absence Tracker Widget -->
       <div class="row mt-4" id="monthly-absence-widget">
-        <div class="col-md-6">
-          <div class="widget">
-            <h6>Monthly Absence Summary - Teachers</h6>
-            <ul id="teacher-absence-list" class="list-group">
-              <!-- Teachers' absence data will be dynamically generated here -->
-            </ul>
+        <div class="col-12">
+          <div class="card shadow-sm border-0">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
+              <h5 class="mb-0 text-primary">Monthly Teacher Attendance</h5>
+              <div class="d-flex align-items-center">
+                <div class="me-3">
+                  <span class="badge bg-primary bg-opacity-10 text-primary">
+                    Total Teachers: <strong>66</strong>
+                  </span>
+                </div>
+                <div class="input-group" style="width: 200px;">
+                  <input type="month" class="form-control border-primary" id="attendance-month" value="2023-10">
+                  <button class="btn btn-outline-primary" type="button" id="refresh-attendance">
+                    <i class="fas fa-sync-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body bg-white">
+              <!-- Summary Cards Row -->
+              <div class="row mb-4">
+                <!-- Perfect Attendance -->
+                <div class="col-md-4 mb-3 mb-md-0">
+                  <div class="card h-100" style="background-color: #0d6efd; border-color: white;">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center text-white">
+                        <div class="me-3">
+                          <i class="fas fa-check-circle fa-2x text-white"></i>
+                        </div>
+                        <div>
+                          <h6 class="mb-1 text-white">Perfect Attendance</h6>
+                          <h3 class="mb-0 text-white">62</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Absent Teachers -->
+                <div class="col-md-4 mb-3 mb-md-0">
+                  <div class="card h-100" style="background-color: #0d6efd; border-color: white;">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center text-white">
+                        <div class="me-3">
+                          <i class="fas fa-user-slash fa-2x text-white"></i>
+                        </div>
+                        <div>
+                          <h6 class="mb-1 text-white">Absent Teachers</h6>
+                          <h3 class="mb-0 text-white">2</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Late Arrivals -->
+                <div class="col-md-4">
+                  <div class="card h-100" style="background-color: #0d6efd; border-color: white;">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center text-white">
+                        <div class="me-3">
+                          <i class="fas fa-clock fa-2x text-white"></i>
+                        </div>
+                        <div>
+                          <h6 class="mb-1 text-white">Late Arrivals</h6>
+                          <h3 class="mb-0 text-white">2</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Detailed Lists with Dropdowns -->
+              <div class="accordion" id="attendanceDetails">
+                <!-- Perfect Attendance Dropdown -->
+                <div class="accordion-item border-primary border-2 mb-3 shadow-sm">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#perfectAttendanceList">
+                      <div class="d-flex align-items-center w-100">
+                        <i class="fas fa-check-circle me-3 text-primary fs-4"></i>
+                        <div class="flex-grow-1">
+                          <span class="fw-bold">Perfect Attendance</span>
+                          <div class="d-flex align-items-center">
+                            <span class="text-muted small me-2">62 teachers</span>
+                          </div>
+                        </div>
+                        <i class="fas fa-chevron-down text-muted ms-auto"></i>
+                      </div>
+                    </button>
+                  </h2>
+                  <div id="perfectAttendanceList" class="accordion-collapse collapse show" data-bs-parent="#attendanceDetails">
+                    <div class="accordion-body p-0 border-top border-primary border-2">
+                      <div class="list-group list-group-flush" style="max-height: 300px; overflow-y: auto;">
+                        <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar bg-primary bg-opacity-10 text-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                              <i class="fas fa-user"></i>
+                            </div>
+                            <span class="fw-medium">Maria Santos</span>
+                          </div>
+                          <span class="badge bg-primary text-white px-3 py-2">22 days</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar bg-primary bg-opacity-10 text-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                              <i class="fas fa-user"></i>
+                            </div>
+                            <span class="fw-medium">John Smith</span>
+                          </div>
+                          <span class="badge bg-primary text-white px-3 py-2">22 days</span>
+                        </div>
+                        <div class="list-group-item text-center text-muted py-3 bg-light">
+                          Showing 2 of 62 teachers
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Absent Teachers Dropdown -->
+                <div class="accordion-item border-primary border-2 shadow-sm">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button bg-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#absentTeachersList">
+                      <div class="d-flex align-items-center w-100">
+                        <i class="fas fa-user-slash me-3 text-primary fs-4"></i>
+                        <div class="flex-grow-1">
+                          <span class="fw-bold">Absent Teachers</span>
+                          <div class="d-flex align-items-center">
+                            <span class="text-muted small me-2">2 teachers</span>
+                          </div>
+                        </div>
+                        <i class="fas fa-chevron-down text-muted ms-auto"></i>
+                      </div>
+                    </button>
+                  </h2>
+                  <div id="absentTeachersList" class="accordion-collapse collapse" data-bs-parent="#attendanceDetails">
+                    <div class="accordion-body p-0 border-top border-primary border-2">
+                      <div class="list-group list-group-flush" style="max-height: 300px; overflow-y: auto;">
+                        <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+                          <div>
+                            <div class="d-flex align-items-center mb-1">
+                              <div class="avatar bg-primary bg-opacity-10 text-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                <i class="fas fa-user"></i>
+                              </div>
+                              <span class="fw-medium">Juan Dela Cruz</span>
+                            </div>
+                            <div class="ps-4 ms-3">
+                              <span class="badge bg-primary text-white me-2">Oct 5</span>
+                              <span class="badge bg-primary text-white">Oct 12</span>
+                            </div>
+                          </div>
+                          <span class="badge bg-primary text-white px-3 py-2">2 days</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+                          <div>
+                            <div class="d-flex align-items-center mb-1">
+                              <div class="avatar bg-primary bg-opacity-10 text-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                <i class="fas fa-user"></i>
+                              </div>
+                              <span class="fw-medium">Lisa Johnson</span>
+                            </div>
+                            <div class="ps-4 ms-3">
+                              <span class="badge bg-primary text-white">Oct 8</span>
+                            </div>
+                          </div>
+                          <span class="badge bg-primary text-white px-3 py-2">1 day</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+               
+                
+               <!-- Late Arrivals Dropdown -->
+              <div class="accordion-item border-primary border-2 shadow-sm">
+                <h2 class="accordion-header">
+                  <button class="accordion-button bg-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#lateArrivalsList">
+                    <div class="d-flex align-items-center w-100">
+                      <i class="fas fa-clock me-3 text-primary fs-4"></i>
+                      <div class="flex-grow-1">
+                        <span class="fw-bold">Late Arrivals</span>
+                        <div class="d-flex align-items-center">
+                          <span class="text-muted small me-2">2 teachers</span>
+                        </div>
+                      </div>
+                      <i class="fas fa-chevron-down text-muted ms-auto"></i>
+                    </div>
+                  </button>
+                </h2>
+                <div id="lateArrivalsList" class="accordion-collapse collapse" data-bs-parent="#attendanceDetails">
+                  <div class="accordion-body p-0 border-top border-primary border-2">
+                    <div class="list-group list-group-flush" style="max-height: 300px; overflow-y: auto;">
+                      <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+                        <div>
+                          <div class="d-flex align-items-center mb-1">
+                            <div class="avatar bg-primary bg-opacity-10 text-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                              <i class="fas fa-user"></i>
+                            </div>
+                            <span class="fw-medium">Ana Reyes</span>
+                          </div>
+                          <div class="ps-4 ms-3 text-muted small">
+                            Average 15 minutes late
+                          </div>
+                        </div>
+                        <span class="badge bg-primary text-white px-3 py-2">4 times</span>
+                      </div>
+                      <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+                        <div>
+                          <div class="d-flex align-items-center mb-1">
+                            <div class="avatar bg-primary bg-opacity-10 text-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                              <i class="fas fa-user"></i>
+                            </div>
+                            <span class="fw-medium">Michael Brown</span>
+                          </div>
+                          <div class="ps-4 ms-3 text-muted small">
+                            Average 8 minutes late
+                          </div>
+                        </div>
+                        <span class="badge bg-primary text-white px-3 py-2">2 times</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+              
+              <!-- Download Button -->
+              <div class="text-end mt-3">
+                <button class="btn btn-primary" id="download-attendance-report">
+                  <i class="fas fa-download me-2"></i> Download Full Report
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Dashboard Section -->
+      <!-- ==================== DASHBOARD SECTION ==================== -->
       <div class="content-section active" id="dashboard">
-        <div class="row">
+        <div class="row g-3">
           <!-- Daily Attendance Summary -->
           <div class="col-md-4">
-            <div class="widget">
-              <h6>Daily Attendance Summary</h6>
-              <div>
-                <span class="icon"
-                  ><i class="fas fa-user-check status-green"></i
-                ></span>
-                <span>Present: <span id="present-count">25</span></span>
+            <div class="card border-primary h-100">
+              <div class="card-header bg-primary text-white py-2">
+                <h6 class="mb-0">Daily Attendance Summary</h6>
               </div>
-              <div>
-                <span class="icon"
-                  ><i class="fas fa-user-clock status-yellow"></i
-                ></span>
-                <span>Late: <span id="late-count">3</span></span>
-              </div>
-              <div>
-                <span class="icon"
-                  ><i class="fas fa-user-times status-red"></i
-                ></span>
-                <span>Absent: <span id="absent-count">2</span></span>
-              </div>
-            </div>
-          </div>
-          <!-- Upcoming Pay Period -->
-          <div class="col-md-4">
-            <div class="widget">
-              <h6>Upcoming Pay Period</h6>
-              <div>
-                <span class="icon"><i class="fas fa-calendar-alt"></i></span>
-                <span
-                  >Next Payroll Date:
-                  <span id="next-payroll-date">2023-10-31</span></span
-                >
-              </div>
-              <div>
-                <span class="icon"
-                  ><i class="fas fa-bell status-yellow"></i
-                ></span>
-                <span id="payroll-reminder">Payroll is due in 3 days!</span>
+              <div class="card-body p-2">
+                <div class="d-flex align-items-center mb-2 p-2 bg-primary bg-opacity-10 rounded">
+                  <i class="fas fa-user-check text-primary me-2"></i>
+                  <div class="flex-grow-1 text-primary">Present</div>
+                  <span id="present-count" class="badge bg-primary">25</span>
+                </div>
+
+                <div class="d-flex align-items-center mb-2 p-2 bg-primary bg-opacity-10 rounded">
+                  <i class="fas fa-user-clock text-primary me-2"></i>
+                  <div class="flex-grow-1 text-primary">Late</div>
+                  <span id="late-count" class="badge bg-primary bg-opacity-75">3</span>
+                </div>
+
+                <div class="d-flex align-items-center p-2 bg-primary bg-opacity-10 rounded">
+                  <i class="fas fa-user-times text-primary me-2"></i>
+                  <div class="flex-grow-1 text-primary">Absent</div>
+                  <span id="absent-count" class="badge bg-primary bg-opacity-50">2</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="row">
+
           <!-- Recent NFC Tap Logs -->
-          <div class="col-md-6">
-            <div class="widget">
-              <h6>Recent NFC Tap Logs</h6>
-              <ul id="recent-tap-logs" class="list-group">
-                <li class="list-group-item">
-                  Juan Dela Cruz tapped at 06:58 AM
-                </li>
-                <li class="list-group-item">Maria Santos tapped at 07:15 AM</li>
-                <li class="list-group-item">Pedro Reyes tapped at 07:30 AM</li>
-              </ul>
+          <div class="col-md-4">
+            <div class="card h-100">
+              <div class="card-header bg-primary text-white py-2">
+                <h6 class="mb-0">Recent NFC Tap Logs</h6>
+              </div>
+              <div class="card-body p-0">
+                <ul id="recent-tap-logs" class="list-group list-group-flush">
+                  <li class="list-group-item py-2">
+                    Juan Dela Cruz tapped at 06:58 AM
+                  </li>
+                  <li class="list-group-item py-2">
+                    Maria Santos tapped at 07:15 AM
+                  </li>
+                  <li class="list-group-item py-2">
+                    Pedro Reyes tapped at 07:30 AM
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
+
           <!-- Missing Log In Requests -->
-          <div class="col-md-6">
-            <div class="widget">
-              <h6>Missing Log In Requests</h6>
-              <ul id="leave-requests" class="list-group">
-                <li class="list-group-item">Juan Dela Cruz - Pending</li>
-                <li class="list-group-item">Maria Santos - Approved</li>
-                <li class="list-group-item">Pedro Reyes - Rejected</li>
-              </ul>
+          <div class="col-md-4">
+            <div class="card h-100">
+              <div class="card-header bg-primary text-white py-2">
+                <h6 class="mb-0">Missing Log In Requests</h6>
+              </div>
+              <div class="card-body p-0">
+                <ul id="leave-requests" class="list-group list-group-flush">
+                  <li class="list-group-item py-2 d-flex justify-content-between align-items-center">
+                    Juan Dela Cruz
+                    <span class="badge bg-primary bg-opacity-75">Pending</span>
+                  </li>
+                  <li class="list-group-item py-2 d-flex justify-content-between align-items-center">
+                    Maria Santos
+                    <span class="badge bg-primary">Approved</span>
+                  </li>
+                  <li class="list-group-item py-2 d-flex justify-content-between align-items-center">
+                    Pedro Reyes
+                    <span class="badge bg-primary bg-opacity-50">Rejected</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Attendance Section -->
+      <!-- ==================== ATTENDANCE SECTION ==================== -->
       <div class="content-section" id="attendance">
-        <h5>Today's NFC Logs</h5>
         <table class="table attendance-table">
           <thead>
             <tr>
@@ -179,38 +407,70 @@
               <td>NFC1001</td>
               <td>Juan Dela Cruz</td>
               <td>06:58 AM</td>
-              <td><span class="status-green">On-time</span></td>
+              <td>
+                <span class="badge" style="background-color: #007bff; color: white">On-time</span>
+              </td>
               <td>04:10 PM</td>
-              <td><span class="status-green">On-time</span></td>
+              <td>
+                <span class="badge" style="background-color: #007bff; color: white">On-time</span>
+              </td>
             </tr>
             <tr>
               <td>NFC1002</td>
               <td>Maria Santos</td>
               <td>07:15 AM</td>
-              <td><span class="status-yellow">Late</span></td>
+              <td>
+                <span class="badge" style="background-color: #0056b3; color: white">Late</span>
+              </td>
               <td>04:05 PM</td>
-              <td><span class="status-green">On-time</span></td>
+              <td>
+                <span class="badge" style="background-color: #007bff; color: white">On-time</span>
+              </td>
             </tr>
             <tr>
               <td>NFC1003</td>
               <td>Pedro Reyes</td>
               <td>07:30 AM</td>
-              <td><span class="status-yellow">Late</span></td>
-              <td>--:--</td>
-              <td><span class="status-red">Missing</span></td>
+              <td>
+                <span class="badge" style="background-color: #0056b3; color: white">Late</span>
+              </td>
+              <td>03:30 PM</td>
+              <td>
+                <span class="badge" style="background-color: #66b0ff; color: #003366">Early Leave</span>
+              </td>
+            </tr>
+            <tr>
+              <td>NFC1004</td>
+              <td>Ana Lopez</td>
+              <td>06:45 AM</td>
+              <td>
+                <span class="badge" style="background-color: #007bff; color: white">On-time</span>
+              </td>
+              <td>03:00 PM</td>
+              <td>
+                <span class="badge" style="background-color: #66b0ff; color: #003366">Early Leave</span>
+              </td>
+            </tr>
+            <tr>
+              <td>NFC1005</td>
+              <td>Carlos Gomez</td>
+              <td>07:00 AM</td>
+              <td>
+                <span class="badge" style="background-color: #007bff; color: white">On-time</span>
+              </td>
+              <td>05:30 PM</td>
+              <td>
+                <span class="badge" style="background-color: #007bff; color: white">On-time</span>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- NFC Registered Tags -->
+      <!-- ==================== NFC REGISTERED TAGS SECTION ==================== -->
       <div class="content-section" id="teachers">
         <h5>NFC Tag Personnel List</h5>
-        <button
-          class="btn btn-primary mb-3"
-          data-bs-toggle="modal"
-          data-bs-target="#addTeacherModal"
-        >
+        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addTeacherModal">
           <i class="fas fa-plus"></i> Add Teacher
         </button>
         <table class="table teachers-table">
@@ -230,10 +490,7 @@
               <td>Teacher I</td>
               <td>juan@example.com</td>
               <td>
-                <button
-                  class="btn btn-danger btn-sm"
-                  onclick="deleteTeacher('T1001')"
-                >
+                <button class="btn btn-danger btn-sm" onclick="deleteTeacher('T1001')">
                   <i class="fas fa-trash-alt"></i> Delete
                 </button>
               </td>
@@ -244,10 +501,7 @@
               <td>Teacher II</td>
               <td>maria@example.com</td>
               <td>
-                <button
-                  class="btn btn-danger btn-sm"
-                  onclick="deleteTeacher('T1002')"
-                >
+                <button class="btn btn-danger btn-sm" onclick="deleteTeacher('T1002')">
                   <i class="fas fa-trash-alt"></i> Delete
                 </button>
               </td>
@@ -256,117 +510,56 @@
         </table>
       </div>
 
+      <!-- ==================== MODALS SECTION ==================== -->
       <!-- Delete Confirmation Modal -->
-      <div
-        class="modal fade"
-        id="confirmDeleteModal"
-        tabindex="-1"
-        aria-labelledby="confirmDeleteModalLabel"
-        aria-hidden="true"
-      >
+      <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="confirmDeleteModalLabel">
-                Confirm Deletion
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+              <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               Are you sure you want to delete this teacher?
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                class="btn btn-danger"
-                id="confirmDeleteButton"
-              >
-                Delete
-              </button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Modal for Adding Teacher -->
-      <div
-        class="modal fade"
-        id="addTeacherModal"
-        tabindex="-1"
-        aria-labelledby="addTeacherModalLabel"
-        aria-hidden="true"
-      >
+      <!-- Add Teacher Modal -->
+      <div class="modal fade" id="addTeacherModal" tabindex="-1" aria-labelledby="addTeacherModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content shadow-lg rounded-3">
             <div class="modal-header bg-primary text-white">
-              <h5
-                class="modal-title w-100 text-center fw-bold"
-                id="addTeacherModalLabel"
-              >
-                Add Teacher
-              </h5>
-              <button
-                type="button"
-                class="btn-close btn-close-white"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+              <h5 class="modal-title w-100 text-center fw-bold" id="addTeacherModalLabel">Add Teacher</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
               <form id="addTeacherForm">
                 <div class="row">
                   <div class="col-md-6 mb-3">
-                    <label for="teacherFirstName" class="form-label fw-semibold"
-                      >First Name</label
-                    >
-                    <input
-                      type="text"
-                      id="teacherFirstName"
-                      class="form-control"
-                      placeholder="Enter first name"
-                      required
-                    />
+                    <label for="teacherFirstName" class="form-label fw-semibold">First Name</label>
+                    <input type="text" id="teacherFirstName" class="form-control" placeholder="Enter first name" required />
                   </div>
                   <div class="col-md-6 mb-3">
-                    <label for="teacherLastName" class="form-label fw-semibold"
-                      >Last Name</label
-                    >
-                    <input
-                      type="text"
-                      id="teacherLastName"
-                      class="form-control"
-                      placeholder="Enter last name"
-                      required
-                    />
+                    <label for="teacherLastName" class="form-label fw-semibold">Last Name</label>
+                    <input type="text" id="teacherLastName" class="form-control" placeholder="Enter last name" required />
                   </div>
                 </div>
                 <div class="mb-3">
-                  <label for="teacherRank" class="form-label fw-semibold"
-                    >Teacher's Rank</label
-                  >
+                  <label for="teacherRank" class="form-label fw-semibold">Teacher's Rank</label>
                   <select id="teacherRank" class="form-select w-100" required>
                     <option value="" disabled selected>Select rank</option>
-                    <option value="Teacher I">Teacher I</option>
                     <option value="Teacher I">Teacher I</option>
                     <option value="Teacher II">Teacher II</option>
                     <option value="Teacher III">Teacher III</option>
                     <option value="Master Teacher I">Master Teacher I</option>
                     <option value="Master Teacher II">Master Teacher II</option>
-                    <option value="Master Teacher III">
-                      Master Teacher III
-                    </option>
+                    <option value="Master Teacher III">Master Teacher III</option>
                     <option value="Master Teacher IV">Master Teacher IV</option>
                     <option value="Head Teacher I">Head Teacher I</option>
                     <option value="Head Teacher II">Head Teacher II</option>
@@ -381,40 +574,20 @@
                   </select>
                 </div>
                 <div class="mb-3">
-                  <label for="teacherEmail" class="form-label fw-semibold"
-                    >Email</label
-                  >
-                  <input
-                    type="email"
-                    id="teacherEmail"
-                    class="form-control"
-                    placeholder="Enter email"
-                    required
-                  />
+                  <label for="teacherEmail" class="form-label fw-semibold">Email</label>
+                  <input type="email" id="teacherEmail" class="form-control" placeholder="Enter email" required />
                 </div>
               </form>
             </div>
             <div class="modal-footer bg-light d-flex justify-content-center">
-              <button
-                type="button"
-                class="btn btn-secondary px-4"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary px-4"
-                onclick="addTeacher()"
-              >
-                Add Teacher
-              </button>
+              <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary px-4" onclick="addTeacher()">Add Teacher</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Tap In/Out Requests Section -->
+      <!-- ==================== REQUESTS SECTION ==================== -->
       <div class="content-section" id="requests">
         <h5>Missing Log In Requests</h5>
         <ul id="request-list" class="list-group">
@@ -422,29 +595,13 @@
         </ul>
       </div>
 
-      <!-- Modal for Viewing Details -->
-      <div
-        class="modal fade"
-        id="detailsModal"
-        tabindex="-1"
-        aria-labelledby="detailsModalLabel"
-        aria-hidden="true"
-      >
+      <!-- Request Details Modal -->
+      <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
           <div class="modal-content shadow-lg rounded-3">
             <div class="modal-header bg-primary text-white">
-              <h5
-                class="modal-title text-center w-100 fw-bold"
-                id="detailsModalLabel"
-              >
-                Request Details
-              </h5>
-              <button
-                type="button"
-                class="btn-close btn-close-white"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+              <h5 class="modal-title text-center w-100 fw-bold" id="detailsModalLabel">Request Details</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
               <div class="row mb-4">
@@ -472,54 +629,31 @@
               </div>
               <div class="mb-4">
                 <p class="mb-2"><strong>Reason for Missing Tap:</strong></p>
-                <p
-                  id="detail-reason"
-                  class="text-muted border rounded p-2 bg-light"
-                >
+                <p id="detail-reason" class="text-muted border rounded p-2 bg-light">
                   Forgot to tap the card due to an emergency.
                 </p>
               </div>
               <div class="mb-3">
                 <p class="mb-2"><strong>Proof:</strong></p>
-                <a
-                  href="/IMAGE/proof.jpg"
-                  target="_blank"
-                  class="d-inline-block"
-                >
-                  <img
-                    src="/IMAGE/proof.jpg"
-                    alt="Proof Image"
-                    id="detail-proof"
-                    class="img-thumbnail img-fluid zoom-effect"
-                    style="max-width: 150px; cursor: pointer"
-                  />
+                <a href="/IMAGE/proof.jpg" target="_blank" class="d-inline-block">
+                  <img src="/IMAGE/proof.jpg" alt="Proof Image" id="detail-proof" class="img-thumbnail img-fluid zoom-effect" style="max-width: 150px; cursor: pointer" />
                 </a>
-                <small class="d-block text-muted mt-1"
-                  >Click the image to view in full size.</small
-                >
+                <small class="d-block text-muted mt-1">Click the image to view in full size.</small>
               </div>
             </div>
             <div class="modal-footer bg-light d-flex justify-content-center">
-              <button
-                type="button"
-                class="btn btn-secondary px-4"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
+              <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 201 Files Section -->
+      <!-- ==================== 201 FILES SECTION ==================== -->
       <div class="content-section" id="files">
         <h5>201 Files</h5>
         <!-- Filter Section -->
         <div class="mb-3">
-          <label for="positionFilter" class="form-label"
-            >Filter by Position:</label
-          >
+          <label for="positionFilter" class="form-label">Filter by Position:</label>
           <select id="positionFilter" class="form-select">
             <option value="all" selected>All</option>
             <option value="Teacher I">Teacher I</option>
@@ -552,179 +686,63 @@
       </div>
 
       <!-- Info Data Modal -->
-      <div
-        class="modal fade"
-        id="governmentNumbersModal"
-        tabindex="-1"
-        aria-labelledby="governmentNumbersModalLabel"
-        aria-hidden="true"
-      >
+      <div class="modal fade" id="governmentNumbersModal" tabindex="-1" aria-labelledby="governmentNumbersModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content shadow-lg rounded-3">
             <div class="modal-header bg-primary text-white">
-              <h5
-                class="modal-title text-center w-100"
-                id="governmentNumbersModalLabel"
-              >
-                Employee Information
-              </h5>
-              <button
-                type="button"
-                class="btn-close btn-close-white"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+              <h5 class="modal-title text-center w-100" id="governmentNumbersModalLabel">Employee Information</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
               <!-- Personal Information -->
               <h6 class="fw-bold text-primary mb-3">
                 <i class="fas fa-user me-2"></i>Personal Information
               </h6>
-              <ul
-                id="personalInfoList"
-                class="list-group list-group-flush ms-3 mb-4"
-              ></ul>
+              <ul id="personalInfoList" class="list-group list-group-flush ms-3 mb-4"></ul>
               <hr />
               <!-- School Information -->
               <h6 class="fw-bold text-primary mb-3">
                 <i class="fas fa-school me-2"></i>School Information
               </h6>
-              <ul
-                id="schoolInfoList"
-                class="list-group list-group-flush ms-3 mb-4"
-              ></ul>
+              <ul id="schoolInfoList" class="list-group list-group-flush ms-3 mb-4"></ul>
               <hr />
               <!-- Government ID Information -->
               <h6 class="fw-bold text-primary mb-3">
                 <i class="fas fa-id-card me-2"></i>Government ID Information
               </h6>
-              <ul
-                id="governmentNumbersList"
-                class="list-group list-group-flush ms-3"
-              ></ul>
+              <ul id="governmentNumbersList" class="list-group list-group-flush ms-3"></ul>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-              <button
-                type="button"
-                class="btn btn-secondary px-4"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
+              <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Delete Confirmation Modal -->
-      <div
-        class="modal fade"
-        id="deleteConfirmationModal"
-        tabindex="-1"
-        aria-labelledby="deleteConfirmationModalLabel"
-        aria-hidden="true"
-      >
+      <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header bg-danger text-white">
-              <h5 class="modal-title" id="deleteConfirmationModalLabel">
-                Confirm Deletion
-              </h5>
-              <button
-                type="button"
-                class="btn-close btn-close-white"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+              <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <p>
                 Are you sure you want to delete this record? Type
                 <strong>CONFIRM</strong> to proceed.
               </p>
-              <input
-                type="text"
-                id="confirmInput"
-                class="form-control"
-                placeholder="Type CONFIRM here"
-              />
+              <input type="text" id="confirmInput" class="form-control" placeholder="Type CONFIRM here" />
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                class="btn btn-danger"
-                id="confirmDeleteBtn"
-                disabled
-              >
-                Delete
-              </button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" id="confirmDeleteBtn" disabled>Delete</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Delete Confirmation Modal -->
-      <div
-        class="modal fade"
-        id="deleteConfirmationModal"
-        tabindex="-1"
-        aria-labelledby="deleteConfirmationModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-              <h5 class="modal-title" id="deleteConfirmationModalLabel">
-                Confirm Deletion
-              </h5>
-              <button
-                type="button"
-                class="btn-close btn-close-white"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <p>
-                Are you sure you want to delete this record? Type
-                <strong>CONFIRM</strong> to proceed.
-              </p>
-              <input
-                type="text"
-                id="confirmInput"
-                class="form-control"
-                placeholder="Type CONFIRM here"
-              />
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                class="btn btn-danger"
-                id="confirmDeleteBtn"
-                disabled
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Admin Settings Section -->
+      <!-- ==================== ADMIN SETTINGS SECTION ==================== -->
       <div class="content-section" id="admin-settings">
         <h5>Admin Settings</h5>
         <div class="row">
@@ -733,30 +751,14 @@
               <h6>Change Email</h6>
               <form id="changeEmailForm">
                 <div class="mb-3">
-                  <label for="currentEmail" class="form-label"
-                    >Current Email</label
-                  >
-                  <input
-                    type="email"
-                    id="currentEmail"
-                    class="form-control"
-                    value="admin@example.com"
-                    disabled
-                  />
+                  <label for="currentEmail" class="form-label">Current Email</label>
+                  <input type="email" id="currentEmail" class="form-control" value="admin@example.com" disabled />
                 </div>
                 <div class="mb-3">
                   <label for="newEmail" class="form-label">New Email</label>
-                  <input
-                    type="email"
-                    id="newEmail"
-                    class="form-control"
-                    placeholder="Enter new email"
-                    required
-                  />
+                  <input type="email" id="newEmail" class="form-control" placeholder="Enter new email" required />
                 </div>
-                <button type="submit" class="btn btn-primary">
-                  Update Email
-                </button>
+                <button type="submit" class="btn btn-primary">Update Email</button>
               </form>
             </div>
           </div>
@@ -765,50 +767,28 @@
               <h6>Change Password</h6>
               <form id="changePasswordForm">
                 <div class="mb-3">
-                  <label for="currentPassword" class="form-label"
-                    >Current Password</label
-                  >
-                  <input
-                    type="password"
-                    id="currentPassword"
-                    class="form-control"
-                    placeholder="Enter current password"
-                    required
-                  />
+                  <label for="currentPassword" class="form-label">Current Password</label>
+                  <input type="password" id="currentPassword" class="form-control" placeholder="Enter current password" required />
                 </div>
                 <div class="mb-3">
-                  <label for="newPassword" class="form-label"
-                    >New Password</label
-                  >
-                  <input
-                    type="password"
-                    id="newPassword"
-                    class="form-control"
-                    placeholder="Enter new password"
-                    required
-                  />
+                  <label for="newPassword" class="form-label">New Password</label>
+                  <input type="password" id="newPassword" class="form-control" placeholder="Enter new password" required />
                 </div>
                 <div class="mb-3">
-                  <label for="confirmPassword" class="form-label"
-                    >Confirm New Password</label
-                  >
-                  <input
-                    type="password"
-                    id="confirmPassword"
-                    class="form-control"
-                    placeholder="Confirm new password"
-                    required
-                  />
+                  <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                  <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm new password" required />
                 </div>
-                <button type="submit" class="btn btn-primary">
-                  Update Password
-                </button>
+                <button type="submit" class="btn btn-primary">Update Password</button>
               </form>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- JavaScript Section -->
     <script>
@@ -820,6 +800,19 @@
       }
       setInterval(updateDateTime, 1000);
       updateDateTime();
+
+      //Monthly Absence Tracker Widget
+      document.getElementById('download-attendance-report').addEventListener('click', function() {
+        const month = document.getElementById('attendance-month').value;
+        alert(`Generating attendance report for ${month}...`);
+        // window.location.href = `/reports/attendance?month=${month}&format=pdf`;
+      });
+
+      document.getElementById('refresh-attendance').addEventListener('click', function() {
+        const month = document.getElementById('attendance-month').value;
+        console.log(`Refreshing data for ${month}`);
+        // AJAX call to refresh data
+      });
 
       // Add Teacher Function
       function addTeacher() {
@@ -844,16 +837,16 @@
           const tbody = document.getElementById("teachers-list");
           const newRow = document.createElement("tr");
           newRow.innerHTML = `
-                    <td>${newTeacher.id}</td>
-                    <td>${newTeacher.name}</td>
-                    <td>${newTeacher.rank}</td>
-                    <td>${newTeacher.email}</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${newTeacher.id}')">
-                            <i class="fas fa-trash-alt"></i> Delete
-                        </button>
-                    </td>
-                `;
+        <td>${newTeacher.id}</td>
+        <td>${newTeacher.name}</td>
+        <td>${newTeacher.rank}</td>
+        <td>${newTeacher.email}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${newTeacher.id}')">
+            <i class="fas fa-trash-alt"></i> Delete
+          </button>
+        </td>
+      `;
           tbody.appendChild(newRow);
 
           // Reset form
@@ -876,16 +869,16 @@
 
         teachers.forEach((teacher) => {
           const row = `<tr>
-                    <td>${teacher.id}</td>
-                    <td>${teacher.name}</td>
-                    <td>${teacher.rank}</td>
-                    <td>${teacher.email}</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${teacher.id}')">
-                            <i class="fas fa-trash-alt"></i> Delete
-                        </button>
-                    </td>
-                </tr>`;
+        <td>${teacher.id}</td>
+        <td>${teacher.name}</td>
+        <td>${teacher.rank}</td>
+        <td>${teacher.email}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${teacher.id}')">
+            <i class="fas fa-trash-alt"></i> Delete
+          </button>
+        </td>
+      </tr>`;
           tbody.innerHTML += row;
         });
       }
@@ -997,11 +990,11 @@
           const listItem = document.createElement("li");
           listItem.classList.add("list-group-item");
           listItem.innerHTML = `
-                    ${request.name} - ${request.reason}
-                    <button class="btn btn-success btn-sm float-end ms-2" onclick="approveRequest('${request.name}')">Approve</button>
-                    <button class="btn btn-danger btn-sm float-end ms-2" onclick="rejectRequest('${request.name}')">Reject</button>
-                    <button class="btn btn-outline-primary btn-sm float-end ms-2" onclick="viewDetails('${request.name}')">View Details</button>
-                `;
+        ${request.name} - ${request.reason}
+        <button class="btn btn-primary btn-sm float-end ms-2" onclick="approveRequest('${request.name}')">Approve</button>
+        <button class="btn btn-danger btn-sm float-end ms-2" onclick="rejectRequest('${request.name}')">Reject</button>
+        <button class="btn btn-outline-primary btn-sm float-end ms-2" onclick="viewDetails('${request.name}')">View Details</button>
+      `;
           requestList.appendChild(listItem);
         });
       }
@@ -1010,9 +1003,9 @@
       function approveRequest(name) {
         const requestIndex = requests.findIndex((r) => r.name === name);
         if (requestIndex !== -1) {
-          requests.splice(requestIndex, 1); // Remove the request from the array
+          requests.splice(requestIndex, 1);
           alert(`${name}'s request for missing log in time has been approved.`);
-          loadRequests(); // Reload the requests list to reflect the changes
+          loadRequests();
         }
       }
 
@@ -1049,7 +1042,7 @@
           { name: "John Doe", absences: 2 },
           { name: "Jane Smith", absences: 1 },
           { name: "Emily Clark", absences: 1 },
-          { name: "Michael Brown", absences: 4 }, // Highlighted for > 3 absences
+          { name: "Michael Brown", absences: 4 },
         ],
       };
 
@@ -1076,11 +1069,11 @@
             "align-items-center"
           );
           listItem.innerHTML = `
-                    ${teacher.name}
-                    <span class="badge ${
-                      teacher.absences > 3 ? "bg-danger" : "bg-primary"
-                    } rounded-pill">${teacher.absences} days</span>
-                `;
+        ${teacher.name}
+        <span class="badge ${
+          teacher.absences > 3 ? "bg-danger" : "bg-primary"
+        } rounded-pill">${teacher.absences} days</span>
+      `;
           teacherList.appendChild(listItem);
         });
       }
@@ -1470,7 +1463,6 @@
       const positionFilter = document.getElementById("positionFilter");
 
       // Function to calculate age correctly
-      // Function to calculate age correctly
       function calculateAge(birthday) {
         if (!birthday) return "N/A"; // Handle missing data safely
 
@@ -1510,25 +1502,23 @@
 
       // Function to render table rows
       function renderTableRows(teachers) {
-        tableBody.innerHTML = ""; // Clear existing rows
+        tableBody.innerHTML = "";
         teachers.forEach((teacher) => {
           const row = document.createElement("tr");
 
           row.innerHTML = `
-                <td>${teacher.employeeId}</td>
-                <td>${teacher.position}</td>
-                <td>${teacher.lastName}</td>
-                <td>${teacher.firstName}</td>
-                <td>${teacher.middleName}</td>
-                <td>${calculateAge(teacher.personalInformation.birthday)}</td>
-                <td>${calculateTeachingService(
-                  teacher.dateOfOriginalAppt
-                )} years</td>
-                <td><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#governmentNumbersModal" onclick="showTeacherInfo('${
-                  teacher.employeeId
-                }')">View Data Info</button></td>
-                <td><button class="btn btn-danger btn-sm delete-btn" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Delete</button></td>
-            `;
+        <td>${teacher.employeeId}</td>
+        <td>${teacher.position}</td>
+        <td>${teacher.lastName}</td>
+        <td>${teacher.firstName}</td>
+        <td>${teacher.middleName}</td>
+        <td>${calculateAge(teacher.personalInformation.birthday)}</td>
+        <td>${calculateTeachingService(teacher.dateOfOriginalAppt)} years</td>
+        <td><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#governmentNumbersModal" onclick="showTeacherInfo('${
+          teacher.employeeId
+        }')">View Data Info</button></td>
+        <td><button class="btn btn-danger btn-sm delete-btn" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Delete</button></td>
+      `;
 
           tableBody.appendChild(row);
         });
@@ -1641,8 +1631,5 @@
       // Load Initial Requests
       loadRequests();
     </script>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
