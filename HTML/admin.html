@@ -1,60 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
     <title>TeachTap - Admin Portal</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-
-    <!-- Datepicker CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/CSS/admin.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"/>
+    <link rel="stylesheet" href="/CSS/admin.css"/>
   </head>
 
   <body>
-    <!-- ==================== SIDEBAR SECTION ==================== -->
-    <div class="sidebar d-flex flex-column" style="height: 100vh">
-      <div class="sidebar-header p-3">
-        <img src="/IMAGES/LOGO2.png" alt="TeachTap Logo" style="width: 150px; height: auto; margin-left: 40px" />
-      </div>
-
-      <!-- Navigation Links -->
-      <nav class="nav flex-column mt-3 mb-auto">
-        <a class="nav-link active" href="#dashboard">
-          <i class="fas fa-tachometer-alt me-2"></i> Dashboard
-        </a>
-        <a class="nav-link" href="#attendance">
-          <i class="fas fa-clipboard-check me-2"></i> Attendance
-        </a>
-        <a class="nav-link" href="#teachers">
-          <i class="fas fa-chalkboard-teacher me-2"></i> NFC Tag Masterlist
-        </a>
-        <a class="nav-link" href="#requests">
-          <i class="fas fa-inbox me-2"></i> Requests
-        </a>
-        <a class="nav-link" href="#files">
-          <i class="fas fa-file me-2"></i> 201 Files
-        </a>
-        <a class="nav-link" href="#admin-settings">
-          <i class="fas fa-cog me-2"></i> Admin Settings
-        </a>
-      </nav>
-
-      <!-- Log Out Button -->
-      <a class="nav-link text-danger mt-auto" href="#" onclick="logout()" style="cursor: pointer">
-        <i class="fas fa-sign-out-alt me-2"></i> Log Out
-      </a>
+    <div class="sidebar d-flex flex-column" style="height:100vh">
+        <div class="sidebar-header p-3">
+        <img src="/IMAGES/LOGO2.png" alt="TeachTap Logo" style="width:150px;height:auto;margin-left:40px"/>
+        </div>
+        <!-- Sidebar Navigation Links -->
+        <nav class="nav flex-column mt-3 mb-auto">
+          <a class="nav-link active" href="#dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+          <a class="nav-link" href="#attendance"><i class="fas fa-clipboard-check me-2"></i>Attendance</a>
+          <a class="nav-link" href="#teachers"><i class="fas fa-chalkboard-teacher me-2"></i>NFC Tag Masterlist</a>
+          <a class="nav-link" href="#payroll"><i class="fas fa-money-bill-wave me-2"></i>Payroll</a>
+          <a class="nav-link" href="#requests"><i class="fas fa-inbox me-2"></i>Requests</a>
+          <a class="nav-link" href="#files"><i class="fas fa-file me-2"></i>Teachers</a>
+          <a class="nav-link" href="#admin-settings"><i class="fas fa-cog me-2"></i>Admin Settings</a>
+        </nav>
+        <a class="nav-link text-danger mt-auto" href="#" onclick="logout()" style="cursor:pointer"><i class="fas fa-sign-out-alt me-2"></i>Log Out</a>
     </div>
 
     <!-- ==================== MAIN CONTENT SECTION ==================== -->
@@ -64,8 +37,26 @@
         <h3 class="fw-semibold" style="color: var(--primary-blue)">
           Admin Dashboard
         </h3>
-        <div>
-          <span id="current-datetime" class="fw-bold text-primary"></span>
+        <div class="d-flex align-items-center gap-3">
+          <!-- Current DateTime -->
+          <span id="current-datetime" class="fw-bold text-primary me-2"></span>          
+          <!-- Profile Avatar -->
+          <div class="dropdown">
+            <button class="btn btn-link p-0" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="avatar" style="width: 50px; height: 50px;">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=random&color=fff&rounded=true&size=28" 
+                     alt="Admin Avatar" 
+                     class="rounded-circle border border-2 border-primary"
+                     style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+              <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+            </ul>
+          </div>
         </div>
       </header>
 
@@ -479,13 +470,12 @@
                 <i class="fas fa-search"></i>
               </button>
             </div>
-            <button class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm">
+            <button class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#addTeacherModal">
               <i class="fas fa-plus-circle me-2"></i> Register
             </button>
           </div>
         </div>
         
-        <!-- Rest of your table code remains the same -->
         <table class="table table-hover align-middle teachers-table" style="width:100%">
           <thead class="table-light">
             <tr>
@@ -570,8 +560,14 @@
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="employeeId" class="form-label fw-semibold">Employee ID</label>
-                    <input type="text" id="employeeId" class="form-control" 
+                    <input type="number" 
+                           id="employeeId" 
+                           class="form-control" 
                            placeholder="Enter 7-digit employee ID" 
+                           min="1000000" 
+                           max="9999999" 
+                           maxlength="7" 
+                           oninput="this.value=this.value.slice(0,7)"
                            pattern="\d{7}" 
                            title="Please enter exactly 7 digits" 
                            required />
@@ -619,7 +615,9 @@
             </div>
             <div class="modal-footer bg-light d-flex justify-content-center">
               <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary px-4" onclick="addTeacher()">Register</button>
+              <button type="button" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm" onclick="addTeacher()">
+                <i class="fas fa-plus-circle me-2"></i> Register
+              </button>
             </div>
           </div>
         </div>
@@ -686,18 +684,18 @@
         </div>
       </div>
 
-      <!-- ==================== 201 FILES SECTION ==================== -->
+      <!-- ==================== TEACHERS ==================== -->
       <div class="content-section" id="files">
         <!-- Header with Title and Filter/Search Section -->
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h5 class="mb-0">201 Files</h5>
+          <h5 class="mb-0">Teachers</h5>
           <div class="d-flex align-items-center gap-3">
             <!-- Search Bar -->
             <div class="input-group" style="width: 300px;">
               <span class="input-group-text bg-white border-end-0">
                 <i class="fas fa-search text-muted"></i>
               </span>
-              <input type="text" class="form-control border-start-0 ps-0" placeholder="Search employee..." id="employeeSearch">
+              <input type="text" class="form-control border-start-0 ps-0" placeholder="Search employee..." id="employeeSearch" onkeyup="searchEmployees()">
             </div>
             
             <!-- Filter Dropdown -->
@@ -728,7 +726,7 @@
                 <th>Middle Name</th>
                 <th>Age</th>
                 <th>Teaching Service</th>
-                <th>Data Info</th>
+                <th>201 Files</th>
                 <th class="pe-4 text-end">Action</th>
               </tr>
             </thead>
@@ -758,28 +756,63 @@
         </div>
       </div>
 
-      <!-- Delete Confirmation Modal -->
-      <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-              <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+     <!-- 201 FILES MODAL -->
+    <div class="modal fade" id="governmentNumbersModal" tabindex="-1" aria-labelledby="governmentNumbersModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="governmentNumbersModalLabel">Employee Information</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-4">
+            <!-- All sections in one continuous view -->
+            <div class="employee-section mb-4">
+              <h5 class="section-title bg-light p-2 rounded d-flex align-items-center">
+                <i class="fas fa-user me-2 text-primary"></i> Personal Information
+              </h5>
+              <div class="list-group list-group-flush mt-2" id="personalInfoList">
+                <!-- Personal information will be populated here -->
+              </div>
             </div>
-            <div class="modal-body">
-              <p>
-                Are you sure you want to delete this record? Type
-                <strong>CONFIRM</strong> to proceed.
-              </p>
-              <input type="text" id="confirmInput" class="form-control" placeholder="Type CONFIRM here" />
+            
+            <div class="employee-section mb-4">
+              <h5 class="section-title bg-light p-2 rounded d-flex align-items-center">
+                <i class="fas fa-school me-2 text-primary"></i> Education Information
+              </h5>
+              <div class="list-group list-group-flush mt-2" id="schoolInfoList">
+                <!-- School information will be populated here -->
+              </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-danger" id="confirmDeleteBtn" disabled>Delete</button>
+            
+            <div class="employee-section">
+              <h5 class="section-title bg-light p-2 rounded d-flex align-items-center">
+                <i class="fas fa-id-card me-2 text-primary"></i> Government IDs
+              </h5>
+              <div class="list-group list-group-flush mt-2" id="governmentNumbersList">
+                <!-- Government numbers will be populated here -->
+              </div>
+            </div>
+          </div>
+          
+          <div class="modal-footer d-flex justify-content-between">
+            <div>
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                <i class="fas fa-times me-1"></i> Close
+              </button>
+            </div>
+            <div>
+              <button type="button" class="btn btn-light me-2" id="printEmployeeInfo">
+                <i class="fas fa-print me-1"></i> Print
+              </button>
+              <button type="button" class="btn btn-primary" id="downloadEmployeeInfo">
+                <i class="fas fa-download me-1"></i> Download PDF
+              </button>
             </div>
           </div>
         </div>
       </div>
+    </div>
+            
 
       <!-- ==================== ADMIN SETTINGS SECTION ==================== -->
       <div class="content-section" id="admin-settings">
@@ -825,11 +858,14 @@
       </div>
     </div>
 
+     <!-- JavaScript Section -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-    <!-- JavaScript Section -->
     <script>
       // Update Date and Time
       function updateDateTime() {
@@ -853,21 +889,34 @@
         // AJAX call to refresh data
       });
 
-      // Add Teacher Function
+      // Register Teacher Function to NFC Masterlist
       function addTeacher() {
-        const firstName = document
-          .getElementById("teacherFirstName")
-          .value.trim();
-        const lastName = document
-          .getElementById("teacherLastName")
-          .value.trim();
+        const employeeId = document.getElementById("employeeId").value.trim();
+        const firstName = document.getElementById("teacherFirstName").value.trim();
+        const lastName = document.getElementById("teacherLastName").value.trim();
         const rank = document.getElementById("teacherRank").value;
         const email = document.getElementById("teacherEmail").value.trim();
 
-        if (firstName && lastName && rank && email) {
+        if (employeeId && firstName && lastName && rank && email) {
+          // Validate employee ID format
+          if (!/^\d{7}$/.test(employeeId)) {
+            alert("Employee ID must be exactly 7 digits");
+            return;
+          }
+
+          // Check if employee ID already exists
+          if (teachers.some(teacher => teacher.id === employeeId)) {
+            alert("This Employee ID already exists in the system");
+            return;
+          }
+
           const fullName = `${firstName.toUpperCase()} ${lastName.toUpperCase()}`;
-          const newId = `T10${teachers.length + 3}`; // Adjusted ID increment
-          const newTeacher = { id: newId, name: fullName, rank, email };
+          const newTeacher = { 
+            id: employeeId, 
+            name: fullName, 
+            rank, 
+            email 
+          };
 
           // Add new teacher to array
           teachers.push(newTeacher);
@@ -876,28 +925,29 @@
           const tbody = document.getElementById("teachers-list");
           const newRow = document.createElement("tr");
           newRow.innerHTML = `
-        <td>${newTeacher.id}</td>
-        <td>${newTeacher.name}</td>
-        <td>${newTeacher.rank}</td>
-        <td>${newTeacher.email}</td>
-        <td>
-          <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${newTeacher.id}')">
-            <i class="fas fa-trash-alt"></i> Delete
-          </button>
-        </td>
-      `;
+            <td>${newTeacher.id}</td>
+            <td>${newTeacher.name}</td>
+            <td>${newTeacher.rank}</td>
+            <td>${newTeacher.email}</td>
+            <td>
+              <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${newTeacher.id}')">
+                <i class="fas fa-trash-alt"></i> Delete
+              </button>
+            </td>
+          `;
           tbody.appendChild(newRow);
 
           // Reset form
           document.getElementById("addTeacherForm").reset();
 
-          // Close modal manually after adding a teacher
-          var addTeacherModal = bootstrap.Modal.getInstance(
-            document.getElementById("addTeacherModal")
-          );
+          // Close modal
+          var addTeacherModal = bootstrap.Modal.getInstance(document.getElementById("addTeacherModal"));
           addTeacherModal.hide();
+          
+          // Show success message
+          alert("Teacher successfully registered!");
         } else {
-          alert("Please fill in all fields.");
+          alert("Please fill in all required fields.");
         }
       }
 
@@ -908,16 +958,16 @@
 
         teachers.forEach((teacher) => {
           const row = `<tr>
-        <td>${teacher.id}</td>
-        <td>${teacher.name}</td>
-        <td>${teacher.rank}</td>
-        <td>${teacher.email}</td>
-        <td>
-          <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${teacher.id}')">
-            <i class="fas fa-trash-alt"></i> Delete
-          </button>
-        </td>
-      </tr>`;
+            <td>${teacher.id}</td>
+            <td>${teacher.name}</td>
+            <td>${teacher.rank}</td>
+            <td>${teacher.email}</td>
+            <td>
+              <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${teacher.id}')">
+                <i class="fas fa-trash-alt"></i> Delete
+              </button>
+            </td>
+          </tr>`;
           tbody.innerHTML += row;
         });
       }
@@ -961,6 +1011,7 @@
           }
         }
       }
+
 
       // Sidebar Navigation
       document.querySelectorAll(".sidebar .nav-link").forEach((link) => {
@@ -1539,7 +1590,7 @@
         return serviceYears;
       }
 
-      // Function to render table rows
+      // Teaxhers List
       function renderTableRows(teachers) {
         tableBody.innerHTML = "";
         teachers.forEach((teacher) => {
@@ -1556,7 +1607,7 @@
         <td><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#governmentNumbersModal" onclick="showTeacherInfo('${
           teacher.employeeId
         }')">View Data Info</button></td>
-        <td><button class="btn btn-danger btn-sm delete-btn" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Delete</button></td>
+        <td><button class="btn btn-outline-primary btn-sm delete-btn" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Archived</button></td>
       `;
 
           tableBody.appendChild(row);
@@ -1666,6 +1717,56 @@
           rowToDelete = null;
         });
       });
+
+     // Search function
+    function searchEmployees() {
+      const searchInput = document.getElementById("employeeSearch");
+      if (!searchInput) return; // Exit if element not found
+      
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      
+      // If search term is empty, show all teachers
+      if (!searchTerm) {
+        renderTableRows(teachersData.teachers);
+        return;
+      }
+
+      const filteredTeachers = teachersData.teachers.filter(teacher => {
+        const fullName = `${teacher.firstName || ''} ${teacher.middleName || ''} ${teacher.lastName || ''}`.toLowerCase();
+        const lastNameFirst = `${teacher.lastName || ''}, ${teacher.firstName || ''} ${teacher.middleName || ''}`.toLowerCase();
+        
+        return (
+          (teacher.firstName && teacher.firstName.toLowerCase().includes(searchTerm)) ||
+          (teacher.middleName && teacher.middleName.toLowerCase().includes(searchTerm)) ||
+          (teacher.lastName && teacher.lastName.toLowerCase().includes(searchTerm)) ||
+          (teacher.employeeId && teacher.employeeId.toLowerCase().includes(searchTerm)) ||
+          fullName.includes(searchTerm) ||
+          lastNameFirst.includes(searchTerm)
+        );
+      });
+
+      renderTableRows(filteredTeachers);
+    }
+
+      //201 files pdf download function
+      document.getElementById('downloadEmployeeInfo').addEventListener('click', function() {
+      const element = document.querySelector('#governmentNumbersModal .modal-content');
+      
+      html2pdf().set({
+        margin: 10,
+        filename: 'employee_info.pdf',
+        html2canvas: { scale: 2, scrollY: 0 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      }).from(element).save();
+    });
+
+    // Bonus: Print functionality
+    document.getElementById('printEmployeeInfo').addEventListener('click', function() {
+      window.print();
+    });
+      
+      
+
 
       // Load Initial Requests
       loadRequests();
