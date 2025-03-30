@@ -119,9 +119,9 @@
                         <img id="header-profile-picture" src="/IMAGES/MaamAlma.png" 
                             class="rounded-circle" 
                             style="width: 72px; height: 72px; 
-                                object-fit: cover;
-                                border: 2px solid rgb(8, 102, 255);
-                                transition: all 0.3s ease;" 
+                                    object-fit: cover;
+                                    border: 2px solid rgb(8, 102, 255);
+                                    transition: all 0.3s ease;" 
                             alt="Teacher's profile picture"
                             onmouseover="this.style.borderColor='#3498db'" 
                             onmouseout="this.style.borderColor='#e0e0e0'">
@@ -445,90 +445,166 @@
                                 <option value="12">December</option>
                             </select>
                         </div>
-                        <!-- Year and Button Column -->
-                        <div class="d-flex gap-3">
-                            <!-- Year Selector -->
-                            <div style="width: 120px;">
-                                <label for="year-select" class="form-label fw-semibold">Year</label>
-                                <select id="year-select" class="form-select shadow-sm" style="border-radius: 8px; border: 1px solid #ccc;">
-                                    <option value="2025" selected>2025</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2023">2023</option>
-                                </select>
-                            </div>
+                        
+                        <!-- Year Selector -->
+                        <div style="width: 120px;">
+                            <label for="year-select" class="form-label fw-semibold">Year</label>
+                            <select id="year-select" class="form-select shadow-sm" style="border-radius: 8px; border: 1px solid #ccc;">
+                                <option value="2025" selected>2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Pay Slip -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <!-- Card Header with Date -->
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="card-title text-primary mb-0">
-                            <i class="fas fa-wallet me-2"></i> Payroll
-                        </h5>
-                        <small class="text-muted">March 2025</small>
-                    </div>
-                    
-                    <!-- Pay Slip Content -->
-                    <div id="pay-slip-content">
-                        <!-- Header with Logos and Date -->
-                        <div class="header-section mb-4">
-                            <img src="/IMAGES/LOGO2.png" alt="School Logo" class="School-logo">
-                            <div class="text-center">
-                                <h1 class="fw-semibold mb-1">Payroll Slip</h1>
-                                <small class="text-muted">Pay Period: March 1-31, 2025</small>
+        
+            <!-- Pay Slips - Side by Side -->
+            <div class="row">
+                <!-- Mid-Month Payslip (Left Side) -->
+                <div class="col-md-6 pe-md-2">
+                    <div class="card mb-4 border-primary">
+                        <div class="card-body">
+                            <!-- Card Header with Date -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <small class="text-muted">March 15, 2025</small>
                             </div>
-                            <img src="/IMAGES/DepEd.png" alt="DepEd Logo" class="deped-logo">
+                            
+                            <!-- Pay Slip Content -->
+                            <div id="mid-pay-slip-content">
+                                <!-- Header with Logos and Date -->
+                                <div class="header-section mb-4 text-center">
+                                    <h2 class="fw-bold text-primary mb-1">MID-MONTH PAYSLIP</h2>
+                                    <small class="text-muted">Salary Advance for March 1-15, 2025</small>
+                                    <hr class="border-primary opacity-25 my-2">
+                                </div>
+                    
+                                <!-- Payroll Details Table -->
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td width="30%" class="fw-semibold">Employee Name:</td>
+                                            <td id="mid-name">Ma. Alma Balanza</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Position:</td>
+                                            <td id="mid-position">School Principal IV</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Pay Date:</td>
+                                            <td id="mid-pay-date">March 15, 2025</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Basic Salary (50%):</td>
+                                            <td id="mid-salary">₱42,500.00</td>
+                                        </tr>
+                                        <tr class="border-top">
+                                            <td class="fw-semibold">Deductions:</td>
+                                            <td>
+                                                <ul class="list-unstyled mb-0">
+                                                    <li id="mid-gsis">GSIS: ₱1,200.00</li>
+                                                    <li id="mid-philhealth">PhilHealth: ₱400.00</li>
+                                                    <li id="mid-pagibig">Pag-IBIG: ₱50.00</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Total Deductions:</td>
+                                            <td id="mid-total-deductions">₱1,650.00</td>
+                                        </tr>
+                                        <tr class="border-top border-2">
+                                            <td class="fw-bold">Net Pay:</td>
+                                            <td class="fw-bold" id="mid-net-pay">₱40,850.00</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <div class="alert alert-info mt-3 p-2 small">
+                                    <i class="fas fa-info-circle me-1"></i> This is an advance payment. Final settlement will be on March 31, 2025.
+                                </div>
+                            </div>
+                            
+                            <!-- Download Button -->
+                            <div class="text-end mt-3">
+                                <button class="btn btn-primary" onclick="downloadPaySlip('mid')">
+                                    <i class="fas fa-download me-2"></i> Download Mid-Month Slip
+                                </button>
+                            </div>
                         </div>
-            
-                        <!-- Payroll Details Table -->
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <td width="30%"><strong>Name:</strong></td>
-                                    <td id="name">Ma. Alma Balanza</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Position:</strong></td>
-                                    <td id="position">School Principal IV</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Pay Date:</strong></td>
-                                    <td>March 25, 2025</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Basic Salary:</strong></td>
-                                    <td id="salary">₱85,000.00</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Deductions:</strong></td>
-                                    <td>
-                                        <ul class="list-unstyled mb-0">
-                                            <li id="gsis">GSIS: ₱2,400.00</li>
-                                            <li id="philhealth">PhilHealth: ₱800.00</li>
-                                            <li id="pagibig">Pag-IBIG: ₱100.00</li>
-                                            <li id="tax">Tax: ₱6,000</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Total Deductions:</strong></td>
-                                    <td id="total-deductions">₱9,300.00</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Net Pay:</strong></td>
-                                    <td><strong id="net-pay">₱82,700.00</strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
-                    <!-- Download Button -->
-                    <div class="text-end mt-3">
-                        <button class="btn btn-primary" onclick="downloadPaySlip()">
-                            <i class="fas fa-download me-2"></i>Download Pay Slip
-                        </button>
+                </div>
+        
+                <!-- End-Month Payslip (Right Side) -->
+                <div class="col-md-6 ps-md-2">
+                    <div class="card mb-4 border-primary">
+                        <div class="card-body">
+                            <!-- Card Header with Date -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <small class="text-muted">March 31, 2025</small>
+                            </div>
+                            
+                            <!-- Pay Slip Content -->
+                            <div id="end-pay-slip-content">
+                                <!-- Header with Logos and Date -->
+                                <div class="header-section mb-4 text-center">
+                                    <h2 class="fw-bold text-primary mb-1">END-MONTH PAYSLIP</h2>
+                                    <small class="text-muted">Full Payment for March 1-31, 2025</small>
+                                    <hr class="border-primary opacity-25 my-2">
+                                </div>
+                    
+                                <!-- Payroll Details Table -->
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td width="30%" class="fw-semibold">Employee Name:</td>
+                                            <td id="end-name">Ma. Alma Balanza</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Position:</td>
+                                            <td id="end-position">School Principal IV</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Pay Date:</td>
+                                            <td id="end-pay-date">March 31, 2025</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Basic Salary:</td>
+                                            <td id="end-salary">₱85,000.00</td>
+                                        </tr>
+                                        <tr class="border-top">
+                                            <td class="fw-semibold">Deductions:</td>
+                                            <td>
+                                                <ul class="list-unstyled mb-0">
+                                                    <li id="end-gsis">GSIS: ₱2,400.00</li>
+                                                    <li id="end-philhealth">PhilHealth: ₱800.00</li>
+                                                    <li id="end-pagibig">Pag-IBIG: ₱100.00</li>
+                                                    <li id="end-tax">Tax: ₱6,000.00</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Total Deductions:</td>
+                                            <td id="end-total-deductions">₱9,300.00</td>
+                                        </tr>
+                                        <tr class="border-top border-2">
+                                            <td class="fw-bold">Net Pay:</td>
+                                            <td class="fw-bold" id="end-net-pay">₱75,700.00</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <div class="alert alert-info mt-3 p-2 small">
+                                    <i class="fas fa-info-circle me-1"></i> Final settlement payment for March 2025
+                                </div>
+                            </div>
+                            
+                            <!-- Download Button -->
+                            <div class="text-end mt-3">
+                                <button class="btn btn-primary" onclick="downloadPaySlip('end')">
+                                    <i class="fas fa-download me-2"></i> Download End-Month Slip
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -717,78 +793,147 @@
             </div>
         </div>
     
-       <!-- Account Settings Section -->
-       <div id="account-settings-section" class="content-section" style="background-color: #ffffff;">
-            <div class="card mb-4">
+        <!-- Account Settings Section -->
+        <div id="account-settings-section" class="content-section">
+            <!-- Personal Information Card -->
+            <div class="card mb-4" style="border-radius: 10px;">
                 <div class="card-body">
-                    <!-- Title Section with Icon -->
-                    <h5 class="card-title text-primary"><i class="fas fa-user me-2"></i> Personal Information</h5>
-                    <!-- Row for Profile Picture and Personal Info -->
+                    <h5 class="card-title text-primary">
+                        <i class="fas fa-user me-2"></i> Personal Information
+                    </h5>
+                    
                     <div class="row align-items-center">
-                        <!-- Left Column: Profile Picture -->
+                        <!-- Profile Picture Column -->
                         <div class="col-12 col-md-4 text-center mb-4 mb-md-0">
-                            <div class="mb-3">
-                                <img id="current-profile-picture" src="/IMAGES/MaamAlma.png" class="rounded-circle border border-3 border-primary" width="180" height="180" alt="Profile Picture">
+                            <div class="mb-3 position-relative">
+                                <img id="current-profile-picture" 
+                                    src="/IMAGES/MaamAlma.png" 
+                                    class="rounded-circle border border-3 border-primary shadow-sm" 
+                                    width="180" 
+                                    height="180" 
+                                    alt="Profile Picture">
                             </div>
-
-                            <!-- Change Picture Button -->
-                            <button id="change-profile-picture-btn" class="btn btn-primary btn-lg mt-3">
-                                <i class="fas fa-camera me-1"></i>Select Picture
+                            <button id="change-profile-picture-btn" class="btn btn-primary btn-lg shadow-sm">
+                                <i class="fas fa-camera me-1"></i> Change Picture
                             </button>
+                            <input type="file" id="profile-picture-input" accept="image/*" class="d-none">
                         </div>
+                        
+                        <!-- Personal Info Form Column -->
                         <div class="col-12 col-md-8">
                             <form id="personal-info-form">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label for="firstname" class="form-label" style="font-weight: 500;">First Name:</label>
-                                        <input type="text" id="firstname" class="form-control" value="Ma. Alma">
+                                        <label for="firstname" class="form-label fw-semibold">First Name</label>
+                                        <input type="text" id="firstname" class="form-control shadow-sm" style="border-radius: 8px;" value="Ma. Alma">
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="lastname" class="form-label" style="font-weight: 500;">Last Name:</label>
-                                        <input type="text" id="lastname" class="form-control" value="Balanza">
+                                        <label for="lastname" class="form-label fw-semibold">Last Name</label>
+                                        <input type="text" id="lastname" class="form-control shadow-sm" style="border-radius: 8px;" value="Balanza">
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="status" class="form-label" style="font-weight: 500;">Status:</label>
-                                    <select id="status" class="form-select">
-                                        <option value="single">Single</option>
-                                        <option value="married">Married</option>
-                                        <option value="divorced">Divorced</option>
-                                        <option value="widowed">Widowed</option>
-                                        <option value="separated">Separated</option>
-                                    </select>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="status" class="form-label fw-semibold">Status</label>
+                                        <select id="status" class="form-select shadow-sm" style="border-radius: 8px;">
+                                            <option value="single">Single</option>
+                                            <option value="married" selected>Married</option>
+                                            <option value="divorced">Divorced</option>
+                                            <option value="widowed">Widowed</option>
+                                            <option value="separated">Separated</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="employee-id" class="form-label fw-semibold">Employee ID</label>
+                                        <input type="text" id="employee-id" class="form-control shadow-sm" style="border-radius: 8px;" value="DEPED-2025-001" readonly>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label" style="font-weight: 500;">Email:</label>
-                                    <input type="email" id="email" class="form-control" value="maalma.balanza@deoed.gov.ph">
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label fw-semibold">Email</label>
+                                        <input type="email" id="email" class="form-control shadow-sm" style="border-radius: 8px;" value="maalma.balanza@deped.gov.ph">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label fw-semibold">Phone</label>
+                                        <input type="tel" id="phone" class="form-control shadow-sm" style="border-radius: 8px;" value="09228951325">
+                                    </div>
                                 </div>
+                                
                                 <div class="mb-3">
-                                    <label for="phone" class="form-label" style="font-weight: 500;">Phone:</label>
-                                    <input type="tel" id="phone" class="form-control" value="09228951325">
+                                    <label for="address" class="form-label fw-semibold">Address</label>
+                                    <input type="text" id="address" class="form-control shadow-sm" style="border-radius: 8px;" value="0248 Lola's Way St., Caingin, San Rafael, Bulacan">
                                 </div>
-                                <div class="mb-3">
-                                    <label for="address" class="form-label" style="font-weight: 500;">Address:</label>
-                                    <input type="text" id="address" class="form-control" value="0248 Lola's Way St., Caingin, San Rafael, Bulacan">
-                                </div>
-                        
-                                <!-- Buttons: Save and Cancel -->
-                                <div class="mt-4 d-flex justify-content-end">
-                                    <button type="button" class="btn btn-primary me-2" onclick="saveChanges()">Request Appeal</button>
-                                    <button type="button" class="btn btn-danger" onclick="cancelChanges()">Cancel</button>
+                                
+                                <div class="mt-4 d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-outline-secondary px-4 py-2" onclick="cancelChanges()">
+                                        <i class="fas fa-times me-1"></i> Cancel
+                                    </button>
+                                    <button type="button" class="btn btn-primary px-4 py-2" onclick="saveChanges()">
+                                        <i class="fas fa-save me-1"></i> Request Appeal
+                                    </button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <!-- Change Password Card -->
+            <div class="card mb-4 rounded-3 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4 fw-semibold" style="color: #0d6efd;">
+                        <i class="fas fa-lock me-2" style="color: #0d6efd;"></i> Change Password
+                    </h5>
+                    
+                    <form id="change-password-form">
+                        <!-- Current Password -->
+                        <div class="mb-3">
+                            <label class="form-label text-secondary small">Current Password</label>
+                            <div class="input-group">
+                                <input type="password" id="current-password" class="form-control border-secondary" 
+                                    value="BANAN@" placeholder="Your current password" readonly>
+                                <button class="btn btn-outline-secondary toggle-password" type="button"
+                                        onclick="const icon = this.querySelector('i');
+                                                const input = this.previousElementSibling;
+                                                icon.classList.toggle('fa-eye-slash');
+                                                input.type = input.type === 'password' ? 'text' : 'password';">
+                                    <i class="fas fa-eye" style="color: #0d6efd;"></i>
+                                </button>
+                            </div>
+                        </div>
+                                                    
+                        <!-- New Password -->
+                        <div class="mb-3">
+                            <label class="form-label text-secondary small">New Password</label>
+                            <input type="password" id="new-password" class="form-control border-secondary mb-1" placeholder="Create new password">
+                            <small class="text-muted small">Must be at least 8 characters</small>
+                        </div>
+                        
+                        <!-- Confirm Password -->
+                        <div class="mb-4">
+                            <label class="form-label text-secondary small">Confirm Password</label>
+                            <input type="password" id="confirm-password" class="form-control border-secondary" placeholder="Re-type new password">
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button type="button" class="btn btn-primary w-100 py-2 mt-2" onclick="changePassword()">
+                            <i class="fas fa-key me-2"></i> Update Password
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div> 
+    </div>
+         
 
 
-        <!-- Scripts -->
+       <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
     // Set current date
@@ -863,18 +1008,6 @@
         }
         
         updateBadge();
-
-        // Sidebar links
-        const sidebarLinks = document.querySelectorAll(".nav-link");
-        sidebarLinks.forEach(link => {
-            link.addEventListener("click", function() {
-                sidebarLinks.forEach(l => l.classList.remove("active"));
-                this.classList.add("active");
-                updateVisibility(this);
-            });
-        });
-
-        updateVisibility(document.getElementById("dashboard-link"));
     });
 
     // Section visibility
@@ -1009,31 +1142,138 @@
                 }
             });
         });
+
+        // Function to handle downloading payslips
+            function downloadPaySlip(type) {
+                // Get selected month and year
+                const monthSelect = document.getElementById('month-select');
+                const yearSelect = document.getElementById('year-select');
+                const month = monthSelect.options[monthSelect.selectedIndex].text;
+                const year = yearSelect.value;
+                
+                // Create a temporary element for HTML conversion
+                const element = document.createElement('div');
+                
+                // Clone the appropriate payslip content
+                if (type === 'mid') {
+                    const midContent = document.getElementById('mid-pay-slip-content').cloneNode(true);
+                    element.appendChild(midContent);
+                    
+                    // Add header with date info
+                    const header = document.createElement('h3');
+                    header.textContent = `${month} ${year} - Mid-Month Payslip`;
+                    header.style.textAlign = 'center';
+                    header.style.marginBottom = '20px';
+                    element.insertBefore(header, element.firstChild);
+                } else {
+                    const endContent = document.getElementById('end-pay-slip-content').cloneNode(true);
+                    element.appendChild(endContent);
+                    
+                    // Add header with date info
+                    const header = document.createElement('h3');
+                    header.textContent = `${month} ${year} - End-Month Payslip`;
+                    header.style.textAlign = 'center';
+                    header.style.marginBottom = '20px';
+                    element.insertBefore(header, element.firstChild);
+                }
+
+                // HTML to PDF conversion options
+                const opt = {
+                    margin: 10,
+                    filename: `${type}-payslip-${month}-${year}.pdf`,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+
+                // Generate PDF
+                html2pdf().set(opt).from(element).save();
+            }
+
+            // Function to update payslip dates when month/year changes
+            function updatePaySlipDates() {
+                const monthSelect = document.getElementById('month-select');
+                const yearSelect = document.getElementById('year-select');
+                const month = monthSelect.options[monthSelect.selectedIndex].text;
+                const year = yearSelect.value;
+                
+                // Update mid-month payslip
+                document.getElementById('mid-pay-date').textContent = `${month} 15, ${year}`;
+                document.querySelector('#mid-pay-slip-content small.text-muted').textContent = 
+                    `Salary Advance for ${month} 1-15, ${year}`;
+                
+                // Update end-month payslip
+                document.getElementById('end-pay-date').textContent = `${month} 31, ${year}`;
+                document.querySelector('#end-pay-slip-content small.text-muted').textContent = 
+                    `Full Payment for ${month} 1-31, ${year}`;
+            }
+
+            // Add event listeners for month/year changes
+            document.getElementById('month-select').addEventListener('change', updatePaySlipDates);
+            document.getElementById('year-select').addEventListener('change', updatePaySlipDates);
+
+            // Initialize with current values
+            updatePaySlipDates();
+
     });
 
-    // Pay slip download
-    function downloadPaySlip() {
-        const monthSelect = document.getElementById('month-select');
-        const yearSelect = document.getElementById('year-select');
-        const selectedMonth = monthSelect.options[monthSelect.selectedIndex].text;
-        const selectedYear = yearSelect.value;
+    // Change profile picture
+    document.getElementById('change-profile-picture-btn').addEventListener('click', function() {
+        document.getElementById('profile-picture-input').click();
+    });
+
+    document.getElementById('profile-picture-input').addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            
+            // Validate file
+            if (!file.type.match('image.*')) {
+                alert('Please select an image file (jpg, png, etc.)');
+                return;
+            }
+            
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Image must be less than 2MB');
+                return;
+            }
+            
+            // Preview image
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('current-profile-picture').src = event.target.result;
+                document.getElementById('header-profile-picture').src = event.target.result;
+                uploadProfilePicture(file);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function uploadProfilePicture(file) {
+        const formData = new FormData();
+        formData.append('profile_picture', file);
         
-        const payPeriodElement = document.querySelector('.header-section small');
-        payPeriodElement.textContent = `Pay Period: ${selectedMonth} 1-31, ${selectedYear}`;
-        
-        const dateElement = document.querySelector('.card-body small.text-muted');
-        dateElement.textContent = `${selectedMonth} ${selectedYear}`;
-        
-        const options = {
-            margin: 10,
-            filename: `PaySlip_${selectedMonth}_${selectedYear}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
-        };
-        
-        const element = document.getElementById('pay-slip-content');
-        html2pdf().from(element).set(options).save();
+        fetch('/upload-profile-picture', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            if (data.filePath) {
+                document.getElementById('current-profile-picture').src = data.filePath;
+                document.getElementById('header-profile-picture').src = data.filePath;
+            }
+            alert('Profile picture updated successfully!');
+        })
+        .catch(error => {
+            console.error('Upload error:', error);
+            alert('Error uploading profile picture. Please try again.');
+        });
     }
 </script>
 
