@@ -9,26 +9,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/CSS/admin.css"/>
   </head>
 
   <body>
     <div class="sidebar d-flex flex-column" style="height:100vh">
-        <div class="sidebar-header p-3">
-        <img src="/IMAGES/LOGO2.png" alt="TeachTap Logo" style="width:150px;height:auto;margin-left:40px"/>
-        </div>
-        <!-- Sidebar Navigation Links -->
-        <nav class="nav flex-column mt-3 mb-auto">
-          <a class="nav-link active" href="#dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-          <a class="nav-link" href="#attendance"><i class="fas fa-clipboard-check me-2"></i>Attendance</a>
-          <a class="nav-link" href="#teachers"><i class="fas fa-chalkboard-teacher me-2"></i>NFC Tag Masterlist</a>
-          <a class="nav-link" href="#payroll"><i class="fas fa-money-bill-wave me-2"></i>Payroll</a>
-          <a class="nav-link" href="#requests"><i class="fas fa-inbox me-2"></i>Requests</a>
-          <a class="nav-link" href="#files"><i class="fas fa-file me-2"></i>Teachers</a>
-          <a class="nav-link" href="#admin-settings"><i class="fas fa-cog me-2"></i>Admin Settings</a>
-        </nav>
-        <a class="nav-link text-danger mt-auto" href="#" onclick="logout()" style="cursor:pointer"><i class="fas fa-sign-out-alt me-2"></i>Log Out</a>
-    </div>
+      <div class="sidebar-header p-3">
+      <img src="/IMAGES/LOGO2.png" alt="TeachTap Logo" style="width:150px;height:auto;margin-left:40px"/>
+      </div>
+      <!-- Sidebar Navigation Links -->
+      <nav class="nav flex-column mt-3 mb-auto">
+        <a class="nav-link active" href="#dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+        <a class="nav-link" href="#attendance"><i class="fas fa-clipboard-check me-2"></i>Attendance</a>
+        <a class="nav-link" href="#teachers"><i class="fas fa-chalkboard-teacher me-2"></i>NFC Tag Masterlist</a>
+        <a class="nav-link" href="#payroll"><i class="fas fa-money-bill-wave me-2"></i>Payroll</a>
+        <a class="nav-link" href="#requests"><i class="fas fa-inbox me-2"></i>Requests</a>
+        <a class="nav-link" href="#files"><i class="fas fa-file me-2"></i>Teachers</a>
+        <a class="nav-link" href="#leave-credits"><i class="bi bi-calendar-check me-2"></i>Leave Credits Points</a>
+        <a class="nav-link" href="#admin-settings"><i class="fas fa-cog me-2"></i>Admin Settings</a>
+      </nav>
+      <a class="nav-link text-danger mt-auto" href="#" onclick="logout()" style="cursor:pointer"><i class="fas fa-sign-out-alt me-2"></i>Log Out</a>
+  </div>
 
     <!-- ==================== MAIN CONTENT SECTION ==================== -->
     <div class="main-content">
@@ -39,10 +41,10 @@
           <i></i>Admin Dashboard
         </h3>
         
-        <!-- Right Side Controls -->
+       <!-- Right Side Controls -->
         <div class="d-flex align-items-center gap-4">
           <!-- Current Date/Time -->
-          <div class="datetime-box bg-light px-3 py-2 rounded">
+          <div class="datetime-box bg-light px-3 py-2 rounded" style="font-size: 1.2rem;"> <!-- Increased font size -->
             <i class="fas fa-clock text-primary me-2"></i>
             <span id="current-datetime" class="fw-medium"></span>
           </div>
@@ -51,10 +53,10 @@
           <div class="dropdown">
             <button class="btn p-0 border-0" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <div class="avatar">
-                <img src="https://ui-avatars.com/api/?name=Admin&background=2962FF&color=fff&rounded=true&size=128" 
-                     alt="Admin" 
-                     class="rounded-circle border border-2 border-primary"
-                     width="40" height="40">
+                <img src="/IMAGES/MaamAlma.png" 
+                    alt="Admin" 
+                    class="rounded-circle border border-2 border-primary"
+                    width="50" height="50"> <!-- Increased avatar size -->
               </div>
             </button>
             <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
@@ -65,6 +67,7 @@
             </ul>
           </div>
         </div>
+
       </header>
 
       <!-- Monthly Absence Tracker Widget -->
@@ -308,11 +311,11 @@
         </div>
       </div>
 
-      <!-- ==================== DASHBOARD SECTION ==================== -->
-     <div class="content-section active" id="dashboard">
+     <!-- ==================== DASHBOARD SECTION ==================== -->
+     <div class="content-section active" id="dashboard" style="margin-top: 25px;">
         <div class="row g-3">
           <!-- Daily Attendance Summary -->
-          <div class="col-md-4">
+          <div class="col-md-4" style="margin-top: 15px;">
             <div class="card h-100" style="border-color: rgb(26, 35, 126);">
               <div class="card-header py-2" style="background-color: rgb(227, 242, 253); color: rgb(26, 35, 126);">
                 <h6 class="mb-0">Daily Attendance Summary</h6>
@@ -340,7 +343,7 @@
           </div>
 
           <!-- Recent NFC Tap Logs -->
-          <div class="col-md-4">
+          <div class="col-md-4" style="margin-top: 15px;">
             <div class="card h-100" style="border-color: rgb(26, 35, 126);">
               <div class="card-header py-2" style="background-color: rgb(227, 242, 253); color: rgb(26, 35, 126);">
                 <h6 class="mb-0">Recent NFC Tap Logs</h6>
@@ -362,7 +365,7 @@
           </div>
 
           <!-- Missing Log In Requests -->
-          <div class="col-md-4">
+          <div class="col-md-4" style="margin-top: 15px;">
             <div class="card h-100" style="border-color: rgb(26, 35, 126);">
               <div class="card-header py-2" style="background-color: rgb(227, 242, 253); color: rgb(26, 35, 126);">
                 <h6 class="mb-0">Missing Log In Requests</h6>
@@ -1031,16 +1034,71 @@
                   Forgot to tap the card due to an emergency.
                 </p>
               </div>
+
+              <div class="modal fade" id="proofModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                      <h5 class="modal-title">Proof Document</h5>
+                      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center p-4">
+                      <img src="" alt="Proof Document" id="proofModalImage" class="img-fluid rounded shadow" style="max-height: 70vh;">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>
+                      <a href="#" id="downloadProof" class="btn btn-primary" download>
+                        <i class="bi bi-download me-1"></i> Download
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Proof Thumbnail Display -->
               <div class="mb-3">
                 <p class="mb-2"><strong>Proof:</strong></p>
-                <a href="/IMAGE/proof.jpg" target="_blank" class="d-inline-block">
-                  <img src="/IMAGE/proof.jpg" alt="Proof Image" id="detail-proof" class="img-thumbnail img-fluid zoom-effect" style="max-width: 150px; cursor: pointer" />
-                </a>
-                <small class="d-block text-muted mt-1">Click the image to view in full size.</small>
+                <div class="d-inline-block position-relative">
+                  <img src="IMAGES/proof.jpg" alt="Proof Thumbnail" 
+                       id="detail-proof" 
+                       class="img-thumbnail zoom-effect" 
+                       style="width: 150px; height: 150px; object-fit: cover; cursor: pointer;"
+                       onclick="showProofModal('IMAGES/proof.jpg')">
+                  <div class="position-absolute top-0 end-0 bg-primary text-white rounded-circle p-1" style="width: 24px; height: 24px;">
+                    <i class="bi bi-zoom-in" style="font-size: 0.8rem;"></i>
+                  </div>
+                </div>
+                <small class="d-block text-muted mt-1">Click to view full size</small>
               </div>
+
             </div>
             <div class="modal-footer bg-light d-flex justify-content-center">
               <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rejection Modal -->
+      <div class="modal fade" id="rejectModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+              <h5 class="modal-title">Reject Request</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="rejectForm">
+                <input type="hidden" id="rejectRequestName">
+                <div class="mb-3">
+                  <label for="rejectComment" class="form-label">Reason for rejection:</label>
+                  <textarea class="form-control" id="rejectComment" rows="3" required></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" id="confirmReject">Confirm Rejection</button>
             </div>
           </div>
         </div>
@@ -1118,65 +1176,251 @@
         </div>
       </div>
 
-     <!-- 201 FILES MODAL -->
-    <div class="modal fade" id="governmentNumbersModal" tabindex="-1" aria-labelledby="governmentNumbersModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header bg-primary text-white">
-            <h5 class="modal-title" id="governmentNumbersModalLabel">Employee Information</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body p-4">
-            <!-- All sections in one continuous view -->
-            <div class="employee-section mb-4">
-              <h5 class="section-title bg-light p-2 rounded d-flex align-items-center">
-                <i class="fas fa-user me-2 text-primary"></i> Personal Information
-              </h5>
-              <div class="list-group list-group-flush mt-2" id="personalInfoList">
-                <!-- Personal information will be populated here -->
+      <!-- 201 FILES MODAL -->
+      <div class="modal fade" id="governmentNumbersModal" tabindex="-1" aria-labelledby="governmentNumbersModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title" id="governmentNumbersModalLabel">Employee Information</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+              <!-- All sections in one continuous view -->
+              <div class="employee-section mb-4">
+                <h5 class="section-title bg-light p-2 rounded d-flex align-items-center">
+                  <i class="fas fa-user me-2 text-primary"></i> Personal Information
+                </h5>
+                <div class="list-group list-group-flush mt-2" id="personalInfoList">
+                  <!-- Personal information will be populated here -->
+                </div>
+              </div>
+              
+              <div class="employee-section mb-4">
+                <h5 class="section-title bg-light p-2 rounded d-flex align-items-center">
+                  <i class="fas fa-school me-2 text-primary"></i> Education Information
+                </h5>
+                <div class="list-group list-group-flush mt-2" id="schoolInfoList">
+                  <!-- School information will be populated here -->
+                </div>
+              </div>
+              
+              <div class="employee-section">
+                <h5 class="section-title bg-light p-2 rounded d-flex align-items-center">
+                  <i class="fas fa-id-card me-2 text-primary"></i> Government IDs
+                </h5>
+                <div class="list-group list-group-flush mt-2" id="governmentNumbersList">
+                  <!-- Government numbers will be populated here -->
+                </div>
               </div>
             </div>
             
-            <div class="employee-section mb-4">
-              <h5 class="section-title bg-light p-2 rounded d-flex align-items-center">
-                <i class="fas fa-school me-2 text-primary"></i> Education Information
-              </h5>
-              <div class="list-group list-group-flush mt-2" id="schoolInfoList">
-                <!-- School information will be populated here -->
+            <div class="modal-footer d-flex justify-content-between">
+              <div>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                  <i class="fas fa-times me-1"></i> Close
+                </button>
               </div>
-            </div>
-            
-            <div class="employee-section">
-              <h5 class="section-title bg-light p-2 rounded d-flex align-items-center">
-                <i class="fas fa-id-card me-2 text-primary"></i> Government IDs
-              </h5>
-              <div class="list-group list-group-flush mt-2" id="governmentNumbersList">
-                <!-- Government numbers will be populated here -->
+              <div>
+                <button type="button" class="btn btn-light me-2" id="printEmployeeInfo">
+                  <i class="fas fa-print me-1"></i> Print
+                </button>
+                <button type="button" class="btn btn-primary" id="downloadEmployeeInfo">
+                  <i class="fas fa-download me-1"></i> Download PDF
+                </button>
               </div>
-            </div>
-          </div>
-          
-          <div class="modal-footer d-flex justify-content-between">
-            <div>
-              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                <i class="fas fa-times me-1"></i> Close
-              </button>
-            </div>
-            <div>
-              <button type="button" class="btn btn-light me-2" id="printEmployeeInfo">
-                <i class="fas fa-print me-1"></i> Print
-              </button>
-              <button type="button" class="btn btn-primary" id="downloadEmployeeInfo">
-                <i class="fas fa-download me-1"></i> Download PDF
-              </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
-            
 
-      <!-- ==================== ADMIN SETTINGS SECTION ==================== -->
+      <!-- ==================== LEAVE CREDITS ==================== -->
+      <div class="content-section p-3 rounded-3" style="background-color: rgb(255, 255, 255); margin-top: 25px;" id="leave-credits">
+        <div class="row mb-4">
+          <div class="col-12">
+            <h2 class="fw-bold" style="color: rgb(26, 35, 126);">Leave Credits</h2>
+            <p class="text-muted">Managing leave credits for <span id="teacherCount">66</span> teachers</p>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <!-- Quick Actions Card -->
+          <div class="col-lg-4">
+            <div class="card shadow-sm border-0">
+              <div class="card-header text-white" style="background-color: rgb(26, 35, 126);">
+                <h5 class="mb-0"><i class="bi bi-sliders me-2"></i>Quick Actions</h5>
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Adjust Credits</label>
+                  <select class="form-select mb-2" id="bulkAction">
+                    <option value="add">Add</option>
+                    <option value="subtract">Subtract</option>
+                    <option value="set">Set</option>
+                  </select>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="bulkPoints" placeholder="Amount" min="0">
+                    <button class="btn text-white" type="button" id="addBulkPoints" style="background-color: rgb(26, 35, 126);">
+                      <i class="bi bi-check-circle me-1"></i>Apply
+                    </button>
+                  </div>
+                  <small class="text-muted">Applies to all teachers</small>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Search</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="teacherFilter" placeholder="Name or ID">
+                    <button class="btn btn-outline-secondary" type="button" id="clearFilter">
+                      <i class="bi bi-x-lg"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Filter by Credits</label>
+                  <select class="form-select" id="pointsFilter">
+                    <option value="all">All Teachers</option>
+                    <option value="low">Low (0-3)</option>
+                    <option value="medium">Medium (4-6)</option>
+                    <option value="high">High (7+)</option>
+                  </select>
+                </div>
+
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-secondary" id="exportExcel">
+                    <i class="bi bi-file-earmark-excel me-2"></i>Export
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Teachers List -->
+          <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+              <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: rgb(26, 35, 126);">
+                <h5 class="mb-0"><i class="bi bi-people-fill me-2"></i>Teachers</h5>
+                <span class="badge bg-light text-dark">Showing <span id="showingCount">66</span> of <span id="totalCount">66</span></span>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover" id="teachersTable">
+                    <thead>
+                      <tr style="background-color: rgba(26, 35, 126, 0.1);">
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th class="text-center">Credits</th>
+                        <th>Updated</th>
+                        <th class="text-center">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr data-id="1739037" data-points="7">
+                        <td class="fw-bold">1739037</td>
+                        <td>Juan Dela Cruz</td>
+                        <td class="text-center">
+                          <span class="badge rounded-pill p-2 points-badge" style="background-color: rgba(26, 35, 126, 0.1); color: rgb(26, 35, 126);">
+                            <i class="bi bi-star-fill me-1"></i><span class="points-value">7</span>
+                          </span>
+                        </td>
+                        <td>2023-05-15</td>
+                        <td class="text-center">
+                          <button class="btn btn-sm rounded-circle me-1 text-white edit-btn" style="background-color: rgb(26, 35, 126);" title="Edit">
+                            <i class="bi bi-pencil"></i>
+                          </button>
+                          <button class="btn btn-sm rounded-circle border history-btn" title="History">
+                            <i class="bi bi-clock-history"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr data-id="1937892" data-points="5">
+                        <td class="fw-bold">1937892</td>
+                        <td>Maria Santos</td>
+                        <td class="text-center">
+                          <span class="badge rounded-pill p-2 points-badge" style="background-color: rgba(26, 35, 126, 0.1); color: rgb(26, 35, 126);">
+                            <i class="bi bi-star-fill me-1"></i><span class="points-value">5</span>
+                          </span>
+                        </td>
+                        <td>2023-05-10</td>
+                        <td class="text-center">
+                          <button class="btn btn-sm rounded-circle me-1 text-white edit-btn" style="background-color: rgb(26, 35, 126);" title="Edit">
+                            <i class="bi bi-pencil"></i>
+                          </button>
+                          <button class="btn btn-sm rounded-circle border history-btn" title="History">
+                            <i class="bi bi-clock-history"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Pagination -->
+                <nav class="mt-3">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                      <a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Modal -->
+      <div class="modal fade" id="editPointsModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header text-white" style="background-color: rgb(26, 35, 126);">
+              <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>Edit Credits</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <form id="editPointsForm">
+                <input type="hidden" id="editTeacherId">
+                <div class="mb-3">
+                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Teacher</label>
+                  <input type="text" class="form-control" id="editTeacherName" readonly>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Current Credits</label>
+                  <input type="number" class="form-control" id="editCurrentPoints" readonly>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Action</label>
+                  <select class="form-select" id="pointsAction">
+                    <option value="add">Add Credits</option>
+                    <option value="subtract">Subtract Credits</option>
+                    <option value="set">Set New Value</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Amount</label>
+                  <input type="number" class="form-control" id="pointsAmount" min="0" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Reason</label>
+                  <textarea class="form-control" id="pointsReason" rows="2" required></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn text-white" id="savePointsChanges" style="background-color: rgb(26, 35, 126);">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+      <!-- ==================== ADMIN SETTINGS ==================== -->
       <div class="content-section" id="admin-settings" style="margin-top: 25px;">
         <h5 class="text-primary">Admin Settings</h5>
         <div class="row">
@@ -1431,7 +1675,7 @@
         },
       ];
 
-      // Load Missing Log In Requests
+      //Missing Log In Requests
       function loadRequests() {
         const requestList = document.getElementById("request-list");
         requestList.innerHTML = "";
@@ -1459,13 +1703,61 @@
       }
 
       // Reject Request Function
+      let currentRejectName = '';
+
       function rejectRequest(name) {
-        const requestIndex = requests.findIndex((r) => r.name === name);
-        if (requestIndex !== -1) {
-          requests.splice(requestIndex, 1);
-          alert(`${name}'s request for missing log in time has been rejected.`);
-          loadRequests();
+        currentRejectName = name;
+        document.getElementById('rejectRequestName').value = name;
+        document.getElementById('rejectComment').value = '';
+        const rejectModal = new bootstrap.Modal(document.getElementById('rejectModal'));
+        rejectModal.show();
+      }
+
+      document.getElementById('confirmReject').addEventListener('click', function() {
+        const comment = document.getElementById('rejectComment').value.trim();
+        if (!comment) {
+          alert('Please provide a reason for rejection');
+          return;
         }
+        
+        const requestIndex = requests.findIndex((r) => r.name === currentRejectName);
+        if (requestIndex !== -1) {
+          // Store the rejection reason (you might want to add this to your request object)
+          requests[requestIndex].rejectionReason = comment;
+          
+          // Remove the request (or you might want to keep it with a 'rejected' status)
+          requests.splice(requestIndex, 1);
+          
+          alert(`${currentRejectName}'s request has been rejected. Reason: ${comment}`);
+          loadRequests();
+          
+          // Close the modal
+          const rejectModal = bootstrap.Modal.getInstance(document.getElementById('rejectModal'));
+          rejectModal.hide();
+        }
+      });
+
+      // Update your loadRequests function to show rejection reasons if they exist
+      function loadRequests() {
+        const requestList = document.getElementById("request-list");
+        requestList.innerHTML = "";
+        requests.forEach((request) => {
+          const listItem = document.createElement("li");
+          listItem.classList.add("list-group-item");
+          
+          // Add rejection reason if it exists
+          const rejectionInfo = request.rejectionReason 
+            ? `<small class="text-danger">(Rejected: ${request.rejectionReason})</small>` 
+            : '';
+          
+          listItem.innerHTML = `
+            ${request.name} - ${request.reason} ${rejectionInfo}
+            <button class="btn btn-primary btn-sm float-end ms-2" onclick="approveRequest('${request.name}')">Approve</button>
+            <button class="btn btn-danger btn-sm float-end ms-2" onclick="rejectRequest('${request.name}')">Reject</button>
+            <button class="btn btn-outline-primary btn-sm float-end ms-2" onclick="viewDetails('${request.name}')">View Details</button>
+          `;
+          requestList.appendChild(listItem);
+        });
       }
 
       // View Details Function
@@ -1527,20 +1819,7 @@
         });
       }
 
-      // Call the function to load the widget after the DOM is fully loaded
-      document.addEventListener("DOMContentLoaded", function () {
-        // Check if today is the first or last day of the month
-        if (isFirstOrLastDayOfMonth()) {
-          document.getElementById("monthly-absence-widget").style.display =
-            "block"; // Show the widget
-          loadMonthlyAbsenceTracker(); // Load absence data
-        } else {
-          document.getElementById("monthly-absence-widget").style.display =
-            "none"; // Hide the widget
-        }
-
-        loadRequests(); // Load initial requests
-      });
+     
 
       //201 files data
       const teachersData = {
@@ -1949,7 +2228,7 @@
         return serviceYears;
       }
 
-      // Teaxhers List
+      // Teachers List
       function renderTableRows(teachers) {
         tableBody.innerHTML = "";
         teachers.forEach((teacher) => {
@@ -2124,11 +2403,239 @@
       window.print();
     });
       
-      
-
-
+  
       // Load Initial Requests
       loadRequests();
+
+
+
+
+      //LEAVE CREDITS POINTS FUNTION
+      document.addEventListener('DOMContentLoaded', function() {
+  // Sample teacher data
+  const teachers = [
+    { id: '1739037', name: 'Juan Dela Cruz', points: 7, updated: '2023-05-15' },
+    { id: '1937892', name: 'Maria Santos', points: 5, updated: '2023-05-10' },
+    { id: '2034567', name: 'Pedro Reyes', points: 3, updated: '2023-05-12' },
+    { id: '2137890', name: 'Ana Lopez', points: 8, updated: '2023-05-14' }
+  ];
+
+  // DOM elements
+  const teacherCountEl = document.getElementById('teacherCount');
+  const showingCountEl = document.getElementById('showingCount');
+  const totalCountEl = document.getElementById('totalCount');
+  const teachersTable = document.getElementById('teachersTable');
+  const teacherFilter = document.getElementById('teacherFilter');
+  const pointsFilter = document.getElementById('pointsFilter');
+  const clearFilter = document.getElementById('clearFilter');
+  const bulkAction = document.getElementById('bulkAction');
+  const bulkPoints = document.getElementById('bulkPoints');
+  const addBulkPoints = document.getElementById('addBulkPoints');
+  const exportExcel = document.getElementById('exportExcel');
+  const editPointsModal = new bootstrap.Modal(document.getElementById('editPointsModal'));
+  const editTeacherId = document.getElementById('editTeacherId');
+  const editTeacherName = document.getElementById('editTeacherName');
+  const editCurrentPoints = document.getElementById('editCurrentPoints');
+  const pointsAction = document.getElementById('pointsAction');
+  const pointsAmount = document.getElementById('pointsAmount');
+  const pointsReason = document.getElementById('pointsReason');
+  const savePointsChanges = document.getElementById('savePointsChanges');
+  const editPointsForm = document.getElementById('editPointsForm');
+
+  // Initialize
+  teacherCountEl.textContent = teachers.length;
+  totalCountEl.textContent = teachers.length;
+  showingCountEl.textContent = teachers.length;
+  renderTeachers(teachers);
+
+  // Event listeners
+  teacherFilter.addEventListener('input', filterTeachers);
+  pointsFilter.addEventListener('change', filterTeachers);
+  clearFilter.addEventListener('click', resetFilters);
+  addBulkPoints.addEventListener('click', applyBulkPoints);
+  exportExcel.addEventListener('click', exportToExcel);
+  
+  // Use event delegation for dynamic elements
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('edit-btn') || e.target.closest('.edit-btn')) {
+      openEditModal(e);
+    }
+    if (e.target.classList.contains('history-btn') || e.target.closest('.history-btn')) {
+      showHistory(e);
+    }
+  });
+  
+  savePointsChanges.addEventListener('click', savePoints);
+
+  // Functions
+  function renderTeachers(teachersToRender) {
+    const tbody = teachersTable.querySelector('tbody');
+    tbody.innerHTML = '';
+    
+    teachersToRender.forEach(teacher => {
+      const row = document.createElement('tr');
+      row.setAttribute('data-id', teacher.id);
+      row.setAttribute('data-points', teacher.points);
+      
+      row.innerHTML = `
+        <td class="fw-bold">${teacher.id}</td>
+        <td>${teacher.name}</td>
+        <td class="text-center">
+          <span class="badge rounded-pill p-2 points-badge" style="background-color: rgba(26, 35, 126, 0.1); color: rgb(26, 35, 126);">
+            <i class="bi bi-star-fill me-1"></i><span class="points-value">${teacher.points}</span>
+          </span>
+        </td>
+        <td>${teacher.updated}</td>
+        <td class="text-center">
+          <button class="btn btn-sm rounded-circle me-1 text-white edit-btn" style="background-color: rgb(26, 35, 126);" title="Edit">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <button class="btn btn-sm rounded-circle border history-btn" title="History">
+            <i class="bi bi-clock-history"></i>
+          </button>
+        </td>
+      `;
+      
+      tbody.appendChild(row);
+    });
+  }
+
+  function filterTeachers() {
+    const searchTerm = teacherFilter.value.toLowerCase();
+    const pointsFilterValue = pointsFilter.value;
+    
+    const filtered = teachers.filter(teacher => {
+      const matchesSearch = teacher.id.toLowerCase().includes(searchTerm) || 
+                          teacher.name.toLowerCase().includes(searchTerm);
+      
+      let matchesPoints = true;
+      if (pointsFilterValue === 'low') {
+        matchesPoints = teacher.points <= 3;
+      } else if (pointsFilterValue === 'medium') {
+        matchesPoints = teacher.points >= 4 && teacher.points <= 6;
+      } else if (pointsFilterValue === 'high') {
+        matchesPoints = teacher.points >= 7;
+      }
+      
+      return matchesSearch && matchesPoints;
+    });
+    
+    renderTeachers(filtered);
+    showingCountEl.textContent = filtered.length;
+  }
+
+  function resetFilters() {
+    teacherFilter.value = '';
+    pointsFilter.value = 'all';
+    filterTeachers();
+  }
+
+  function applyBulkPoints() {
+    const action = bulkAction.value;
+    const points = parseInt(bulkPoints.value);
+    
+    if (isNaN(points) || points < 0) {
+      alert('Please enter a valid positive number');
+      return;
+    }
+    
+    teachers.forEach(teacher => {
+      if (action === 'add') {
+        teacher.points += points;
+      } else if (action === 'subtract') {
+        teacher.points = Math.max(0, teacher.points - points);
+      } else if (action === 'set') {
+        teacher.points = points;
+      }
+      teacher.updated = new Date().toISOString().split('T')[0];
+    });
+    
+    renderTeachers(teachers);
+    filterTeachers();
+    bulkPoints.value = '';
+  }
+
+  function exportToExcel() {
+    // In a real implementation, this would generate an Excel file
+    alert('Export to Excel functionality would be implemented here');
+  }
+
+  function openEditModal(e) {
+    const btn = e.target.closest('.edit-btn');
+    if (!btn) return;
+    
+    const row = btn.closest('tr');
+    const id = row.getAttribute('data-id');
+    const teacher = teachers.find(t => t.id === id);
+    
+    if (!teacher) return;
+    
+    editTeacherId.value = teacher.id;
+    editTeacherName.value = teacher.name;
+    editCurrentPoints.value = teacher.points;
+    pointsAction.value = 'add';
+    pointsAmount.value = '';
+    pointsReason.value = '';
+    
+    editPointsModal.show();
+  }
+
+  function showHistory(e) {
+    const btn = e.target.closest('.history-btn');
+    if (!btn) return;
+    
+    const row = btn.closest('tr');
+    const id = row.getAttribute('data-id');
+    // In a real implementation, this would show the teacher's history
+    alert(`Would show history for teacher ID: ${id}`);
+  }
+
+  function savePoints() {
+    if (!editPointsForm.checkValidity()) {
+      editPointsForm.reportValidity();
+      return;
+    }
+    
+    const id = editTeacherId.value;
+    const action = pointsAction.value;
+    const amount = parseInt(pointsAmount.value);
+    const reason = pointsReason.value.trim();
+    
+    if (isNaN(amount)) {
+      alert('Please enter a valid number');
+      return;
+    }
+    
+    if (amount <= 0) {
+      alert('Please enter a positive number');
+      return;
+    }
+    
+    if (reason === '') {
+      alert('Please enter a reason for the adjustment');
+      return;
+    }
+    
+    const teacher = teachers.find(t => t.id === id);
+    if (!teacher) return;
+    
+    if (action === 'add') {
+      teacher.points += amount;
+    } else if (action === 'subtract') {
+      teacher.points = Math.max(0, teacher.points - amount);
+    } else if (action === 'set') {
+      teacher.points = amount;
+    }
+    teacher.updated = new Date().toISOString().split('T')[0];
+    
+    // In a real implementation, you would save the history with the reason
+    console.log(`Updated teacher ${id} with action ${action}, amount ${amount}, reason: ${reason}`);
+    
+    renderTeachers(teachers);
+    filterTeachers();
+    editPointsModal.hide();
+  }
+});
     </script>
   </body>
 </html>

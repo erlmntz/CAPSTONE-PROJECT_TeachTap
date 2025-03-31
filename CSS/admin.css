@@ -11,6 +11,7 @@
 .admin-header {
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
+
   .datetime-box {
     font-size: 0.9rem;
     border: 1px solid rgba(0, 0, 0, 0.08);
@@ -151,6 +152,13 @@
     --bs-btn-active-color: rgb(227, 242, 253);
     --bs-btn-active-bg: rgb(26, 35, 126);
     --bs-btn-active-border-color: rgb(26, 35, 126);
+  }
+
+  .zoom-effect {
+    transition: transform 0.2s;
+  }
+  .zoom-effect:hover {
+    transform: scale(1.05);
   }
 
 
