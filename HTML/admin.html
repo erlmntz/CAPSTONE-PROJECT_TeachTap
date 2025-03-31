@@ -33,28 +33,35 @@
     <!-- ==================== MAIN CONTENT SECTION ==================== -->
     <div class="main-content">
       <!-- Header Section -->
-      <header class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-semibold" style="color: var(--primary-blue)">
-          Admin Dashboard
+      <header class="admin-header d-flex justify-content-between align-items-center py-3 px-4 bg-white shadow-sm rounded">
+        <!-- Dashboard Title -->
+        <h3 class="mb-0 fw-semibold text-primary">
+          <i></i>Admin Dashboard
         </h3>
-        <div class="d-flex align-items-center gap-3">
-          <!-- Current DateTime -->
-          <span id="current-datetime" class="fw-bold text-primary me-2"></span>          
-          <!-- Profile Avatar -->
+        
+        <!-- Right Side Controls -->
+        <div class="d-flex align-items-center gap-4">
+          <!-- Current Date/Time -->
+          <div class="datetime-box bg-light px-3 py-2 rounded">
+            <i class="fas fa-clock text-primary me-2"></i>
+            <span id="current-datetime" class="fw-medium"></span>
+          </div>
+          
+          <!-- Profile Dropdown -->
           <div class="dropdown">
-            <button class="btn btn-link p-0" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              <div class="avatar" style="width: 50px; height: 50px;">
-                <img src="https://ui-avatars.com/api/?name=Admin&background=random&color=fff&rounded=true&size=28" 
-                     alt="Admin Avatar" 
+            <button class="btn p-0 border-0" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="avatar">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=2962FF&color=fff&rounded=true&size=128" 
+                     alt="Admin" 
                      class="rounded-circle border border-2 border-primary"
-                     style="width: 100%; height: 100%; object-fit: cover;">
+                     width="40" height="40">
               </div>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-              <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
-              <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
+              <li><a class="dropdown-item" href="#"><i class="fas fa-user text-muted me-2"></i>Profile</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-cog text-muted me-2"></i>Settings</a></li>
+              <li><hr class="dropdown-divider my-1"></li>
+              <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
             </ul>
           </div>
         </div>
@@ -65,16 +72,16 @@
         <div class="col-12">
           <div class="card shadow-sm border-0">
             <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
-              <h5 class="mb-0 text-primary">Monthly Teacher Attendance</h5>
+              <h5 class="mb-0" style="color: rgb(26, 35, 126);">Monthly Teacher Attendance</h5>
               <div class="d-flex align-items-center">
                 <div class="me-3">
-                  <span class="badge bg-primary bg-opacity-10 text-primary">
+                  <span class="badge" style="background-color: rgba(227, 242, 253, 0.8); color: rgb(26, 35, 126);">
                     Total Teachers: <strong>66</strong>
                   </span>
                 </div>
                 <div class="input-group" style="width: 200px;">
-                  <input type="month" class="form-control border-primary" id="attendance-month" value="2023-10">
-                  <button class="btn btn-outline-primary" type="button" id="refresh-attendance">
+                  <input type="month" class="form-control" style="border-color: rgb(26, 35, 126);" id="attendance-month" value="2023-10">
+                  <button class="btn btn-outline-custom" type="button" id="refresh-attendance">
                     <i class="fas fa-sync-alt"></i>
                   </button>
                 </div>
@@ -85,15 +92,15 @@
               <div class="row mb-4">
                 <!-- Perfect Attendance -->
                 <div class="col-md-4 mb-3 mb-md-0">
-                  <div class="card h-100" style="background-color: #0d6efd; border-color: white;">
+                  <div class="card h-100" style="background-color: rgb(227, 242, 253); border-color: white;">
                     <div class="card-body">
-                      <div class="d-flex align-items-center text-white">
+                      <div class="d-flex align-items-center" style="color: rgb(26, 35, 126);">
                         <div class="me-3">
-                          <i class="fas fa-check-circle fa-2x text-white"></i>
+                          <i class="fas fa-check-circle fa-2x" style="color: rgb(26, 35, 126);"></i>
                         </div>
                         <div>
-                          <h6 class="mb-1 text-white">Perfect Attendance</h6>
-                          <h3 class="mb-0 text-white">62</h3>
+                          <h6 class="mb-1" style="color: rgb(26, 35, 126);">Perfect Attendance</h6>
+                          <h3 class="mb-0" style="color: rgb(26, 35, 126);">62</h3>
                         </div>
                       </div>
                     </div>
@@ -102,15 +109,15 @@
                 
                 <!-- Absent Teachers -->
                 <div class="col-md-4 mb-3 mb-md-0">
-                  <div class="card h-100" style="background-color: #0d6efd; border-color: white;">
+                  <div class="card h-100" style="background-color: rgb(227, 242, 253); border-color: white;">
                     <div class="card-body">
-                      <div class="d-flex align-items-center text-white">
+                      <div class="d-flex align-items-center" style="color: rgb(26, 35, 126);">
                         <div class="me-3">
-                          <i class="fas fa-user-slash fa-2x text-white"></i>
+                          <i class="fas fa-user-slash fa-2x" style="color: rgb(26, 35, 126);"></i>
                         </div>
                         <div>
-                          <h6 class="mb-1 text-white">Absent Teachers</h6>
-                          <h3 class="mb-0 text-white">2</h3>
+                          <h6 class="mb-1" style="color: rgb(26, 35, 126);">Absent Teachers</h6>
+                          <h3 class="mb-0" style="color: rgb(26, 35, 126);">2</h3>
                         </div>
                       </div>
                     </div>
@@ -119,15 +126,15 @@
                 
                 <!-- Late Arrivals -->
                 <div class="col-md-4">
-                  <div class="card h-100" style="background-color: #0d6efd; border-color: white;">
+                  <div class="card h-100" style="background-color: rgb(227, 242, 253); border-color: white;">
                     <div class="card-body">
-                      <div class="d-flex align-items-center text-white">
+                      <div class="d-flex align-items-center" style="color: rgb(26, 35, 126);">
                         <div class="me-3">
-                          <i class="fas fa-clock fa-2x text-white"></i>
+                          <i class="fas fa-clock fa-2x" style="color: rgb(26, 35, 126);"></i>
                         </div>
                         <div>
-                          <h6 class="mb-1 text-white">Late Arrivals</h6>
-                          <h3 class="mb-0 text-white">2</h3>
+                          <h6 class="mb-1" style="color: rgb(26, 35, 126);">Late Arrivals</h6>
+                          <h3 class="mb-0" style="color: rgb(26, 35, 126);">2</h3>
                         </div>
                       </div>
                     </div>
@@ -138,11 +145,11 @@
               <!-- Detailed Lists with Dropdowns -->
               <div class="accordion" id="attendanceDetails">
                 <!-- Perfect Attendance Dropdown -->
-                <div class="accordion-item border-primary border-2 mb-3 shadow-sm">
+                <div class="accordion-item" style="border-color: rgb(26, 35, 126); border-width: 2px; margin-bottom: 1rem; box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);">
                   <h2 class="accordion-header">
                     <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#perfectAttendanceList">
                       <div class="d-flex align-items-center w-100">
-                        <i class="fas fa-check-circle me-3 text-primary fs-4"></i>
+                        <i class="fas fa-check-circle me-3" style="color: rgb(26, 35, 126); font-size: 1.25rem;"></i>
                         <div class="flex-grow-1">
                           <span class="fw-bold">Perfect Attendance</span>
                           <div class="d-flex align-items-center">
@@ -153,26 +160,26 @@
                       </div>
                     </button>
                   </h2>
-                  <div id="perfectAttendanceList" class="accordion-collapse collapse show" data-bs-parent="#attendanceDetails">
-                    <div class="accordion-body p-0 border-top border-primary border-2">
+                  <div id="perfectAttendanceList" class="accordion-collapse collapse" data-bs-parent="#attendanceDetails">
+                    <div class="accordion-body p-0" style="border-top: 2px solid rgb(26, 35, 126);">
                       <div class="list-group list-group-flush" style="max-height: 300px; overflow-y: auto;">
                         <div class="list-group-item d-flex justify-content-between align-items-center py-3">
                           <div class="d-flex align-items-center">
-                            <div class="avatar bg-primary bg-opacity-10 text-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                            <div class="avatar rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: rgba(227, 242, 253, 0.5); color: rgb(26, 35, 126);">
                               <i class="fas fa-user"></i>
                             </div>
                             <span class="fw-medium">Maria Santos</span>
                           </div>
-                          <span class="badge bg-primary text-white px-3 py-2">22 days</span>
+                          <span class="badge px-3 py-2" style="background-color: rgb(26, 35, 126); color: white;">22 days</span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between align-items-center py-3">
                           <div class="d-flex align-items-center">
-                            <div class="avatar bg-primary bg-opacity-10 text-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                            <div class="avatar rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: rgba(227, 242, 253, 0.5); color: rgb(26, 35, 126);">
                               <i class="fas fa-user"></i>
                             </div>
                             <span class="fw-medium">John Smith</span>
                           </div>
-                          <span class="badge bg-primary text-white px-3 py-2">22 days</span>
+                          <span class="badge px-3 py-2" style="background-color: rgb(26, 35, 126); color: white;">22 days</span>
                         </div>
                         <div class="list-group-item text-center text-muted py-3 bg-light">
                           Showing 2 of 62 teachers
@@ -181,13 +188,14 @@
                     </div>
                   </div>
                 </div>
+
                 
                 <!-- Absent Teachers Dropdown -->
-                <div class="accordion-item border-primary border-2 shadow-sm">
+                <div class="accordion-item" style="border-color: rgb(26, 35, 126); border-width: 2px; box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);">
                   <h2 class="accordion-header">
                     <button class="accordion-button bg-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#absentTeachersList">
                       <div class="d-flex align-items-center w-100">
-                        <i class="fas fa-user-slash me-3 text-primary fs-4"></i>
+                        <i class="fas fa-user-slash me-3" style="color: rgb(26, 35, 126); font-size: 1.25rem;"></i>
                         <div class="flex-grow-1">
                           <span class="fw-bold">Absent Teachers</span>
                           <div class="d-flex align-items-center">
@@ -199,36 +207,36 @@
                     </button>
                   </h2>
                   <div id="absentTeachersList" class="accordion-collapse collapse" data-bs-parent="#attendanceDetails">
-                    <div class="accordion-body p-0 border-top border-primary border-2">
+                    <div class="accordion-body p-0" style="border-top: 2px solid rgb(26, 35, 126);">
                       <div class="list-group list-group-flush" style="max-height: 300px; overflow-y: auto;">
                         <div class="list-group-item d-flex justify-content-between align-items-center py-3">
                           <div>
                             <div class="d-flex align-items-center mb-1">
-                              <div class="avatar bg-primary bg-opacity-10 text-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                              <div class="avatar rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: rgba(227, 242, 253, 0.5); color: rgb(26, 35, 126);">
                                 <i class="fas fa-user"></i>
                               </div>
                               <span class="fw-medium">Juan Dela Cruz</span>
                             </div>
                             <div class="ps-4 ms-3">
-                              <span class="badge bg-primary text-white me-2">Oct 5</span>
-                              <span class="badge bg-primary text-white">Oct 12</span>
+                              <span class="badge me-2" style="background-color: rgb(26, 35, 126); color: white;">Oct 5</span>
+                              <span class="badge" style="background-color: rgb(26, 35, 126); color: white;">Oct 12</span>
                             </div>
                           </div>
-                          <span class="badge bg-primary text-white px-3 py-2">2 days</span>
+                          <span class="badge px-3 py-2" style="background-color: rgb(26, 35, 126); color: white;">2 days</span>
                         </div>
                         <div class="list-group-item d-flex justify-content-between align-items-center py-3">
                           <div>
                             <div class="d-flex align-items-center mb-1">
-                              <div class="avatar bg-primary bg-opacity-10 text-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                              <div class="avatar rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: rgba(227, 242, 253, 0.5); color: rgb(26, 35, 126);">
                                 <i class="fas fa-user"></i>
                               </div>
                               <span class="fw-medium">Lisa Johnson</span>
                             </div>
                             <div class="ps-4 ms-3">
-                              <span class="badge bg-primary text-white">Oct 8</span>
+                              <span class="badge" style="background-color: rgb(26, 35, 126); color: white;">Oct 8</span>
                             </div>
                           </div>
-                          <span class="badge bg-primary text-white px-3 py-2">1 day</span>
+                          <span class="badge px-3 py-2" style="background-color: rgb(26, 35, 126); color: white;">1 day</span>
                         </div>
                       </div>
                     </div>
@@ -237,11 +245,11 @@
                
                 
                <!-- Late Arrivals Dropdown -->
-              <div class="accordion-item border-primary border-2 shadow-sm">
+              <div class="accordion-item" style="border-color: rgb(26, 35, 126); border-width: 2px; box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);">
                 <h2 class="accordion-header">
                   <button class="accordion-button bg-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#lateArrivalsList">
                     <div class="d-flex align-items-center w-100">
-                      <i class="fas fa-clock me-3 text-primary fs-4"></i>
+                      <i class="fas fa-clock me-3" style="color: rgb(26, 35, 126); font-size: 1.25rem;"></i>
                       <div class="flex-grow-1">
                         <span class="fw-bold">Late Arrivals</span>
                         <div class="d-flex align-items-center">
@@ -253,12 +261,12 @@
                   </button>
                 </h2>
                 <div id="lateArrivalsList" class="accordion-collapse collapse" data-bs-parent="#attendanceDetails">
-                  <div class="accordion-body p-0 border-top border-primary border-2">
+                  <div class="accordion-body p-0" style="border-top: 2px solid rgb(26, 35, 126);">
                     <div class="list-group list-group-flush" style="max-height: 300px; overflow-y: auto;">
                       <div class="list-group-item d-flex justify-content-between align-items-center py-3">
                         <div>
                           <div class="d-flex align-items-center mb-1">
-                            <div class="avatar bg-primary bg-opacity-10 text-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                            <div class="avatar rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: rgba(227, 242, 253, 0.5); color: rgb(26, 35, 126);">
                               <i class="fas fa-user"></i>
                             </div>
                             <span class="fw-medium">Ana Reyes</span>
@@ -267,12 +275,12 @@
                             Average 15 minutes late
                           </div>
                         </div>
-                        <span class="badge bg-primary text-white px-3 py-2">4 times</span>
+                        <span class="badge px-3 py-2" style="background-color: rgb(26, 35, 126); color: white;">4 times</span>
                       </div>
                       <div class="list-group-item d-flex justify-content-between align-items-center py-3">
                         <div>
                           <div class="d-flex align-items-center mb-1">
-                            <div class="avatar bg-primary bg-opacity-10 text-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                            <div class="avatar rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: rgba(227, 242, 253, 0.5); color: rgb(26, 35, 126);">
                               <i class="fas fa-user"></i>
                             </div>
                             <span class="fw-medium">Michael Brown</span>
@@ -281,7 +289,7 @@
                             Average 8 minutes late
                           </div>
                         </div>
-                        <span class="badge bg-primary text-white px-3 py-2">2 times</span>
+                        <span class="badge px-3 py-2" style="background-color: rgb(26, 35, 126); color: white;">2 times</span>
                       </div>
                     </div>
                   </div>
@@ -291,7 +299,7 @@
               
               <!-- Download Button -->
               <div class="text-end mt-3">
-                <button class="btn btn-primary" id="download-attendance-report">
+                <button class="btn" id="download-attendance-report" style="background-color: rgb(26, 35, 126); color: white;">
                   <i class="fas fa-download me-2"></i> Download Full Report
                 </button>
               </div>
@@ -301,31 +309,31 @@
       </div>
 
       <!-- ==================== DASHBOARD SECTION ==================== -->
-      <div class="content-section active" id="dashboard">
+     <div class="content-section active" id="dashboard">
         <div class="row g-3">
           <!-- Daily Attendance Summary -->
           <div class="col-md-4">
-            <div class="card border-primary h-100">
-              <div class="card-header bg-primary text-white py-2">
+            <div class="card h-100" style="border-color: rgb(26, 35, 126);">
+              <div class="card-header py-2" style="background-color: rgb(227, 242, 253); color: rgb(26, 35, 126);">
                 <h6 class="mb-0">Daily Attendance Summary</h6>
               </div>
               <div class="card-body p-2">
-                <div class="d-flex align-items-center mb-2 p-2 bg-primary bg-opacity-10 rounded">
-                  <i class="fas fa-user-check text-primary me-2"></i>
-                  <div class="flex-grow-1 text-primary">Present</div>
-                  <span id="present-count" class="badge bg-primary">25</span>
+                <div class="d-flex align-items-center mb-2 p-2 rounded" style="background-color: rgba(227, 242, 253, 0.8);">
+                  <i class="fas fa-user-check me-2" style="color: rgb(26, 35, 126);"></i>
+                  <div class="flex-grow-1" style="color: rgb(26, 35, 126);">Present</div>
+                  <span id="present-count" class="badge" style="background-color: rgb(26, 35, 126); color: white;">25</span>
                 </div>
 
-                <div class="d-flex align-items-center mb-2 p-2 bg-primary bg-opacity-10 rounded">
-                  <i class="fas fa-user-clock text-primary me-2"></i>
-                  <div class="flex-grow-1 text-primary">Late</div>
-                  <span id="late-count" class="badge bg-primary bg-opacity-75">3</span>
+                <div class="d-flex align-items-center mb-2 p-2 rounded" style="background-color: rgba(227, 242, 253, 0.8);">
+                  <i class="fas fa-user-clock me-2" style="color: rgb(26, 35, 126);"></i>
+                  <div class="flex-grow-1" style="color: rgb(26, 35, 126);">Late</div>
+                  <span id="late-count" class="badge" style="background-color: rgba(26, 35, 126, 0.75); color: white;">3</span>
                 </div>
 
-                <div class="d-flex align-items-center p-2 bg-primary bg-opacity-10 rounded">
-                  <i class="fas fa-user-times text-primary me-2"></i>
-                  <div class="flex-grow-1 text-primary">Absent</div>
-                  <span id="absent-count" class="badge bg-primary bg-opacity-50">2</span>
+                <div class="d-flex align-items-center p-2 rounded" style="background-color: rgba(227, 242, 253, 0.8);">
+                  <i class="fas fa-user-times me-2" style="color: rgb(26, 35, 126);"></i>
+                  <div class="flex-grow-1" style="color: rgb(26, 35, 126);">Absent</div>
+                  <span id="absent-count" class="badge" style="background-color: rgba(26, 35, 126, 0.5); color: white;">2</span>
                 </div>
               </div>
             </div>
@@ -333,19 +341,19 @@
 
           <!-- Recent NFC Tap Logs -->
           <div class="col-md-4">
-            <div class="card h-100">
-              <div class="card-header bg-primary text-white py-2">
+            <div class="card h-100" style="border-color: rgb(26, 35, 126);">
+              <div class="card-header py-2" style="background-color: rgb(227, 242, 253); color: rgb(26, 35, 126);">
                 <h6 class="mb-0">Recent NFC Tap Logs</h6>
               </div>
               <div class="card-body p-0">
                 <ul id="recent-tap-logs" class="list-group list-group-flush">
-                  <li class="list-group-item py-2">
+                  <li class="list-group-item py-2" style="border-color: rgba(26, 35, 126, 0.1);">
                     Juan Dela Cruz tapped at 06:58 AM
                   </li>
-                  <li class="list-group-item py-2">
+                  <li class="list-group-item py-2" style="border-color: rgba(26, 35, 126, 0.1);">
                     Maria Santos tapped at 07:15 AM
                   </li>
-                  <li class="list-group-item py-2">
+                  <li class="list-group-item py-2" style="border-color: rgba(26, 35, 126, 0.1);">
                     Pedro Reyes tapped at 07:30 AM
                   </li>
                 </ul>
@@ -355,23 +363,23 @@
 
           <!-- Missing Log In Requests -->
           <div class="col-md-4">
-            <div class="card h-100">
-              <div class="card-header bg-primary text-white py-2">
+            <div class="card h-100" style="border-color: rgb(26, 35, 126);">
+              <div class="card-header py-2" style="background-color: rgb(227, 242, 253); color: rgb(26, 35, 126);">
                 <h6 class="mb-0">Missing Log In Requests</h6>
               </div>
               <div class="card-body p-0">
                 <ul id="leave-requests" class="list-group list-group-flush">
-                  <li class="list-group-item py-2 d-flex justify-content-between align-items-center">
+                  <li class="list-group-item py-2 d-flex justify-content-between align-items-center" style="border-color: rgba(26, 35, 126, 0.1);">
                     Juan Dela Cruz
-                    <span class="badge bg-primary bg-opacity-75">Pending</span>
+                    <span class="badge" style="background-color: rgba(26, 35, 126, 0.75); color: white;">Pending</span>
                   </li>
-                  <li class="list-group-item py-2 d-flex justify-content-between align-items-center">
+                  <li class="list-group-item py-2 d-flex justify-content-between align-items-center" style="border-color: rgba(26, 35, 126, 0.1);">
                     Maria Santos
-                    <span class="badge bg-primary">Approved</span>
+                    <span class="badge" style="background-color: rgb(26, 35, 126); color: white;">Approved</span>
                   </li>
-                  <li class="list-group-item py-2 d-flex justify-content-between align-items-center">
+                  <li class="list-group-item py-2 d-flex justify-content-between align-items-center" style="border-color: rgba(26, 35, 126, 0.1);">
                     Pedro Reyes
-                    <span class="badge bg-primary bg-opacity-50">Rejected</span>
+                    <span class="badge" style="background-color: rgba(26, 35, 126, 0.5); color: white;">Rejected</span>
                   </li>
                 </ul>
               </div>
@@ -381,7 +389,7 @@
       </div>
 
       <!-- ==================== ATTENDANCE SECTION ==================== -->
-      <div class="content-section" id="attendance">
+      <div class="content-section" id="attendance" style="margin-top: 25px;">
         <table class="table attendance-table">
           <thead>
             <tr>
@@ -459,7 +467,7 @@
       </div>
 
       <!-- ==================== NFC REGISTERED TAGS SECTION ==================== -->
-      <div class="content-section" id="teachers">
+      <div class="content-section" id="teachers" style="margin-top: 25px;">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h5 class="mb-0">Masterlist of Registered NFC Tags</h5>
           <div class="d-flex align-items-center">
@@ -615,17 +623,371 @@
             </div>
             <div class="modal-footer bg-light d-flex justify-content-center">
               <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm" onclick="addTeacher()">
-                <i class="fas fa-plus-circle me-2"></i> Register
+              <button type="button" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm" onclick="saveData()">
+                <i class="fas fa-save me-2"></i> Save
               </button>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- ==================== PAYROLL SECTION ==================== -->
+      <div class="content-section" id="payroll" style="margin-top: 25px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h5 class="mb-0 text-primary">Payroll Management</h5>
+          <div class="d-flex align-items-center gap-3">
+            <!-- Payroll Period Selector -->
+            <div class="input-group" style="width: 300px;">
+              <label class="input-group-text bg-primary text-white" for="payroll-period">Period</label>
+              <select class="form-select border-primary" id="payroll-period">
+                <option value="mid-month">Mid-Month (1-15)</option>
+                <option value="end-month">End-Month (16-31)</option>
+              </select>
+            </div>
+            
+            <!-- Month and Year Selector -->
+            <div class="input-group" style="width: 200px;">
+              <input type="month" class="form-control border-primary" id="payroll-month" value="2025-03">
+            </div>
+            
+            <!-- Generate Payroll Button -->
+            <button class="btn btn-primary" id="generate-payroll">
+              <i class="fas fa-calculator me-2"></i> Generate
+            </button>
+          </div>
+        </div>
+
+        <!-- Payroll Summary Cards -->
+        <div class="row mb-4">
+          <!-- Total Teachers -->
+          <div class="col-md-3 mb-3">
+            <div class="card h-100 border-primary">
+              <div class="card-body">
+                <div class="d-flex align-items-center">
+                  <div class="bg-primary bg-opacity-10 rounded p-3 me-3">
+                    <i class="fas fa-users text-primary"></i>
+                  </div>
+                  <div>
+                    <h6 class="mb-1 text-muted">Total Teachers</h6>
+                    <h3 class="mb-0">64</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Total Salary -->
+          <div class="col-md-3 mb-3">
+            <div class="card h-100 border-primary">
+              <div class="card-body">
+                <div class="d-flex align-items-center">
+                  <div class="bg-primary bg-opacity-10 rounded p-3 me-3">
+                    <i class="fas fa-money-bill-wave text-primary"></i>
+                  </div>
+                  <div>
+                    <h6 class="mb-1 text-muted">Total Salary</h6>
+                    <h3 class="mb-0">₱2,720,000</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Total Deductions -->
+          <div class="col-md-3 mb-3">
+            <div class="card h-100 border-primary">
+              <div class="card-body">
+                <div class="d-flex align-items-center">
+                  <div class="bg-primary bg-opacity-10 rounded p-3 me-3">
+                    <i class="fas fa-minus-circle text-primary"></i>
+                  </div>
+                  <div>
+                    <h6 class="mb-1 text-muted">Total Deductions</h6>
+                    <h3 class="mb-0">₱105,600</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Net Pay -->
+          <div class="col-md-3 mb-3">
+            <div class="card h-100 border-primary">
+              <div class="card-body">
+                <div class="d-flex align-items-center">
+                  <div class="bg-primary bg-opacity-10 rounded p-3 me-3">
+                    <i class="fas fa-wallet text-primary"></i>
+                  </div>
+                  <div>
+                    <h6 class="mb-1 text-muted">Net Pay</h6>
+                    <h3 class="mb-0">₱2,614,400</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payroll Actions -->
+        <div class="card mb-4 border-primary">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h6 class="mb-0 text-primary">Payroll Actions</h6>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-primary">
+                  <i class="fas fa-file-export me-2"></i> Export
+                </button>
+                <button type="button" class="btn btn-outline-primary">
+                  <i class="fas fa-envelope me-2"></i> Email
+                </button>
+                <button type="button" class="btn btn-outline-primary">
+                  <i class="fas fa-print me-2"></i> Print
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adjustDeductionsModal">
+                  <i class="fas fa-sliders-h me-2"></i> Deductions
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payroll Table -->
+        <div class="card border-primary">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0" id="payroll-table">
+                <thead class="bg-primary text-white">
+                  <tr>
+                    <th class="ps-4">ID</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th class="text-end">Salary</th>
+                    <th class="text-end">Deductions</th>
+                    <th class="text-end">Net Pay</th>
+                    <th class="text-center">Status</th>
+                    <th class="pe-4 text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Sample Row 1 -->
+                    <tr>
+                      <td class="ps-4 fw-semibold text-primary">02383084</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="avatar-sm bg-primary bg-opacity-10 rounded-circle me-3 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-user text-primary"></i>
+                          </div>
+                          <span>Ma. Alma Balanza</span>
+                        </div>
+                      </td>
+                      <td>Principal IV</td>
+                      <td class="text-end">₱85,000.00</td>
+                      <td class="text-end">₱3,300.00</td>
+                      <td class="text-end fw-bold text-primary">₱81,700.00</td>
+                      <td class="text-center">
+                        <span class="badge bg-primary bg-opacity-10 text-primary">Processed</span>
+                      </td>
+                      <td class="pe-4 text-end">
+                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3 me-2">
+                          <i class="fas fa-eye me-1"></i> View
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                          <i class="fas fa-download me-1"></i> PDF
+                        </button>
+                      </td>
+                    </tr>
+
+                    <!-- Sample Row 2 -->
+                    <tr>
+                      <td class="ps-4 fw-semibold text-primary">0378347</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="avatar-sm bg-primary bg-opacity-10 rounded-circle me-3 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-user text-primary"></i>
+                          </div>
+                          <span>Juan Dela Cruz</span>
+                        </div>
+                      </td>
+                      <td>Master Teacher II</td>
+                      <td class="text-end">₱45,000.00</td>
+                      <td class="text-end">₱1,650.00</td>
+                      <td class="text-end fw-bold text-primary">₱43,350.00</td>
+                      <td class="text-center">
+                        <span class="badge bg-primary bg-opacity-10 text-primary">Processed</span>
+                      </td>
+                      <td class="pe-4 text-end">
+                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3 me-2">
+                          <i class="fas fa-eye me-1"></i> View
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                          <i class="fas fa-download me-1"></i> PDF
+                        </button>
+                      </td>
+                    </tr>
+
+                    <!-- Sample Row 3 -->
+                    <tr>
+                      <td class="ps-4 fw-semibold text-primary">3939374</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="avatar-sm bg-primary bg-opacity-10 rounded-circle me-3 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-user text-primary"></i>
+                          </div>
+                          <span>Maria Santos</span>
+                        </div>
+                      </td>
+                      <td>Teacher III</td>
+                      <td class="text-end">₱35,000.00</td>
+                      <td class="text-end">₱1,650.00</td>
+                      <td class="text-end fw-bold text-primary">₱33,350.00</td>
+                      <td class="text-center">
+                        <span class="badge" style="background-color: rgba(227, 242, 253, 0.8); color: rgb(26, 35, 126);">Pending</span>
+                      </td>
+                      <td class="pe-4 text-end">
+                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3 me-2">
+                          <i class="fas fa-eye me-1"></i> View
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                          <i class="fas fa-download me-1"></i> PDF
+                        </button>
+                      </td>
+                    </tr>
+
+                    <!-- Sample Row 4 -->
+                    <tr>
+                      <td class="ps-4 fw-semibold text-primary">4829102</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="avatar-sm bg-primary bg-opacity-10 rounded-circle me-3 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-user text-primary"></i>
+                          </div>
+                          <span>Pedro Reyes</span>
+                        </div>
+                      </td>
+                      <td>Teacher II</td>
+                      <td class="text-end">₱32,000.00</td>
+                      <td class="text-end">₱1,650.00</td>
+                      <td class="text-end fw-bold text-primary">₱30,350.00</td>
+                      <td class="text-center">
+                        <span class="badge" style="background-color: rgba(227, 242, 253, 0.8); color: rgb(26, 35, 126);">Pending</span>
+                      </td>
+                      <td class="pe-4 text-end">
+                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3 me-2">
+                          <i class="fas fa-eye me-1"></i> View
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                          <i class="fas fa-download me-1"></i> PDF
+                        </button>
+                      </td>
+                    </tr>
+
+                    <!-- Sample Row 5 -->
+                    <tr>
+                      <td class="ps-4 fw-semibold text-primary">5738291</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="avatar-sm bg-primary bg-opacity-10 rounded-circle me-3 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-user text-primary"></i>
+                          </div>
+                          <span>Ana Lopez</span>
+                        </div>
+                      </td>
+                      <td>Teacher I</td>
+                      <td class="text-end">₱30,000.00</td>
+                      <td class="text-end">₱1,650.00</td>
+                      <td class="text-end fw-bold text-primary">₱28,350.00</td>
+                      <td class="text-center">
+                        <span class="badge bg-primary bg-opacity-10 text-primary">Processed</span>
+                      </td>
+                      <td class="pe-4 text-end">
+                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3 me-2">
+                          <i class="fas fa-eye me-1"></i> View
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                          <i class="fas fa-download me-1"></i> PDF
+                        </button>
+                      </td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="d-flex justify-content-between align-items-center p-3 border-top">
+              <div class="text-muted">
+                Showing <span class="fw-semibold">1</span> to <span class="fw-semibold">10</span> of <span class="fw-semibold">64</span>
+              </div>
+              <ul class="pagination mb-0">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Next</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Adjust Deductions Modal -->
+      <div class="modal fade" id="adjustDeductionsModal" tabindex="-1" aria-labelledby="adjustDeductionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title" id="adjustDeductionsModalLabel">Adjust Deductions</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="deductionsForm">
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="gsis-rate" class="form-label">GSIS (%)</label>
+                    <input type="number" class="form-control border-primary" id="gsis-rate" value="3" step="0.1" min="0" max="100">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="philhealth-rate" class="form-label">PhilHealth (%)</label>
+                    <input type="number" class="form-control border-primary" id="philhealth-rate" value="2" step="0.1" min="0" max="100">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="pagibig-rate" class="form-label">Pag-IBIG (%)</label>
+                    <input type="number" class="form-control border-primary" id="pagibig-rate" value="1" step="0.1" min="0" max="100">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="tax-rate" class="form-label">Tax (%)</label>
+                    <input type="number" class="form-control border-primary" id="tax-rate" value="5" step="0.1" min="0" max="100">
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="other-deductions" class="form-label">Other Deductions (₱)</label>
+                  <input type="number" class="form-control border-primary" id="other-deductions" value="0" step="1" min="0">
+                </div>
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="apply-to-all" checked>
+                  <label class="form-check-label" for="apply-to-all">
+                    Apply to all teachers
+                  </label>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" id="save-deductions">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- ==================== REQUESTS SECTION ==================== -->
-      <div class="content-section" id="requests">
-        <h5>Missing Log In Requests</h5>
+      <div class="content-section mt-4" id="requests">
+        <h5 class="text-primary">Missing Log In Requests</h5>
         <ul id="request-list" class="list-group">
           <!-- Requests will be dynamically generated here -->
         </ul>
@@ -685,10 +1047,10 @@
       </div>
 
       <!-- ==================== TEACHERS ==================== -->
-      <div class="content-section" id="files">
+      <div class="content-section" id="files" style="margin-top: 25px;">
         <!-- Header with Title and Filter/Search Section -->
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h5 class="mb-0">Teachers</h5>
+          <h5 class="mb-0 text-primary">Teachers</h5>
           <div class="d-flex align-items-center gap-3">
             <!-- Search Bar -->
             <div class="input-group" style="width: 300px;">
@@ -815,8 +1177,8 @@
             
 
       <!-- ==================== ADMIN SETTINGS SECTION ==================== -->
-      <div class="content-section" id="admin-settings">
-        <h5>Admin Settings</h5>
+      <div class="content-section" id="admin-settings" style="margin-top: 25px;">
+        <h5 class="text-primary">Admin Settings</h5>
         <div class="row">
           <div class="col-md-6">
             <div class="widget">
@@ -1041,9 +1403,6 @@
           }
         });
       });
-
-      // Initially hide the Monthly Absence Tracker Widget
-      document.getElementById("monthly-absence-widget").style.display = "none";
 
       // Logout Function
       function logout() {

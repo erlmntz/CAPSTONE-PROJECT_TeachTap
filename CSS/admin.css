@@ -8,9 +8,31 @@
     --status-yellow: rgb(26, 115, 232);
 }
 
-body {
+.admin-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .datetime-box {
+    font-size: 0.9rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .dropdown-menu {
+    min-width: 180px;
+    border-radius: 8px;
+  }
+  .dropdown-item {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  .avatar {
+    transition: transform 0.2s;
+  }
+  .avatar:hover {
+    transform: scale(1.05);
+  }
+
+  body {
     font-family: 'Poppins', sans-serif;
-    background-color: var(--background-white);
+    background-color: rgb(245, 245, 245);
 }
 
 .sidebar {
@@ -118,3 +140,17 @@ body {
 #account-settings-section .form-control {
     max-width: 400px;
 }
+
+.btn-outline-custom {
+    --bs-btn-color: rgb(26, 35, 126);
+    --bs-btn-border-color: rgb(26, 35, 126);
+    --bs-btn-hover-color: rgb(227, 242, 253);
+    --bs-btn-hover-bg: rgb(26, 35, 126);
+    --bs-btn-hover-border-color: rgb(26, 35, 126);
+    --bs-btn-focus-shadow-rgb: 26, 35, 126;
+    --bs-btn-active-color: rgb(227, 242, 253);
+    --bs-btn-active-bg: rgb(26, 35, 126);
+    --bs-btn-active-border-color: rgb(26, 35, 126);
+  }
+
+
