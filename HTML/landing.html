@@ -3,17 +3,202 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TeachTap</title>
-    <link rel="icon" type="image/x-icon" href="/IMAGES/Logo_NoBG.png" />
+    <title>TeachTap - Maguinao Elementary School</title>
+    <link rel="icon" type="image/x-icon" href="/IMAGES/LOGO.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;500;700&display=swap"
-        rel="stylesheet"/>
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-        rel="stylesheet"/>
-    <link rel="stylesheet" href="/CSS/landing_styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    
+    <style>
+        /* General Styles for Body and HTML */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('/IMAGES/Office_BG.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #004FFF;
+            padding: 5px 0;
+        }
+
+        .hover-effect:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        .navbar-brand,
+        .navbar-text {
+            color: white;
+            font-weight: bold;
+        }
+
+        .navbar-brand {
+            font-size: 20px;
+        }
+
+        .navbar-text {
+            font-size: 30px;
+        }
+
+        .navbar-nav {
+            margin-left: auto;
+        }
+
+        .nav-item {
+            margin-left: 15px;
+        }
+
+        /* Form Container Styles */
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .sign-up-container {
+            max-width: 600px;
+            padding: 1.5rem;
+        }
+
+        .form-title {
+            color: #004FFF;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .form-control {
+            height: 45px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            padding: 0 15px;
+            margin-bottom: 0.8rem;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(0, 79, 255, 0.25);
+            border-color: #004FFF;
+        }
+
+        .btn-primary {
+            background-color: #004FFF;
+            border: none;
+            height: 45px;
+            border-radius: 8px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #0039b3;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 1rem;
+            color: #666;
+        }
+
+        .toggle-link {
+            color: #004FFF;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .toggle-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Title & Text Styles */
+        .teach,
+        .tap {
+            font-weight: bold;
+            font-size: 80px;
+        }
+
+        .teach {
+            color: rgb(0, 53, 170);
+        }
+
+        .tap {
+            color: rgb(207, 9, 33);
+        }
+
+        .sub {
+            font-size: 25px;
+        }
+
+        .caps-title {
+            margin-top: 10px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #004FFF;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .teach,
+            .tap {
+                font-size: 3.5rem;
+            }
+            
+            .sub {
+                font-size: 1.2rem;
+            }
+            
+            .form-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            .sign-up-container {
+                max-width: 95%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .teach,
+            .tap {
+                font-size: 2.5rem;
+            }
+            
+            .sub {
+                font-size: 1rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1rem;
+            }
+
+            .sign-up-container .row > div {
+                width: 100%;
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -21,34 +206,16 @@
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container-fluid">
                 <div class="d-flex align-items-center">
-                    <img
-                        src="/IMAGES/LOGO2.png"
-                        alt="School Logo"
-                        class="logo me-3"
-                        style="height: 50px"
-/>
+                    <img src="/IMAGES/LOGO2.png" alt="School Logo" class="logo me-3" style="height: 50px" />
                     <span class="navbar-brand fw-bold">Maguinao Elementary School</span>
                 </div>
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a
-                                class="nav-link fw-bold fs-5 text-white"
-                                href="https://sites.google.com/deped.gov.ph/105120maguinaoes/about/history"
-                            >
-                                About Us
-                            </a>
+                            <a class="nav-link fw-bold fs-5 text-white" href="https://sites.google.com/deped.gov.ph/105120maguinaoes/about/history">About Us</a>
                         </li>
                     </ul>
                 </div>
@@ -56,51 +223,131 @@
         </nav>
     </header>
 
-    <section class="text-center text-white my-5">
+    <section class="text-center text-white mb-4" style="margin-top: 60px; padding-bottom: 40px;">
         <div class="caps-title">
             <h1>
-                <span class="teach" style="font-size: 3rem">Teach</span>
-                <span class="tap" style="font-size: 3rem">TAP</span>
+                <span class="teach">Teach</span>
+                <span class="tap">TAP</span>
             </h1>
             <h3>
-                <span class="sub" style="font-size: 1.5rem">
-                    NFC-Integrated Attendance and Payroll System for Maguinao Elementary School
-                </span>
+                <span class="sub">NFC-Integrated Attendance and Payroll System for Maguinao Elementary School</span>
             </h3>
         </div>
     </section>
-
-    <section class="account-selection text-center my-4">
-        <h2 class="section-heading mb-4" style="font-size: 1rem">
-            Choose which account to log into:
-        </h2>
-        <div>
-            <a href="/HTML/admin_login.html">
-                <button
-                    class="account-button btn btn-primary mb-3"
-                    style="padding: 10px 20px; font-size: 1.2rem"
-                >
-                    Admin
-                </button>
-            </a>
-            <button
-                class="account-button btn btn-primary mb-3"
-                onclick="window.location.href='/HTML/login_signup.html';"
-                style="padding: 10px 20px; font-size: 1.2rem"
-            >
-                Teachers/Staff
-            </button>
+    
+    <div class="container my-3">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Login Container -->
+                <div class="form-container login-container active" style="margin-top: 20px;">
+                    <h5 class="form-title" style="color: rgb(13, 110, 253);">Login to Your Account</h5>
+                    <form id="loginForm" action="login.php" method="POST">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label" style="color: rgb(13, 110, 253);">Email address</label>
+                            <input type="email" class="form-control" id="loginEmail" name="email" placeholder="Enter email" required />
+                        </div>
+                
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label" style="color: rgb(13, 110, 253);">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Password" required />
+                        </div>
+                
+                        <button type="submit" class="btn btn-primary" style="background-color: rgb(13, 110, 253);">Login</button>
+                    </form>
+                
+                    <div class="form-footer">
+                        <p style="color: #666;">
+                            Don't have an account?
+                            <a href="#" class="toggle-link" onclick="toggleForms()" style="color: rgb(13, 110, 253);">Sign Up</a>
+                        </p>
+                    </div>
+                </div>
+    
+                <!-- Signup Container -->
+                <div class="form-container sign-up-container" style="display: none;">
+                    <div class="text-center mb-4">
+                        <h3 class="form-title" style="color: rgb(13, 110, 253);">Teachers Registration</h3>
+                    </div>
+                    
+                    <form id="signUpForm">
+                        <!-- Name Section -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-4">
+                                <label for="firstName" class="form-label" style="color: rgb(13, 110, 253);">First Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First name" required />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="middleName" class="form-label" style="color: rgb(13, 110, 253);">Middle Name</label>
+                                <input type="text" class="form-control" id="middleName" name="middleName" placeholder="Middle name" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="lastName" class="form-label" style="color: rgb(13, 110, 253);">Last Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last name" required />
+                            </div>
+                        </div>
+    
+                        <!-- Contact Info Section -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-6">
+                                <label for="signUpEmail" class="form-label" style="color: rgb(13, 110, 253);">Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="signUpEmail" name="email" placeholder="@deped.gov.ph" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="contactNumber" class="form-label" style="color: rgb(13, 110, 253);">Phone <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="contactNumber" name="contactNumber" placeholder="+63" required />
+                            </div>
+                        </div>
+    
+                        <!-- Password Section -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-6">
+                                <label for="signUpPassword" class="form-label" style="color: rgb(13, 110, 253);">Password <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" id="signUpPassword" name="password" placeholder="At least 8 characters" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="confirmPassword" class="form-label" style="color: rgb(13, 110, 253);">Confirm Password <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Re-enter password" required />
+                            </div>
+                        </div>
+    
+                        <!-- Submit Button -->
+                        <div class="text-center mt-3">
+                            <button type="submit" class="btn btn-primary" style="background-color: rgb(13, 110, 253);">Sign Up</button>
+                        </div>
+                    </form>
+    
+                    <!-- Footer -->
+                    <div class="form-footer mt-3">
+                        <p class="mb-0" style="color: #666;">
+                            Already have an account?
+                            <a href="#" class="toggle-link" onclick="toggleForms()" style="color: rgb(13, 110, 253);">Login</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </section>
-
+    </div>
+    
     <footer class="navbar navbar-expand-lg navbar-dark bg-primary fixed-bottom">
         <div class="container-fluid d-flex justify-content-center">
-            <span class="navbar-text fw-bold" style="font-size: 1rem">
-                @ 2025 - Synergetic Minds
-            </span>
+            <span class="navbar-text fw-bold" style="font-size: 1rem">@ 2025 - Synergetic Minds</span>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleForms() {
+            const loginContainer = document.querySelector('.login-container');
+            const signupContainer = document.querySelector('.sign-up-container');
+            
+            if (loginContainer.style.display === 'none') {
+                loginContainer.style.display = 'block';
+                signupContainer.style.display = 'none';
+            } else {
+                loginContainer.style.display = 'none';
+                signupContainer.style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>

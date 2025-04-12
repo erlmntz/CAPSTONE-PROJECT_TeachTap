@@ -475,9 +475,9 @@
           <h5 class="mb-0">Masterlist of Registered NFC Tags</h5>
           <div class="d-flex align-items-center">
             <div class="input-group me-3" style="width: 300px;">
-              <input type="text" class="form-control rounded-pill shadow-sm border-primary px-3 py-2" 
-                     placeholder="Search..." style="border-width: 2px;">
-              <button class="btn btn-primary rounded-pill px-3 shadow-sm" type="button">
+              <input type="text" id="teacherSearch" class="form-control rounded-pill shadow-sm border-primary px-3 py-2" 
+                     placeholder="Search by name or NFC ID..." style="border-width: 2px;">
+              <button class="btn btn-primary rounded-pill px-3 shadow-sm" type="button" id="searchBtn">
                 <i class="fas fa-search"></i>
               </button>
             </div>
@@ -498,42 +498,7 @@
             </tr>
           </thead>
           <tbody id="teachers-list" class="border-top-0">
-            <tr>
-              <td class="ps-4 fw-semibold text-primary">T1001</td>
-              <td>
-                <div class="d-flex align-items-center">
-                  <div class="avatar-sm bg-light-primary rounded-circle me-3 d-flex align-items-center justify-content-center">
-                    <i class="fas fa-user text-primary"></i>
-                  </div>
-                  <span>Juan Dela Cruz</span>
-                </div>
-              </td>
-              <td><span class="badge bg-primary bg-opacity-10 text-primary">Teacher I</span></td>
-              <td><a href="mailto:juan@example.com" class="text-decoration-none">juan@example.com</a></td>
-              <td class="text-end pe-4">
-                <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="deleteTeacher('T1001')">
-                  <i class="fas fa-trash-alt me-1"></i> Delete
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td class="ps-4 fw-semibold text-primary">T1002</td>
-              <td>
-                <div class="d-flex align-items-center">
-                  <div class="avatar-sm bg-light-primary rounded-circle me-3 d-flex align-items-center justify-content-center">
-                    <i class="fas fa-user text-primary"></i>
-                  </div>
-                  <span>Maria Santos</span>
-                </div>
-              </td>
-              <td><span class="badge bg-primary bg-opacity-10 text-primary">Teacher II</span></td>
-              <td><a href="mailto:maria@example.com" class="text-decoration-none">maria@example.com</a></td>
-              <td class="text-end pe-4">
-                <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="deleteTeacher('T1002')">
-                  <i class="fas fa-trash-alt me-1"></i> Delete
-                </button>
-              </td>
-            </tr>
+            <!-- Teachers will be loaded here dynamically -->
           </tbody>
         </table>
       </div>
@@ -989,116 +954,107 @@
       </div>
 
       <!-- ==================== REQUESTS SECTION ==================== -->
-      <div class="content-section mt-4" id="requests">
-        <h5 class="text-primary">Missing Log In Requests</h5>
-        <ul id="request-list" class="list-group">
-          <!-- Requests will be dynamically generated here -->
-        </ul>
+      <div class="content-section mt-4" id="requests" style="display: none;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="text-primary mb-0">Missing Log In Requests</h5>
+          <span class="badge bg-primary rounded-pill" id="request-count">0 requests</span>
+        </div>
+        
+        <div class="card border-0 shadow-sm">
+          <ul id="request-list" class="list-group list-group-flush">
+            <!-- Sample Request Item -->
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-1">Ma. Alma S. Balanza</h6>
+                  <small class="text-muted">2023-10-15 • Missing Log In</small>
+                </div>
+                <div class="d-flex gap-2">
+                  <span class="badge border border-primary text-primary bg-transparent align-self-center">Pending</span>
+                  <button class="btn btn-sm btn-primary view-details" data-id="1" data-bs-toggle="modal" data-bs-target="#requestDetailsModal">
+                    <i class="fas fa-eye me-1"></i> View Details
+                  </button>
+                  <button class="btn btn-sm btn-success approve-btn" data-id="1">
+                    <i class="fas fa-check me-1"></i> Approve
+                  </button>
+                  <button class="btn btn-sm btn-danger reject-btn" data-id="1">
+                    <i class="fas fa-times me-1"></i> Reject
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-
+      
       <!-- Request Details Modal -->
-      <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content shadow-lg rounded-3">
+      <div class="modal fade" id="requestDetailsModal" tabindex="-1" aria-labelledby="requestDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-              <h5 class="modal-title text-center w-100 fw-bold" id="detailsModalLabel">Request Details</h5>
+              <h5 class="modal-title" id="requestDetailsModalLabel">Request Details</h5>
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4">
-              <div class="row mb-4">
+            <div class="modal-body">
+              <div class="row mb-3">
                 <div class="col-md-6">
-                  <p class="mb-2">
-                    <strong>Full Name:</strong>
-                    <span id="detail-name" class="text-muted">John Doe</span>
-                  </p>
-                  <p class="mb-2">
-                    <strong>Date:</strong>
-                    <span id="detail-date" class="text-muted">2023-10-15</span>
-                    <span id="detail-time" class="text-muted">10:00 AM</span>
-                  </p>
+                  <p><strong>Teacher Name:</strong> <span id="modal-teacher-name">Juan Dela Cruz</span></p>
+                  <p><strong>Date:</strong> <span id="modal-date">2023-10-15</span></p>
                 </div>
                 <div class="col-md-6">
-                  <p class="mb-2">
-                    <strong>Log In Time:</strong>
-                    <span id="detail-login" class="text-muted">09:00 AM</span>
-                  </p>
-                  <p class="mb-2">
-                    <strong>Log Out Time:</strong>
-                    <span id="detail-logout" class="text-muted">05:00 PM</span>
-                  </p>
-                </div>
-              </div>
-              <div class="mb-4">
-                <p class="mb-2"><strong>Reason for Missing Tap:</strong></p>
-                <p id="detail-reason" class="text-muted border rounded p-2 bg-light">
-                  Forgot to tap the card due to an emergency.
-                </p>
-              </div>
-
-              <div class="modal fade" id="proofModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header bg-primary text-white">
-                      <h5 class="modal-title">Proof Document</h5>
-                      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center p-4">
-                      <img src="" alt="Proof Document" id="proofModalImage" class="img-fluid rounded shadow" style="max-height: 70vh;">
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>
-                      <a href="#" id="downloadProof" class="btn btn-primary" download>
-                        <i class="bi bi-download me-1"></i> Download
-                      </a>
-                    </div>
-                  </div>
+                  <p><strong>Log In Time:</strong> <span id="modal-login-time">08:00 AM</span></p>
+                  <p><strong>Log Out Time:</strong> <span id="modal-logout-time">05:00 PM</span></p>
                 </div>
               </div>
               
-              <!-- Proof Thumbnail Display -->
               <div class="mb-3">
-                <p class="mb-2"><strong>Proof:</strong></p>
-                <div class="d-inline-block position-relative">
-                  <img src="IMAGES/proof.jpg" alt="Proof Thumbnail" 
-                       id="detail-proof" 
-                       class="img-thumbnail zoom-effect" 
-                       style="width: 150px; height: 150px; object-fit: cover; cursor: pointer;"
-                       onclick="showProofModal('IMAGES/proof.jpg')">
-                  <div class="position-absolute top-0 end-0 bg-primary text-white rounded-circle p-1" style="width: 24px; height: 24px;">
-                    <i class="bi bi-zoom-in" style="font-size: 0.8rem;"></i>
+                <p><strong>Reason for Missing Tap:</strong></p>
+                <div class="border rounded p-3 bg-light" id="modal-reason">
+                  I forgot to tap my card because I was rushing to a classroom emergency.
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <p><strong>Proof Attachment:</strong></p>
+                <div class="border rounded p-3 bg-light">
+                  <img src="/IMAGES/proof.jpg" id="modal-proof-image" class="img-fluid rounded" style="max-height: 200px;">
+                  <div class="mt-2">
+                    <a href="/IMAGES/proof.jpg" download class="btn btn-sm btn-primary">
+                      <i class="fas fa-download me-1"></i> Download Proof
+                    </a>
                   </div>
                 </div>
-                <small class="d-block text-muted mt-1">Click to view full size</small>
               </div>
-
             </div>
-            <div class="modal-footer bg-light d-flex justify-content-center">
-              <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Rejection Modal -->
-      <div class="modal fade" id="rejectModal" tabindex="-1" aria-hidden="true">
+      <!-- Rejection Confirmation Modal -->
+      <div class="modal fade" id="rejectConfirmModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header bg-danger text-white">
-              <h5 class="modal-title">Reject Request</h5>
+              <h5 class="modal-title">Confirm Rejection</h5>
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form id="rejectForm">
-                <input type="hidden" id="rejectRequestName">
-                <div class="mb-3">
-                  <label for="rejectComment" class="form-label">Reason for rejection:</label>
-                  <textarea class="form-control" id="rejectComment" rows="3" required></textarea>
-                </div>
-              </form>
+              <p>You are about to reject this request. Please provide a reason:</p>
+              <div class="mb-3">
+                <textarea class="form-control" id="rejectionReason" rows="3" placeholder="Write your comment..." required></textarea>
+              </div>
+              <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle me-2"></i> This action will notify the teacher and cannot be undone.
+              </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-danger" id="confirmReject">Confirm Rejection</button>
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" id="finalRejectBtn">
+                <i class="fas fa-times me-1"></i> Confirm Reject
+              </button>
             </div>
           </div>
         </div>
@@ -1473,897 +1429,553 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <script>
-      // Update Date and Time
-      function updateDateTime() {
-        let now = new Date();
-        document.getElementById("current-datetime").textContent =
-          now.toLocaleString();
-      }
-      setInterval(updateDateTime, 1000);
-      updateDateTime();
+     // Update datetime display
+    function updateDateTime() {
+      let now = new Date();
+      document.getElementById("current-datetime").textContent = now.toLocaleString();
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
 
-      //Monthly Absence Tracker Widget
-      document.getElementById('download-attendance-report').addEventListener('click', function() {
-        const month = document.getElementById('attendance-month').value;
-        alert(`Generating attendance report for ${month}...`);
-        // window.location.href = `/reports/attendance?month=${month}&format=pdf`;
-      });
+    // Attendance report handlers
+    document.getElementById('download-attendance-report').addEventListener('click', function() {
+      const month = document.getElementById('attendance-month').value;
+      alert(`Generating attendance report for ${month}...`);
+    });
 
-      document.getElementById('refresh-attendance').addEventListener('click', function() {
-        const month = document.getElementById('attendance-month').value;
-        console.log(`Refreshing data for ${month}`);
-        // AJAX call to refresh data
-      });
+    document.getElementById('refresh-attendance').addEventListener('click', function() {
+      const month = document.getElementById('attendance-month').value;
+      console.log(`Refreshing data for ${month}`);
+    });
 
-      // Register Teacher Function to NFC Masterlist
-      function addTeacher() {
-        const employeeId = document.getElementById("employeeId").value.trim();
-        const firstName = document.getElementById("teacherFirstName").value.trim();
-        const lastName = document.getElementById("teacherLastName").value.trim();
-        const rank = document.getElementById("teacherRank").value;
-        const email = document.getElementById("teacherEmail").value.trim();
+    // Add new teacher to system
+    function addTeacher() {
+      const employeeId = document.getElementById("employeeId").value.trim();
+      const firstName = document.getElementById("teacherFirstName").value.trim();
+      const lastName = document.getElementById("teacherLastName").value.trim();
+      const rank = document.getElementById("teacherRank").value;
+      const email = document.getElementById("teacherEmail").value.trim();
 
-        if (employeeId && firstName && lastName && rank && email) {
-          // Validate employee ID format
-          if (!/^\d{7}$/.test(employeeId)) {
-            alert("Employee ID must be exactly 7 digits");
-            return;
-          }
-
-          // Check if employee ID already exists
-          if (teachers.some(teacher => teacher.id === employeeId)) {
-            alert("This Employee ID already exists in the system");
-            return;
-          }
-
-          const fullName = `${firstName.toUpperCase()} ${lastName.toUpperCase()}`;
-          const newTeacher = { 
-            id: employeeId, 
-            name: fullName, 
-            rank, 
-            email 
-          };
-
-          // Add new teacher to array
-          teachers.push(newTeacher);
-
-          // Append new row to the table
-          const tbody = document.getElementById("teachers-list");
-          const newRow = document.createElement("tr");
-          newRow.innerHTML = `
-            <td>${newTeacher.id}</td>
-            <td>${newTeacher.name}</td>
-            <td>${newTeacher.rank}</td>
-            <td>${newTeacher.email}</td>
-            <td>
-              <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${newTeacher.id}')">
-                <i class="fas fa-trash-alt"></i> Delete
-              </button>
-            </td>
-          `;
-          tbody.appendChild(newRow);
-
-          // Reset form
-          document.getElementById("addTeacherForm").reset();
-
-          // Close modal
-          var addTeacherModal = bootstrap.Modal.getInstance(document.getElementById("addTeacherModal"));
-          addTeacherModal.hide();
-          
-          // Show success message
-          alert("Teacher successfully registered!");
-        } else {
-          alert("Please fill in all required fields.");
+      if (employeeId && firstName && lastName && rank && email) {
+        if (!/^\d{7}$/.test(employeeId)) {
+          alert("Employee ID must be exactly 7 digits");
+          return;
         }
-      }
 
-      // Load Teachers Function (Initial Table Load)
-      function loadTeachers() {
+        if (teachers.some(teacher => teacher.id === employeeId)) {
+          alert("This Employee ID already exists in the system");
+          return;
+        }
+
+        const fullName = `${firstName.toUpperCase()} ${lastName.toUpperCase()}`;
+        const newTeacher = { 
+          id: employeeId, 
+          name: fullName, 
+          rank, 
+          email 
+        };
+
+        teachers.push(newTeacher);
         const tbody = document.getElementById("teachers-list");
-        tbody.innerHTML = ""; // Clear table before loading
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `
+          <td>${newTeacher.id}</td>
+          <td>${newTeacher.name}</td>
+          <td>${newTeacher.rank}</td>
+          <td>${newTeacher.email}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${newTeacher.id}')">
+              <i class="fas fa-trash-alt"></i> Delete
+            </button>
+          </td>
+        `;
+        tbody.appendChild(newRow);
 
-        teachers.forEach((teacher) => {
-          const row = `<tr>
-            <td>${teacher.id}</td>
-            <td>${teacher.name}</td>
-            <td>${teacher.rank}</td>
-            <td>${teacher.email}</td>
-            <td>
-              <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${teacher.id}')">
-                <i class="fas fa-trash-alt"></i> Delete
-              </button>
-            </td>
-          </tr>`;
-          tbody.innerHTML += row;
-        });
+        document.getElementById("addTeacherForm").reset();
+        var addTeacherModal = bootstrap.Modal.getInstance(document.getElementById("addTeacherModal"));
+        addTeacherModal.hide();
+        alert("Teacher successfully registered!");
+      } else {
+        alert("Please fill in all required fields.");
       }
+    }
 
-      // Sample Teacher List (Initial Data)
-      let teachers = [
-        {
-          id: "1213674",
-          name: "MA. ALMA SANTOS BALANZA",
-          rank: "Teacher III",
-          email: "maalma.balanza@deped.gov.ph",
-        },
-        {
-          id: "9893997",
-          name: "SHERYL CONCEPCION ADOBAS",
-          rank: "Teacher III",
-          email: "sheryl.adobas@deped.gov.ph",
-        },
-        {
-          id: "9923980",
-          name: "ELEANOR ALCARADO CAUDILLA",
-          rank: "Teacher I",
-          email: "eleanor.caudilla001@deped.gov.ph",
-        },
-      ];
-      loadTeachers(); // Load existing teachers at start
+    // Load initial teacher data
+    function loadTeachers() {
+      const tbody = document.getElementById("teachers-list");
+      tbody.innerHTML = "";
 
-      // Function to delete teacher row
-      function deleteTeacher(teacherId) {
-        // Confirm deletion
-        if (confirm("Are you sure you want to delete this teacher?")) {
-          // Find the teacher in the array
-          const teacherIndex = teachers.findIndex(
-            (teacher) => teacher.id === teacherId
-          );
-          if (teacherIndex !== -1) {
-            // Remove the teacher from the array
-            teachers.splice(teacherIndex, 1);
-            // Reload the table
-            loadTeachers();
-          }
-        }
-      }
-
-
-      // Sidebar Navigation
-      document.querySelectorAll(".sidebar .nav-link").forEach((link) => {
-        link.addEventListener("click", function (e) {
-          e.preventDefault(); // Prevent default link behavior
-          document
-            .querySelectorAll(".sidebar .nav-link")
-            .forEach((nav) => nav.classList.remove("active"));
-          this.classList.add("active");
-          document
-            .querySelectorAll(".content-section")
-            .forEach((section) => section.classList.remove("active"));
-          const targetSection = document.querySelector(
-            this.getAttribute("href")
-          );
-          if (targetSection) {
-            targetSection.classList.add("active");
-          }
-
-          // Show/Hide Monthly Absence Tracker Widget
-          if (this.getAttribute("href") === "#dashboard") {
-            document.getElementById("monthly-absence-widget").style.display =
-              "block";
-          } else {
-            document.getElementById("monthly-absence-widget").style.display =
-              "none";
-          }
-        });
+      teachers.forEach((teacher) => {
+        const row = `<tr>
+          <td>${teacher.id}</td>
+          <td>${teacher.name}</td>
+          <td>${teacher.rank}</td>
+          <td>${teacher.email}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${teacher.id}')">
+              <i class="fas fa-trash-alt"></i> Delete
+            </button>
+          </td>
+        </tr>`;
+        tbody.innerHTML += row;
       });
+    }
 
-      // Logout Function
-      function logout() {
-        window.location.href = "/HTML/landing.html";
-      }
+    // Teacher data
+    let teachers = [
+      {
+        id: "1213674",
+        name: "MA. ALMA SANTOS BALANZA",
+        rank: "Teacher III",
+        email: "maalma.balanza@deped.gov.ph",
+      },
+      {
+        id: "9893997",
+        name: "SHERYL CONCEPCION ADOBAS",
+        rank: "Teacher III",
+        email: "sheryl.adobas@deped.gov.ph",
+      },
+      {
+        id: "9923980",
+        name: "ELEANOR ALCARADO CAUDILLA",
+        rank: "Teacher I",
+        email: "eleanor.caudilla001@deped.gov.ph",
+      },
+    ];
 
-      // Sample Requests Data
-      let requests = [
-        {
-          name: "Pedro Reyes",
-          status: "Pending",
-          reason:
-            "I didn't realize I needed to tap my NFC tag again to log out.",
-          date: "2025-03-12",
-          login: "6:45 AM",
-          logout: "5:00 PM",
-        },
-        {
-          name: "Maria Santos",
-          status: "Pending",
-          reason:
-            "I was in a hurry and forgot to tap the NFC tag when logging in.",
-          date: "2025-03-12",
-          login: "6:55 AM",
-          logout: "4:05 PM",
-        },
-      ];
+    // Render teacher table
+    function renderTeachers(teachersToRender = teachers) {
+      const tbody = document.getElementById('teachers-list');
+      tbody.innerHTML = '';
 
-      //Missing Log In Requests
-      function loadRequests() {
-        const requestList = document.getElementById("request-list");
-        requestList.innerHTML = "";
-        requests.forEach((request) => {
-          const listItem = document.createElement("li");
-          listItem.classList.add("list-group-item");
-          listItem.innerHTML = `
-        ${request.name} - ${request.reason}
-        <button class="btn btn-primary btn-sm float-end ms-2" onclick="approveRequest('${request.name}')">Approve</button>
-        <button class="btn btn-danger btn-sm float-end ms-2" onclick="rejectRequest('${request.name}')">Reject</button>
-        <button class="btn btn-outline-primary btn-sm float-end ms-2" onclick="viewDetails('${request.name}')">View Details</button>
-      `;
-          requestList.appendChild(listItem);
-        });
-      }
+      teachersToRender.forEach(teacher => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="ps-4 fw-semibold text-primary">${teacher.id}</td>
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="avatar-sm bg-light-primary rounded-circle me-3 d-flex align-items-center justify-content-center">
+                <i class="fas fa-user text-primary"></i>
+              </div>
+              <span>${teacher.name}</span>
+            </div>
+          </td>
+          <td><span class="badge bg-primary bg-opacity-10 text-primary">${teacher.rank}</span></td>
+          <td><a href="mailto:${teacher.email}" class="text-decoration-none">${teacher.email}</a></td>
+          <td class="text-end pe-4">
+            <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="deleteTeacher('${teacher.id}')">
+              <i class="fas fa-trash-alt me-1"></i> Delete
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
 
-      // Approve Request Function
-      function approveRequest(name) {
-        const requestIndex = requests.findIndex((r) => r.name === name);
-        if (requestIndex !== -1) {
-          requests.splice(requestIndex, 1);
-          alert(`${name}'s request for missing log in time has been approved.`);
-          loadRequests();
-        }
-      }
+    // Setup search functionality
+    function setupSearch() {
+      const searchInput = document.getElementById('teacherSearch');
+      const searchBtn = document.getElementById('searchBtn');
 
-      // Reject Request Function
-      let currentRejectName = '';
-
-      function rejectRequest(name) {
-        currentRejectName = name;
-        document.getElementById('rejectRequestName').value = name;
-        document.getElementById('rejectComment').value = '';
-        const rejectModal = new bootstrap.Modal(document.getElementById('rejectModal'));
-        rejectModal.show();
-      }
-
-      document.getElementById('confirmReject').addEventListener('click', function() {
-        const comment = document.getElementById('rejectComment').value.trim();
-        if (!comment) {
-          alert('Please provide a reason for rejection');
+      function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase();
+        if (!searchTerm) {
+          renderTeachers();
           return;
         }
+
+        const filteredTeachers = teachers.filter(teacher => 
+          teacher.id.toLowerCase().includes(searchTerm) || 
+          teacher.name.toLowerCase().includes(searchTerm)
+        );
         
-        const requestIndex = requests.findIndex((r) => r.name === currentRejectName);
-        if (requestIndex !== -1) {
-          // Store the rejection reason (you might want to add this to your request object)
-          requests[requestIndex].rejectionReason = comment;
-          
-          // Remove the request (or you might want to keep it with a 'rejected' status)
-          requests.splice(requestIndex, 1);
-          
-          alert(`${currentRejectName}'s request has been rejected. Reason: ${comment}`);
-          loadRequests();
-          
-          // Close the modal
-          const rejectModal = bootstrap.Modal.getInstance(document.getElementById('rejectModal'));
-          rejectModal.hide();
-        }
+        renderTeachers(filteredTeachers);
+      }
+
+      searchBtn.addEventListener('click', performSearch);
+      searchInput.addEventListener('keyup', function(e) {
+        if (e.key === 'Enter') performSearch();
+      });
+    }
+
+    // Delete teacher
+    function deleteTeacher(teacherId) {
+      if (confirm("Are you sure you want to delete this teacher?")) {
+        teachers = teachers.filter(teacher => teacher.id !== teacherId);
+        renderTeachers();
+      }
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      renderTeachers();
+      setupSearch();
+    });
+
+    // Sidebar navigation
+    document.querySelectorAll(".sidebar .nav-link").forEach((link) => {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      document.querySelectorAll(".sidebar .nav-link").forEach((nav) => nav.classList.remove("active"));
+      document.querySelectorAll(".content-section").forEach((section) => {
+        section.classList.remove("active");
+        section.style.display = "none";
+      });
+      
+      this.classList.add("active");
+      const targetSection = document.querySelector(this.getAttribute("href"));
+      
+      if (targetSection) {
+        targetSection.classList.add("active");
+        targetSection.style.display = "block";
+      }
+      
+      // Special handling for dashboard to show the monthly absence widget
+      if (this.getAttribute("href") === "#dashboard") {
+        document.getElementById("monthly-absence-widget").style.display = "block";
+      } else {
+        document.getElementById("monthly-absence-widget").style.display = "none";
+      }
+    });
+  });
+
+    // Logout function
+    function logout() {
+      window.location.href = "/HTML/landing.html";
+    }
+
+    // Request data
+    let requests = [
+      {
+        name: "Pedro Reyes",
+        status: "Pending",
+        reason: "I didn't realize I needed to tap my NFC tag again to log out.",
+        date: "2025-03-12",
+        login: "6:45 AM",
+        logout: "5:00 PM",
+      },
+      {
+        name: "Maria Santos",
+        status: "Pending",
+        reason: "I was in a hurry and forgot to tap the NFC tag when logging in.",
+        date: "2025-03-12",
+        login: "6:55 AM",
+        logout: "4:05 PM",
+      },
+    ];
+
+    // Monthly absence data
+    const monthlyAbsenceData = {
+      teachers: [
+        { name: "John Doe", absences: 2 },
+        { name: "Jane Smith", absences: 1 },
+        { name: "Emily Clark", absences: 1 },
+        { name: "Michael Brown", absences: 4 },
+      ],
+    };
+
+    // Load absence tracker
+    function loadMonthlyAbsenceTracker() {
+      const teacherList = document.getElementById("teacher-absence-list");
+      if (!teacherList) return;
+
+      teacherList.innerHTML = "";
+      monthlyAbsenceData.teachers.forEach((teacher) => {
+        const listItem = document.createElement("li");
+        listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+        listItem.innerHTML = `
+          ${teacher.name}
+          <span class="badge ${teacher.absences > 3 ? "bg-danger" : "bg-primary"} rounded-pill">
+            ${teacher.absences} days
+          </span>
+        `;
+        teacherList.appendChild(listItem);
+      });
+    }
+
+    //Request reject button function
+    const mockRequests = {
+      '1': {
+        id: '1',
+        name: 'Ma. Alma S. Balanza',
+        date: '2023-10-15',
+        status: 'pending'
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      let currentRejectId = null;
+
+      document.querySelectorAll('.reject-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          currentRejectId = this.getAttribute('data-id');
+          const modal = new bootstrap.Modal(document.getElementById('rejectConfirmModal'));
+          modal.show();
+        });
       });
 
-      // Update your loadRequests function to show rejection reasons if they exist
-      function loadRequests() {
-        const requestList = document.getElementById("request-list");
-        requestList.innerHTML = "";
-        requests.forEach((request) => {
-          const listItem = document.createElement("li");
-          listItem.classList.add("list-group-item");
-          
-          // Add rejection reason if it exists
-          const rejectionInfo = request.rejectionReason 
-            ? `<small class="text-danger">(Rejected: ${request.rejectionReason})</small>` 
-            : '';
-          
-          listItem.innerHTML = `
-            ${request.name} - ${request.reason} ${rejectionInfo}
-            <button class="btn btn-primary btn-sm float-end ms-2" onclick="approveRequest('${request.name}')">Approve</button>
-            <button class="btn btn-danger btn-sm float-end ms-2" onclick="rejectRequest('${request.name}')">Reject</button>
-            <button class="btn btn-outline-primary btn-sm float-end ms-2" onclick="viewDetails('${request.name}')">View Details</button>
-          `;
-          requestList.appendChild(listItem);
-        });
-      }
+      document.getElementById('finalRejectBtn').addEventListener('click', function() {
+        const reason = document.getElementById('rejectionReason').value.trim();
 
-      // View Details Function
-      function viewDetails(name) {
-        const request = requests.find((r) => r.name === name);
-        if (request) {
-          document.getElementById("detail-name").textContent = request.name;
-          document.getElementById("detail-date").textContent = request.date;
-          document.getElementById("detail-login").textContent = request.login;
-          document.getElementById("detail-logout").textContent = request.logout;
-          document.getElementById("detail-reason").textContent = request.reason;
-          document.getElementById("detail-proof").src = request.proof;
-          var detailsModal = new bootstrap.Modal(
-            document.getElementById("detailsModal")
-          );
-          detailsModal.show();
-        }
-      }
-
-      // Sample Data for Monthly Absence Tracker
-      const monthlyAbsenceData = {
-        teachers: [
-          { name: "John Doe", absences: 2 },
-          { name: "Jane Smith", absences: 1 },
-          { name: "Emily Clark", absences: 1 },
-          { name: "Michael Brown", absences: 4 },
-        ],
-      };
-
-      // Function to Load Monthly Absence Data
-      function loadMonthlyAbsenceTracker() {
-        const teacherList = document.getElementById("teacher-absence-list");
-
-        // Check if the element exists
-        if (!teacherList) {
-          console.error("Element with ID 'teacher-absence-list' not found.");
+        if (!reason) {
+          alert('Please enter a rejection reason');
           return;
         }
 
-        // Clear existing lists
-        teacherList.innerHTML = "";
+        if (mockRequests[currentRejectId]) {
+          const requestItem = document.querySelector(`.reject-btn[data-id="${currentRejectId}"]`).closest('li');
+          const badge = requestItem.querySelector('.badge');
+          badge.classList.remove('border-primary', 'text-primary');
+          badge.classList.add('border-danger', 'text-danger');
+          badge.textContent = 'Rejected';
 
-        // Load Teachers' Absence Data
-        monthlyAbsenceData.teachers.forEach((teacher) => {
-          const listItem = document.createElement("li");
-          listItem.classList.add(
-            "list-group-item",
-            "d-flex",
-            "justify-content-between",
-            "align-items-center"
-          );
-          listItem.innerHTML = `
-        ${teacher.name}
-        <span class="badge ${
-          teacher.absences > 3 ? "bg-danger" : "bg-primary"
-        } rounded-pill">${teacher.absences} days</span>
-      `;
-          teacherList.appendChild(listItem);
-        });
-      }
+          requestItem.querySelectorAll('button').forEach(btn => {
+            btn.disabled = true;
+          });
 
-     
+          requestItem.insertAdjacentHTML('beforeend', `
+            <div class="mt-2 small text-danger">
+              <i class="fas fa-ban me-1"></i> Rejected: ${reason}
+            </div>
+          `);
 
-      //201 files data
-      const teachersData = {
-        teachers: [
-          {
-            employeeId: "4324729",
-            lastName: "Balanza",
-            firstName: "Ma. Alma",
-            middleName: "Santos",
-            position: "Principal IV",
-            dateOfOriginalAppt: "1988-07-05",
-            dateoflastPromotion: "2015-06-01",
-            personalInformation: {
-              "deped email": "maalma.balanza@deped.gov.ph",
-              address: "0248 Lola's Way St., Caingin, San Rafael, Bulacan",
-              birthday: "December 21, 1966",
-              contactNumber: "09123456789",
-              gender: "Female",
-              eligibility: "Professional Board Examination for Teachers",
-            },
-            schoolInformation: {
-              school: "Maguinao Elementary School",
-              level: "Elementary",
-              District: "San Rafael West",
-              division: "SDO Bulacan",
-              eddis: "III",
-              itemnumber: "OSEC-DECSB-SP4-150022-2023",
-              sg: "22",
-              step: "1",
-              courseandmajor: "Bachelor of Elementary Education (Generalist)",
-              "COURSE AND MAJOR (GRADUATE STUDIES) if there's any":
-                "Doctor of Philosophy Major in Educational Psychology",
-            },
-            governmentNumbers: {
-              PHILHEALTH_NUMBER: "123456789012",
-              GSIS_BP_NUMBER: "9876543210",
-              PAG_IBIG_NUMBER: "112233445566",
-              TIN_NUMBER: "5566778899",
-            },
-          },
-          {
-            employeeId: "1234567",
-            lastName: "Dela Cruz",
-            firstName: "Juan",
-            middleName: "Santos",
-            position: "Teacher III",
-            dateOfOriginalAppt: "1995-08-15",
-            dateoflastPromotion: "2010-05-20",
-            personalInformation: {
-              "deped email": "juan.delacruz@deped.gov.ph",
-              address: "1234 Mabini St., San Jose, Bulacan",
-              birthday: "January 15, 1970",
-              contactNumber: "09123456789",
-              gender: "Male",
-              eligibility: "Professional Board Examination for Teachers",
-            },
-            schoolInformation: {
-              school: "San Jose Elementary School",
-              level: "Elementary",
-              District: "San Jose",
-              division: "SDO Bulacan",
-              eddis: "III",
-              itemnumber: "OSEC-DECSB-T3-123456-2023",
-              sg: "18",
-              step: "3",
-              courseandmajor: "Bachelor of Elementary Education (Generalist)",
-              "COURSE AND MAJOR (GRADUATE STUDIES) if there's any":
-                "Master of Arts in Education Major in Educational Management",
-            },
-            governmentNumbers: {
-              PHILHEALTH_NUMBER: "234567890123",
-              GSIS_BP_NUMBER: "8765432109",
-              PAG_IBIG_NUMBER: "223344556677",
-              TIN_NUMBER: "6677889900",
-            },
-          },
-          {
-            employeeId: "7654321",
-            lastName: "Reyes",
-            firstName: "Maria",
-            middleName: "Santos",
-            position: "Teacher II",
-            dateOfOriginalAppt: "2000-09-10",
-            dateoflastPromotion: "2015-04-15",
-            personalInformation: {
-              "deped email": "maria.reyes@deped.gov.ph",
-              address: "5678 Rizal St., San Miguel, Bulacan",
-              birthday: "March 30, 1975",
-              contactNumber: "09123456789",
-              gender: "Female",
-              eligibility: "Professional Board Examination for Teachers",
-            },
-            schoolInformation: {
-              school: "San Miguel Elementary School",
-              level: "Elementary",
-              District: "San Miguel",
-              division: "SDO Bulacan",
-              eddis: "III",
-              itemnumber: "OSEC-DECSB-T2-765432-2023",
-              sg: "16",
-              step: "2",
-              courseandmajor: "Bachelor of Elementary Education (Generalist)",
-              "COURSE AND MAJOR (GRADUATE STUDIES) if there's any":
-                "Master of Arts in Education Major in Guidance and Counseling",
-            },
-            governmentNumbers: {
-              PHILHEALTH_NUMBER: "345678901234",
-              GSIS_BP_NUMBER: "7654321098",
-              PAG_IBIG_NUMBER: "334455667788",
-              TIN_NUMBER: "7788990011",
-            },
-          },
-          {
-            employeeId: "9876543",
-            lastName: "Santos",
-            firstName: "Pedro",
-            middleName: "Garcia",
-            position: "Teacher I",
-            dateOfOriginalAppt: "2005-06-20",
-            dateoflastPromotion: "2020-03-25",
-            personalInformation: {
-              "deped email": "pedro.santos@deped.gov.ph",
-              address: "91011 Bonifacio St., San Ildefonso, Bulacan",
-              birthday: "May 10, 1980",
-              contactNumber: "09123456789",
-              gender: "Male",
-              eligibility: "Professional Board Examination for Teachers",
-            },
-            schoolInformation: {
-              school: "San Ildefonso Elementary School",
-              level: "Elementary",
-              District: "San Ildefonso",
-              division: "SDO Bulacan",
-              eddis: "III",
-              itemnumber: "OSEC-DECSB-T1-987654-2023",
-              sg: "14",
-              step: "1",
-              courseandmajor: "Bachelor of Elementary Education (Generalist)",
-              "COURSE AND MAJOR (GRADUATE STUDIES) if there's any":
-                "Master of Arts in Education Major in Special Education",
-            },
-            governmentNumbers: {
-              PHILHEALTH_NUMBER: "456789012345",
-              GSIS_BP_NUMBER: "6543210987",
-              PAG_IBIG_NUMBER: "445566778899",
-              TIN_NUMBER: "8899001122",
-            },
-          },
-          {
-            employeeId: "1122334",
-            lastName: "Garcia",
-            firstName: "Ana",
-            middleName: "Reyes",
-            position: "Master Teacher I",
-            dateOfOriginalAppt: "1990-11-05",
-            dateoflastPromotion: "2005-08-10",
-            personalInformation: {
-              "deped email": "ana.garcia@deped.gov.ph",
-              address: "1213 Aguinaldo St., San Rafael, Bulacan",
-              birthday: "July 25, 1965",
-              contactNumber: "09123456789",
-              gender: "Female",
-              eligibility: "Professional Board Examination for Teachers",
-            },
-            schoolInformation: {
-              school: "San Rafael Elementary School",
-              level: "Elementary",
-              District: "San Rafael East",
-              division: "SDO Bulacan",
-              eddis: "III",
-              itemnumber: "OSEC-DECSB-MT1-112233-2023",
-              sg: "20",
-              step: "4",
-              courseandmajor: "Bachelor of Elementary Education (Generalist)",
-              "COURSE AND MAJOR (GRADUATE STUDIES) if there's any":
-                "Doctor of Education Major in Curriculum Development",
-            },
-            governmentNumbers: {
-              PHILHEALTH_NUMBER: "567890123456",
-              GSIS_BP_NUMBER: "5432109876",
-              PAG_IBIG_NUMBER: "556677889900",
-              TIN_NUMBER: "9900112233",
-            },
-          },
-          {
-            employeeId: "2233445",
-            lastName: "Lopez",
-            firstName: "Carlos",
-            middleName: "Santos",
-            position: "Teacher III",
-            dateOfOriginalAppt: "1998-04-12",
-            dateoflastPromotion: "2013-07-18",
-            personalInformation: {
-              "deped email": "carlos.lopez@deped.gov.ph",
-              address: "1415 Quezon St., San Jose, Bulacan",
-              birthday: "September 12, 1972",
-              contactNumber: "09123456789",
-              gender: "Male",
-              eligibility: "Professional Board Examination for Teachers",
-            },
-            schoolInformation: {
-              school: "San Jose Elementary School",
-              level: "Elementary",
-              District: "San Jose",
-              division: "SDO Bulacan",
-              eddis: "III",
-              itemnumber: "OSEC-DECSB-T3-223344-2023",
-              sg: "18",
-              step: "2",
-              courseandmajor: "Bachelor of Elementary Education (Generalist)",
-              "COURSE AND MAJOR (GRADUATE STUDIES) if there's any":
-                "Master of Arts in Education Major in Educational Management",
-            },
-            governmentNumbers: {
-              PHILHEALTH_NUMBER: "678901234567",
-              GSIS_BP_NUMBER: "4321098765",
-              PAG_IBIG_NUMBER: "667788990011",
-              TIN_NUMBER: "0011223344",
-            },
-          },
-          {
-            employeeId: "3344556",
-            lastName: "Mendoza",
-            firstName: "Lourdes",
-            middleName: "Santos",
-            position: "Teacher II",
-            dateOfOriginalAppt: "2003-03-22",
-            dateoflastPromotion: "2018-09-30",
-            personalInformation: {
-              "deped email": "lourdes.mendoza@deped.gov.ph",
-              address: "1617 Mabini St., San Miguel, Bulacan",
-              birthday: "November 18, 1978",
-              contactNumber: "09123456789",
-              gender: "Female",
-              eligibility: "Professional Board Examination for Teachers",
-            },
-            schoolInformation: {
-              school: "San Miguel Elementary School",
-              level: "Elementary",
-              District: "San Miguel",
-              division: "SDO Bulacan",
-              eddis: "III",
-              itemnumber: "OSEC-DECSB-T2-334455-2023",
-              sg: "16",
-              step: "3",
-              courseandmajor: "Bachelor of Elementary Education (Generalist)",
-              "COURSE AND MAJOR (GRADUATE STUDIES) if there's any":
-                "Master of Arts in Education Major in Guidance and Counseling",
-            },
-            governmentNumbers: {
-              PHILHEALTH_NUMBER: "789012345678",
-              GSIS_BP_NUMBER: "3210987654",
-              PAG_IBIG_NUMBER: "778899001122",
-              TIN_NUMBER: "1122334455",
-            },
-          },
-          {
-            employeeId: "4455667",
-            lastName: "Torres",
-            firstName: "Ricardo",
-            middleName: "Santos",
-            position: "Teacher I",
-            dateOfOriginalAppt: "2008-02-14",
-            dateoflastPromotion: "2023-01-05",
-            personalInformation: {
-              "deped email": "ricardo.torres@deped.gov.ph",
-              address: "1819 Rizal St., San Ildefonso, Bulacan",
-              birthday: "February 28, 1985",
-              contactNumber: "09123456789",
-              gender: "Male",
-              eligibility: "Professional Board Examination for Teachers",
-            },
-            schoolInformation: {
-              school: "San Ildefonso Elementary School",
-              level: "Elementary",
-              District: "San Ildefonso",
-              division: "SDO Bulacan",
-              eddis: "III",
-              itemnumber: "OSEC-DECSB-T1-445566-2023",
-              sg: "14",
-              step: "2",
-              courseandmajor: "Bachelor of Elementary Education (Generalist)",
-              "COURSE AND MAJOR (GRADUATE STUDIES) if there's any":
-                "Master of Arts in Education Major in Special Education",
-            },
-            governmentNumbers: {
-              PHILHEALTH_NUMBER: "890123456789",
-              GSIS_BP_NUMBER: "2109876543",
-              PAG_IBIG_NUMBER: "889900112233",
-              TIN_NUMBER: "2233445566",
-            },
-          },
-          {
-            employeeId: "5566778",
-            lastName: "Cruz",
-            firstName: "Elena",
-            middleName: "Santos",
-            position: "Master Teacher II",
-            dateOfOriginalAppt: "1993-12-01",
-            dateoflastPromotion: "2008-10-15",
-            personalInformation: {
-              "deped email": "elena.cruz@deped.gov.ph",
-              address: "2021 Bonifacio St., San Rafael, Bulacan",
-              birthday: "April 14, 1968",
-              contactNumber: "09123456789",
-              gender: "Female",
-              eligibility: "Professional Board Examination for Teachers",
-            },
-            schoolInformation: {
-              school: "San Rafael Elementary School",
-              level: "Elementary",
-              District: "San Rafael East",
-              division: "SDO Bulacan",
-              eddis: "III",
-              itemnumber: "OSEC-DECSB-MT2-556677-2023",
-              sg: "21",
-              step: "3",
-              courseandmajor: "Bachelor of Elementary Education (Generalist)",
-              "COURSE AND MAJOR (GRADUATE STUDIES) if there's any":
-                "Doctor of Education Major in Educational Leadership",
-            },
-            governmentNumbers: {
-              PHILHEALTH_NUMBER: "901234567890",
-              GSIS_BP_NUMBER: "1098765432",
-              PAG_IBIG_NUMBER: "990011223344",
-              TIN_NUMBER: "3344556677",
-            },
-          },
-          {
-            employeeId: "6677889",
-            lastName: "Fernandez",
-            firstName: "Antonio",
-            middleName: "Santos",
-            position: "Teacher III",
-            dateOfOriginalAppt: "1997-07-19",
-            dateoflastPromotion: "2012-12-22",
-            personalInformation: {
-              "deped email": "antonio.fernandez@deped.gov.ph",
-              address: "2223 Aguinaldo St., San Jose, Bulacan",
-              birthday: "June 20, 1971",
-              contactNumber: "09123456789",
-              gender: "Male",
-              eligibility: "Professional Board Examination for Teachers",
-            },
-            schoolInformation: {
-              school: "San Jose Elementary School",
-              level: "Elementary",
-              District: "San Jose",
-              division: "SDO Bulacan",
-              eddis: "III",
-              itemnumber: "OSEC-DECSB-T3-667788-2023",
-              sg: "18",
-              step: "4",
-              courseandmajor: "Bachelor of Elementary Education (Generalist)",
-              "COURSE AND MAJOR (GRADUATE STUDIES) if there's any":
-                "Master of Arts in Education Major in Educational Management",
-            },
-            governmentNumbers: {
-              PHILHEALTH_NUMBER: "012345678901",
-              GSIS_BP_NUMBER: "0987654321",
-              PAG_IBIG_NUMBER: "001122334455",
-              TIN_NUMBER: "4455667788",
-            },
-          },
-        ],
-      };
-
-      const tableBody = document.getElementById("files-list");
-      const positionFilter = document.getElementById("positionFilter");
-
-      // Function to calculate age correctly
-      function calculateAge(birthday) {
-        if (!birthday) return "N/A"; // Handle missing data safely
-
-        const birthDate = new Date(birthday);
-        const today = new Date();
-
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-        const dayDiff = today.getDate() - birthDate.getDate();
-
-        // Adjust age if the birthday hasn't occurred yet this year
-        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-          age--;
-        }
-
-        return age;
-      }
-
-      // Function to calculate teaching service correctly
-      function calculateTeachingService(dateOfOriginalAppt) {
-        if (!dateOfOriginalAppt) return "N/A"; // Handle missing data safely
-
-        const appointmentDate = new Date(dateOfOriginalAppt);
-        const today = new Date();
-
-        let serviceYears = today.getFullYear() - appointmentDate.getFullYear();
-        const monthDiff = today.getMonth() - appointmentDate.getMonth();
-        const dayDiff = today.getDate() - appointmentDate.getDate();
-
-        // Adjust service years if the anniversary hasn't occurred yet this year
-        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-          serviceYears--;
-        }
-
-        return serviceYears;
-      }
-
-      // Teachers List
-      function renderTableRows(teachers) {
-        tableBody.innerHTML = "";
-        teachers.forEach((teacher) => {
-          const row = document.createElement("tr");
-
-          row.innerHTML = `
-        <td>${teacher.employeeId}</td>
-        <td>${teacher.position}</td>
-        <td>${teacher.lastName}</td>
-        <td>${teacher.firstName}</td>
-        <td>${teacher.middleName}</td>
-        <td>${calculateAge(teacher.personalInformation.birthday)}</td>
-        <td>${calculateTeachingService(teacher.dateOfOriginalAppt)} years</td>
-        <td><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#governmentNumbersModal" onclick="showTeacherInfo('${
-          teacher.employeeId
-        }')">View Data Info</button></td>
-        <td><button class="btn btn-outline-primary btn-sm delete-btn" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Archived</button></td>
-      `;
-
-          tableBody.appendChild(row);
-        });
-      }
-
-      // Initial render of all teachers
-      renderTableRows(teachersData.teachers);
-
-      // Filter by position
-      positionFilter.addEventListener("change", function () {
-        const selectedPosition = this.value;
-        if (selectedPosition === "all") {
-          renderTableRows(teachersData.teachers); // Show all rows
-        } else {
-          const filteredTeachers = teachersData.teachers.filter(
-            (teacher) => teacher.position === selectedPosition
-          );
-          renderTableRows(filteredTeachers); // Show filtered rows
+          updateRequestCount();
+          bootstrap.Modal.getInstance(document.getElementById('rejectConfirmModal')).hide();
+          document.getElementById('rejectionReason').value = '';
+          showToast('Request rejected successfully');
         }
       });
 
-      // Function to show teacher info in modal
-      window.showTeacherInfo = function (employeeId) {
-        const teacher = teachersData.teachers.find(
-          (t) => t.employeeId === employeeId
-        );
+      document.querySelectorAll('.approve-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const id = this.getAttribute('data-id');
+          const requestItem = this.closest('li');
+          const badge = requestItem.querySelector('.badge');
+          badge.classList.remove('border-primary', 'text-primary');
+          badge.classList.add('border-success', 'text-success');
+          badge.textContent = 'Approved';
 
-        // Clear previous data
-        const personalInfoList = document.getElementById("personalInfoList");
-        const schoolInfoList = document.getElementById("schoolInfoList");
-        const governmentNumbersList = document.getElementById(
-          "governmentNumbersList"
-        );
-
-        personalInfoList.innerHTML = "";
-        schoolInfoList.innerHTML = "";
-        governmentNumbersList.innerHTML = "";
-
-        // Populate personal information
-        for (const [key, value] of Object.entries(
-          teacher.personalInformation
-        )) {
-          const listItem = document.createElement("li");
-          listItem.className =
-            "list-group-item d-flex justify-content-between align-items-center";
-          listItem.innerHTML = `<span class="fw-bold text-uppercase">${key}:</span> <span>${value}</span>`;
-          personalInfoList.appendChild(listItem);
-        }
-
-        // Populate school information
-        for (const [key, value] of Object.entries(teacher.schoolInformation)) {
-          const listItem = document.createElement("li");
-          listItem.className =
-            "list-group-item d-flex justify-content-between align-items-center";
-          listItem.innerHTML = `<span class="fw-bold text-uppercase">${key}:</span> <span>${value}</span>`;
-          schoolInfoList.appendChild(listItem);
-        }
-
-        // Populate government numbers
-        for (const [key, value] of Object.entries(teacher.governmentNumbers)) {
-          const listItem = document.createElement("li");
-          listItem.className =
-            "list-group-item d-flex justify-content-between align-items-center";
-          listItem.innerHTML = `<span class="fw-bold text-uppercase">${key}:</span> <span>${value}</span>`;
-          governmentNumbersList.appendChild(listItem);
-        }
-      };
-
-      // Delete functionality
-      document.addEventListener("DOMContentLoaded", function () {
-        const confirmInput = document.getElementById("confirmInput");
-        const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
-        let rowToDelete = null;
-
-        // Enable/disable the delete button based on input
-        confirmInput.addEventListener("input", function () {
-          confirmDeleteBtn.disabled =
-            confirmInput.value.trim().toUpperCase() !== "CONFIRM";
-        });
-
-        // Handle delete button click in the table
-        document.querySelectorAll(".delete-btn").forEach((button) => {
-          button.addEventListener("click", function () {
-            rowToDelete = this.closest("tr"); // Store the row to delete
+          requestItem.querySelectorAll('button').forEach(btn => {
+            btn.disabled = true;
           });
-        });
 
-        // Handle the actual deletion
-        confirmDeleteBtn.addEventListener("click", function () {
-          if (
-            rowToDelete &&
-            confirmInput.value.trim().toUpperCase() === "CONFIRM"
-          ) {
-            rowToDelete.remove(); // Remove the row from the table
-            $("#deleteConfirmationModal").modal("hide"); // Hide the modal
-            confirmInput.value = ""; // Clear the input
-            confirmDeleteBtn.disabled = true; // Disable the delete button again
-            rowToDelete = null; // Reset the row to delete
+          updateRequestCount();
+          showToast('Request approved successfully');
+        });
+      });
+
+      function updateRequestCount() {
+        const count = document.querySelectorAll('#request-list li:not(.d-none)').length;
+        document.getElementById('request-count').textContent = `${count} request${count !== 1 ? 's' : ''}`;
+      }
+
+      function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'position-fixed bottom-0 end-0 p-3';
+        toast.innerHTML = `
+          <div class="toast show" role="alert">
+            <div class="toast-header bg-success text-white">
+              <strong class="me-auto">Success</strong>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">${message}</div>
+          </div>
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      }
+    });
+
+    // 201 files data sample – but if there is a backend, it comes from the database.
+    const teachersData = {
+      teachers: [
+          {
+          "employeeId": "4324729",
+          "lastName": "Balanza",
+          "firstName": "Ma. Alma",
+          "middleName": "Santos",
+          "position": "Principal IV",
+          "dateOfOriginalAppt": "1988-07-05",
+          "dateOfLastPromotion": "2015-06-01",
+          "personalInformation": {
+            "name": "Ma.Alma Balanza",
+            "position": "Teacher III",
+            "dateOfOriginalAppointment": "March 1, 1990",
+            "dateOfLastPromotion": "June 15, 2015",
+            "depedEmail": "maalma.balanza@deped.gov.ph",
+            "address": "0248 Lola's Way St., Caingin, San Rafael, Bulacan",
+            "birthday": "December 21, 1966",
+            "contactNumber": "09123456789",
+            "gender": "Female",
+            "eligibility": "Professional Board Examination for Teachers"
+          },
+          "schoolInformation": {
+            "school": "Maguinao Elementary School",
+            "level": "Elementary",
+            "district": "San Rafael West",
+            "division": "SDO Bulacan",
+            "edds": "III",
+            "itemNumber": "OSEC-DECSB-SP4-150022-2023",
+            "sg": "22",
+            "step": "1",
+            "courseAndMajor": "Bachelor of Elementary Education (Generalist)",
+            "graduateStudies": "Doctor of Philosophy Major in Educational Psychology"
+          },
+          "governmentNumbers": {
+            "PHILHEALTH_NUMBER": "123456789012",
+            "GSIS_BP_NUMBER": "9876543210",
+            "PAG_IBIG_NUMBER": "112233445566",
+            "TIN_NUMBER": "5566778899"
           }
-        });
+        }
+        // ... (other teacher objects remain the same)
+      ],
+    };
 
-        // Reset the modal when it's hidden
-        $("#deleteConfirmationModal").on("hidden.bs.modal", function () {
+    const tableBody = document.getElementById("files-list");
+    const positionFilter = document.getElementById("positionFilter");
+
+    // Calculate age from birthday
+    function calculateAge(birthday) {
+      if (!birthday) return "N/A";
+      const birthDate = new Date(birthday);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    }
+
+    // Calculate years of service
+    function calculateTeachingService(dateOfOriginalAppt) {
+      if (!dateOfOriginalAppt) return "N/A";
+      const appointmentDate = new Date(dateOfOriginalAppt);
+      const today = new Date();
+      let serviceYears = today.getFullYear() - appointmentDate.getFullYear();
+      const monthDiff = today.getMonth() - appointmentDate.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < appointmentDate.getDate())) {
+        serviceYears--;
+      }
+      return serviceYears;
+    }
+
+    // Render teacher table rows
+    function renderTableRows(teachers) {
+      tableBody.innerHTML = "";
+      teachers.forEach((teacher) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${teacher.employeeId}</td>
+          <td>${teacher.position}</td>
+          <td>${teacher.lastName}</td>
+          <td>${teacher.firstName}</td>
+          <td>${teacher.middleName}</td>
+          <td>${calculateAge(teacher.personalInformation.birthday)}</td>
+          <td>${calculateTeachingService(teacher.dateOfOriginalAppt)} years</td>
+          <td><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+              data-bs-target="#governmentNumbersModal" 
+              onclick="showTeacherInfo('${teacher.employeeId}')">View Data Info</button></td>
+          <td><button class="btn btn-outline-primary btn-sm delete-btn" 
+              data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Archived</button></td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Initial render
+    renderTableRows(teachersData.teachers);
+
+    // Filter by position
+    positionFilter.addEventListener("change", function () {
+      const selectedPosition = this.value;
+      if (selectedPosition === "all") {
+        renderTableRows(teachersData.teachers);
+      } else {
+        const filteredTeachers = teachersData.teachers.filter(
+          (teacher) => teacher.position === selectedPosition
+        );
+        renderTableRows(filteredTeachers);
+      }
+    });
+
+    // Show teacher info in modal
+    window.showTeacherInfo = function (employeeId) {
+      const teacher = teachersData.teachers.find((t) => t.employeeId === employeeId);
+      const personalInfoList = document.getElementById("personalInfoList");
+      const schoolInfoList = document.getElementById("schoolInfoList");
+      const governmentNumbersList = document.getElementById("governmentNumbersList");
+
+      personalInfoList.innerHTML = "";
+      schoolInfoList.innerHTML = "";
+      governmentNumbersList.innerHTML = "";
+
+      // Populate personal info
+      for (const [key, value] of Object.entries(teacher.personalInformation)) {
+        const listItem = document.createElement("li");
+        listItem.className = "list-group-item d-flex justify-content-between align-items-center";
+        listItem.innerHTML = `<span class="fw-bold text-uppercase">${key}:</span> <span>${value}</span>`;
+        personalInfoList.appendChild(listItem);
+      }
+
+      // Populate school info
+      for (const [key, value] of Object.entries(teacher.schoolInformation)) {
+        const listItem = document.createElement("li");
+        listItem.className = "list-group-item d-flex justify-content-between align-items-center";
+        listItem.innerHTML = `<span class="fw-bold text-uppercase">${key}:</span> <span>${value}</span>`;
+        schoolInfoList.appendChild(listItem);
+      }
+
+      // Populate government numbers
+      for (const [key, value] of Object.entries(teacher.governmentNumbers)) {
+        const listItem = document.createElement("li");
+        listItem.className = "list-group-item d-flex justify-content-between align-items-center";
+        listItem.innerHTML = `<span class="fw-bold text-uppercase">${key}:</span> <span>${value}</span>`;
+        governmentNumbersList.appendChild(listItem);
+      }
+    };
+
+    // Delete functionality
+    document.addEventListener("DOMContentLoaded", function () {
+      const confirmInput = document.getElementById("confirmInput");
+      const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+      let rowToDelete = null;
+
+      confirmInput.addEventListener("input", function () {
+        confirmDeleteBtn.disabled = confirmInput.value.trim().toUpperCase() !== "CONFIRM";
+      });
+
+      document.querySelectorAll(".delete-btn").forEach((button) => {
+        button.addEventListener("click", function () {
+          rowToDelete = this.closest("tr");
+        });
+      });
+
+      confirmDeleteBtn.addEventListener("click", function () {
+        if (rowToDelete && confirmInput.value.trim().toUpperCase() === "CONFIRM") {
+          rowToDelete.remove();
+          $("#deleteConfirmationModal").modal("hide");
           confirmInput.value = "";
           confirmDeleteBtn.disabled = true;
           rowToDelete = null;
-        });
+        }
       });
 
-     // Search function
+      $("#deleteConfirmationModal").on("hidden.bs.modal", function () {
+        confirmInput.value = "";
+        confirmDeleteBtn.disabled = true;
+        rowToDelete = null;
+      });
+    });
+
+    // Search employees
     function searchEmployees() {
       const searchInput = document.getElementById("employeeSearch");
-      if (!searchInput) return; // Exit if element not found
+      if (!searchInput) return;
       
       const searchTerm = searchInput.value.toLowerCase().trim();
       
-      // If search term is empty, show all teachers
       if (!searchTerm) {
         renderTableRows(teachersData.teachers);
         return;
@@ -2371,25 +1983,21 @@
 
       const filteredTeachers = teachersData.teachers.filter(teacher => {
         const fullName = `${teacher.firstName || ''} ${teacher.middleName || ''} ${teacher.lastName || ''}`.toLowerCase();
-        const lastNameFirst = `${teacher.lastName || ''}, ${teacher.firstName || ''} ${teacher.middleName || ''}`.toLowerCase();
-        
         return (
-          (teacher.firstName && teacher.firstName.toLowerCase().includes(searchTerm)) ||
-          (teacher.middleName && teacher.middleName.toLowerCase().includes(searchTerm)) ||
-          (teacher.lastName && teacher.lastName.toLowerCase().includes(searchTerm)) ||
-          (teacher.employeeId && teacher.employeeId.toLowerCase().includes(searchTerm)) ||
-          fullName.includes(searchTerm) ||
-          lastNameFirst.includes(searchTerm)
+          teacher.firstName?.toLowerCase().includes(searchTerm) ||
+          teacher.middleName?.toLowerCase().includes(searchTerm) ||
+          teacher.lastName?.toLowerCase().includes(searchTerm) ||
+          teacher.employeeId?.toLowerCase().includes(searchTerm) ||
+          fullName.includes(searchTerm)
         );
       });
 
       renderTableRows(filteredTeachers);
     }
 
-      //201 files pdf download function
-      document.getElementById('downloadEmployeeInfo').addEventListener('click', function() {
+    // PDF download function in 201 files
+    document.getElementById('downloadEmployeeInfo').addEventListener('click', function() {
       const element = document.querySelector('#governmentNumbersModal .modal-content');
-      
       html2pdf().set({
         margin: 10,
         filename: 'employee_info.pdf',
@@ -2398,244 +2006,10 @@
       }).from(element).save();
     });
 
-    // Bonus: Print functionality
+    // Print function
     document.getElementById('printEmployeeInfo').addEventListener('click', function() {
       window.print();
     });
-      
-  
-      // Load Initial Requests
-      loadRequests();
-
-
-
-
-      //LEAVE CREDITS POINTS FUNTION
-      document.addEventListener('DOMContentLoaded', function() {
-  // Sample teacher data
-  const teachers = [
-    { id: '1739037', name: 'Juan Dela Cruz', points: 7, updated: '2023-05-15' },
-    { id: '1937892', name: 'Maria Santos', points: 5, updated: '2023-05-10' },
-    { id: '2034567', name: 'Pedro Reyes', points: 3, updated: '2023-05-12' },
-    { id: '2137890', name: 'Ana Lopez', points: 8, updated: '2023-05-14' }
-  ];
-
-  // DOM elements
-  const teacherCountEl = document.getElementById('teacherCount');
-  const showingCountEl = document.getElementById('showingCount');
-  const totalCountEl = document.getElementById('totalCount');
-  const teachersTable = document.getElementById('teachersTable');
-  const teacherFilter = document.getElementById('teacherFilter');
-  const pointsFilter = document.getElementById('pointsFilter');
-  const clearFilter = document.getElementById('clearFilter');
-  const bulkAction = document.getElementById('bulkAction');
-  const bulkPoints = document.getElementById('bulkPoints');
-  const addBulkPoints = document.getElementById('addBulkPoints');
-  const exportExcel = document.getElementById('exportExcel');
-  const editPointsModal = new bootstrap.Modal(document.getElementById('editPointsModal'));
-  const editTeacherId = document.getElementById('editTeacherId');
-  const editTeacherName = document.getElementById('editTeacherName');
-  const editCurrentPoints = document.getElementById('editCurrentPoints');
-  const pointsAction = document.getElementById('pointsAction');
-  const pointsAmount = document.getElementById('pointsAmount');
-  const pointsReason = document.getElementById('pointsReason');
-  const savePointsChanges = document.getElementById('savePointsChanges');
-  const editPointsForm = document.getElementById('editPointsForm');
-
-  // Initialize
-  teacherCountEl.textContent = teachers.length;
-  totalCountEl.textContent = teachers.length;
-  showingCountEl.textContent = teachers.length;
-  renderTeachers(teachers);
-
-  // Event listeners
-  teacherFilter.addEventListener('input', filterTeachers);
-  pointsFilter.addEventListener('change', filterTeachers);
-  clearFilter.addEventListener('click', resetFilters);
-  addBulkPoints.addEventListener('click', applyBulkPoints);
-  exportExcel.addEventListener('click', exportToExcel);
-  
-  // Use event delegation for dynamic elements
-  document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('edit-btn') || e.target.closest('.edit-btn')) {
-      openEditModal(e);
-    }
-    if (e.target.classList.contains('history-btn') || e.target.closest('.history-btn')) {
-      showHistory(e);
-    }
-  });
-  
-  savePointsChanges.addEventListener('click', savePoints);
-
-  // Functions
-  function renderTeachers(teachersToRender) {
-    const tbody = teachersTable.querySelector('tbody');
-    tbody.innerHTML = '';
-    
-    teachersToRender.forEach(teacher => {
-      const row = document.createElement('tr');
-      row.setAttribute('data-id', teacher.id);
-      row.setAttribute('data-points', teacher.points);
-      
-      row.innerHTML = `
-        <td class="fw-bold">${teacher.id}</td>
-        <td>${teacher.name}</td>
-        <td class="text-center">
-          <span class="badge rounded-pill p-2 points-badge" style="background-color: rgba(26, 35, 126, 0.1); color: rgb(26, 35, 126);">
-            <i class="bi bi-star-fill me-1"></i><span class="points-value">${teacher.points}</span>
-          </span>
-        </td>
-        <td>${teacher.updated}</td>
-        <td class="text-center">
-          <button class="btn btn-sm rounded-circle me-1 text-white edit-btn" style="background-color: rgb(26, 35, 126);" title="Edit">
-            <i class="bi bi-pencil"></i>
-          </button>
-          <button class="btn btn-sm rounded-circle border history-btn" title="History">
-            <i class="bi bi-clock-history"></i>
-          </button>
-        </td>
-      `;
-      
-      tbody.appendChild(row);
-    });
-  }
-
-  function filterTeachers() {
-    const searchTerm = teacherFilter.value.toLowerCase();
-    const pointsFilterValue = pointsFilter.value;
-    
-    const filtered = teachers.filter(teacher => {
-      const matchesSearch = teacher.id.toLowerCase().includes(searchTerm) || 
-                          teacher.name.toLowerCase().includes(searchTerm);
-      
-      let matchesPoints = true;
-      if (pointsFilterValue === 'low') {
-        matchesPoints = teacher.points <= 3;
-      } else if (pointsFilterValue === 'medium') {
-        matchesPoints = teacher.points >= 4 && teacher.points <= 6;
-      } else if (pointsFilterValue === 'high') {
-        matchesPoints = teacher.points >= 7;
-      }
-      
-      return matchesSearch && matchesPoints;
-    });
-    
-    renderTeachers(filtered);
-    showingCountEl.textContent = filtered.length;
-  }
-
-  function resetFilters() {
-    teacherFilter.value = '';
-    pointsFilter.value = 'all';
-    filterTeachers();
-  }
-
-  function applyBulkPoints() {
-    const action = bulkAction.value;
-    const points = parseInt(bulkPoints.value);
-    
-    if (isNaN(points) || points < 0) {
-      alert('Please enter a valid positive number');
-      return;
-    }
-    
-    teachers.forEach(teacher => {
-      if (action === 'add') {
-        teacher.points += points;
-      } else if (action === 'subtract') {
-        teacher.points = Math.max(0, teacher.points - points);
-      } else if (action === 'set') {
-        teacher.points = points;
-      }
-      teacher.updated = new Date().toISOString().split('T')[0];
-    });
-    
-    renderTeachers(teachers);
-    filterTeachers();
-    bulkPoints.value = '';
-  }
-
-  function exportToExcel() {
-    // In a real implementation, this would generate an Excel file
-    alert('Export to Excel functionality would be implemented here');
-  }
-
-  function openEditModal(e) {
-    const btn = e.target.closest('.edit-btn');
-    if (!btn) return;
-    
-    const row = btn.closest('tr');
-    const id = row.getAttribute('data-id');
-    const teacher = teachers.find(t => t.id === id);
-    
-    if (!teacher) return;
-    
-    editTeacherId.value = teacher.id;
-    editTeacherName.value = teacher.name;
-    editCurrentPoints.value = teacher.points;
-    pointsAction.value = 'add';
-    pointsAmount.value = '';
-    pointsReason.value = '';
-    
-    editPointsModal.show();
-  }
-
-  function showHistory(e) {
-    const btn = e.target.closest('.history-btn');
-    if (!btn) return;
-    
-    const row = btn.closest('tr');
-    const id = row.getAttribute('data-id');
-    // In a real implementation, this would show the teacher's history
-    alert(`Would show history for teacher ID: ${id}`);
-  }
-
-  function savePoints() {
-    if (!editPointsForm.checkValidity()) {
-      editPointsForm.reportValidity();
-      return;
-    }
-    
-    const id = editTeacherId.value;
-    const action = pointsAction.value;
-    const amount = parseInt(pointsAmount.value);
-    const reason = pointsReason.value.trim();
-    
-    if (isNaN(amount)) {
-      alert('Please enter a valid number');
-      return;
-    }
-    
-    if (amount <= 0) {
-      alert('Please enter a positive number');
-      return;
-    }
-    
-    if (reason === '') {
-      alert('Please enter a reason for the adjustment');
-      return;
-    }
-    
-    const teacher = teachers.find(t => t.id === id);
-    if (!teacher) return;
-    
-    if (action === 'add') {
-      teacher.points += amount;
-    } else if (action === 'subtract') {
-      teacher.points = Math.max(0, teacher.points - amount);
-    } else if (action === 'set') {
-      teacher.points = amount;
-    }
-    teacher.updated = new Date().toISOString().split('T')[0];
-    
-    // In a real implementation, you would save the history with the reason
-    console.log(`Updated teacher ${id} with action ${action}, amount ${amount}, reason: ${reason}`);
-    
-    renderTeachers(teachers);
-    filterTeachers();
-    editPointsModal.hide();
-  }
-});
     </script>
   </body>
 </html>
