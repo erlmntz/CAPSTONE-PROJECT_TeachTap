@@ -847,150 +847,213 @@
     
         <!-- Account Settings Section -->
         <div id="account-settings-section" class="content-section">
-            <!-- Personal Information Card -->
-            <div class="card mb-4" style="border-radius: 10px;">
-                <div class="card-body">
-                    <h5 class="card-title text-primary">
-                        <i class="fas fa-user me-2"></i> Personal Information
-                    </h5>
-                    
-                    <div class="row align-items-center">
-                        <!-- Profile Picture Column -->
-                        <div class="col-12 col-md-4 text-center mb-4 mb-md-0">
-                            <div class="mb-3 position-relative">
-                                <img id="current-profile-picture" 
-                                    src="/IMAGES/MaamAlma.png" 
-                                    class="rounded-circle border border-3 border-primary shadow-sm" 
-                                    width="180" 
-                                    height="180" 
-                                    alt="Profile Picture">
-                            </div>
-                            <button id="change-profile-picture-btn" class="btn btn-primary btn-lg shadow-sm">
-                                <i class="fas fa-camera me-1"></i> Change Picture
-                            </button>
-                            <input type="file" id="profile-picture-input" accept="image/*" class="d-none">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Left Navigation -->
+                    <div class="col-md-3 mb-4">
+                        <div class="list-group rounded-3 overflow-hidden border-0 shadow-sm">
+                            <a href="#profile-section" class="list-group-item list-group-item-action active bg-primary text-white border-0" data-bs-toggle="tab">
+                                <i class="fas fa-user-circle me-2"></i> Profile Picture
+                            </a>
+                            <a href="#personal-info-section" class="list-group-item list-group-item-action text-dark border-0" data-bs-toggle="tab">
+                                <i class="fas fa-user-edit me-2 text-muted"></i> Personal Information
+                            </a>
+                            <a href="#password-section" class="list-group-item list-group-item-action text-dark border-0" data-bs-toggle="tab">
+                                <i class="fas fa-lock me-2 text-muted"></i> Password & Security
+                            </a>
                         </div>
-                        
-                        <!-- Personal Info Form Column -->
-                        <div class="col-12 col-md-8">
-                            <form id="personal-info-form">
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="firstname" class="form-label fw-semibold">First Name</label>
-                                        <input type="text" id="firstname" class="form-control shadow-sm" style="border-radius: 8px;" value="Ma. Alma">
+                    </div>
+                    <!-- Right Content -->
+                    <div class="col-md-9">
+                        <div class="tab-content">
+                            <!-- Profile Picture Tab -->
+                            <div class="tab-pane fade show active" id="profile-section">
+                                <div class="card border-primary">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="card-title mb-0">
+                                            <i class="fas fa-user-circle me-2"></i> Profile Picture
+                                        </h5>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="lastname" class="form-label fw-semibold">Last Name</label>
-                                        <input type="text" id="lastname" class="form-control shadow-sm" style="border-radius: 8px;" value="Balanza">
-                                    </div>
-                                </div>
-                                
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="status" class="form-label fw-semibold">Status</label>
-                                        <select id="status" class="form-select shadow-sm" style="border-radius: 8px;">
-                                            <option value="single">Single</option>
-                                            <option value="married" selected>Married</option>
-                                            <option value="divorced">Divorced</option>
-                                            <option value="widowed">Widowed</option>
-                                            <option value="separated">Separated</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="employee-id" class="form-label fw-semibold">Employee ID</label>
-                                        <input type="text" id="employee-id" class="form-control shadow-sm" style="border-radius: 8px;" value="DEPED-2025-001" readonly>
-                                    </div>
-                                </div>
-                                
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="email" class="form-label fw-semibold">Email</label>
-                                        <input type="email" id="email" class="form-control shadow-sm" style="border-radius: 8px;" value="maalma.balanza@deped.gov.ph">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="phone" class="form-label fw-semibold">Phone</label>
-                                        <input type="tel" id="phone" class="form-control shadow-sm" style="border-radius: 8px;" value="09228951325">
+                                    <div class="card-body text-center p-4">
+                                        <div class="position-relative d-inline-block mb-3">
+                                            <img id="profile-preview" src="/IMAGES/MaamAlma.png" 
+                                                class="rounded-circle border border-primary shadow" width="150" height="150" alt="Profile Picture">
+                                            <label for="profile-upload" class="btn btn-primary btn-sm rounded-circle position-absolute" 
+                                                style="bottom: 10px; right: 10px; width: 32px; height: 32px; line-height: 20px;">
+                                                <i class="fas fa-camera"></i>
+                                                <input type="file" id="profile-upload" accept="image/*" class="d-none" 
+                                                    onchange="previewProfilePicture(this)">
+                                            </label>
+                                        </div>
+                                        
+                                        <p class="text-muted small mb-4">
+                                            Click the camera icon to upload a new profile picture. <br>
+                                            Recommended size: 150x150 pixels
+                                        </p>
+                                        
+                                        <button id="save-profile-btn" class="btn btn-primary px-4" disabled
+                                            onclick="saveProfilePicture()">
+                                            <i class="fas fa-save me-1"></i> Save Changes
+                                        </button>
                                     </div>
                                 </div>
-                                
-                                <div class="mb-3">
-                                    <label for="address" class="form-label fw-semibold">Address</label>
-                                    <input type="text" id="address" class="form-control shadow-sm" style="border-radius: 8px;" value="0248 Lola's Way St., Caingin, San Rafael, Bulacan">
+                            </div>
+                            
+                            <!-- Personal Information Tab -->
+                            <div class="tab-pane fade" id="personal-info-section">
+                                <div class="card border-primary">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="card-title mb-0">
+                                            <i class="fas fa-user-edit me-2"></i> Personal Information
+                                        </h5>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <form id="personal-info-form">
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label for="firstname" class="form-label fw-semibold text-primary">First Name</label>
+                                                    <input type="text" id="firstname" class="form-control border-primary shadow-sm" 
+                                                        style="border-radius: 8px;" value="Alma">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="middlename" class="form-label fw-semibold text-primary">Middle Name</label>
+                                                    <input type="text" id="middlename" class="form-control border-primary shadow-sm" 
+                                                        style="border-radius: 8px;" value="Reyes">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="lastname" class="form-label fw-semibold text-primary">Last Name</label>
+                                                    <input type="text" id="lastname" class="form-control border-primary shadow-sm" 
+                                                        style="border-radius: 8px;" value="Balanza">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="status" class="form-label fw-semibold text-primary">Status</label>
+                                                    <select id="status" class="form-select border-primary shadow-sm" style="border-radius: 8px;">
+                                                        <option value="single">Single</option>
+                                                        <option value="married" selected>Married</option>
+                                                        <option value="divorced">Divorced</option>
+                                                        <option value="widowed">Widowed</option>
+                                                        <option value="separated">Separated</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="employee-id" class="form-label fw-semibold text-primary">Employee ID</label>
+                                                    <input type="text" id="employee-id" class="form-control border-primary shadow-sm" 
+                                                        style="border-radius: 8px;" value="DEPED-2025-001" readonly>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="email" class="form-label fw-semibold text-primary">Email</label>
+                                                    <input type="email" id="email" class="form-control border-primary shadow-sm" 
+                                                        style="border-radius: 8px;" value="maalma.balanza@deped.gov.ph">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="phone" class="form-label fw-semibold text-primary">Phone</label>
+                                                    <input type="tel" id="phone" class="form-control border-primary shadow-sm" 
+                                                        style="border-radius: 8px;" value="09228951325">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="address" class="form-label fw-semibold text-primary">Address</label>
+                                                <input type="text" id="address" class="form-control border-primary shadow-sm" 
+                                                    style="border-radius: 8px;" value="0248 Lola's Way St., Caingin, San Rafael, Bulacan">
+                                            </div>
+                                            
+                                            <div class="mt-4 d-flex justify-content-end gap-2">
+                                                <button type="button" class="btn btn-outline-primary px-4 py-2" onclick="resetPersonalInfoForm()">
+                                                    <i class="fas fa-times me-1"></i> Cancel
+                                                </button>
+                                                <button type="button" class="btn btn-primary px-4 py-2" onclick="savePersonalInfo()">
+                                                    <i class="fas fa-save me-1"></i> Request Appeal
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
-                                
-                                <div class="mt-4 d-flex justify-content-end gap-2">
-                                    <button type="button" class="btn btn-outline-secondary px-4 py-2" onclick="cancelChanges()">
-                                        <i class="fas fa-times me-1"></i> Cancel
-                                    </button>
-                                    <button type="button" class="btn btn-primary px-4 py-2" onclick="saveChanges()">
-                                        <i class="fas fa-save me-1"></i> Request Appeal
-                                    </button>
+                            </div>
+                            
+                            <!-- Password & Security Tab -->
+                            <div class="tab-pane fade" id="password-section">
+                                <div class="card border-primary">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="card-title mb-0">
+                                            <i class="fas fa-lock me-2"></i> Password & Security
+                                        </h5>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <form id="change-password-form">
+                                            <!-- Current Password -->
+                                            <div class="mb-3">
+                                                <label class="form-label fw-semibold text-primary">Current Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" id="current-password" class="form-control border-primary shadow-sm" 
+                                                           placeholder="P@ssword">
+                                                    <button class="btn btn-outline-primary toggle-password" type="button"
+                                                            onclick="togglePasswordVisibility(this)">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                                                    
+                                            <!-- New Password -->
+                                            <div class="mb-3">
+                                                <label class="form-label fw-semibold text-primary">New Password</label>
+                                                <input type="password" id="new-password" class="form-control border-primary shadow-sm mb-1" 
+                                                    placeholder="Create new password">
+                                                <small class="text-muted small">Must be at least 8 characters</small>
+                                            </div>
+                                            
+                                            <!-- Confirm Password -->
+                                            <div class="mb-4">
+                                                <label class="form-label fw-semibold text-primary">Confirm Password</label>
+                                                <input type="password" id="confirm-password" class="form-control border-primary shadow-sm" 
+                                                    placeholder="Re-type new password">
+                                            </div>
+                                            
+                                            <!-- Password Strength Meter -->
+                                            <div class="progress mb-4" style="height: 5px;">
+                                                <div id="password-strength" class="progress-bar" role="progressbar" style="width: 0%; background-color: #0d6efd;"></div>
+                                            </div>
+                                            
+                                            <!-- Submit Button -->
+                                            <button type="button" class="btn btn-primary w-100 py-2 mt-2" onclick="changePassword()">
+                                                <i class="fas fa-key me-2"></i> Update Password
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Change Password Card -->
-            <div class="card mb-4 rounded-3 border-0 shadow-sm">
-                <div class="card-body p-4">
-                    <h5 class="card-title mb-4 fw-semibold" style="color: #0d6efd;">
-                        <i class="fas fa-lock me-2" style="color: #0d6efd;"></i> Change Password
-                    </h5>
-                    
-                    <form id="change-password-form">
-                        <!-- Current Password -->
-                        <div class="mb-3">
-                            <label class="form-label text-secondary small">Current Password</label>
-                            <div class="input-group">
-                                <input type="password" id="current-password" class="form-control border-secondary" 
-                                    value="BANAN@" placeholder="Your current password" readonly>
-                                <button class="btn btn-outline-secondary toggle-password" type="button"
-                                        onclick="const icon = this.querySelector('i');
-                                                const input = this.previousElementSibling;
-                                                icon.classList.toggle('fa-eye-slash');
-                                                input.type = input.type === 'password' ? 'text' : 'password';">
-                                    <i class="fas fa-eye" style="color: #0d6efd;"></i>
-                                </button>
-                            </div>
-                        </div>
-                                                    
-                        <!-- New Password -->
-                        <div class="mb-3">
-                            <label class="form-label text-secondary small">New Password</label>
-                            <input type="password" id="new-password" class="form-control border-secondary mb-1" placeholder="Create new password">
-                            <small class="text-muted small">Must be at least 8 characters</small>
-                        </div>
-                        
-                        <!-- Confirm Password -->
-                        <div class="mb-4">
-                            <label class="form-label text-secondary small">Confirm Password</label>
-                            <input type="password" id="confirm-password" class="form-control border-secondary" placeholder="Re-type new password">
-                        </div>
-                        
-                        <!-- Submit Button -->
-                        <button type="button" class="btn btn-primary w-100 py-2 mt-2" onclick="changePassword()">
-                            <i class="fas fa-key me-2"></i> Update Password
-                        </button>
-                    </form>
-                </div>
-            </div>
         </div>
+
     </div>
-         
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
     // Set current date display
-    document.getElementById('current-date').innerHTML = new Date().toLocaleDateString('en-US', {
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric'
+    document.addEventListener("DOMContentLoaded", function() {
+        const currentDateElement = document.getElementById('current-date');
+        if (currentDateElement) {
+            currentDateElement.innerHTML = new Date().toLocaleDateString('en-US', {
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric'
+            });
+        }
     });
 
     // Main initialization when page loads
@@ -1009,6 +1072,8 @@
 
         // Update page title based on active section
         function updatePageTitle(activeLink) {
+            if (!pageTitle) return;
+            
             let title = "Welcome Back, Ma'am Alma";
             if (activeLink.id === "attendance-link") title = "Attendance";
             else if (activeLink.id === "payroll-link") title = "Payroll";
@@ -1020,6 +1085,8 @@
 
         // Toggle dashboard elements visibility
         function updateVisibility(activeLink) {
+            if (!dashboardHeader || !dashboardNotification) return;
+            
             const isDashboard = activeLink.id === "dashboard-link";
             dashboardHeader.style.display = isDashboard ? "block" : "none";
             dashboardNotification.style.display = isDashboard ? "block" : "none";
@@ -1032,6 +1099,7 @@
         
         // Update notification badge
         function updateBadge() {
+            if (!notificationBadge) return;
             notificationBadge.style.display = checkAllRead() ? 'none' : 'block';
         }
 
@@ -1046,123 +1114,136 @@
                 markAllBtn.disabled = true;
                 
                 setTimeout(() => {
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('notificationsModal'));
-                    modal.hide();
+                    const modalElement = document.getElementById('notificationsModal');
+                    if (modalElement) {
+                        const modal = bootstrap.Modal.getInstance(modalElement);
+                        if (modal) modal.hide();
+                    }
                 }, 1000);
             });
         }
 
         // Filter activity log items
-        filterItems.forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                filterItems.forEach(filter => filter.classList.remove('active'));
-                this.classList.add('active');
-                
-                const filterValue = this.getAttribute('data-filter');
-                let anyVisible = false;
-                
-                timelineItems.forEach(item => {
-                    const matchesFilter = filterValue === 'all' || item.getAttribute('data-category') === filterValue;
-                    item.style.display = matchesFilter ? '' : 'none';
-                    if (matchesFilter) anyVisible = true;
-                });
-                
-                dateGroups.forEach(group => {
-                    const itemsInGroup = group.querySelectorAll('.timeline-item');
-                    const hasVisibleItems = Array.from(itemsInGroup).some(item => item.style.display !== 'none');
-                    group.style.display = hasVisibleItems ? 'block' : 'none';
+        if (filterItems && timelineItems && dateGroups && dropdownButton) {
+            filterItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    filterItems.forEach(filter => filter.classList.remove('active'));
+                    this.classList.add('active');
                     
-                    if (hasVisibleItems) {
-                        const dateHeader = group.querySelector('.timeline-date');
-                        if (dateHeader) dateHeader.style.display = 'block';
+                    const filterValue = this.getAttribute('data-filter');
+                    let anyVisible = false;
+                    
+                    timelineItems.forEach(item => {
+                        const matchesFilter = filterValue === 'all' || item.getAttribute('data-category') === filterValue;
+                        item.style.display = matchesFilter ? '' : 'none';
+                        if (matchesFilter) anyVisible = true;
+                    });
+                    
+                    dateGroups.forEach(group => {
+                        const itemsInGroup = group.querySelectorAll('.timeline-item');
+                        const hasVisibleItems = Array.from(itemsInGroup).some(item => item.style.display !== 'none');
+                        group.style.display = hasVisibleItems ? 'block' : 'none';
+                        
+                        if (hasVisibleItems) {
+                            const dateHeader = group.querySelector('.timeline-date');
+                            if (dateHeader) dateHeader.style.display = 'block';
+                        }
+                    });
+                    
+                    const filterText = this.textContent.trim();
+                    dropdownButton.innerHTML = `<i class="fas fa-filter me-1"></i> ${filterText}`;
+                    
+                    const dropdown = this.closest('.dropdown-menu');
+                    if (dropdown) {
+                        const dropdownInstance = bootstrap.Dropdown.getInstance(dropdownButton);
+                        if (dropdownInstance) dropdownInstance.hide();
                     }
                 });
-                
-                const filterText = this.textContent.trim();
-                dropdownButton.innerHTML = `<i class="fas fa-filter me-1"></i> ${filterText}`;
-                
-                const dropdown = this.closest('.dropdown-menu');
-                if (dropdown) {
-                    const dropdownInstance = bootstrap.Dropdown.getInstance(dropdownButton);
-                    if (dropdownInstance) dropdownInstance.hide();
-                }
             });
-        });
+        }
 
         // Handle sidebar navigation
-        sidebarLinks.forEach(link => {
-            link.addEventListener("click", function() {
-                sidebarLinks.forEach(l => l.classList.remove("active"));
-                this.classList.add("active");
-                updatePageTitle(this);
-                updateVisibility(this);
+        if (sidebarLinks) {
+            sidebarLinks.forEach(link => {
+                link.addEventListener("click", function() {
+                    sidebarLinks.forEach(l => l.classList.remove("active"));
+                    this.classList.add("active");
+                    updatePageTitle(this);
+                    updateVisibility(this);
+                });
             });
-        });
+        }
 
         // Initialize UI
-        updatePageTitle(document.getElementById("dashboard-link"));
+        const dashboardLink = document.getElementById("dashboard-link");
+        if (dashboardLink && pageTitle) {
+            updatePageTitle(dashboardLink);
+        }
         updateBadge();
-        if (document.querySelector(".nav-link.active")) {
-            updateVisibility(document.querySelector(".nav-link.active"));
+        
+        const activeLink = document.querySelector(".nav-link.active");
+        if (activeLink) {
+            updateVisibility(activeLink);
         }
     });
 
     // Show/hide content sections
     function showSection(sectionId) {
         const sections = document.querySelectorAll('.content-section');
+        if (!sections) return;
+        
         sections.forEach(section => section.classList.remove('active'));
-        document.getElementById(sectionId).classList.add('active');
+        const targetSection = document.getElementById(sectionId);
+        if (targetSection) targetSection.classList.add('active');
     }
 
     // Set active navigation link
     function setActiveLink(linkId) {
         const links = document.querySelectorAll('.sidebar .nav-link');
+        if (!links) return;
+        
         links.forEach(link => link.classList.remove('active'));
-        document.getElementById(linkId).classList.add('active');
+        const targetLink = document.getElementById(linkId);
+        if (targetLink) targetLink.classList.add('active');
     }
 
     // Sidebar navigation handlers
-    document.getElementById('dashboard-link').addEventListener('click', () => {
-        setActiveLink('dashboard-link');
-        showSection('dashboard-section');
-    });
-    document.getElementById('attendance-link').addEventListener('click', () => {
-        setActiveLink('attendance-link');
-        showSection('attendance-section');
-    });
-    document.getElementById('payroll-link').addEventListener('click', () => {
-        setActiveLink('payroll-link');
-        showSection('payroll-section');
-    });
-    document.getElementById('requests-link').addEventListener('click', () => {
-        setActiveLink('requests-link');
-        showSection('requests-section');
-    });
-    document.getElementById('activity-log-link').addEventListener('click', () => {
-        setActiveLink('activity-log-link');
-        showSection('activity-log-section');
-    });
-    document.getElementById('account-settings-link').addEventListener('click', () => {
-        setActiveLink('account-settings-link');
-        showSection('account-settings-section');
-    });
+    function setupNavigationHandler(linkId, sectionId) {
+        const link = document.getElementById(linkId);
+        if (link) {
+            link.addEventListener('click', () => {
+                setActiveLink(linkId);
+                showSection(sectionId);
+            });
+        }
+    }
+
+    setupNavigationHandler('dashboard-link', 'dashboard-section');
+    setupNavigationHandler('attendance-link', 'attendance-section');
+    setupNavigationHandler('payroll-link', 'payroll-section');
+    setupNavigationHandler('requests-link', 'requests-section');
+    setupNavigationHandler('activity-log-link', 'activity-log-section');
+    setupNavigationHandler('account-settings-link', 'account-settings-section');
 
     // Submit request form
     function submitRequest() {
-        const teacherName = document.getElementById('teacherNameRequest').value;
-        const reason = document.getElementById('reasonRequest').value;
-        const proofFile = document.getElementById('proofUpload').files[0];
+        const responseMessage = document.getElementById('response-message');
+        if (!responseMessage) return;
+        
+        const teacherName = document.getElementById('teacherNameRequest')?.value;
+        const reason = document.getElementById('reasonRequest')?.value;
+        const proofFile = document.getElementById('proofUpload')?.files[0];
 
         if (teacherName && reason && proofFile) {
-            document.getElementById('response-message').innerHTML = `
+            responseMessage.innerHTML = `
                 <div class="alert alert-success">
                     Your request has been successfully submitted. Thank you!
                 </div>
             `;
-            document.getElementById('request-form').reset();
+            document.getElementById('request-form')?.reset();
         } else {
-            document.getElementById('response-message').innerHTML = `
+            responseMessage.innerHTML = `
                 <div class="alert alert-danger">
                     Please fill out all fields and attach a proof.
                 </div>
@@ -1174,12 +1255,15 @@
     function downloadPaySlip(type) {
         const monthSelect = document.getElementById('month-select');
         const yearSelect = document.getElementById('year-select');
+        if (!monthSelect || !yearSelect) return;
+        
         const month = monthSelect.options[monthSelect.selectedIndex].text;
         const year = yearSelect.value;
         const element = document.createElement('div');
         
         if (type === 'mid') {
-            const midContent = document.getElementById('mid-pay-slip-content').cloneNode(true);
+            const midContent = document.getElementById('mid-pay-slip-content')?.cloneNode(true);
+            if (!midContent) return;
             element.appendChild(midContent);
             const header = document.createElement('h3');
             header.textContent = `${month} ${year} - Mid-Month Payslip`;
@@ -1187,7 +1271,8 @@
             header.style.marginBottom = '20px';
             element.insertBefore(header, element.firstChild);
         } else {
-            const endContent = document.getElementById('end-pay-slip-content').cloneNode(true);
+            const endContent = document.getElementById('end-pay-slip-content')?.cloneNode(true);
+            if (!endContent) return;
             element.appendChild(endContent);
             const header = document.createElement('h3');
             header.textContent = `${month} ${year} - End-Month Payslip`;
@@ -1204,58 +1289,79 @@
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        html2pdf().set(opt).from(element).save();
+        if (typeof html2pdf !== 'undefined') {
+            html2pdf().set(opt).from(element).save();
+        }
     }
 
     // Update payslip dates when month/year changes
     function updatePaySlipDates() {
         const monthSelect = document.getElementById('month-select');
         const yearSelect = document.getElementById('year-select');
+        if (!monthSelect || !yearSelect) return;
+        
         const month = monthSelect.options[monthSelect.selectedIndex].text;
         const year = yearSelect.value;
         
-        document.getElementById('mid-pay-date').textContent = `${month} 15, ${year}`;
-        document.querySelector('#mid-pay-slip-content small.text-muted').textContent = 
-            `Salary Advance for ${month} 1-15, ${year}`;
+        const midPayDate = document.getElementById('mid-pay-date');
+        const midPayContent = document.querySelector('#mid-pay-slip-content small.text-muted');
+        const endPayDate = document.getElementById('end-pay-date');
+        const endPayContent = document.querySelector('#end-pay-slip-content small.text-muted');
         
-        document.getElementById('end-pay-date').textContent = `${month} 31, ${year}`;
-        document.querySelector('#end-pay-slip-content small.text-muted').textContent = 
-            `Full Payment for ${month} 1-31, ${year}`;
+        if (midPayDate) midPayDate.textContent = `${month} 15, ${year}`;
+        if (midPayContent) midPayContent.textContent = `Salary Advance for ${month} 1-15, ${year}`;
+        if (endPayDate) endPayDate.textContent = `${month} 31, ${year}`;
+        if (endPayContent) endPayContent.textContent = `Full Payment for ${month} 1-31, ${year}`;
     }
 
     // Event listeners for payslip date changes
-    document.getElementById('month-select').addEventListener('change', updatePaySlipDates);
-    document.getElementById('year-select').addEventListener('change', updatePaySlipDates);
+    const monthSelect = document.getElementById('month-select');
+    const yearSelect = document.getElementById('year-select');
+    
+    if (monthSelect) monthSelect.addEventListener('change', updatePaySlipDates);
+    if (yearSelect) yearSelect.addEventListener('change', updatePaySlipDates);
+    
     updatePaySlipDates();
 
     // Profile picture change handlers
-    document.getElementById('change-profile-picture-btn').addEventListener('click', () => {
-        document.getElementById('profile-picture-input').click();
-    });
+    const changeProfileBtn = document.getElementById('change-profile-picture-btn');
+    const profilePictureInput = document.getElementById('profile-picture-input');
+    
+    if (changeProfileBtn) {
+        changeProfileBtn.addEventListener('click', () => {
+            if (profilePictureInput) profilePictureInput.click();
+        });
+    }
 
-    document.getElementById('profile-picture-input').addEventListener('change', function(e) {
-        if (e.target.files && e.target.files[0]) {
-            const file = e.target.files[0];
-            
-            if (!file.type.match('image.*')) {
-                alert('Please select an image file (jpg, png, etc.)');
-                return;
+    if (profilePictureInput) {
+        profilePictureInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const file = e.target.files[0];
+                
+                if (!file.type.match('image.*')) {
+                    alert('Please select an image file (jpg, png, etc.)');
+                    return;
+                }
+                
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Image must be less than 2MB');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const currentProfilePic = document.getElementById('current-profile-picture');
+                    const headerProfilePic = document.getElementById('header-profile-picture');
+                    
+                    if (currentProfilePic) currentProfilePic.src = event.target.result;
+                    if (headerProfilePic) headerProfilePic.src = event.target.result;
+                    
+                    uploadProfilePicture(file);
+                };
+                reader.readAsDataURL(file);
             }
-            
-            if (file.size > 2 * 1024 * 1024) {
-                alert('Image must be less than 2MB');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                document.getElementById('current-profile-picture').src = event.target.result;
-                document.getElementById('header-profile-picture').src = event.target.result;
-                uploadProfilePicture(file);
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+        });
+    }
 
     // Upload profile picture to server
     function uploadProfilePicture(file) {
@@ -1275,8 +1381,11 @@
         })
         .then(data => {
             if (data.filePath) {
-                document.getElementById('current-profile-picture').src = data.filePath;
-                document.getElementById('header-profile-picture').src = data.filePath;
+                const currentProfilePic = document.getElementById('current-profile-picture');
+                const headerProfilePic = document.getElementById('header-profile-picture');
+                
+                if (currentProfilePic) currentProfilePic.src = data.filePath;
+                if (headerProfilePic) headerProfilePic.src = data.filePath;
             }
             alert('Profile picture updated successfully!');
         })
@@ -1286,81 +1395,84 @@
         });
     }
 
-    //Payslip Passcode
     // Payslip Passcode
-document.addEventListener('DOMContentLoaded', function() {
-    // Correct passcode (in a real app, this would be more secure)
-    const CORRECT_PASSCODE = "1234"; // Change this to your desired passcode
-    
-    // Get elements
-    const passcodeInput = document.getElementById('passcode-input');
-    const submitBtn = document.getElementById('submit-passcode');
-    const lockBtn = document.getElementById('lock-payroll');
-    const passcodePrompt = document.getElementById('passcode-prompt');
-    const payrollContent = document.getElementById('payroll-content');
-    
-    // Handle passcode submission
-    submitBtn.addEventListener('click', function() {
-        if (passcodeInput.value === CORRECT_PASSCODE) {
-            // Correct passcode - show content
-            passcodePrompt.classList.add('d-none');
-            payrollContent.classList.remove('d-none');
-            passcodeInput.value = '';
-        } else {
-            // Wrong passcode - add shake animation
-            passcodeInput.classList.add('is-invalid');
-            passcodeInput.focus();
+    document.addEventListener('DOMContentLoaded', function() {
+        // Correct passcode (in a real app, this would be more secure)
+        const CORRECT_PASSCODE = "1234"; // Change this to your desired passcode
+        
+        // Get elements
+        const passcodeInput = document.getElementById('passcode-input');
+        const submitBtn = document.getElementById('submit-passcode');
+        const lockBtn = document.getElementById('lock-payroll');
+        const passcodePrompt = document.getElementById('passcode-prompt');
+        const payrollContent = document.getElementById('payroll-content');
+        
+        if (!passcodeInput || !submitBtn || !lockBtn || !passcodePrompt || !payrollContent) return;
+        
+        // Handle passcode submission
+        submitBtn.addEventListener('click', function() {
+            if (passcodeInput.value === CORRECT_PASSCODE) {
+                // Correct passcode - show content
+                passcodePrompt.classList.add('d-none');
+                payrollContent.classList.remove('d-none');
+                passcodeInput.value = '';
+            } else {
+                // Wrong passcode - add shake animation
+                passcodeInput.classList.add('is-invalid');
+                passcodeInput.focus();
+                
+                setTimeout(() => {
+                    passcodeInput.classList.remove('is-invalid');
+                }, 1000);
+            }
+        });
+        
+        // Allow Enter key to submit
+        passcodeInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                submitBtn.click();
+            }
+        });
+        
+        // Lock payroll section
+        lockBtn.addEventListener('click', function() {
+            payrollContent.classList.add('d-none');
+            passcodePrompt.classList.remove('d-none');
+        });
+        
+        // Update dates when month/year changes
+        const monthSelect = document.getElementById('month-select');
+        const yearSelect = document.getElementById('year-select');
+        
+        if (monthSelect && yearSelect) {
+            function updatePaySlipDates() {
+                const month = monthSelect.value;
+                const year = yearSelect.value;
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                
+                // Update mid-month payslip
+                const midPayDate = document.getElementById('mid-pay-date');
+                const midPayContent = document.querySelector('#mid-pay-slip-content small');
+                const midPayText = document.querySelector('.col-md-6.pe-md-2 .text-muted');
+                
+                // Update end-month payslip
+                const endPayDate = document.getElementById('end-pay-date');
+                const endPayContent = document.querySelector('#end-pay-slip-content small');
+                const endPayText = document.querySelector('.col-md-6.ps-md-2 .text-muted');
+                
+                if (midPayDate) midPayDate.textContent = `${monthNames[parseInt(month)-1]} 15, ${year}`;
+                if (midPayContent) midPayContent.textContent = `Salary Advance for ${monthNames[parseInt(month)-1]} 1-15, ${year}`;
+                if (midPayText) midPayText.textContent = `${monthNames[parseInt(month)-1]} 15, ${year}`;
+                
+                if (endPayDate) endPayDate.textContent = `${monthNames[parseInt(month)-1]} 31, ${year}`;
+                if (endPayContent) endPayContent.textContent = `Full Payment for ${monthNames[parseInt(month)-1]} 1-31, ${year}`;
+                if (endPayText) endPayText.textContent = `${monthNames[parseInt(month)-1]} 31, ${year}`;
+            }
             
-            setTimeout(() => {
-                passcodeInput.classList.remove('is-invalid');
-            }, 1000);
+            monthSelect.addEventListener('change', updatePaySlipDates);
+            yearSelect.addEventListener('change', updatePaySlipDates);
         }
     });
-    
-    // Allow Enter key to submit
-    passcodeInput.addEventListener('keyup', function(e) {
-        if (e.key === 'Enter') {
-            submitBtn.click();
-        }
-    });
-    
-    // Lock payroll section
-    lockBtn.addEventListener('click', function() {
-        payrollContent.classList.add('d-none');
-        passcodePrompt.classList.remove('d-none');
-    });
-    
-    // Update dates when month/year changes
-    const monthSelect = document.getElementById('month-select');
-    const yearSelect = document.getElementById('year-select');
-    
-    function updatePaySlipDates() {
-        const month = monthSelect.value;
-        const year = yearSelect.value;
-        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        
-        // Update mid-month payslip
-        document.getElementById('mid-pay-date').textContent = `${monthNames[parseInt(month)-1]} 15, ${year}`;
-        document.querySelector('#mid-pay-slip-content small').textContent = `Salary Advance for ${monthNames[parseInt(month)-1]} 1-15, ${year}`;
-        document.querySelector('.col-md-6.pe-md-2 .text-muted').textContent = `${monthNames[parseInt(month)-1]} 15, ${year}`;
-        
-        // Update end-month payslip
-        document.getElementById('end-pay-date').textContent = `${monthNames[parseInt(month)-1]} 31, ${year}`;
-        document.querySelector('#end-pay-slip-content small').textContent = `Full Payment for ${monthNames[parseInt(month)-1]} 1-31, ${year}`;
-        document.querySelector('.col-md-6.ps-md-2 .text-muted').textContent = `${monthNames[parseInt(month)-1]} 31, ${year}`;
-    }
-    
-    monthSelect.addEventListener('change', updatePaySlipDates);
-    yearSelect.addEventListener('change', updatePaySlipDates);
-    
-    // Download payslip function
-    window.downloadPaySlip = function(type) {
-        alert(`This would download the ${type}-month payslip in a real implementation`);
-        // In a real app, you would generate and download a PDF here
-    };
-});
 </script>
-
-</body>
 
 </html>
