@@ -281,6 +281,14 @@ body {
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
+/* === Account profile settings === */
+.object-fit-cover {
+  object-fit: cover;
+}
+.btn-outline-primary {
+  border-width: 1.5px;
+} 
+
 /* === Mobile Responsive === */
 @media (max-width: 768px) {
   .sidebar {

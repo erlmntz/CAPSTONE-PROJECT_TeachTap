@@ -846,188 +846,177 @@
         </div>
     
         <!-- Account Settings Section -->
-        <div id="account-settings-section" class="content-section">
-            <div class="container-fluid">
-                <div class="row">
-                    <!-- Left Navigation -->
-                    <div class="col-md-3 mb-4">
-                        <div class="list-group rounded-3 overflow-hidden border-0 shadow-sm">
-                            <a href="#profile-section" class="list-group-item list-group-item-action active bg-primary text-white border-0" data-bs-toggle="tab">
-                                <i class="fas fa-user-circle me-2"></i> Profile Picture
-                            </a>
-                            <a href="#personal-info-section" class="list-group-item list-group-item-action text-dark border-0" data-bs-toggle="tab">
-                                <i class="fas fa-user-edit me-2 text-muted"></i> Personal Information
-                            </a>
-                            <a href="#password-section" class="list-group-item list-group-item-action text-dark border-0" data-bs-toggle="tab">
-                                <i class="fas fa-lock me-2 text-muted"></i> Password & Security
-                            </a>
-                        </div>
+        <div id="account-settings-section" class="content-section container mt-4">
+            <h2 class="mb-4">Account Settings</h2>
+            
+            <div class="row">
+                <!-- Navigation Sidebar -->
+                <div class="col-md-3">
+                    <div class="list-group">
+                        <a href="#profile-settings" class="list-group-item list-group-item-action active" data-bs-toggle="list">
+                            <i class="bi bi-person me-2"></i> Profile Settings
+                        </a>
+                        <a href="#personal-info" class="list-group-item list-group-item-action" data-bs-toggle="list">
+                            <i class="bi bi-info-circle me-2"></i> Personal Info
+                        </a>
+                        <a href="#password-security" class="list-group-item list-group-item-action" data-bs-toggle="list">
+                            <i class="bi bi-shield-lock me-2"></i> Password & Security
+                        </a>
                     </div>
-                    <!-- Right Content -->
-                    <div class="col-md-9">
-                        <div class="tab-content">
-                            <!-- Profile Picture Tab -->
-                            <div class="tab-pane fade show active" id="profile-section">
-                                <div class="card border-primary">
-                                    <div class="card-header bg-primary text-white">
-                                        <h5 class="card-title mb-0">
-                                            <i class="fas fa-user-circle me-2"></i> Profile Picture
-                                        </h5>
-                                    </div>
-                                    <div class="card-body text-center p-4">
-                                        <div class="position-relative d-inline-block mb-3">
-                                            <img id="profile-preview" src="/IMAGES/MaamAlma.png" 
-                                                class="rounded-circle border border-primary shadow" width="150" height="150" alt="Profile Picture">
-                                            <label for="profile-upload" class="btn btn-primary btn-sm rounded-circle position-absolute" 
-                                                style="bottom: 10px; right: 10px; width: 32px; height: 32px; line-height: 20px;">
-                                                <i class="fas fa-camera"></i>
-                                                <input type="file" id="profile-upload" accept="image/*" class="d-none" 
-                                                    onchange="previewProfilePicture(this)">
-                                            </label>
-                                        </div>
-                                        
-                                        <p class="text-muted small mb-4">
-                                            Click the camera icon to upload a new profile picture. <br>
-                                            Recommended size: 150x150 pixels
-                                        </p>
-                                        
-                                        <button id="save-profile-btn" class="btn btn-primary px-4" disabled
-                                            onclick="saveProfilePicture()">
-                                            <i class="fas fa-save me-1"></i> Save Changes
-                                        </button>
-                                    </div>
-                                </div>
+                </div>
+                
+                <!-- Content Area -->
+                <div class="col-md-9">
+                    <div class="tab-content bg-white p-4 rounded shadow-sm">
+                        <!-- Profile Settings -->
+                        <div class="tab-pane fade show active" id="profile-settings">
+                            <div class="text-center mb-4">
+                                <h5 class="fw-bold text-primary">Profile Picture</h5>
+                                <p class="text-muted small">Update your account photo</p>
                             </div>
                             
-                            <!-- Personal Information Tab -->
-                            <div class="tab-pane fade" id="personal-info-section">
-                                <div class="card border-primary">
-                                    <div class="card-header bg-primary text-white">
-                                        <h5 class="card-title mb-0">
-                                            <i class="fas fa-user-edit me-2"></i> Personal Information
-                                        </h5>
+                            <form class="needs-validation" novalidate>
+                                <div class="d-flex flex-column align-items-center">
+                                    <!-- Profile Picture -->
+                                    <div class="mb-3 position-relative">
+                                        <img id="current-profile-picture" 
+                                            src="/IMAGES/MaamAlma.png" 
+                                            class="rounded-circle border border-3 border-primary object-fit-cover" 
+                                            width="140" 
+                                            height="140" 
+                                            alt="Profile Picture">
                                     </div>
-                                    <div class="card-body p-4">
-                                        <form id="personal-info-form">
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <label for="firstname" class="form-label fw-semibold text-primary">First Name</label>
-                                                    <input type="text" id="firstname" class="form-control border-primary shadow-sm" 
-                                                        style="border-radius: 8px;" value="Alma">
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label for="middlename" class="form-label fw-semibold text-primary">Middle Name</label>
-                                                    <input type="text" id="middlename" class="form-control border-primary shadow-sm" 
-                                                        style="border-radius: 8px;" value="Reyes">
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label for="lastname" class="form-label fw-semibold text-primary">Last Name</label>
-                                                    <input type="text" id="lastname" class="form-control border-primary shadow-sm" 
-                                                        style="border-radius: 8px;" value="Balanza">
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <label for="status" class="form-label fw-semibold text-primary">Status</label>
-                                                    <select id="status" class="form-select border-primary shadow-sm" style="border-radius: 8px;">
-                                                        <option value="single">Single</option>
-                                                        <option value="married" selected>Married</option>
-                                                        <option value="divorced">Divorced</option>
-                                                        <option value="widowed">Widowed</option>
-                                                        <option value="separated">Separated</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="employee-id" class="form-label fw-semibold text-primary">Employee ID</label>
-                                                    <input type="text" id="employee-id" class="form-control border-primary shadow-sm" 
-                                                        style="border-radius: 8px;" value="DEPED-2025-001" readonly>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <label for="email" class="form-label fw-semibold text-primary">Email</label>
-                                                    <input type="email" id="email" class="form-control border-primary shadow-sm" 
-                                                        style="border-radius: 8px;" value="maalma.balanza@deped.gov.ph">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="phone" class="form-label fw-semibold text-primary">Phone</label>
-                                                    <input type="tel" id="phone" class="form-control border-primary shadow-sm" 
-                                                        style="border-radius: 8px;" value="09228951325">
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="mb-3">
-                                                <label for="address" class="form-label fw-semibold text-primary">Address</label>
-                                                <input type="text" id="address" class="form-control border-primary shadow-sm" 
-                                                    style="border-radius: 8px;" value="0248 Lola's Way St., Caingin, San Rafael, Bulacan">
-                                            </div>
-                                            
-                                            <div class="mt-4 d-flex justify-content-end gap-2">
-                                                <button type="button" class="btn btn-outline-primary px-4 py-2" onclick="resetPersonalInfoForm()">
-                                                    <i class="fas fa-times me-1"></i> Cancel
-                                                </button>
-                                                <button type="button" class="btn btn-primary px-4 py-2" onclick="savePersonalInfo()">
-                                                    <i class="fas fa-save me-1"></i> Request Appeal
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
+                                    
+                                    <!-- Change Button -->
+                                    <button type="button" id="change-profile-picture-btn" 
+                                            class="btn btn-outline-primary btn-sm mb-2">
+                                        <i class="fas fa-camera me-1"></i> Change Photo
+                                    </button>
+                                    <input type="file" id="profile-picture-input" accept="image/*" class="d-none">
+                                    <p class="text-muted small mb-4">Supports JPG, PNG (Max 2MB)</p>
                                 </div>
+                                
+                                <!-- Save Button -->
+                                <div class="text-center mt-3">
+                                    <button type="submit" class="btn btn-primary px-4 py-2">
+                                        <i class="fas fa-save me-2"></i>Save Changes
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Personal Info -->
+                        <div class="tab-pane fade" id="personal-info">
+                            <div class="mb-4">
+                                <h5 class="fw-bold text-primary">Personal Information</h5>
+                                <p class="text-muted small">Update your account details</p>
                             </div>
                             
-                            <!-- Password & Security Tab -->
-                            <div class="tab-pane fade" id="password-section">
-                                <div class="card border-primary">
-                                    <div class="card-header bg-primary text-white">
-                                        <h5 class="card-title mb-0">
-                                            <i class="fas fa-lock me-2"></i> Password & Security
-                                        </h5>
+                            <form id="personal-info-form" class="needs-validation" novalidate>
+                                <!-- Name Row -->
+                                <div class="row mb-3">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="firstname" class="form-label fw-semibold small">FIRST NAME</label>
+                                        <input type="text" id="firstname" class="form-control shadow-sm rounded-2" 
+                                               value="Alma" required>
                                     </div>
-                                    <div class="card-body p-4">
-                                        <form id="change-password-form">
-                                            <!-- Current Password -->
-                                            <div class="mb-3">
-                                                <label class="form-label fw-semibold text-primary">Current Password</label>
-                                                <div class="input-group">
-                                                    <input type="password" id="current-password" class="form-control border-primary shadow-sm" 
-                                                           placeholder="P@ssword">
-                                                    <button class="btn btn-outline-primary toggle-password" type="button"
-                                                            onclick="togglePasswordVisibility(this)">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                                                    
-                                            <!-- New Password -->
-                                            <div class="mb-3">
-                                                <label class="form-label fw-semibold text-primary">New Password</label>
-                                                <input type="password" id="new-password" class="form-control border-primary shadow-sm mb-1" 
-                                                    placeholder="Create new password">
-                                                <small class="text-muted small">Must be at least 8 characters</small>
-                                            </div>
-                                            
-                                            <!-- Confirm Password -->
-                                            <div class="mb-4">
-                                                <label class="form-label fw-semibold text-primary">Confirm Password</label>
-                                                <input type="password" id="confirm-password" class="form-control border-primary shadow-sm" 
-                                                    placeholder="Re-type new password">
-                                            </div>
-                                            
-                                            <!-- Password Strength Meter -->
-                                            <div class="progress mb-4" style="height: 5px;">
-                                                <div id="password-strength" class="progress-bar" role="progressbar" style="width: 0%; background-color: #0d6efd;"></div>
-                                            </div>
-                                            
-                                            <!-- Submit Button -->
-                                            <button type="button" class="btn btn-primary w-100 py-2 mt-2" onclick="changePassword()">
-                                                <i class="fas fa-key me-2"></i> Update Password
-                                            </button>
-                                        </form>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="middlename" class="form-label fw-semibold small">MIDDLE NAME</label>
+                                        <input type="text" id="middlename" class="form-control shadow-sm rounded-2" 
+                                               value="Santos" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="lastname" class="form-label fw-semibold small">LAST NAME</label>
+                                        <input type="text" id="lastname" class="form-control shadow-sm rounded-2" 
+                                               value="Balanza" required>
                                     </div>
                                 </div>
+                        
+                                <!-- Status and Employee ID Row -->
+                                <div class="row mb-3">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="status" class="form-label fw-semibold small">STATUS</label>
+                                        <select id="status" class="form-select shadow-sm rounded-2">
+                                            <option value="single">Single</option>
+                                            <option value="married" selected>Married</option>
+                                            <option value="divorced">Divorced</option>
+                                            <option value="widowed">Widowed</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="employee-id" class="form-label fw-semibold small">EMPLOYEE ID</label>
+                                        <input type="text" id="employee-id" class="form-control shadow-sm rounded-2" 
+                                               value="DEPED-2025-001" readonly>
+                                    </div>
+                                </div>
+                                
+                                <!-- Contact Info Row -->
+                                <div class="row mb-3">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label fw-semibold small">EMAIL</label>
+                                        <input type="email" id="email" class="form-control shadow-sm rounded-2" 
+                                               value="maalma.balanza@deped.gov.ph" required>
+                                        <div class="form-text small">Official DepEd email address</div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phone" class="form-label fw-semibold small">PHONE NUMBER</label>
+                                        <input type="tel" id="phone" class="form-control shadow-sm rounded-2" 
+                                               value="09228951325" required>
+                                        <div class="form-text small">Format: 09XXXXXXXXX</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Address Field -->
+                                <div class="mb-4">
+                                    <label for="address" class="form-label fw-semibold small">ADDRESS</label>
+                                    <input type="text" id="address" class="form-control shadow-sm rounded-2" 
+                                           value="0248 Lola's Way St., Caingin, San Rafael, Bulacan" required>
+                                </div>
+                                
+                                <!-- Action Buttons -->
+                                <div class="d-flex justify-content-end gap-3 mt-4">
+                                    <button type="button" class="btn btn-outline-secondary px-4 py-2 rounded-2">
+                                        <i class="fas fa-times me-2"></i>Cancel
+                                    </button>
+                                    <button type="submit" class="btn btn-primary px-4 py-2 rounded-2">
+                                        <i class="fas fa-save me-2"></i>Save Changes
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Password & Security -->
+                        <div class="tab-pane fade" id="password-security">
+                            <div class="mb-4">
+                                <h5 class="fw-bold mb-1">Password & Security</h5>
+                                <p class="text-muted small">Keep your account protected</p>
                             </div>
+                            
+                            <form class="needs-validation" novalidate>
+                                <div class="mb-3">
+                                    <label for="currentPassword" class="form-label small fw-bold">CURRENT PASSWORD</label>
+                                    <input type="password" class="form-control" id="currentPassword" placeholder="Enter your current password" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="newPassword" class="form-label small fw-bold">NEW PASSWORD</label>
+                                    <input type="password" class="form-control" id="newPassword" placeholder="Create a new password" required>
+                                    <div class="form-text small">At least 8 characters with numbers</div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="confirmPassword" class="form-label small fw-bold">CONFIRM NEW PASSWORD</label>
+                                    <input type="password" class="form-control" id="confirmPassword" placeholder="Re-type your new password" required>
+                                </div>
+                                
+                                <div class="mb-4 form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="twoFactorAuth">
+                                    <label class="form-check-label small fw-bold" for="twoFactorAuth">Two-Factor Authentication</label>
+                                    <div class="form-text small">Extra layer of security for your account</div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary px-4">Update Security</button>
+                            </form>
                         </div>
                     </div>
                 </div>
