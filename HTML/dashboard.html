@@ -381,43 +381,108 @@
             </div>
         </div>
 
-        <!-- Attendance Section -->
+        <!-- NFC Attendance Section -->
         <div id="attendance-section" class="content-section">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title pb-3 text-primary">
-                        <i class="fas fa-clipboard-list me-2"></i>NFC  TAG Attendance
-                      </h5>                                     
-                    <!-- Calendar Section -->
-                    <div class="mb-4">
-                        <label for="attendance-calendar" class="form-label">Select Date</label>
-                        <input type="date" id="attendance-calendar" class="form-control" onchange="loadAttendanceByDate()">
+            <!-- Today's Attendance Card -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="m-0">
+                            <i class="fas fa-calendar-day me-2"></i>Today's Attendance
+                        </h5>
+                        <div class="d-flex align-items-center">
+                            <button id="download-today-btn" class="btn btn-sm btn-light">
+                                <i class="fas fa-file-excel me-1"></i> Export
+                            </button>
+                        </div>
                     </div>
-
-                    <h6>Today's Attendance Records</h6>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="table-primary">
-                                <th>Date</th>
-                                <th>Log-in Time</th>
-                                <th>Login Status</th>
-                                <th>Log-out Time</th>
-                                <th>Logout Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="attendance-records">
-                            <tr>
-                                <td id="dummy-date">2025-03-24</td>
-                                <td id="dummy-login-time">09:00 AM</td>
-                                <td id="dummy-login-status">On Time</td>
-                                <td id="dummy-logout-time">05:00 PM</td>
-                                <td id="dummy-logout-status">On Time Leave</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                </div>
+                
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle" id="today-table">
+                            <thead>
+                                <tr class="bg-blue-50">
+                                    <th class="fw-semibold">Employee ID</th>
+                                    <th class="fw-semibold">Name</th>
+                                    <th class="fw-semibold">Log-in</th>
+                                    <th class="fw-semibold">Status</th>
+                                    <th class="fw-semibold">Log-out</th>
+                                    <th class="fw-semibold">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="today-attendance">
+                                <tr>
+                                    <td>DEPED-001</td>
+                                    <td>Ma. Alma S. Balanza</td>
+                                    <td>08:00 AM</td>
+                                    <td><span class="badge bg-success">On Time</span></td>
+                                    <td>05:00 PM</td>
+                                    <td><span class="badge bg-success">On Time</span></td>
+                                </tr>
+                                <!-- Additional today's records would appear here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Attendance History Card -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="m-0">
+                            <i class="fas fa-calendar-alt me-2"></i>Attendance History
+                        </h5>
+                        <button id="download-today-btn" class="btn btn-sm btn-light">
+                            <i class="fas fa-file-excel me-1"></i> Export
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <!-- Date Range Filter -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-5">
+                            <label for="start-date" class="form-label">From Date</label>
+                            <input type="date" id="start-date" class="form-control">
+                        </div>
+                        <div class="col-md-5">
+                            <label for="end-date" class="form-label">To Date</label>
+                            <input type="date" id="end-date" class="form-control">
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button id="filter-btn" class="btn btn-primary w-100">
+                                <i class="fas fa-filter me-1"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+        
+                    <!-- Filtered Attendance Records -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle" id="history-table">
+                            <thead>
+                                <tr class="bg-blue-50">
+                                    <th class="fw-semibold">Date</th>
+                                    <th class="fw-semibold">Employee ID</th>
+                                    <th class="fw-semibold">Name</th>
+                                    <th class="fw-semibold">Log-in</th>
+                                    <th class="fw-semibold">Status</th>
+                                    <th class="fw-semibold">Log-out</th>
+                                    <th class="fw-semibold">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="filtered-attendance">
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-4">Select a date range to view attendance records</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
+        
         
         
         <!-- Payroll Section -->
@@ -1045,6 +1110,12 @@
         }
     });
 
+    //NFC Attendance time
+    
+    
+    
+
+
     // Main initialization when page loads
     document.addEventListener("DOMContentLoaded", function() {
         // UI elements
@@ -1111,6 +1182,79 @@
                 }, 1000);
             });
         }
+
+        //NFC attendance check-in
+        const today = new Date().toISOString().split('T')[0];
+    const attendanceData = [
+        { date: today, empId: 'DEPED-001', name: 'Ma. Alma S. Balanza', 
+          login: '08:00 AM', loginStatus: 'On Time', logout: '05:00 PM', logoutStatus: 'On Time' },
+        { date: '2025-04-01', empId: 'DEPED-001', name: 'Ma. Alma S. Balanza', 
+          login: '08:15 AM', loginStatus: 'Late', logout: '05:10 PM', logoutStatus: 'On Time' },
+        { date: '2025-04-02', empId: 'DEPED-001', name: 'Ma. Alma S. Balanza', 
+          login: '08:05 AM', loginStatus: 'On Time', logout: '04:45 PM', logoutStatus: 'Early' }
+    ];
+
+    // Initialize date inputs with today's date
+    document.getElementById('start-date').value = today;
+    document.getElementById('end-date').value = today;
+
+    // Filter button functionality
+    document.getElementById('filter-btn').addEventListener('click', function() {
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
+        
+        if (!startDate || !endDate) {
+            alert('Please select both start and end dates');
+            return;
+        }
+        
+        const filteredData = attendanceData.filter(record => {
+            return record.date >= startDate && record.date <= endDate && record.date !== today;
+        });
+        
+        renderFilteredAttendance(filteredData);
+    });
+
+    // Render filtered attendance
+    function renderFilteredAttendance(data) {
+        const tbody = document.getElementById('filtered-attendance');
+        tbody.innerHTML = '';
+        
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center">No records found for selected date range</td></tr>';
+            return;
+        }
+        
+        data.forEach(record => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${record.date}</td>
+                <td>${record.empId}</td>
+                <td>${record.name}</td>
+                <td>${record.login}</td>
+                <td><span class="badge ${record.loginStatus === 'On Time' ? 'bg-success' : 'bg-warning'}">${record.loginStatus}</span></td>
+                <td>${record.logout}</td>
+                <td><span class="badge ${record.logoutStatus === 'On Time' ? 'bg-success' : 'bg-warning'}">${record.logoutStatus}</span></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    // Separate today's attendance
+    function loadTodaysAttendance() {
+        const todayData = attendanceData.filter(record => record.date === today);
+        const tbody = document.getElementById('today-attendance');
+        
+        if (todayData.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center">No attendance records for today</td></tr>';
+        }
+    }
+
+    // Initialize on load
+    window.onload = function() {
+        loadTodaysAttendance();
+    };
+        
 
         // Filter activity log items
         if (filterItems && timelineItems && dateGroups && dropdownButton) {
