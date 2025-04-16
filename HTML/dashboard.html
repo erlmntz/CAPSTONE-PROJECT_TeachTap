@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <link rel="stylesheet" href="/CSS/dashboard.css">
 </head>
 
@@ -729,37 +733,174 @@
 
          <!-- Attendance Missed Section -->
          <div id="requests-section" class="content-section">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title text-primary"><i class="fas fa-edit me-2"></i> Submit a Request</h5>
-                    <form id="request-form">
-                        <div class="mb-3">
-                            <label for="teacherNameRequest" class="form-label">Teacher Name</label>
-                            <input type="text" id="teacherNameRequest" class="form-control" value="Ma. Alma S. Balanza" readonly disabled required>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="card shadow-lg mb-4">
+                            <div class="card-header bg-primary text-white py-3">
+                                <h3 class="mb-0"><i class="fas fa-clock me-2"></i>Attendance & Leave Requests</h3>
+                            </div>
+                            <div class="card-body p-4">
+                                <ul class="nav nav-tabs mb-4" id="requestTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="attendance-tab" data-bs-toggle="tab" data-bs-target="#attendance" type="button" role="tab">
+                                            <i class="fas fa-clock me-1"></i> Attendance Missed
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="leave-tab" data-bs-toggle="tab" data-bs-target="#leave" type="button" role="tab">
+                                            <i class="fas fa-calendar-minus me-1"></i> Leave Request
+                                        </button>
+                                    </li>
+                                </ul>
+                                
+                                <div class="tab-content" id="requestTabsContent">
+                                    <!-- Attendance Missed Tab -->
+                                    <div class="tab-pane fade show active" id="attendance" role="tabpanel">
+                                        <form id="attendanceMissedForm">
+                                            <div class="row mb-4">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="missedType" class="form-label fw-semibold">Type of Missed Attendance</label>
+                                                        <select class="form-select shadow-sm" id="missedType" required style="border-radius: 8px; border: 1px solid #ccc;">
+                                                            <option value="" selected disabled>Select type</option>
+                                                            <option value="time-in">Missed Time In</option>
+                                                            <option value="time-out">Missed Time Out</option>
+                                                            <option value="both">Missed Both</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="missedDate" class="form-label fw-semibold">Date of Occurrence</label>
+                                                        <input type="date" class="form-control shadow-sm" id="missedDate" required style="border-radius: 8px; border: 1px solid #ccc;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mb-4">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="timeIn" class="form-label fw-semibold">Time In</label>
+                                                        <input type="time" class="form-control shadow-sm" id="timeIn" style="border-radius: 8px; border: 1px solid #ccc;">
+                                                        <small class="form-text text-muted">Enter your actual Time In if known</small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="timeOut" class="form-label fw-semibold">Time Out</label>
+                                                        <input type="time" class="form-control shadow-sm" id="timeOut" style="border-radius: 8px; border: 1px solid #ccc;">
+                                                        <small class="form-text text-muted">Enter your actual Time Out if known</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mb-4">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="missedEvidence" class="form-label fw-semibold">Supporting Evidence (Optional)</label>
+                                                        <input type="file" class="form-control shadow-sm" id="missedEvidence" style="border-radius: 8px; border: 1px solid #ccc;">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="alternativeProof" class="form-label fw-semibold">Alternative Proof</label>
+                                                        <select class="form-select shadow-sm" id="alternativeProof" style="border-radius: 8px; border: 1px solid #ccc;">
+                                                            <option value="" selected disabled>Select proof type</option>
+                                                            <option value="email">Email confirmation</option>
+                                                            <option value="meeting">Meeting minutes</option>
+                                                            <option value="witness">Witness confirmation</option>
+                                                            <option value="other">Other evidence</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group mb-4">
+                                                <label for="missedReason" class="form-label fw-semibold">Reason for Missed Attendance</label>
+                                                <textarea class="form-control shadow-sm" id="missedReason" rows="3" required style="border-radius: 8px; border: 1px solid #ccc;" placeholder="Please explain why the attendance was missed and any additional details"></textarea>
+                                            </div>
+                                            
+                                            <div class="d-grid gap-2">
+                                                <button type="submit" class="btn btn-primary py-3">
+                                                    <i class="fas fa-paper-plane me-2"></i>Submit Attendance Request
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                    <!-- Leave Request Tab -->
+                                    <div class="tab-pane fade" id="leave" role="tabpanel">
+                                        <form id="leaveRequestForm">
+                                            <div class="row mb-4">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="leaveType" class="form-label fw-semibold">Leave Type</label>
+                                                        <select class="form-select shadow-sm" id="leaveType" required style="border-radius: 8px; border: 1px solid #ccc;">
+                                                            <option value="" selected disabled>Select leave type</option>
+                                                            <option value="vacation">Vacation Leave</option>
+                                                            <option value="sick">Sick Leave</option>
+                                                            <option value="personal">Personal Leave</option>
+                                                            <option value="bereavement">Bereavement Leave</option>
+                                                            <option value="other">Other</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="leaveDays" class="form-label fw-semibold">Total Days Requested</label>
+                                                        <input type="number" class="form-control shadow-sm" id="leaveDays" min="0.5" step="0.5" required style="border-radius: 8px; border: 1px solid #ccc;">
+                                                        <small class="form-text text-muted">Use 0.5 for half days</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mb-4">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="leaveStart" class="form-label fw-semibold">Start Date</label>
+                                                        <input type="date" class="form-control shadow-sm" id="leaveStart" required style="border-radius: 8px; border: 1px solid #ccc;">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="leaveEnd" class="form-label fw-semibold">End Date</label>
+                                                        <input type="date" class="form-control shadow-sm" id="leaveEnd" required style="border-radius: 8px; border: 1px solid #ccc;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group mb-4">
+                                                <label for="leaveReason" class="form-label fw-semibold">Reason for Leave</label>
+                                                <textarea class="form-control shadow-sm" id="leaveReason" rows="3" required style="border-radius: 8px; border: 1px solid #ccc;" placeholder="Please provide details about your leave request"></textarea>
+                                            </div>
+                                            
+                                            <div class="row mb-4">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="leaveContact" class="form-label fw-semibold">Contact During Leave</label>
+                                                        <input type="text" class="form-control shadow-sm" id="leaveContact" style="border-radius: 8px; border: 1px solid #ccc;" placeholder="Phone number or email">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-check pt-4 mt-3">
+                                                        <input type="checkbox" class="form-check-input shadow-sm" id="emergencyLeave" style="border-radius: 4px; border: 1px solid #ccc;">
+                                                        <label class="form-check-label fw-semibold" for="emergencyLeave">This is an emergency leave request</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="d-grid gap-2">
+                                                <button type="submit" class="btn btn-primary py-3">
+                                                    <i class="fas fa-paper-plane me-2"></i>Submit Leave Request
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="dateRequest" class="form-label">Date</label>
-                            <input type="date" id="dateRequest" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="logInTime" class="form-label">Log In Time</label>
-                            <input type="time" id="logInTime" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="logOutTime" class="form-label">Log Out Time</label>
-                            <input type="time" id="logOutTime" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="reasonRequest" class="form-label">Reason for Missing Tap</label>
-                            <textarea id="reasonRequest" class="form-control" rows="3" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="proofUpload" class="form-label">Attach Proof</label>
-                            <input type="file" id="proofUpload" class="form-control" required>
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="submitRequest()">Submit Request</button>
-                    </form>
-                    <div id="response-message" class="mt-3"></div>
+                    </div>
                 </div>
             </div>
         </div>
