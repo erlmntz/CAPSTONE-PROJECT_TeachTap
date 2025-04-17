@@ -75,37 +75,37 @@
       <!-- Monthly Absence Tracker Widget -->
       <div class="row mt-4" id="monthly-absence-widget">
         <div class="col-12">
-          <div class="card shadow-sm border-0">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
-              <h5 class="mb-0" style="color: rgb(26, 35, 126);">Monthly Teacher Attendance</h5>
+          <div class="card shadow-sm border-primary">
+            <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Monthly Teacher Attendance</h5>
               <div class="d-flex align-items-center">
                 <div class="me-3">
-                  <span class="badge" style="background-color: rgba(227, 242, 253, 0.8); color: rgb(26, 35, 126);">
+                  <span class="badge bg-primary bg-opacity-25">
                     Total Teachers: <strong>66</strong>
                   </span>
                 </div>
                 <div class="input-group" style="width: 200px;">
-                  <input type="month" class="form-control" style="border-color: rgb(26, 35, 126);" id="attendance-month" value="2023-10">
-                  <button class="btn btn-outline-custom" type="button" id="refresh-attendance">
+                  <input type="month" class="form-control border-primary" id="attendance-month" value="2023-10">
+                  <button class="btn btn-outline-light" type="button" id="refresh-attendance">
                     <i class="fas fa-sync-alt"></i>
                   </button>
                 </div>
               </div>
             </div>
-            <div class="card-body bg-white">
+            <div class="card-body">
               <!-- Summary Cards Row -->
-              <div class="row mb-4">
+              <div class="row mb-4 g-3">
                 <!-- Perfect Attendance -->
-                <div class="col-md-4 mb-3 mb-md-0">
-                  <div class="card h-100" style="background-color: rgb(227, 242, 253); border-color: white;">
+                <div class="col-md-4">
+                  <div class="card h-100 border-primary bg-primary bg-opacity-10">
                     <div class="card-body">
-                      <div class="d-flex align-items-center" style="color: rgb(26, 35, 126);">
+                      <div class="d-flex align-items-center text-primary">
                         <div class="me-3">
-                          <i class="fas fa-check-circle fa-2x" style="color: rgb(26, 35, 126);"></i>
+                          <i class="fas fa-check-circle fa-2x"></i>
                         </div>
                         <div>
-                          <h6 class="mb-1" style="color: rgb(26, 35, 126);">Perfect Attendance</h6>
-                          <h3 class="mb-0" style="color: rgb(26, 35, 126);">62</h3>
+                          <h6 class="mb-1">Perfect Attendance</h6>
+                          <h3 class="mb-0">62</h3>
                         </div>
                       </div>
                     </div>
@@ -113,16 +113,16 @@
                 </div>
                 
                 <!-- Absent Teachers -->
-                <div class="col-md-4 mb-3 mb-md-0">
-                  <div class="card h-100" style="background-color: rgb(227, 242, 253); border-color: white;">
+                <div class="col-md-4">
+                  <div class="card h-100 border-primary bg-primary bg-opacity-10">
                     <div class="card-body">
-                      <div class="d-flex align-items-center" style="color: rgb(26, 35, 126);">
+                      <div class="d-flex align-items-center text-primary">
                         <div class="me-3">
-                          <i class="fas fa-user-slash fa-2x" style="color: rgb(26, 35, 126);"></i>
+                          <i class="fas fa-user-slash fa-2x"></i>
                         </div>
                         <div>
-                          <h6 class="mb-1" style="color: rgb(26, 35, 126);">Absent Teachers</h6>
-                          <h3 class="mb-0" style="color: rgb(26, 35, 126);">2</h3>
+                          <h6 class="mb-1">Absent Teachers</h6>
+                          <h3 class="mb-0">2</h3>
                         </div>
                       </div>
                     </div>
@@ -131,180 +131,147 @@
                 
                 <!-- Late Arrivals -->
                 <div class="col-md-4">
-                  <div class="card h-100" style="background-color: rgb(227, 242, 253); border-color: white;">
+                  <div class="card h-100 border-primary bg-primary bg-opacity-10">
                     <div class="card-body">
-                      <div class="d-flex align-items-center" style="color: rgb(26, 35, 126);">
+                      <div class="d-flex align-items-center text-primary">
                         <div class="me-3">
-                          <i class="fas fa-clock fa-2x" style="color: rgb(26, 35, 126);"></i>
+                          <i class="fas fa-clock fa-2x"></i>
                         </div>
                         <div>
-                          <h6 class="mb-1" style="color: rgb(26, 35, 126);">Late Arrivals</h6>
-                          <h3 class="mb-0" style="color: rgb(26, 35, 126);">2</h3>
+                          <h6 class="mb-1">Late Arrivals</h6>
+                          <h3 class="mb-0">2</h3>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <!-- Detailed Lists with Dropdowns -->
-              <div class="accordion" id="attendanceDetails">
-                <!-- Perfect Attendance Dropdown -->
-                <div class="accordion-item" style="border-color: rgb(26, 35, 126); border-width: 2px; margin-bottom: 1rem; box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);">
-                  <h2 class="accordion-header">
-                    <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#perfectAttendanceList">
-                      <div class="d-flex align-items-center w-100">
-                        <i class="fas fa-check-circle me-3" style="color: rgb(26, 35, 126); font-size: 1.25rem;"></i>
-                        <div class="flex-grow-1">
-                          <span class="fw-bold">Perfect Attendance</span>
-                          <div class="d-flex align-items-center">
-                            <span class="text-muted small me-2">62 teachers</span>
-                          </div>
-                        </div>
-                        <i class="fas fa-chevron-down text-muted ms-auto"></i>
-                      </div>
-                    </button>
-                  </h2>
-                  <div id="perfectAttendanceList" class="accordion-collapse collapse" data-bs-parent="#attendanceDetails">
-                    <div class="accordion-body p-0" style="border-top: 2px solid rgb(26, 35, 126);">
-                      <div class="list-group list-group-flush" style="max-height: 300px; overflow-y: auto;">
-                        <div class="list-group-item d-flex justify-content-between align-items-center py-3">
-                          <div class="d-flex align-items-center">
-                            <div class="avatar rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: rgba(227, 242, 253, 0.5); color: rgb(26, 35, 126);">
-                              <i class="fas fa-user"></i>
-                            </div>
-                            <span class="fw-medium">Maria Santos</span>
-                          </div>
-                          <span class="badge px-3 py-2" style="background-color: rgb(26, 35, 126); color: white;">22 days</span>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-center py-3">
-                          <div class="d-flex align-items-center">
-                            <div class="avatar rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: rgba(227, 242, 253, 0.5); color: rgb(26, 35, 126);">
-                              <i class="fas fa-user"></i>
-                            </div>
-                            <span class="fw-medium">John Smith</span>
-                          </div>
-                          <span class="badge px-3 py-2" style="background-color: rgb(26, 35, 126); color: white;">22 days</span>
-                        </div>
-                        <div class="list-group-item text-center text-muted py-3 bg-light">
-                          Showing 2 of 62 teachers
-                        </div>
-                      </div>
+      
+              <!-- Top 3 Lists -->
+              <div class="row g-3 mb-3">
+                <!-- Perfect Attendance -->
+                <div class="col-md-4">
+                  <div class="border border-primary border-opacity-25 rounded p-3 h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <h6 class="mb-0 text-primary fw-bold">Top Perfect Attendance</h6>
+                      <small class="text-muted">62 total</small>
                     </div>
-                  </div>
-                </div>
-
-                
-                <!-- Absent Teachers Dropdown -->
-                <div class="accordion-item" style="border-color: rgb(26, 35, 126); border-width: 2px; box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);">
-                  <h2 class="accordion-header">
-                    <button class="accordion-button bg-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#absentTeachersList">
-                      <div class="d-flex align-items-center w-100">
-                        <i class="fas fa-user-slash me-3" style="color: rgb(26, 35, 126); font-size: 1.25rem;"></i>
-                        <div class="flex-grow-1">
-                          <span class="fw-bold">Absent Teachers</span>
-                          <div class="d-flex align-items-center">
-                            <span class="text-muted small me-2">2 teachers</span>
-                          </div>
-                        </div>
-                        <i class="fas fa-chevron-down text-muted ms-auto"></i>
-                      </div>
-                    </button>
-                  </h2>
-                  <div id="absentTeachersList" class="accordion-collapse collapse" data-bs-parent="#attendanceDetails">
-                    <div class="accordion-body p-0" style="border-top: 2px solid rgb(26, 35, 126);">
-                      <div class="list-group list-group-flush" style="max-height: 300px; overflow-y: auto;">
-                        <div class="list-group-item d-flex justify-content-between align-items-center py-3">
-                          <div>
-                            <div class="d-flex align-items-center mb-1">
-                              <div class="avatar rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: rgba(227, 242, 253, 0.5); color: rgb(26, 35, 126);">
-                                <i class="fas fa-user"></i>
-                              </div>
-                              <span class="fw-medium">Juan Dela Cruz</span>
-                            </div>
-                            <div class="ps-4 ms-3">
-                              <span class="badge me-2" style="background-color: rgb(26, 35, 126); color: white;">Oct 5</span>
-                              <span class="badge" style="background-color: rgb(26, 35, 126); color: white;">Oct 12</span>
-                            </div>
-                          </div>
-                          <span class="badge px-3 py-2" style="background-color: rgb(26, 35, 126); color: white;">2 days</span>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-center py-3">
-                          <div>
-                            <div class="d-flex align-items-center mb-1">
-                              <div class="avatar rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: rgba(227, 242, 253, 0.5); color: rgb(26, 35, 126);">
-                                <i class="fas fa-user"></i>
-                              </div>
-                              <span class="fw-medium">Lisa Johnson</span>
-                            </div>
-                            <div class="ps-4 ms-3">
-                              <span class="badge" style="background-color: rgb(26, 35, 126); color: white;">Oct 8</span>
-                            </div>
-                          </div>
-                          <span class="badge px-3 py-2" style="background-color: rgb(26, 35, 126); color: white;">1 day</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-               
-                
-               <!-- Late Arrivals Dropdown -->
-              <div class="accordion-item" style="border-color: rgb(26, 35, 126); border-width: 2px; box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);">
-                <h2 class="accordion-header">
-                  <button class="accordion-button bg-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#lateArrivalsList">
-                    <div class="d-flex align-items-center w-100">
-                      <i class="fas fa-clock me-3" style="color: rgb(26, 35, 126); font-size: 1.25rem;"></i>
-                      <div class="flex-grow-1">
-                        <span class="fw-bold">Late Arrivals</span>
+                    <ul class="list-unstyled mb-0">
+                      <li class="d-flex justify-content-between align-items-center py-2 border-bottom border-primary border-opacity-25">
                         <div class="d-flex align-items-center">
-                          <span class="text-muted small me-2">2 teachers</span>
+                          <div class="avatar rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background-color: rgba(26, 35, 126, 0.1); color: rgb(26, 35, 126);">
+                            <i class="fas fa-user"></i>
+                          </div>
+                          <span>Maria Santos</span>
                         </div>
-                      </div>
-                      <i class="fas fa-chevron-down text-muted ms-auto"></i>
+                        <span class="badge bg-primary px-2 py-1" style="min-width: 65px;">22 days</span>
+                      </li>
+                      <li class="d-flex justify-content-between align-items-center py-2 border-bottom border-primary border-opacity-25">
+                        <div class="d-flex align-items-center">
+                          <div class="avatar rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background-color: rgba(26, 35, 126, 0.1); color: rgb(26, 35, 126);">
+                            <i class="fas fa-user"></i>
+                          </div>
+                          <span>John Smith</span>
+                        </div>
+                        <span class="badge bg-primary px-2 py-1" style="min-width: 65px;">22 days</span>
+                      </li>
+                      <li class="d-flex justify-content-between align-items-center py-2">
+                        <div class="d-flex align-items-center">
+                          <div class="avatar rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background-color: rgba(26, 35, 126, 0.1); color: rgb(26, 35, 126);">
+                            <i class="fas fa-user"></i>
+                          </div>
+                          <span>Sarah Lee</span>
+                        </div>
+                        <span class="badge bg-primary px-2 py-1" style="min-width: 65px;">21 days</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <!-- Absent Teachers -->
+                <div class="col-md-4">
+                  <div class="border border-primary border-opacity-25 rounded p-3 h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <h6 class="mb-0 text-primary fw-bold">Top Absent Teachers</h6>
+                      <small class="text-muted">2 total</small>
                     </div>
-                  </button>
-                </h2>
-                <div id="lateArrivalsList" class="accordion-collapse collapse" data-bs-parent="#attendanceDetails">
-                  <div class="accordion-body p-0" style="border-top: 2px solid rgb(26, 35, 126);">
-                    <div class="list-group list-group-flush" style="max-height: 300px; overflow-y: auto;">
-                      <div class="list-group-item d-flex justify-content-between align-items-center py-3">
-                        <div>
-                          <div class="d-flex align-items-center mb-1">
-                            <div class="avatar rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: rgba(227, 242, 253, 0.5); color: rgb(26, 35, 126);">
+                    <ul class="list-unstyled mb-0">
+                      <li class="py-2 border-bottom border-primary border-opacity-25">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background-color: rgba(26, 35, 126, 0.1); color: rgb(26, 35, 126);">
                               <i class="fas fa-user"></i>
                             </div>
-                            <span class="fw-medium">Ana Reyes</span>
+                            <span>Juan Dela Cruz</span>
                           </div>
-                          <div class="ps-4 ms-3 text-muted small">
-                            Average 15 minutes late
-                          </div>
+                          <span class="badge bg-primary">2 days</span>
                         </div>
-                        <span class="badge px-3 py-2" style="background-color: rgb(26, 35, 126); color: white;">4 times</span>
-                      </div>
-                      <div class="list-group-item d-flex justify-content-between align-items-center py-3">
-                        <div>
-                          <div class="d-flex align-items-center mb-1">
-                            <div class="avatar rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: rgba(227, 242, 253, 0.5); color: rgb(26, 35, 126);">
+                        <small class="text-muted d-block ps-4 ms-4">Oct 5, 12</small>
+                      </li>
+                      <li class="py-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background-color: rgba(26, 35, 126, 0.1); color: rgb(26, 35, 126);">
                               <i class="fas fa-user"></i>
                             </div>
-                            <span class="fw-medium">Michael Brown</span>
+                            <span>Lisa Johnson</span>
                           </div>
-                          <div class="ps-4 ms-3 text-muted small">
-                            Average 8 minutes late
-                          </div>
+                          <span class="badge bg-primary">1 day</span>
                         </div>
-                        <span class="badge px-3 py-2" style="background-color: rgb(26, 35, 126); color: white;">2 times</span>
-                      </div>
+                        <small class="text-muted d-block ps-4 ms-4">Oct 8</small>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <!-- Late Arrivals -->
+                <div class="col-md-4">
+                  <div class="border border-primary border-opacity-25 rounded p-3 h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <h6 class="mb-0 text-primary fw-bold">Top Late Arrivals</h6>
+                      <small class="text-muted">2 total</small>
                     </div>
+                    <ul class="list-unstyled mb-0">
+                      <li class="py-2 border-bottom border-primary border-opacity-25">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background-color: rgba(26, 35, 126, 0.1); color: rgb(26, 35, 126);">
+                              <i class="fas fa-user"></i>
+                            </div>
+                            <span>Ana Reyes</span>
+                          </div>
+                          <span class="badge bg-primary">4 times</span>
+                        </div>
+                        <small class="text-muted d-block ps-4 ms-4">Average 15 minutes late</small>
+                      </li>
+                      <li class="py-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background-color: rgba(26, 35, 126, 0.1); color: rgb(26, 35, 126);">
+                              <i class="fas fa-user"></i>
+                            </div>
+                            <span>Michael Brown</span>
+                          </div>
+                          <span class="badge bg-primary">2 times</span>
+                        </div>
+                        <small class="text-muted d-block ps-4 ms-4">Average 8 minutes late</small>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
+      
+              <!-- Detailed Lists with Dropdowns (Hidden by default) -->
+              <div class="accordion d-none" id="attendanceDetails">
+                <!-- Original accordion content here -->
               </div>
               
-              <!-- Download Button -->
-              <div class="text-end mt-3">
-                <button class="btn" id="download-attendance-report" style="background-color: rgb(26, 35, 126); color: white;">
+              <!-- Action Buttons -->
+              <div class="d-flex justify-content-between mt-3">
+                <button class="btn btn-outline-primary" id="view-full-report">
+                  <i class="fas fa-list me-2"></i> View Full Report
+                </button>
+                <button class="btn btn-primary" id="download-attendance-report">
                   <i class="fas fa-download me-2"></i> Download Full Report
                 </button>
               </div>
