@@ -282,83 +282,60 @@
 
      <!-- ==================== DASHBOARD SECTION ==================== -->
      <div class="content-section active" id="dashboard" style="margin-top: 25px;">
-        <div class="row g-3">
-          <!-- Daily Attendance Summary -->
-          <div class="col-md-4" style="margin-top: 15px;">
-            <div class="card h-100" style="border-color: rgb(26, 35, 126);">
-              <div class="card-header py-2" style="background-color: rgb(227, 242, 253); color: rgb(26, 35, 126);">
-                <h6 class="mb-0">Daily Attendance Summary</h6>
-              </div>
-              <div class="card-body p-2">
-                <div class="d-flex align-items-center mb-2 p-2 rounded" style="background-color: rgba(227, 242, 253, 0.8);">
-                  <i class="fas fa-user-check me-2" style="color: rgb(26, 35, 126);"></i>
-                  <div class="flex-grow-1" style="color: rgb(26, 35, 126);">Present</div>
-                  <span id="present-count" class="badge" style="background-color: rgb(26, 35, 126); color: white;">25</span>
-                </div>
-
-                <div class="d-flex align-items-center mb-2 p-2 rounded" style="background-color: rgba(227, 242, 253, 0.8);">
-                  <i class="fas fa-user-clock me-2" style="color: rgb(26, 35, 126);"></i>
-                  <div class="flex-grow-1" style="color: rgb(26, 35, 126);">Late</div>
-                  <span id="late-count" class="badge" style="background-color: rgba(26, 35, 126, 0.75); color: white;">3</span>
-                </div>
-
-                <div class="d-flex align-items-center p-2 rounded" style="background-color: rgba(227, 242, 253, 0.8);">
-                  <i class="fas fa-user-times me-2" style="color: rgb(26, 35, 126);"></i>
-                  <div class="flex-grow-1" style="color: rgb(26, 35, 126);">Absent</div>
-                  <span id="absent-count" class="badge" style="background-color: rgba(26, 35, 126, 0.5); color: white;">2</span>
-                </div>
-              </div>
-            </div>
+      <div class="card border-primary">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-2">
+          <h6 class="mb-0">Today's Attendance Report</h6>
+          <button id="download-report" class="btn btn-sm btn-light">
+            <i class="fas fa-download me-1"></i> Download
+          </button>
+        </div>
+        
+        <div class="card-body p-2">
+          <!-- Summary Stats - Compact Row -->
+          <div class="d-flex justify-content-between mb-2">
+            <div class="text-center px-2 py-1 rounded bg-primary text-white flex-fill mx-1">
+              <h5 class="mb-0" id="present-count">0</h5>
+              <small>Present</small>
+            </div>            
+            <div class="text-center px-2 py-1 rounded bg-primary text-white flex-fill mx-1">
+              <h5 class="mb-0" id="late-count">0</h5>
+              <small>Late</small>
+            </div>            
+            <div class="text-center px-2 py-1 rounded bg-primary text-white flex-fill mx-1">
+              <h5 class="mb-0" id="absent-count">0</h5>
+              <small>Absent</small>
+            </div>            
           </div>
-
-          <!-- Recent NFC Tap Logs -->
-          <div class="col-md-4" style="margin-top: 15px;">
-            <div class="card h-100" style="border-color: rgb(26, 35, 126);">
-              <div class="card-header py-2" style="background-color: rgb(227, 242, 253); color: rgb(26, 35, 126);">
-                <h6 class="mb-0">Recent NFC Tap Logs</h6>
+    
+          <!-- Missing Logs - Compact Section -->
+          <div class="border-top pt-2">
+            <h6 class="text-primary mb-2">Missing Logs</h6>
+            <div class="d-flex">
+              <div class="flex-fill me-1">
+                <div class="card border-primary mb-2">
+                  <div class="card-header bg-primary bg-opacity-10 text-primary py-1 px-2 small">
+                    <i class="fas fa-sign-in-alt me-1"></i>Missing Log In
+                  </div>
+                  <ul id="missing-login" class="list-group list-group-flush small">
+                    <li class="list-group-item px-2 py-1">No missing log ins</li>
+                  </ul>
+                </div>
               </div>
-              <div class="card-body p-0">
-                <ul id="recent-tap-logs" class="list-group list-group-flush">
-                  <li class="list-group-item py-2" style="border-color: rgba(26, 35, 126, 0.1);">
-                    Juan Dela Cruz tapped at 06:58 AM
-                  </li>
-                  <li class="list-group-item py-2" style="border-color: rgba(26, 35, 126, 0.1);">
-                    Maria Santos tapped at 07:15 AM
-                  </li>
-                  <li class="list-group-item py-2" style="border-color: rgba(26, 35, 126, 0.1);">
-                    Pedro Reyes tapped at 07:30 AM
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <!-- Missing Log In Requests -->
-          <div class="col-md-4" style="margin-top: 15px;">
-            <div class="card h-100" style="border-color: rgb(26, 35, 126);">
-              <div class="card-header py-2" style="background-color: rgb(227, 242, 253); color: rgb(26, 35, 126);">
-                <h6 class="mb-0">Missing Log In Requests</h6>
-              </div>
-              <div class="card-body p-0">
-                <ul id="leave-requests" class="list-group list-group-flush">
-                  <li class="list-group-item py-2 d-flex justify-content-between align-items-center" style="border-color: rgba(26, 35, 126, 0.1);">
-                    Juan Dela Cruz
-                    <span class="badge" style="background-color: rgba(26, 35, 126, 0.75); color: white;">Pending</span>
-                  </li>
-                  <li class="list-group-item py-2 d-flex justify-content-between align-items-center" style="border-color: rgba(26, 35, 126, 0.1);">
-                    Maria Santos
-                    <span class="badge" style="background-color: rgb(26, 35, 126); color: white;">Approved</span>
-                  </li>
-                  <li class="list-group-item py-2 d-flex justify-content-between align-items-center" style="border-color: rgba(26, 35, 126, 0.1);">
-                    Pedro Reyes
-                    <span class="badge" style="background-color: rgba(26, 35, 126, 0.5); color: white;">Rejected</span>
-                  </li>
-                </ul>
+              <div class="flex-fill ms-1">
+                <div class="card border-primary mb-2">
+                  <div class="card-header bg-primary bg-opacity-10 text-primary py-1 px-2 small">
+                    <i class="fas fa-sign-out-alt me-1"></i>Missing Log Out
+                  </div>
+                  <ul id="missing-logout" class="list-group list-group-flush small">
+                    <li class="list-group-item px-2 py-1">No missing log outs</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
       <!-- ==================== ATTENDANCE SECTION ==================== -->
       <div class="content-section" id="attendance" style="margin-top: 25px;">
