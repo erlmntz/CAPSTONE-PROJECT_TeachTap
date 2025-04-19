@@ -161,4 +161,147 @@
     transform: scale(1.05);
   }
 
+  /*Dashboard*/
+  /* Monthly Absence Tracker Widget Styles */
+#monthly-absence-widget {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+#monthly-absence-widget .card {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+#monthly-absence-widget .card-header {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#monthly-absence-widget .card-header h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+#monthly-absence-widget .input-group {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#monthly-absence-widget .btn-outline-light:hover {
+    color: #0d6efd !important;
+    background-color: #fff;
+}
+
+/* Summary Cards Styling */
+#monthly-absence-widget .summary-card {
+    transition: all 0.3s ease;
+    border-radius: 0.5rem;
+    border-width: 2px;
+}
+
+#monthly-absence-widget .summary-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.15);
+}
+
+#monthly-absence-widget .summary-card .card-body {
+    padding: 1.25rem;
+}
+
+#monthly-absence-widget .summary-card h6 {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+#monthly-absence-widget .summary-card h3 {
+    font-weight: 700;
+    color: #0d6efd;
+}
+
+/* Top Lists Styling */
+#monthly-absence-widget .top-list-container {
+    border-radius: 0.5rem;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+#monthly-absence-widget .top-list-container:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+#monthly-absence-widget .top-list-container h6 {
+    font-size: 0.9375rem;
+}
+
+#monthly-absence-widget .avatar {
+    font-size: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+#monthly-absence-widget .list-unstyled li {
+    padding: 0.5rem 0;
+    transition: background-color 0.2s ease;
+}
+
+#monthly-absence-widget .list-unstyled li:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+#monthly-absence-widget .list-unstyled li:hover .avatar {
+    transform: scale(1.1);
+    background-color: rgba(13, 110, 253, 0.2) !important;
+}
+
+#monthly-absence-widget .badge {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    font-size: 0.75rem;
+}
+
+/* Button Styling */
+#monthly-absence-widget .btn {
+    border-radius: 0.375rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+}
+
+#monthly-absence-widget .btn-outline-primary {
+    border-width: 2px;
+}
+
+#monthly-absence-widget .btn-primary {
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.3);
+}
+
+#monthly-absence-widget .btn-primary:hover {
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+    transform: translateY(-1px);
+}
+
+#monthly-absence-widget .btn-outline-primary:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+/* Payroll */
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #monthly-absence-widget .card-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 1rem;
+    }
+    
+    #monthly-absence-widget .input-group {
+        width: 100% !important;
+    }
+    
+    #monthly-absence-widget .summary-card {
+        margin-bottom: 1rem;
+    }
+}
+
 
