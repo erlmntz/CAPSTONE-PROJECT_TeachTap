@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/CSS/admin.css"/>
   </head>
 
@@ -1274,125 +1276,614 @@
 
       <!-- ==================== TEACHERS ==================== -->
       <div class="content-section" id="files" style="margin-top: 25px;">
-        <!-- Header with Title and Filter/Search Section -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h5 class="mb-0 text-primary">Teachers</h5>
-          <div class="d-flex align-items-center gap-3">
-            <!-- Search Bar -->
-            <div class="input-group" style="width: 300px;">
-              <span class="input-group-text bg-white border-end-0">
-                <i class="fas fa-search text-muted"></i>
-              </span>
-              <input type="text" class="form-control border-start-0 ps-0" placeholder="Search employee..." id="employeeSearch" onkeyup="searchEmployees()">
+        <div class="card shadow-sm border-0" style="border-radius: 12px;">
+          <div class="card-body p-4">
+            
+            <!-- Header with Title and Filter/Search Section -->
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+              <div>
+                <h3 class="text-dark fw-semibold m-0">
+                  <i class="fas fa-chalkboard-teacher me-2 text-primary"></i>Teachers Directory
+                </h3>
+                <p class="text-muted small mb-0">Manage and view teacher records and 201 files</p>
+              </div>
+              
+              <div class="d-flex align-items-center gap-3 ms-auto flex-wrap">
+                <!-- Search Bar -->
+                <div class="input-group shadow-sm" style="width: 300px;">
+                  <span class="input-group-text bg-white border-end-0">
+                    <i class="fas fa-search text-muted"></i>
+                  </span>
+                  <input type="text" class="form-control border-start-0 ps-0" placeholder="Search employee..." id="employeeSearch" onkeyup="searchEmployees()">
+                  <button class="btn btn-outline-secondary" type="button" id="clearSearch">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+                
+                <!-- Filter Dropdown -->
+                <div class="dropdown">
+                  <button class="btn btn-light border dropdown-toggle shadow-sm d-flex align-items-center" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-filter me-1 text-primary"></i> Filters
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end p-3" style="width: 300px;" aria-labelledby="filterDropdown">
+                    <div class="mb-3">
+                      <label for="positionFilter" class="form-label small text-muted">Position</label>
+                      <select id="positionFilter" class="form-select">
+                        <option value="all" selected>All Positions</option>
+                        <option value="Teacher I">Teacher I</option>
+                        <option value="Teacher II">Teacher II</option>
+                        <option value="Teacher III">Teacher III</option>
+                        <option value="Master Teacher I">Master Teacher I</option>
+                        <option value="Master Teacher II">Master Teacher II</option>
+                        <option value="Principal IV">Principal IV</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label for="serviceFilter" class="form-label small text-muted">Years of Service</label>
+                      <select id="serviceFilter" class="form-select">
+                        <option value="all" selected>All Years</option>
+                        <option value="1-5">1-5 years</option>
+                        <option value="6-10">6-10 years</option>
+                        <option value="11-15">11-15 years</option>
+                        <option value="15+">15+ years</option>
+                      </select>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <button class="btn btn-sm btn-outline-secondary" id="resetFilters">Reset</button>
+                      <button class="btn btn-sm btn-primary" id="applyFilters">Apply</button>
+                    </div>
+                  </ul>
+                </div>
+                
+                <!-- Add New Teacher Button -->
+                <button class="btn btn-primary shadow-sm d-flex align-items-center" id="addTeacherFilesBtn" data-bs-toggle="modal" data-bs-target="#addTeacherFilesModal">
+                  <i class="fas fa-plus me-1"></i> Add Teacher Files
+                </button>
+              </div>
             </div>
             
-            <!-- Filter Dropdown -->
-            <div class="d-flex align-items-center gap-2">
-              <label for="positionFilter" class="form-label mb-0 text-nowrap">Filter by:</label>
-              <select id="positionFilter" class="form-select rounded-pill" style="width: 200px;">
-                <option value="all" selected>All Positions</option>
-                <option value="Teacher I">Teacher I</option>
-                <option value="Teacher II">Teacher II</option>
-                <option value="Teacher III">Teacher III</option>
-                <option value="Master Teacher I">Master Teacher I</option>
-                <option value="Master Teacher II">Master Teacher II</option>
-                <option value="Principal IV">Principal IV</option>
-              </select>
+            <!-- Stats Cards -->
+            <div class="row mb-4 g-3">
+              <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm bg-primary bg-opacity-10 h-100">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h6 class="text-muted mb-1 small">Total Teachers</h6>
+                        <h4 class="mb-0 fw-bold">24</h4>
+                      </div>
+                      <div class="bg-primary bg-opacity-25 p-3 rounded">
+                        <i class="fas fa-users text-primary"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm bg-success bg-opacity-10 h-100">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h6 class="text-muted mb-1 small">Active</h6>
+                        <h4 class="mb-0 fw-bold">22</h4>
+                      </div>
+                      <div class="bg-success bg-opacity-25 p-3 rounded">
+                        <i class="fas fa-check-circle text-success"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm bg-warning bg-opacity-10 h-100">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h6 class="text-muted mb-1 small">On Leave</h6>
+                        <h4 class="mb-0 fw-bold">2</h4>
+                      </div>
+                      <div class="bg-warning bg-opacity-25 p-3 rounded">
+                        <i class="fas fa-umbrella-beach text-warning"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm bg-info bg-opacity-10 h-100">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h6 class="text-muted mb-1 small">New Hires</h6>
+                        <h4 class="mb-0 fw-bold">3</h4>
+                      </div>
+                      <div class="bg-info bg-opacity-25 p-3 rounded">
+                        <i class="fas fa-user-plus text-info"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          
+            <!-- Table -->
+            <div class="table-responsive rounded-3 border shadow-sm">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                  <tr>
+                    <th class="ps-4 text-start fw-medium">Employee ID</th>
+                    <th class="text-start fw-medium">Position Title</th>
+                    <th class="text-start fw-medium">Last Name</th>
+                    <th class="text-start fw-medium">First Name</th>
+                    <th class="text-start fw-medium">Middle Name</th>
+                    <th class="text-center fw-medium">Age</th>
+                    <th class="text-center fw-medium">Teaching Service</th>
+                    <th class="text-center fw-medium">201 Files</th>
+                    <th class="pe-4 text-center fw-medium">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="files-list">
+                  <!-- Dummy Data Rows -->
+                  <tr>
+                    <td class="ps-4 text-start">4324729</td>
+                    <td class="text-start">Principal IV</td>
+                    <td class="text-start">Balanza</td>
+                    <td class="text-start">Alma</td>
+                    <td class="text-start">Santos</td>
+                    <td class="text-center">38</td>
+                    <td class="text-center">10 years</td>
+                    <td class="text-center">
+                      <button class="btn btn-sm btn-outline-primary view-files-btn" data-bs-toggle="modal" data-bs-target="#governmentNumbersModal">
+                        <i class="fas fa-folder-open me-1"></i> View Files
+                      </button>
+                    </td>
+                    <td class="pe-4 text-center">
+                      <button class="btn btn-sm btn-outline-danger archive-btn" data-bs-toggle="tooltip" title="Archive Teacher">
+                        <i class="fas fa-archive"></i> Archive
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Pagination -->
+            <nav class="mt-3">
+              <ul class="pagination justify-content-end">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Next</a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
-
-        <!-- Table -->
-        <div class="table-responsive rounded-3 border">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="bg-light">
-              <tr>
-                <th class="ps-4">Employee ID</th>
-                <th>Position Title</th>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Middle Name</th>
-                <th>Age</th>
-                <th>Teaching Service</th>
-                <th>201 Files</th>
-                <th class="pe-4 text-end">Action</th>
-              </tr>
-            </thead>
-            <tbody id="files-list">
-              <!-- Example row - will be populated by JavaScript -->
-              <tr>
-                <td class="ps-4 fw-semibold">EMP-001</td>
-                <td><span class="badge bg-primary bg-opacity-10 text-primary">Teacher II</span></td>
-                <td>Dela Cruz</td>
-                <td>Juan</td>
-                <td>Santos</td>
-                <td>35</td>
-                <td>10 years</td>
-                <td>
-                  <button class="btn btn-sm btn-outline-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#governmentNumbersModal">
-                    <i class="fas fa-eye me-1"></i> View
-                  </button>
-                </td>
-                <td class="pe-4 text-end">
-                  <button class="btn btn-sm btn-outline-danger rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-                    <i class="fas fa-trash-alt me-1"></i> Delete
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
-
-      <!-- 201 FILES MODAL -->
-      <div class="modal fade" id="governmentNumbersModal" tabindex="-1" aria-labelledby="governmentNumbersModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+      
+      <!-- ==================== MODAL ==================== -->
+      <!-- Add Teacher Files button part modal -->
+      <div class="modal fade" id="addTeacherFilesModal" tabindex="-1" aria-labelledby="addTeacherFilesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 900px;">
           <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-              <h5 class="modal-title" id="governmentNumbersModalLabel">Employee Information</h5>
+              <h5 class="modal-title fs-4" id="addTeacherFilesModalLabel">
+                <i class="fas fa-user-plus me-2"></i>Add New Teacher
+              </h5>
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
-              <!-- All sections in one continuous view -->
-              <div class="employee-section mb-4">
-                <h5 class="section-title bg-light p-2 rounded d-flex align-items-center">
-                  <i class="fas fa-user me-2 text-primary"></i> Personal Information
-                </h5>
-                <div class="list-group list-group-flush mt-2" id="personalInfoList">
-                  <!-- Personal information will be populated here -->
+              <!-- Progress Steps -->
+              <div class="progress-steps mb-4">
+                <div class="progress" style="height: 4px;">
+                  <div class="progress-bar bg-primary" role="progressbar" id="formProgressBar" style="width: 33%;"></div>
+                </div>
+                <div class="step-indicators d-flex justify-content-between">
+                  <button type="button" class="step-btn active" data-step="1">
+                    <span class="step-number bg-primary text-white">1</span>
+                    <span class="step-label">Personal Info</span>
+                  </button>
+                  <button type="button" class="step-btn" data-step="2">
+                    <span class="step-number bg-light border text-muted">2</span>
+                    <span class="step-label">Education</span>
+                  </button>
+                  <button type="button" class="step-btn" data-step="3">
+                    <span class="step-number bg-light border text-muted">3</span>
+                    <span class="step-label">Government IDs</span>
+                  </button>
+                </div>
+              </div>
+      
+              <form id="teacherFilesForm">
+                <!-- Step 1: Personal Information -->
+                <div class="form-step active" id="step-1">
+                  <div class="row">
+                    <div class="col-md-4 mb-4 text-center">
+                      <div class="profile-upload-container">
+                        <img src="/IMAGES/default-profile.png" class="profile-preview" id="teacherPhotoPreview" alt="Teacher Photo">
+                        <label for="teacherPhotoUpload" class="upload-btn">
+                          <i class="fas fa-camera"></i>
+                          <input type="file" id="teacherPhotoUpload" accept="image/*" class="d-none">
+                        </label>
+                      </div>
+                      <small class="text-muted">Click camera to upload photo</small>
+                    </div>
+                    
+                    <div class="col-md-8">
+                      <div class="row g-3">
+                        <div class="col-md-4">
+                          <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" id="firstName" required>
+                        </div>
+                        <div class="col-md-4">
+                          <label for="middleName" class="form-label">Middle Name</label>
+                          <input type="text" class="form-control" id="middleName">
+                        </div>
+                        <div class="col-md-4">
+                          <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" id="lastName" required>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+      
+                  <div class="row g-3 mt-1">
+                    <div class="col-md-6">
+                      <label for="position" class="form-label">Position <span class="text-danger">*</span></label>
+                      <select class="form-select" id="position" required>
+                        <option value="" selected disabled>Select position</option>
+                        <option value="Teacher I">Teacher I</option>
+                        <option value="Teacher II">Teacher II</option>
+                        <option value="Teacher III">Teacher III</option>
+                        <option value="Master Teacher I">Master Teacher I</option>
+                        <option value="Master Teacher II">Master Teacher II</option>
+                        <option value="Principal I">Principal I</option>
+                        <option value="Principal II">Principal II</option>
+                        <option value="Principal III">Principal III</option>
+                        <option value="Principal IV">Principal IV</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="employeeId" class="form-label">Employee ID <span class="text-danger">*</span></label>
+                      <input type="text" class="form-control" id="employeeId" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="birthday" class="form-label">Birthday</label>
+                      <input type="date" class="form-control" id="birthday">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Gender</label>
+                      <div class="d-flex gap-3">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male">
+                          <label class="form-check-label" for="genderMale">Male</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female">
+                          <label class="form-check-label" for="genderFemale">Female</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="contactNumber" class="form-label">Contact Number</label>
+                      <input type="tel" class="form-control" id="contactNumber" placeholder="0912 345 6789">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="depedEmail" class="form-label">DepEd Email</label>
+                      <input type="email" class="form-control" id="depedEmail" placeholder="name@deped.gov.ph">
+                    </div>
+                    <div class="col-12">
+                      <label for="address" class="form-label">Address</label>
+                      <input type="text" class="form-control" id="address">
+                    </div>
+                  </div>
+                </div>
+      
+                <!-- Step 2: Education Information -->
+                <div class="form-step d-none" id="step-2">
+                  <div class="alert alert-info mb-4">
+                    <i class="fas fa-info-circle me-2"></i>This information helps us better understand the teacher's qualifications.
+                  </div>
+                  
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label for="school" class="form-label">School</label>
+                      <input type="text" class="form-control" id="school" placeholder="Current school">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="level" class="form-label">Level</label>
+                      <select class="form-select" id="level">
+                        <option value="" selected disabled>Select level</option>
+                        <option value="Elementary">Elementary</option>
+                        <option value="Secondary">Secondary</option>
+                        <option value="Senior High School">Senior High School</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="courseMajor" class="form-label">Course and Major</label>
+                      <input type="text" class="form-control" id="courseMajor" placeholder="e.g. BS Education Major in English">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="eligibility" class="form-label">Eligibility</label>
+                      <input type="text" class="form-control" id="eligibility" placeholder="e.g. LET Passer">
+                    </div>
+                    <div class="col-12">
+                      <label for="graduateStudies" class="form-label">Graduate Studies</label>
+                      <textarea class="form-control" id="graduateStudies" rows="2" placeholder="List any graduate degrees or certifications"></textarea>
+                    </div>
+                  </div>
+                </div>
+      
+                <!-- Step 3: Government IDs -->
+                <div class="form-step d-none" id="step-3">
+                  <div class="alert alert-info mb-4">
+                    <i class="fas fa-info-circle me-2"></i>These details are kept secure and used only for official documentation.
+                  </div>
+                  
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label for="philhealthNumber" class="form-label">PHILHEALTH Number</label>
+                      <input type="text" class="form-control" id="philhealthNumber" placeholder="12-345678901-2">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="gsisNumber" class="form-label">GSIS BP Number</label>
+                      <input type="text" class="form-control" id="gsisNumber" placeholder="123456789">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="pagibigNumber" class="form-label">PAG-IBIG Number</label>
+                      <input type="text" class="form-control" id="pagibigNumber" placeholder="1234-5678-9012">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="tinNumber" class="form-label">TIN Number</label>
+                      <input type="text" class="form-control" id="tinNumber" placeholder="123-456-789-012">
+                    </div>
+                  </div>
+                </div>
+      
+                <!-- Navigation Buttons -->
+                <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                  <button type="button" class="btn btn-outline-secondary" id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left me-2"></i>Back
+                  </button>
+                  <div>
+                    <button type="button" class="btn btn-outline-primary me-2" id="skipBtn">Skip This Step</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn">
+                      Continue<i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                    <button type="submit" class="btn btn-success d-none" id="submitBtn">
+                      <i class="fas fa-save me-2"></i>Save Teacher
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 201 Files -->
+      <div class="modal fade" id="governmentNumbersModal" tabindex="-1" aria-labelledby="governmentNumbersModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 900px;">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title fs-4" id="governmentNumbersModalLabel">
+                <i class="fas fa-user-graduate me-2"></i>Teacher 201 Files - <span id="teacherName">Ma. Alma Balanza</span>
+              </h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+              <!-- Teacher Profile Summary -->
+              <div class="d-flex align-items-center mb-4 p-3 bg-light rounded-3 shadow-sm" id="teacherProfile">
+                <img src="/IMAGES/MaamAlma.png" class="rounded-circle me-3 border border-3 border-primary" width="100" height="100" alt="Teacher Photo">
+                <div class="flex-grow-1">
+                  <h4 class="mb-1 fw-bold">
+                    <span id="teacherFirstName">Ma. Alma</span> 
+                    <span id="teacherMiddleName" class="text-muted">Santos</span> 
+                    <span id="teacherLastName">Balanza</span>
+                  </h4>
+                  <div class="d-flex flex-wrap gap-2 mb-2">
+                    <span class="badge bg-white text-dark border border-1 fs-6" id="employeeIdBadge">ID: 4324729</span>
+                    <span class="badge bg-primary fs-6" id="positionBadge">Position: Principal IV</span>
+                  </div>
                 </div>
               </div>
               
+              <!-- Personal Information -->
               <div class="employee-section mb-4">
-                <h5 class="section-title bg-light p-2 rounded d-flex align-items-center">
-                  <i class="fas fa-school me-2 text-primary"></i> Education Information
+                <h5 class="section-title bg-light p-3 rounded-3 d-flex align-items-center">
+                  <i class="fas fa-user fs-4 me-3 text-primary"></i>
+                  <span class="fw-semibold">Personal Information</span>
                 </h5>
-                <div class="list-group list-group-flush mt-2" id="schoolInfoList">
-                  <!-- School information will be populated here -->
+                <div class="row g-3 mt-2" id="personalInfoList">
+                  <div class="col-md-4">
+                    <div class="info-card">
+                      <small class="text-muted d-block">First Name</small>
+                      <p>Ma. Alma</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Middle Name</small>
+                      <p>Santos</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Last Name</small>
+                      <p>Balanza</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Position</small>
+                      <p>Teacher III</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Date of Original Appointment</small>
+                      <p>March 1, 1990</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Date of Last Promotion</small>
+                      <p>June 15, 2015</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">DepEd Email</small>
+                      <p>maalma.balanza@deped.gov.ph</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Address</small>
+                      <p>0248 Lola's Way St., Caingin, San Rafael, Bulacan</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Birthday</small>
+                      <p>December 21, 1966</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Contact Number</small>
+                      <p>09123456789</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Gender</small>
+                      <p>Female</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Eligibility</small>
+                      <p>Professional Board Examination for Teachers</p>
+                    </div>
+                  </div>
                 </div>
               </div>
               
+              <!-- Education Information -->
+              <div class="employee-section mb-4">
+                <h5 class="section-title bg-light p-3 rounded-3 d-flex align-items-center">
+                  <i class="fas fa-school fs-4 me-3 text-primary"></i>
+                  <span class="fw-semibold">Education Information</span>
+                </h5>
+                <div class="row g-3 mt-2" id="schoolInfoList">
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">School</small>
+                      <p>Maguinao Elementary School</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Level</small>
+                      <p>Elementary</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">District</small>
+                      <p>San Rafael West</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Division</small>
+                      <p>SDO Bulacan</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">EDDS</small>
+                      <p>III</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Item Number</small>
+                      <p>OSEC-DECSB-SP4-150022-2023</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Salary Grade</small>
+                      <p>SG 22 (Step 1)</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Course and Major</small>
+                      <p>Bachelor of Elementary Education (Generalist)</p>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="info-card">
+                      <small class="text-muted d-block">Graduate Studies</small>
+                      <p>Doctor of Philosophy Major in Educational Psychology</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Government IDs -->
               <div class="employee-section">
-                <h5 class="section-title bg-light p-2 rounded d-flex align-items-center">
-                  <i class="fas fa-id-card me-2 text-primary"></i> Government IDs
+                <h5 class="section-title bg-light p-3 rounded-3 d-flex align-items-center">
+                  <i class="fas fa-id-card fs-4 me-3 text-primary"></i>
+                  <span class="fw-semibold">Government IDs</span>
                 </h5>
-                <div class="list-group list-group-flush mt-2" id="governmentNumbersList">
-                  <!-- Government numbers will be populated here -->
+                <div class="row g-3 mt-2" id="governmentNumbersList">
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">PHILHEALTH Number</small>
+                      <p>123456789012</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">GSIS BP Number</small>
+                      <p>9876543210</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">PAG-IBIG Number</small>
+                      <p>112233445566</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-card">
+                      <small class="text-muted d-block">TIN Number</small>
+                      <p>5566778899</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             
-            <div class="modal-footer d-flex justify-content-between">
+            <div class="modal-footer d-flex justify-content-between border-top">
               <div>
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-outline-secondary px-4 py-2" data-bs-dismiss="modal">
                   <i class="fas fa-times me-1"></i> Close
                 </button>
               </div>
               <div>
-                <button type="button" class="btn btn-light me-2" id="printEmployeeInfo">
+                <button type="button" class="btn btn-light px-4 py-2 me-2" id="printEmployeeInfo">
                   <i class="fas fa-print me-1"></i> Print
                 </button>
-                <button type="button" class="btn btn-primary" id="downloadEmployeeInfo">
+                <button type="button" class="btn btn-primary px-4 py-2" id="downloadEmployeeInfo">
                   <i class="fas fa-download me-1"></i> Download PDF
                 </button>
               </div>
@@ -1400,6 +1891,8 @@
           </div>
         </div>
       </div>
+
+      
 
       <!-- ==================== LEAVE CREDITS ==================== -->
       <div class="content-section p-3 rounded-3" style="background-color: rgb(255, 255, 255); margin-top: 25px;" id="leave-credits">
@@ -1632,597 +2125,485 @@
       </div>
     </div>
 
-     <!-- JavaScript Section -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript Section -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-     // Update datetime display
+<script>
+    // Update datetime display
     function updateDateTime() {
-      let now = new Date();
-      document.getElementById("current-datetime").textContent = now.toLocaleString();
+        let now = new Date();
+        document.getElementById("current-datetime").textContent = now.toLocaleString();
     }
     setInterval(updateDateTime, 1000);
     updateDateTime();
 
     // Attendance report handlers
     document.getElementById('download-attendance-report').addEventListener('click', function() {
-      const month = document.getElementById('attendance-month').value;
-      alert(`Generating attendance report for ${month}...`);
+        const month = document.getElementById('attendance-month').value;
+        alert(`Generating attendance report for ${month}...`);
     });
 
     document.getElementById('refresh-attendance').addEventListener('click', function() {
-      const month = document.getElementById('attendance-month').value;
-      console.log(`Refreshing data for ${month}`);
+        const month = document.getElementById('attendance-month').value;
+        console.log(`Refreshing data for ${month}`);
     });
 
     // Add new teacher to system
     function addTeacher() {
-      const employeeId = document.getElementById("employeeId").value.trim();
-      const firstName = document.getElementById("teacherFirstName").value.trim();
-      const lastName = document.getElementById("teacherLastName").value.trim();
-      const rank = document.getElementById("teacherRank").value;
-      const email = document.getElementById("teacherEmail").value.trim();
+        const employeeId = document.getElementById("employeeId").value.trim();
+        const firstName = document.getElementById("teacherFirstName").value.trim();
+        const lastName = document.getElementById("teacherLastName").value.trim();
+        const rank = document.getElementById("teacherRank").value;
+        const email = document.getElementById("teacherEmail").value.trim();
 
-      if (employeeId && firstName && lastName && rank && email) {
-        if (!/^\d{7}$/.test(employeeId)) {
-          alert("Employee ID must be exactly 7 digits");
-          return;
+        if (employeeId && firstName && lastName && rank && email) {
+            if (!/^\d{7}$/.test(employeeId)) {
+                alert("Employee ID must be exactly 7 digits");
+                return;
+            }
+
+            if (teachers.some(teacher => teacher.id === employeeId)) {
+                alert("This Employee ID already exists in the system");
+                return;
+            }
+
+            const fullName = `${firstName.toUpperCase()} ${lastName.toUpperCase()}`;
+            const newTeacher = { 
+                id: employeeId, 
+                name: fullName, 
+                rank, 
+                email 
+            };
+
+            teachers.push(newTeacher);
+            const tbody = document.getElementById("teachers-list");
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>${newTeacher.id}</td>
+                <td>${newTeacher.name}</td>
+                <td>${newTeacher.rank}</td>
+                <td>${newTeacher.email}</td>
+                <td>
+                    <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${newTeacher.id}')">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(newRow);
+
+            document.getElementById("addTeacherForm").reset();
+            var addTeacherModal = bootstrap.Modal.getInstance(document.getElementById("addTeacherModal"));
+            addTeacherModal.hide();
+            alert("Teacher successfully registered!");
+        } else {
+            alert("Please fill in all required fields.");
         }
-
-        if (teachers.some(teacher => teacher.id === employeeId)) {
-          alert("This Employee ID already exists in the system");
-          return;
-        }
-
-        const fullName = `${firstName.toUpperCase()} ${lastName.toUpperCase()}`;
-        const newTeacher = { 
-          id: employeeId, 
-          name: fullName, 
-          rank, 
-          email 
-        };
-
-        teachers.push(newTeacher);
-        const tbody = document.getElementById("teachers-list");
-        const newRow = document.createElement("tr");
-        newRow.innerHTML = `
-          <td>${newTeacher.id}</td>
-          <td>${newTeacher.name}</td>
-          <td>${newTeacher.rank}</td>
-          <td>${newTeacher.email}</td>
-          <td>
-            <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${newTeacher.id}')">
-              <i class="fas fa-trash-alt"></i> Delete
-            </button>
-          </td>
-        `;
-        tbody.appendChild(newRow);
-
-        document.getElementById("addTeacherForm").reset();
-        var addTeacherModal = bootstrap.Modal.getInstance(document.getElementById("addTeacherModal"));
-        addTeacherModal.hide();
-        alert("Teacher successfully registered!");
-      } else {
-        alert("Please fill in all required fields.");
-      }
     }
 
     // Load initial teacher data
     function loadTeachers() {
-      const tbody = document.getElementById("teachers-list");
-      tbody.innerHTML = "";
+        const tbody = document.getElementById("teachers-list");
+        tbody.innerHTML = "";
 
-      teachers.forEach((teacher) => {
-        const row = `<tr>
-          <td>${teacher.id}</td>
-          <td>${teacher.name}</td>
-          <td>${teacher.rank}</td>
-          <td>${teacher.email}</td>
-          <td>
-            <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${teacher.id}')">
-              <i class="fas fa-trash-alt"></i> Delete
-            </button>
-          </td>
-        </tr>`;
-        tbody.innerHTML += row;
-      });
+        teachers.forEach((teacher) => {
+            const row = `<tr>
+                <td>${teacher.id}</td>
+                <td>${teacher.name}</td>
+                <td>${teacher.rank}</td>
+                <td>${teacher.email}</td>
+                <td>
+                    <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${teacher.id}')">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                </td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
     }
 
     // Teacher data
     let teachers = [
-      {
-        id: "1213674",
-        name: "MA. ALMA SANTOS BALANZA",
-        rank: "Teacher III",
-        email: "maalma.balanza@deped.gov.ph",
-      },
-      {
-        id: "9893997",
-        name: "SHERYL CONCEPCION ADOBAS",
-        rank: "Teacher III",
-        email: "sheryl.adobas@deped.gov.ph",
-      },
-      {
-        id: "9923980",
-        name: "ELEANOR ALCARADO CAUDILLA",
-        rank: "Teacher I",
-        email: "eleanor.caudilla001@deped.gov.ph",
-      },
+        {
+            id: "1213674",
+            name: "MA. ALMA SANTOS BALANZA",
+            rank: "Teacher III",
+            email: "maalma.balanza@deped.gov.ph",
+        },
+        {
+            id: "9893997",
+            name: "SHERYL CONCEPCION ADOBAS",
+            rank: "Teacher III",
+            email: "sheryl.adobas@deped.gov.ph",
+        },
+        {
+            id: "9923980",
+            name: "ELEANOR ALCARADO CAUDILLA",
+            rank: "Teacher I",
+            email: "eleanor.caudilla001@deped.gov.ph",
+        },
     ];
 
     // Render teacher table
     function renderTeachers(teachersToRender = teachers) {
-      const tbody = document.getElementById('teachers-list');
-      tbody.innerHTML = '';
+        const tbody = document.getElementById('teachers-list');
+        tbody.innerHTML = '';
 
-      teachersToRender.forEach(teacher => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td class="ps-4 fw-semibold text-primary">${teacher.id}</td>
-          <td>
-            <div class="d-flex align-items-center">
-              <div class="avatar-sm bg-light-primary rounded-circle me-3 d-flex align-items-center justify-content-center">
-                <i class="fas fa-user text-primary"></i>
-              </div>
-              <span>${teacher.name}</span>
-            </div>
-          </td>
-          <td><span class="badge bg-primary bg-opacity-10 text-primary">${teacher.rank}</span></td>
-          <td><a href="mailto:${teacher.email}" class="text-decoration-none">${teacher.email}</a></td>
-          <td class="text-end pe-4">
-            <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="deleteTeacher('${teacher.id}')">
-              <i class="fas fa-trash-alt me-1"></i> Delete
-            </button>
-          </td>
-        `;
-        tbody.appendChild(row);
-      });
+        teachersToRender.forEach(teacher => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="ps-4 fw-semibold text-primary">${teacher.id}</td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="avatar-sm bg-light-primary rounded-circle me-3 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-user text-primary"></i>
+                        </div>
+                        <span>${teacher.name}</span>
+                    </div>
+                </td>
+                <td><span class="badge bg-primary bg-opacity-10 text-primary">${teacher.rank}</span></td>
+                <td><a href="mailto:${teacher.email}" class="text-decoration-none">${teacher.email}</a></td>
+                <td class="text-end pe-4">
+                    <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="deleteTeacher('${teacher.id}')">
+                        <i class="fas fa-trash-alt me-1"></i> Delete
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
     }
 
     // Setup search functionality
     function setupSearch() {
-      const searchInput = document.getElementById('teacherSearch');
-      const searchBtn = document.getElementById('searchBtn');
+        const searchInput = document.getElementById('teacherSearch');
+        const searchBtn = document.getElementById('searchBtn');
 
-      function performSearch() {
-        const searchTerm = searchInput.value.toLowerCase();
-        if (!searchTerm) {
-          renderTeachers();
-          return;
+        function performSearch() {
+            const searchTerm = searchInput.value.toLowerCase();
+            if (!searchTerm) {
+                renderTeachers();
+                return;
+            }
+
+            const filteredTeachers = teachers.filter(teacher => 
+                teacher.id.toLowerCase().includes(searchTerm) || 
+                teacher.name.toLowerCase().includes(searchTerm)
+            );
+            
+            renderTeachers(filteredTeachers);
         }
 
-        const filteredTeachers = teachers.filter(teacher => 
-          teacher.id.toLowerCase().includes(searchTerm) || 
-          teacher.name.toLowerCase().includes(searchTerm)
-        );
-        
-        renderTeachers(filteredTeachers);
-      }
-
-      searchBtn.addEventListener('click', performSearch);
-      searchInput.addEventListener('keyup', function(e) {
-        if (e.key === 'Enter') performSearch();
-      });
+        searchBtn.addEventListener('click', performSearch);
+        searchInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') performSearch();
+        });
     }
 
     // Delete teacher
     function deleteTeacher(teacherId) {
-      if (confirm("Are you sure you want to delete this teacher?")) {
-        teachers = teachers.filter(teacher => teacher.id !== teacherId);
-        renderTeachers();
-      }
+        if (confirm("Are you sure you want to delete this teacher?")) {
+            teachers = teachers.filter(teacher => teacher.id !== teacherId);
+            renderTeachers();
+        }
     }
 
     // Initialize page
     document.addEventListener('DOMContentLoaded', function() {
-      renderTeachers();
-      setupSearch();
+        renderTeachers();
+        setupSearch();
     });
 
     // Sidebar navigation
     document.querySelectorAll(".sidebar .nav-link").forEach((link) => {
-    link.addEventListener("click", function (e) {
-      e.preventDefault();
-      document.querySelectorAll(".sidebar .nav-link").forEach((nav) => nav.classList.remove("active"));
-      document.querySelectorAll(".content-section").forEach((section) => {
-        section.classList.remove("active");
-        section.style.display = "none";
-      });
-      
-      this.classList.add("active");
-      const targetSection = document.querySelector(this.getAttribute("href"));
-      
-      if (targetSection) {
-        targetSection.classList.add("active");
-        targetSection.style.display = "block";
-      }
-      
-      // Special handling for dashboard to show the monthly absence widget
-      if (this.getAttribute("href") === "#dashboard") {
-        document.getElementById("monthly-absence-widget").style.display = "block";
-      } else {
-        document.getElementById("monthly-absence-widget").style.display = "none";
-      }
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.querySelectorAll(".sidebar .nav-link").forEach((nav) => nav.classList.remove("active"));
+            document.querySelectorAll(".content-section").forEach((section) => {
+                section.classList.remove("active");
+                section.style.display = "none";
+            });
+            
+            this.classList.add("active");
+            const targetSection = document.querySelector(this.getAttribute("href"));
+            
+            if (targetSection) {
+                targetSection.classList.add("active");
+                targetSection.style.display = "block";
+            }
+            
+            // Special handling for dashboard to show the monthly absence widget
+            if (this.getAttribute("href") === "#dashboard") {
+                document.getElementById("monthly-absence-widget").style.display = "block";
+            } else {
+                document.getElementById("monthly-absence-widget").style.display = "none";
+            }
+        });
     });
-  });
 
     // Logout function
     function logout() {
-      window.location.href = "/HTML/landing.html";
+        window.location.href = "/HTML/landing.html";
     }
-
-    // Request data
-    let requests = [
-      {
-        name: "Pedro Reyes",
-        status: "Pending",
-        reason: "I didn't realize I needed to tap my NFC tag again to log out.",
-        date: "2025-03-12",
-        login: "6:45 AM",
-        logout: "5:00 PM",
-      },
-      {
-        name: "Maria Santos",
-        status: "Pending",
-        reason: "I was in a hurry and forgot to tap the NFC tag when logging in.",
-        date: "2025-03-12",
-        login: "6:55 AM",
-        logout: "4:05 PM",
-      },
-    ];
-
-    // Monthly absence data
-    const monthlyAbsenceData = {
-      teachers: [
-        { name: "John Doe", absences: 2 },
-        { name: "Jane Smith", absences: 1 },
-        { name: "Emily Clark", absences: 1 },
-        { name: "Michael Brown", absences: 4 },
-      ],
-    };
 
     // Load absence tracker
     function loadMonthlyAbsenceTracker() {
-      const teacherList = document.getElementById("teacher-absence-list");
-      if (!teacherList) return;
+        const teacherList = document.getElementById("teacher-absence-list");
+        if (!teacherList) return;
 
-      teacherList.innerHTML = "";
-      monthlyAbsenceData.teachers.forEach((teacher) => {
-        const listItem = document.createElement("li");
-        listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
-        listItem.innerHTML = `
-          ${teacher.name}
-          <span class="badge ${teacher.absences > 3 ? "bg-danger" : "bg-primary"} rounded-pill">
-            ${teacher.absences} days
-          </span>
-        `;
-        teacherList.appendChild(listItem);
-      });
+        teacherList.innerHTML = "";
+        monthlyAbsenceData.teachers.forEach((teacher) => {
+            const listItem = document.createElement("li");
+            listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+            listItem.innerHTML = `
+                ${teacher.name}
+                <span class="badge ${teacher.absences > 3 ? "bg-danger" : "bg-primary"} rounded-pill">
+                    ${teacher.absences} days
+                </span>
+            `;
+            teacherList.appendChild(listItem);
+        });
     }
 
-    //Request reject button function
+    // Request reject button function
     const mockRequests = {
-      '1': {
-        id: '1',
-        name: 'Ma. Alma S. Balanza',
-        date: '2023-10-15',
-        status: 'pending'
-      }
+        '1': {
+            id: '1',
+            name: 'Ma. Alma S. Balanza',
+            date: '2023-10-15',
+            status: 'pending'
+        }
     };
 
     document.addEventListener('DOMContentLoaded', function() {
-      let currentRejectId = null;
+        let currentRejectId = null;
 
-      document.querySelectorAll('.reject-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          currentRejectId = this.getAttribute('data-id');
-          const modal = new bootstrap.Modal(document.getElementById('rejectConfirmModal'));
-          modal.show();
+        document.querySelectorAll('.reject-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                currentRejectId = this.getAttribute('data-id');
+                const modal = new bootstrap.Modal(document.getElementById('rejectConfirmModal'));
+                modal.show();
+            });
         });
-      });
 
-      document.getElementById('finalRejectBtn').addEventListener('click', function() {
-        const reason = document.getElementById('rejectionReason').value.trim();
+        document.getElementById('finalRejectBtn').addEventListener('click', function() {
+            const reason = document.getElementById('rejectionReason').value.trim();
 
-        if (!reason) {
-          alert('Please enter a rejection reason');
-          return;
+            if (!reason) {
+                alert('Please enter a rejection reason');
+                return;
+            }
+
+            if (mockRequests[currentRejectId]) {
+                const requestItem = document.querySelector(`.reject-btn[data-id="${currentRejectId}"]`).closest('li');
+                const badge = requestItem.querySelector('.badge');
+                badge.classList.remove('border-primary', 'text-primary');
+                badge.classList.add('border-danger', 'text-danger');
+                badge.textContent = 'Rejected';
+
+                requestItem.querySelectorAll('button').forEach(btn => {
+                    btn.disabled = true;
+                });
+
+                requestItem.insertAdjacentHTML('beforeend', `
+                    <div class="mt-2 small text-danger">
+                        <i class="fas fa-ban me-1"></i> Rejected: ${reason}
+                    </div>
+                `);
+
+                updateRequestCount();
+                bootstrap.Modal.getInstance(document.getElementById('rejectConfirmModal')).hide();
+                document.getElementById('rejectionReason').value = '';
+                showToast('Request rejected successfully');
+            }
+        });
+
+        document.querySelectorAll('.approve-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const requestItem = this.closest('li');
+                const badge = requestItem.querySelector('.badge');
+                badge.classList.remove('border-primary', 'text-primary');
+                badge.classList.add('border-success', 'text-success');
+                badge.textContent = 'Approved';
+
+                requestItem.querySelectorAll('button').forEach(btn => {
+                    btn.disabled = true;
+                });
+
+                updateRequestCount();
+                showToast('Request approved successfully');
+            });
+        });
+
+        function updateRequestCount() {
+            const count = document.querySelectorAll('#request-list li:not(.d-none)').length;
+            document.getElementById('request-count').textContent = `${count} request${count !== 1 ? 's' : ''}`;
         }
 
-        if (mockRequests[currentRejectId]) {
-          const requestItem = document.querySelector(`.reject-btn[data-id="${currentRejectId}"]`).closest('li');
-          const badge = requestItem.querySelector('.badge');
-          badge.classList.remove('border-primary', 'text-primary');
-          badge.classList.add('border-danger', 'text-danger');
-          badge.textContent = 'Rejected';
-
-          requestItem.querySelectorAll('button').forEach(btn => {
-            btn.disabled = true;
-          });
-
-          requestItem.insertAdjacentHTML('beforeend', `
-            <div class="mt-2 small text-danger">
-              <i class="fas fa-ban me-1"></i> Rejected: ${reason}
-            </div>
-          `);
-
-          updateRequestCount();
-          bootstrap.Modal.getInstance(document.getElementById('rejectConfirmModal')).hide();
-          document.getElementById('rejectionReason').value = '';
-          showToast('Request rejected successfully');
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'position-fixed bottom-0 end-0 p-3';
+            toast.innerHTML = `
+                <div class="toast show" role="alert">
+                    <div class="toast-header bg-success text-white">
+                        <strong class="me-auto">Success</strong>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                    </div>
+                    <div class="toast-body">${message}</div>
+                </div>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
-      });
-
-      document.querySelectorAll('.approve-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const id = this.getAttribute('data-id');
-          const requestItem = this.closest('li');
-          const badge = requestItem.querySelector('.badge');
-          badge.classList.remove('border-primary', 'text-primary');
-          badge.classList.add('border-success', 'text-success');
-          badge.textContent = 'Approved';
-
-          requestItem.querySelectorAll('button').forEach(btn => {
-            btn.disabled = true;
-          });
-
-          updateRequestCount();
-          showToast('Request approved successfully');
-        });
-      });
-
-      function updateRequestCount() {
-        const count = document.querySelectorAll('#request-list li:not(.d-none)').length;
-        document.getElementById('request-count').textContent = `${count} request${count !== 1 ? 's' : ''}`;
-      }
-
-      function showToast(message) {
-        const toast = document.createElement('div');
-        toast.className = 'position-fixed bottom-0 end-0 p-3';
-        toast.innerHTML = `
-          <div class="toast show" role="alert">
-            <div class="toast-header bg-success text-white">
-              <strong class="me-auto">Success</strong>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
-            </div>
-            <div class="toast-body">${message}</div>
-          </div>
-        `;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-      }
     });
 
-    // 201 files data sample – but if there is a backend, it comes from the database.
+    // 201 files data sample
     const teachersData = {
-      teachers: [
-          {
-          "employeeId": "4324729",
-          "lastName": "Balanza",
-          "firstName": "Ma. Alma",
-          "middleName": "Santos",
-          "position": "Principal IV",
-          "dateOfOriginalAppt": "1988-07-05",
-          "dateOfLastPromotion": "2015-06-01",
-          "personalInformation": {
-            "name": "Ma.Alma Balanza",
-            "position": "Teacher III",
-            "dateOfOriginalAppointment": "March 1, 1990",
-            "dateOfLastPromotion": "June 15, 2015",
-            "depedEmail": "maalma.balanza@deped.gov.ph",
-            "address": "0248 Lola's Way St., Caingin, San Rafael, Bulacan",
-            "birthday": "December 21, 1966",
-            "contactNumber": "09123456789",
-            "gender": "Female",
-            "eligibility": "Professional Board Examination for Teachers"
-          },
-          "schoolInformation": {
-            "school": "Maguinao Elementary School",
-            "level": "Elementary",
-            "district": "San Rafael West",
-            "division": "SDO Bulacan",
-            "edds": "III",
-            "itemNumber": "OSEC-DECSB-SP4-150022-2023",
-            "sg": "22",
-            "step": "1",
-            "courseAndMajor": "Bachelor of Elementary Education (Generalist)",
-            "graduateStudies": "Doctor of Philosophy Major in Educational Psychology"
-          },
-          "governmentNumbers": {
-            "PHILHEALTH_NUMBER": "123456789012",
-            "GSIS_BP_NUMBER": "9876543210",
-            "PAG_IBIG_NUMBER": "112233445566",
-            "TIN_NUMBER": "5566778899"
-          }
+        teachers: [
+            {
+                "employeeId": "4324729",
+                "lastName": "Balanza",
+                "firstName": "Ma. Alma",
+                "middleName": "Santos",
+                "position": "Principal IV",
+                "dateOfOriginalAppt": "1988-07-05",
+                "dateOfLastPromotion": "2015-06-01",
+                "personalInformation": {
+                    "firstName": "Alma",
+                    "lastName": "Balanza",
+                    "middleName": "Santos",
+                    "position": "Teacher III",
+                    "dateOfOriginalAppointment": "March 1, 1990",
+                    "dateOfLastPromotion": "June 15, 2015",
+                    "depedEmail": "maalma.balanza@deped.gov.ph",
+                    "address": "0248 Lola's Way St., Caingin, San Rafael, Bulacan",
+                    "birthday": "December 21, 1966",
+                    "contactNumber": "09123456789",
+                    "gender": "Female",
+                    "eligibility": "Professional Board Examination for Teachers"
+                },
+                "schoolInformation": {
+                    "school": "Maguinao Elementary School",
+                    "level": "Elementary",
+                    "district": "San Rafael West",
+                    "division": "SDO Bulacan",
+                    "edds": "III",
+                    "itemNumber": "OSEC-DECSB-SP4-150022-2023",
+                    "sg": "22",
+                    "step": "1",
+                    "courseAndMajor": "Bachelor of Elementary Education (Generalist)",
+                    "graduateStudies": "Doctor of Philosophy Major in Educational Psychology"
+                },
+                "governmentNumbers": {
+                    "PHILHEALTH_NUMBER": "123456789012",
+                    "GSIS_BP_NUMBER": "9876543210",
+                    "PAG_IBIG_NUMBER": "112233445566",
+                    "TIN_NUMBER": "5566778899"
+                }
+            }
+        ],
+    };
+
+    // Add teacher 201 files
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('teacherFilesForm');
+        const steps = document.querySelectorAll('.form-step');
+        const stepButtons = document.querySelectorAll('.step-btn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const progressBar = document.getElementById('formProgressBar');
+        
+        let currentStep = 0;
+        
+        // Update form steps
+        function updateFormStep(step) {
+            steps.forEach((stepElement, index) => {
+                stepElement.classList.toggle('active', index === step);
+                stepElement.classList.toggle('d-none', index !== step);
+            });
+            
+            // Update buttons
+            prevBtn.disabled = step === 0;
+            nextBtn.classList.toggle('d-none', step === steps.length - 1);
+            submitBtn.classList.toggle('d-none', step !== steps.length - 1);
+            skipBtn.classList.toggle('d-none', step === steps.length - 1);
+            
+            // Update progress bar
+            const progress = ((step + 1) / steps.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            
+            // Update step indicators
+            stepButtons.forEach((btn, index) => {
+                const stepNumber = btn.querySelector('.step-number');
+                const stepLabel = btn.querySelector('.step-label');
+                
+                if (index <= step) {
+                    stepNumber.classList.remove('bg-light', 'border', 'text-muted');
+                    stepNumber.classList.add('bg-primary', 'text-white');
+                    stepLabel.classList.add('text-primary', 'fw-medium');
+                } else {
+                    stepNumber.classList.remove('bg-primary', 'text-white');
+                    stepNumber.classList.add('bg-light', 'border', 'text-muted');
+                    stepLabel.classList.remove('text-primary', 'fw-medium');
+                }
+            });
         }
-        // ... (other teacher objects remain the same)
-      ],
-    };
-
-    const tableBody = document.getElementById("files-list");
-    const positionFilter = document.getElementById("positionFilter");
-
-    // Calculate age from birthday
-    function calculateAge(birthday) {
-      if (!birthday) return "N/A";
-      const birthDate = new Date(birthday);
-      const today = new Date();
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-      return age;
-    }
-
-    // Calculate years of service
-    function calculateTeachingService(dateOfOriginalAppt) {
-      if (!dateOfOriginalAppt) return "N/A";
-      const appointmentDate = new Date(dateOfOriginalAppt);
-      const today = new Date();
-      let serviceYears = today.getFullYear() - appointmentDate.getFullYear();
-      const monthDiff = today.getMonth() - appointmentDate.getMonth();
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < appointmentDate.getDate())) {
-        serviceYears--;
-      }
-      return serviceYears;
-    }
-
-    // Render teacher table rows
-    function renderTableRows(teachers) {
-      tableBody.innerHTML = "";
-      teachers.forEach((teacher) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${teacher.employeeId}</td>
-          <td>${teacher.position}</td>
-          <td>${teacher.lastName}</td>
-          <td>${teacher.firstName}</td>
-          <td>${teacher.middleName}</td>
-          <td>${calculateAge(teacher.personalInformation.birthday)}</td>
-          <td>${calculateTeachingService(teacher.dateOfOriginalAppt)} years</td>
-          <td><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
-              data-bs-target="#governmentNumbersModal" 
-              onclick="showTeacherInfo('${teacher.employeeId}')">View Data Info</button></td>
-          <td><button class="btn btn-outline-primary btn-sm delete-btn" 
-              data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Archived</button></td>
-        `;
-        tableBody.appendChild(row);
-      });
-    }
-
-    // Initial render
-    renderTableRows(teachersData.teachers);
-
-    // Filter by position
-    positionFilter.addEventListener("change", function () {
-      const selectedPosition = this.value;
-      if (selectedPosition === "all") {
-        renderTableRows(teachersData.teachers);
-      } else {
-        const filteredTeachers = teachersData.teachers.filter(
-          (teacher) => teacher.position === selectedPosition
-        );
-        renderTableRows(filteredTeachers);
-      }
-    });
-
-    // Show teacher info in modal
-    window.showTeacherInfo = function (employeeId) {
-      const teacher = teachersData.teachers.find((t) => t.employeeId === employeeId);
-      const personalInfoList = document.getElementById("personalInfoList");
-      const schoolInfoList = document.getElementById("schoolInfoList");
-      const governmentNumbersList = document.getElementById("governmentNumbersList");
-
-      personalInfoList.innerHTML = "";
-      schoolInfoList.innerHTML = "";
-      governmentNumbersList.innerHTML = "";
-
-      // Populate personal info
-      for (const [key, value] of Object.entries(teacher.personalInformation)) {
-        const listItem = document.createElement("li");
-        listItem.className = "list-group-item d-flex justify-content-between align-items-center";
-        listItem.innerHTML = `<span class="fw-bold text-uppercase">${key}:</span> <span>${value}</span>`;
-        personalInfoList.appendChild(listItem);
-      }
-
-      // Populate school info
-      for (const [key, value] of Object.entries(teacher.schoolInformation)) {
-        const listItem = document.createElement("li");
-        listItem.className = "list-group-item d-flex justify-content-between align-items-center";
-        listItem.innerHTML = `<span class="fw-bold text-uppercase">${key}:</span> <span>${value}</span>`;
-        schoolInfoList.appendChild(listItem);
-      }
-
-      // Populate government numbers
-      for (const [key, value] of Object.entries(teacher.governmentNumbers)) {
-        const listItem = document.createElement("li");
-        listItem.className = "list-group-item d-flex justify-content-between align-items-center";
-        listItem.innerHTML = `<span class="fw-bold text-uppercase">${key}:</span> <span>${value}</span>`;
-        governmentNumbersList.appendChild(listItem);
-      }
-    };
-
-    // Delete functionality
-    document.addEventListener("DOMContentLoaded", function () {
-      const confirmInput = document.getElementById("confirmInput");
-      const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
-      let rowToDelete = null;
-
-      confirmInput.addEventListener("input", function () {
-        confirmDeleteBtn.disabled = confirmInput.value.trim().toUpperCase() !== "CONFIRM";
-      });
-
-      document.querySelectorAll(".delete-btn").forEach((button) => {
-        button.addEventListener("click", function () {
-          rowToDelete = this.closest("tr");
+        
+        // Next button click
+        nextBtn.addEventListener('click', function() {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                updateFormStep(currentStep);
+            }
         });
-      });
-
-      confirmDeleteBtn.addEventListener("click", function () {
-        if (rowToDelete && confirmInput.value.trim().toUpperCase() === "CONFIRM") {
-          rowToDelete.remove();
-          $("#deleteConfirmationModal").modal("hide");
-          confirmInput.value = "";
-          confirmDeleteBtn.disabled = true;
-          rowToDelete = null;
-        }
-      });
-
-      $("#deleteConfirmationModal").on("hidden.bs.modal", function () {
-        confirmInput.value = "";
-        confirmDeleteBtn.disabled = true;
-        rowToDelete = null;
-      });
+        
+        // Previous button click
+        prevBtn.addEventListener('click', function() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateFormStep(currentStep);
+            }
+        });
+        
+        // Skip button click
+        skipBtn.addEventListener('click', function() {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                updateFormStep(currentStep);
+            }
+        });
+        
+        // Step indicator click
+        stepButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const step = parseInt(this.getAttribute('data-step')) - 1;
+                currentStep = step;
+                updateFormStep(currentStep);
+            });
+        });
+        
+        // Profile photo upload preview
+        const photoUpload = document.getElementById('teacherPhotoUpload');
+        const photoPreview = document.getElementById('teacherPhotoPreview');
+        
+        photoUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    photoPreview.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
     });
-
-    // Search employees
-    function searchEmployees() {
-      const searchInput = document.getElementById("employeeSearch");
-      if (!searchInput) return;
-      
-      const searchTerm = searchInput.value.toLowerCase().trim();
-      
-      if (!searchTerm) {
-        renderTableRows(teachersData.teachers);
-        return;
-      }
-
-      const filteredTeachers = teachersData.teachers.filter(teacher => {
-        const fullName = `${teacher.firstName || ''} ${teacher.middleName || ''} ${teacher.lastName || ''}`.toLowerCase();
-        return (
-          teacher.firstName?.toLowerCase().includes(searchTerm) ||
-          teacher.middleName?.toLowerCase().includes(searchTerm) ||
-          teacher.lastName?.toLowerCase().includes(searchTerm) ||
-          teacher.employeeId?.toLowerCase().includes(searchTerm) ||
-          fullName.includes(searchTerm)
-        );
-      });
-
-      renderTableRows(filteredTeachers);
-    }
-
-    // PDF download function in 201 files
-    document.getElementById('downloadEmployeeInfo').addEventListener('click', function() {
-      const element = document.querySelector('#governmentNumbersModal .modal-content');
-      html2pdf().set({
-        margin: 10,
-        filename: 'employee_info.pdf',
-        html2canvas: { scale: 2, scrollY: 0 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      }).from(element).save();
-    });
-
-    // Print function
-    document.getElementById('printEmployeeInfo').addEventListener('click', function() {
-      window.print();
-    });
-    </script>
+</script>
   </body>
 </html>
