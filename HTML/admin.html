@@ -30,7 +30,7 @@
         <a class="nav-link" href="#payroll"><i class="fas fa-money-bill-wave me-2"></i>Payroll</a>
         <a class="nav-link" href="#requests"><i class="fas fa-inbox me-2"></i>Requests</a>
         <a class="nav-link" href="#files"><i class="fas fa-file me-2"></i>Teachers</a>
-        <a class="nav-link" href="#leave-credits"><i class="bi bi-calendar-check me-2"></i>Leave Credits Points</a>
+        <a class="nav-link" href="#credits-management"><i class="bi bi-calendar-check me-2"></i>Credits Management</a>
         <a class="nav-link" href="#admin-settings"><i class="fas fa-cog me-2"></i>Admin Settings</a>
       </nav>
       <a class="nav-link text-danger mt-auto" href="#" onclick="logout()" style="cursor:pointer"><i class="fas fa-sign-out-alt me-2"></i>Log Out</a>
@@ -48,9 +48,10 @@
        <!-- Right Side Controls -->
         <div class="d-flex align-items-center gap-4">
           <!-- Current Date/Time -->
-          <div class="datetime-box bg-light px-3 py-2 rounded" style="font-size: 1.2rem;"> <!-- Increased font size -->
-            <i class="fas fa-clock text-primary me-2"></i>
-            <span id="current-datetime" class="fw-medium"></span>
+          <div class="datetime-container">
+            <div class="datetime-box">
+              <span id="current-datetime" class="datetime-text"></span>
+            </div>
           </div>
           
           <!-- Profile Dropdown -->
@@ -60,7 +61,7 @@
                 <img src="/IMAGES/MaamAlma.png" 
                     alt="Admin" 
                     class="rounded-circle border border-2 border-primary"
-                    width="50" height="50"> <!-- Increased avatar size -->
+                    width="60" height="60"> <!-- Increased avatar size -->
               </div>
             </button>
             <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
@@ -390,7 +391,7 @@
                     <td class="text-start">
                       <span class="badge bg-primary" style="padding: 6px 10px; border-radius: 6px;">On-time</span>
                     </td>
-                    <td class="text-start">04:10 PM</td>
+                    <td class="text-start">-:-</td>
                     <td class="text-start pe-4">
                       <span class="badge bg-primary" style="padding: 6px 10px; border-radius: 6px;">On-time</span>
                     </td>
@@ -1895,191 +1896,180 @@
       
 
       <!-- ==================== LEAVE CREDITS ==================== -->
-      <div class="content-section p-3 rounded-3" style="background-color: rgb(255, 255, 255); margin-top: 25px;" id="leave-credits">
-        <div class="row mb-4">
-          <div class="col-12">
-            <h2 class="fw-bold" style="color: rgb(26, 35, 126);">Leave Credits</h2>
-            <p class="text-muted">Managing leave credits for <span id="teacherCount">66</span> teachers</p>
-          </div>
+      <div class="content-section p-3 rounded-3 bg-white mt-3" id="credits-management">
+        <div class="mb-3">
+          <h2 class="fw-bold text-primary">
+            <i class="bi bi-award-fill me-2"></i>Credits Management
+          </h2>
+          <p class="text-muted">Track and manage teacher credits</p>
         </div>
-
+      
         <div class="row g-3">
-          <!-- Quick Actions Card -->
-          <div class="col-lg-4">
-            <div class="card shadow-sm border-0">
-              <div class="card-header text-white" style="background-color: rgb(26, 35, 126);">
-                <h5 class="mb-0"><i class="bi bi-sliders me-2"></i>Quick Actions</h5>
+          <!-- SERVICE CREDITS -->
+          <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Service Credits</h5>
               </div>
               <div class="card-body">
-                <div class="mb-3">
-                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Adjust Credits</label>
-                  <select class="form-select mb-2" id="bulkAction">
-                    <option value="add">Add</option>
-                    <option value="subtract">Subtract</option>
-                    <option value="set">Set</option>
-                  </select>
-                  <div class="input-group">
-                    <input type="number" class="form-control" id="bulkPoints" placeholder="Amount" min="0">
-                    <button class="btn text-white" type="button" id="addBulkPoints" style="background-color: rgb(26, 35, 126);">
-                      <i class="bi bi-check-circle me-1"></i>Apply
-                    </button>
+                <form id="awardServiceForm">
+                  <div class="mb-3">
+                    <label class="form-label">Teacher</label>
+                    <select class="form-select" id="teacherSelect" required>
+                      <option value="" selected>Select teacher</option>
+                    </select>
                   </div>
-                  <small class="text-muted">Applies to all teachers</small>
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Search</label>
-                  <div class="input-group">
-                    <input type="text" class="form-control" id="teacherFilter" placeholder="Name or ID">
-                    <button class="btn btn-outline-secondary" type="button" id="clearFilter">
-                      <i class="bi bi-x-lg"></i>
-                    </button>
+                  
+                  <div class="mb-3">
+                    <label class="form-label">Service Type</label>
+                    <select class="form-select" id="serviceType" required>
+                      <option value="" selected>Choose type</option>
+                      <option value="election">Election Duty</option>
+                      <option value="seminar">Seminar</option>
+                      <option value="training">Training</option>
+                      <option value="other">Other</option>
+                    </select>
                   </div>
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Filter by Credits</label>
-                  <select class="form-select" id="pointsFilter">
-                    <option value="all">All Teachers</option>
-                    <option value="low">Low (0-3)</option>
-                    <option value="medium">Medium (4-6)</option>
-                    <option value="high">High (7+)</option>
-                  </select>
-                </div>
-
-                <div class="d-grid gap-2">
-                  <button class="btn btn-outline-secondary" id="exportExcel">
-                    <i class="bi bi-file-earmark-excel me-2"></i>Export
+      
+                  <div class="mb-3">
+                    <label class="form-label">Points</label>
+                    <input type="number" class="form-control" id="servicePoints" min="1" max="20" value="1" required>
+                  </div>
+      
+                  <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-check-circle me-2"></i>Give Credits
                   </button>
+                </form>
+      
+                <div class="border-top pt-3 mt-3">
+                  <h6><i class="bi bi-people me-2"></i>Bulk Award</h6>
+                  <form id="bulkServiceForm">
+                    <div class="mb-3">
+                      <label class="form-label">Select Teachers</label>
+                      <select class="form-select" multiple id="bulkTeacherSelect" required>
+                        <!-- Options will be added by JavaScript -->
+                      </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                      <label class="form-label">Points</label>
+                      <input type="number" class="form-control" id="bulkServicePoints" min="1" max="20" value="1" required>
+                    </div>
+      
+                    <button type="submit" class="btn btn-primary w-100">
+                      <i class="bi bi-send-check me-2"></i>Award to Selected
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- Teachers List -->
-          <div class="col-lg-8">
-            <div class="card shadow-sm border-0">
-              <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: rgb(26, 35, 126);">
-                <h5 class="mb-0"><i class="bi bi-people-fill me-2"></i>Teachers</h5>
-                <span class="badge bg-light text-dark">Showing <span id="showingCount">66</span> of <span id="totalCount">66</span></span>
+      
+          <!-- LEAVE CREDITS -->
+          <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-header" style="background-color: #5394ff; color: white;">
+                <h5 class="mb-0"><i class="bi bi-calendar-plus me-2"></i>Leave Credits</h5>
               </div>
               <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table table-hover" id="teachersTable">
-                    <thead>
-                      <tr style="background-color: rgba(26, 35, 126, 0.1);">
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th class="text-center">Credits</th>
-                        <th>Updated</th>
-                        <th class="text-center">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr data-id="1739037" data-points="7">
-                        <td class="fw-bold">1739037</td>
-                        <td>Juan Dela Cruz</td>
-                        <td class="text-center">
-                          <span class="badge rounded-pill p-2 points-badge" style="background-color: rgba(26, 35, 126, 0.1); color: rgb(26, 35, 126);">
-                            <i class="bi bi-star-fill me-1"></i><span class="points-value">7</span>
-                          </span>
-                        </td>
-                        <td>2023-05-15</td>
-                        <td class="text-center">
-                          <button class="btn btn-sm rounded-circle me-1 text-white edit-btn" style="background-color: rgb(26, 35, 126);" title="Edit">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button class="btn btn-sm rounded-circle border history-btn" title="History">
-                            <i class="bi bi-clock-history"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr data-id="1937892" data-points="5">
-                        <td class="fw-bold">1937892</td>
-                        <td>Maria Santos</td>
-                        <td class="text-center">
-                          <span class="badge rounded-pill p-2 points-badge" style="background-color: rgba(26, 35, 126, 0.1); color: rgb(26, 35, 126);">
-                            <i class="bi bi-star-fill me-1"></i><span class="points-value">5</span>
-                          </span>
-                        </td>
-                        <td>2023-05-10</td>
-                        <td class="text-center">
-                          <button class="btn btn-sm rounded-circle me-1 text-white edit-btn" style="background-color: rgb(26, 35, 126);" title="Edit">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button class="btn btn-sm rounded-circle border history-btn" title="History">
-                            <i class="bi bi-clock-history"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div class="alert alert-info py-2 mb-3">
+                  <small>5 service points = 1 leave day</small>
                 </div>
-
-                <!-- Pagination -->
-                <nav class="mt-3">
-                  <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                      <a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item">
-                      <a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a>
-                    </li>
-                  </ul>
-                </nav>
+                
+                <form id="manageLeaveCredits" class="mb-4">
+                  <div class="mb-3">
+                    <label class="form-label">Teacher</label>
+                    <select class="form-select" id="leaveTeacherSelect" required>
+                      <option value="" selected>Select teacher</option>
+                    </select>
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label class="form-label">Points to Convert</label>
+                    <input type="number" class="form-control" id="pointsToConvert" min="1" required>
+                    <small class="text-muted">Will receive: <span id="leaveDaysResult">0</span> leave days</small>
+                  </div>
+                  
+                  <button type="submit" class="btn w-100" style="background-color: #5394ff; color: white;">
+                    <i class="bi bi-arrow-repeat me-2"></i>Convert
+                  </button>
+                </form>
+      
+                <div class="border-top pt-3">
+                  <h6><i class="bi bi-gift me-2"></i>Direct Allocation</h6>
+                  <form id="directLeaveForm">
+                    <div class="mb-3">
+                      <label class="form-label">Teacher</label>
+                      <select class="form-select" id="directLeaveTeacher" required>
+                        <option value="" selected>Select teacher</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Leave Days</label>
+                      <input type="number" class="form-control" id="directLeaveDays" min="0.5" step="0.5" required>
+                    </div>
+                    <button type="submit" class="btn w-100" style="background-color: #5394ff; color: white;">
+                      <i class="bi bi-plus-circle me-2"></i>Add Days
+                    </button>
+                  </form>
+                </div>
               </div>
+            </div>
+          </div>
+        </div>
+      
+        <!-- RECENT ACTIVITY -->
+        <div class="card shadow-sm mt-3">
+          <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Recent</h5>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-sm mb-0">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Teacher</th>
+                    <th>Type</th>
+                    <th class="text-end">Points</th>
+                    <th class="text-end">Days</th>
+                  </tr>
+                </thead>
+                <tbody id="recentActivityTable">
+                  <!-- Will be filled by JavaScript -->
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Edit Modal -->
-      <div class="modal fade" id="editPointsModal" tabindex="-1">
+      
+      <!-- MODALS -->
+      <div class="modal fade" id="serviceAwardModal" tabindex="-1">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header text-white" style="background-color: rgb(26, 35, 126);">
-              <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>Edit Credits</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-              <form id="editPointsForm">
-                <input type="hidden" id="editTeacherId">
-                <div class="mb-3">
-                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Teacher</label>
-                  <input type="text" class="form-control" id="editTeacherName" readonly>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Current Credits</label>
-                  <input type="number" class="form-control" id="editCurrentPoints" readonly>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Action</label>
-                  <select class="form-select" id="pointsAction">
-                    <option value="add">Add Credits</option>
-                    <option value="subtract">Subtract Credits</option>
-                    <option value="set">Set New Value</option>
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Amount</label>
-                  <input type="number" class="form-control" id="pointsAmount" min="0" required>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label fw-bold" style="color: rgb(26, 35, 126);">Reason</label>
-                  <textarea class="form-control" id="pointsReason" rows="2" required></textarea>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="button" class="btn text-white" id="savePointsChanges" style="background-color: rgb(26, 35, 126);">Save</button>
+            <div class="modal-body text-center py-4">
+              <i class="bi bi-award-fill text-primary" style="font-size: 3rem;"></i>
+              <h5 class="my-3">Credits Awarded!</h5>
+              <p id="awardDetails"></p>
+              <button type="button" class="btn btn-primary mt-2" data-bs-dismiss="modal">Done</button>
             </div>
           </div>
         </div>
       </div>
-
+      
+      <div class="modal fade" id="leaveSuccessModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body text-center py-4">
+              <i class="bi bi-calendar-check" style="font-size: 3rem; color: #5394ff;"></i>
+              <h5 class="my-3">Leave Updated!</h5>
+              <p id="leaveAwardDetails"></p>
+              <button type="button" class="btn mt-2" style="background-color: #5394ff; color: white;" data-bs-dismiss="modal">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
     
       <!-- ==================== ADMIN SETTINGS ==================== -->
       <div class="content-section" id="admin-settings" style="margin-top: 25px;">
@@ -2603,6 +2593,93 @@
                 reader.readAsDataURL(file);
             }
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+  // Sample teacher data - in real app this would come from your database
+  const teachers = [
+    { id: 1, name: "Maria Santos" },
+    { id: 2, name: "Juan Dela Cruz" },
+    { id: 3, name: "Ana Reyes" },
+    { id: 4, name: "Carlos Lim" },
+    { id: 5, name: "Elena Torres" }
+  ];
+
+  const teacherSearch = document.getElementById('teacherSearch');
+  const clearSearch = document.getElementById('clearSearch');
+  const teacherCheckboxContainer = document.getElementById('teacherCheckboxContainer');
+  const selectAllTeachers = document.getElementById('selectAllTeachers');
+  const selectedCount = document.getElementById('selectedCount');
+  const selectedTeachersPreview = document.getElementById('selectedTeachersPreview');
+
+  // Render teacher checkboxes
+  function renderTeachers(filter = '') {
+    teacherCheckboxContainer.innerHTML = '';
+    
+    const filteredTeachers = teachers.filter(teacher => 
+      teacher.name.toLowerCase().includes(filter.toLowerCase())
+    );
+
+    filteredTeachers.forEach(teacher => {
+      const div = document.createElement('div');
+      div.className = 'form-check';
+      div.innerHTML = `
+        <input class="form-check-input teacher-checkbox" type="checkbox" 
+               id="teacher-${teacher.id}" value="${teacher.id}">
+        <label class="form-check-label" for="teacher-${teacher.id}">
+          ${teacher.name}
+        </label>
+      `;
+      teacherCheckboxContainer.appendChild(div);
+    });
+
+    // Add event listeners to checkboxes
+    document.querySelectorAll('.teacher-checkbox').forEach(checkbox => {
+      checkbox.addEventListener('change', updateSelectedTeachers);
+    });
+  }
+
+  // Update selected teachers count and preview
+  function updateSelectedTeachers() {
+    const selected = document.querySelectorAll('.teacher-checkbox:checked');
+    selectedCount.textContent = selected.length;
+    
+    selectedTeachersPreview.innerHTML = '';
+    selected.forEach(checkbox => {
+      const teacherId = checkbox.value;
+      const teacher = teachers.find(t => t.id == teacherId);
+      if (teacher) {
+        const badge = document.createElement('span');
+        badge.className = 'badge bg-primary text-white';
+        badge.textContent = teacher.name;
+        selectedTeachersPreview.appendChild(badge);
+      }
+    });
+  }
+
+  // Search functionality
+  teacherSearch.addEventListener('input', function() {
+    renderTeachers(this.value);
+  });
+
+  // Clear search
+  clearSearch.addEventListener('click', function() {
+    teacherSearch.value = '';
+    renderTeachers();
+  });
+
+  // Select all functionality
+  selectAllTeachers.addEventListener('change', function() {
+    const checkboxes = document.querySelectorAll('.teacher-checkbox');
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = this.checked;
+    });
+    updateSelectedTeachers();
+  });
+
+  // Initial render
+  renderTeachers();
+});
+
     });
 </script>
   </body>
