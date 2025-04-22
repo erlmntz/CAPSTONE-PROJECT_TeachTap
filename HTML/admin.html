@@ -1893,184 +1893,224 @@
         </div>
       </div>
 
-      
-
-      <!-- ==================== LEAVE CREDITS ==================== -->
-      <div class="content-section p-3 rounded-3 bg-white mt-3" id="credits-management">
-        <div class="mb-3">
-          <h2 class="fw-bold text-primary">
-            <i class="bi bi-award-fill me-2"></i>Credits Management
-          </h2>
-          <p class="text-muted">Track and manage teacher credits</p>
-        </div>
-      
-        <div class="row g-3">
-          <!-- SERVICE CREDITS -->
-          <div class="col-lg-6">
-            <div class="card shadow-sm h-100">
-              <div class="card-header bg-primary text-white">
-                <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Service Credits</h5>
+      <!-- ====================  CREDITS MANAGEMENT ==================== -->
+      <div class="content-section" id="credits-management" style="margin-top: 25px;">
+        <div class="card shadow-sm border-0" style="border-radius: 12px; overflow: hidden;">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+              <div>
+                <h3 class="text-dark fw-semibold m-0" style="color: #2c3e50;">
+                  <i class="bi bi-award-fill me-2"></i>Service Credits Management
+                </h3>
+                <p class="text-muted m-0 small mt-1">Award service points and convert to leave credits</p>
               </div>
-              <div class="card-body">
-                <form id="awardServiceForm">
-                  <div class="mb-3">
-                    <label class="form-label">Teacher</label>
-                    <select class="form-select" id="teacherSelect" required>
-                      <option value="" selected>Select teacher</option>
-                    </select>
-                  </div>
-                  
-                  <div class="mb-3">
-                    <label class="form-label">Service Type</label>
-                    <select class="form-select" id="serviceType" required>
-                      <option value="" selected>Choose type</option>
-                      <option value="election">Election Duty</option>
-                      <option value="seminar">Seminar</option>
-                      <option value="training">Training</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-      
-                  <div class="mb-3">
-                    <label class="form-label">Points</label>
-                    <input type="number" class="form-control" id="servicePoints" min="1" max="20" value="1" required>
-                  </div>
-      
-                  <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-check-circle me-2"></i>Give Credits
-                  </button>
-                </form>
-      
-                <div class="border-top pt-3 mt-3">
-                  <h6><i class="bi bi-people me-2"></i>Bulk Award</h6>
-                  <form id="bulkServiceForm">
-                    <div class="mb-3">
-                      <label class="form-label">Select Teachers</label>
-                      <select class="form-select" multiple id="bulkTeacherSelect" required>
-                        <!-- Options will be added by JavaScript -->
-                      </select>
-                    </div>
-                    
-                    <div class="mb-3">
-                      <label class="form-label">Points</label>
-                      <input type="number" class="form-control" id="bulkServicePoints" min="1" max="20" value="1" required>
-                    </div>
-      
-                    <button type="submit" class="btn btn-primary w-100">
-                      <i class="bi bi-send-check me-2"></i>Award to Selected
-                    </button>
-                  </form>
-                </div>
+              
+              <div class="d-flex align-items-center gap-3 ms-auto">
+                <button class="btn btn-outline-primary d-flex align-items-center gap-2" id="convertHelpBtn" style="border-radius: 8px;">
+                  <i class="bi bi-question-circle"></i> Conversion Help
+                </button>
+                <button class="btn btn-primary d-flex align-items-center gap-2" style="border-radius: 8px;">
+                  <i class="bi bi-download"></i> Export Records
+                </button>
               </div>
             </div>
-          </div>
-      
-          <!-- LEAVE CREDITS -->
-          <div class="col-lg-6">
-            <div class="card shadow-sm h-100">
-              <div class="card-header" style="background-color: #5394ff; color: white;">
-                <h5 class="mb-0"><i class="bi bi-calendar-plus me-2"></i>Leave Credits</h5>
+            
+            <div class="row g-4 mt-2">
+              <!-- Award Points Section -->
+              <div class="col-lg-6">
+                <div class="card border-0 shadow-sm" style="border-radius: 10px;">
+                  <div class="card-header text-white" style="background-color: #3498db; padding: 12px 20px;">
+                    <h5 class="m-0 fw-medium"><i class="bi bi-plus-circle me-2"></i>Award Service Points</h5>
+                  </div>
+                  <div class="card-body p-3">
+                    <form id="awardServiceForm">
+                      <div class="row g-3">
+                        <div class="col-12">
+                          <label class="form-label small fw-semibold mb-1">Teacher</label>
+                          <select class="form-select" id="teacherSelect" required style="border-radius: 8px; padding: 8px 12px;">
+                            <option value="" disabled selected>Select teacher...</option>
+                            <!-- Options populated by JS -->
+                          </select>
+                        </div>
+                        
+                        <div class="col-md-7">
+                          <label class="form-label small fw-semibold mb-1">Service Type</label>
+                          <select class="form-select" id="serviceType" required style="border-radius: 8px; padding: 8px 12px;">
+                            <option value="election">Election Duty</option>
+                            <option value="seminar">Seminar/Workshop</option>
+                            <option value="training">Training</option>
+                            <option value="other">Other Service</option>
+                          </select>
+                        </div>
+                        
+                        <div class="col-md-5">
+                          <label class="form-label small fw-semibold mb-1">Points</label>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="servicePoints" min="1" max="10" value="1" required style="border-radius: 8px; padding: 8px 12px;">
+                            <span class="input-group-text" style="border-radius: 0 8px 8px 0;">pts</span>
+                          </div>
+                        </div>
+                        
+                        <div class="col-12 d-none" id="customServiceContainer">
+                          <label class="form-label small fw-semibold mb-1">Description</label>
+                          <input type="text" class="form-control" id="customServiceName" placeholder="Describe service" style="border-radius: 8px; padding: 8px 12px;">
+                        </div>
+                        
+                        <div class="col-md-6">
+                          <label class="form-label small fw-semibold mb-1">Date</label>
+                          <input type="date" class="form-control" id="serviceDate" required style="border-radius: 8px; padding: 8px 12px;">
+                        </div>
+                        
+                        <div class="col-12">
+                          <label class="form-label small fw-semibold mb-1">Notes</label>
+                          <textarea class="form-control" id="serviceNotes" rows="2" placeholder="Optional notes" style="border-radius: 8px; padding: 8px 12px;"></textarea>
+                        </div>
+                        
+                        <div class="col-12 mt-2">
+                          <button type="submit" class="btn w-100" style="background-color: #3498db; color: white; border-radius: 8px; padding: 8px;">
+                            <i class="bi bi-check-circle me-2"></i> Award Points
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
-              <div class="card-body">
-                <div class="alert alert-info py-2 mb-3">
-                  <small>5 service points = 1 leave day</small>
+              
+              <!-- Convert & Activity Section -->
+              <div class="col-lg-6">
+                <div class="card border-0 shadow-sm mb-4" style="border-radius: 10px;">
+                  <div class="card-header text-white" style="background-color: #2c3e50; padding: 12px 20px;">
+                    <h5 class="m-0 fw-medium"><i class="bi bi-arrow-repeat me-2"></i>Convert to Leave</h5>
+                  </div>
+                  <div class="card-body p-3">
+                    <form id="convertForm">
+                      <div class="row g-3">
+                        <div class="col-md-7">
+                          <label class="form-label small fw-semibold mb-1">Teacher</label>
+                          <select class="form-select" id="convertTeacherSelect" required style="border-radius: 8px; padding: 8px 12px;">
+                            <option value="" disabled selected>Select teacher...</option>
+                            <!-- Options populated by JS -->
+                          </select>
+                        </div>
+                        
+                        <div class="col-md-5">
+                          <label class="form-label small fw-semibold mb-1">Available Points</label>
+                          <input type="text" class="form-control bg-light" id="availablePoints" readonly value="0 points" style="border-radius: 8px; padding: 8px 12px;">
+                        </div>
+                        
+                        <div class="col-md-6">
+                          <label class="form-label small fw-semibold mb-1">Convert Points</label>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="convertPoints" min="1" value="1" required style="border-radius: 8px; padding: 8px 12px;">
+                            <span class="input-group-text" style="border-radius: 0 8px 8px 0;">pts</span>
+                          </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                          <label class="form-label small fw-semibold mb-1">Becomes Leave Days</label>
+                          <input type="text" class="form-control bg-light" id="leaveDays" readonly value="0 day(s)" style="border-radius: 8px; padding: 8px 12px;">
+                        </div>
+                        
+                        <div class="col-12 mt-2">
+                          <button type="submit" class="btn w-100" style="background-color: #2c3e50; color: white; border-radius: 8px; padding: 8px;">
+                            <i class="bi bi-arrow-repeat me-2"></i> Convert Now
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
                 </div>
                 
-                <form id="manageLeaveCredits" class="mb-4">
-                  <div class="mb-3">
-                    <label class="form-label">Teacher</label>
-                    <select class="form-select" id="leaveTeacherSelect" required>
-                      <option value="" selected>Select teacher</option>
-                    </select>
+                <!-- Recent Activity -->
+                <div class="card border-0 shadow-sm" style="border-radius: 10px;">
+                  <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #3498db; padding: 12px 20px;">
+                    <h5 class="m-0 fw-medium"><i class="bi bi-clock-history me-2"></i>Recent Activity</h5>
+                    <a href="#" class="text-white small">View All</a>
                   </div>
-                  
-                  <div class="mb-3">
-                    <label class="form-label">Points to Convert</label>
-                    <input type="number" class="form-control" id="pointsToConvert" min="1" required>
-                    <small class="text-muted">Will receive: <span id="leaveDaysResult">0</span> leave days</small>
+                  <div class="card-body p-0">
+                    <div class="table-responsive">
+                      <table class="table table-hover mb-0">
+                        <thead style="background-color: rgba(52, 152, 219, 0.1);">
+                          <tr>
+                            <th class="text-start ps-4" style="padding: 12px;">Teacher</th>
+                            <th class="text-start" style="padding: 12px;">Type</th>
+                            <th class="text-end pe-4" style="padding: 12px;">Points/Days</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr style="border-bottom: 1px solid #f0f0f0;">
+                            <td class="text-start ps-4 fw-medium">Maria Santos</td>
+                            <td class="text-start">Election Duty</td>
+                            <td class="text-end pe-4">
+                              <span class="badge" style="background-color: #3498db; padding: 5px 10px; border-radius: 6px;">5 pts</span>
+                            </td>
+                          </tr>
+                          <tr style="border-bottom: 1px solid #f0f0f0;">
+                            <td class="text-start ps-4 fw-medium">Juan Cruz</td>
+                            <td class="text-start">Seminar</td>
+                            <td class="text-end pe-4">
+                              <span class="badge" style="background-color: #3498db; padding: 5px 10px; border-radius: 6px;">3 pts</span>
+                            </td>
+                          </tr>
+                          <tr style="border-bottom: 1px solid #f0f0f0;">
+                            <td class="text-start ps-4 fw-medium">Liza Dizon</td>
+                            <td class="text-start">Conversion</td>
+                            <td class="text-end pe-4">
+                              <span class="badge" style="background-color: #2c3e50; padding: 5px 10px; border-radius: 6px;">2 days</span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                  
-                  <button type="submit" class="btn w-100" style="background-color: #5394ff; color: white;">
-                    <i class="bi bi-arrow-repeat me-2"></i>Convert
-                  </button>
-                </form>
-      
-                <div class="border-top pt-3">
-                  <h6><i class="bi bi-gift me-2"></i>Direct Allocation</h6>
-                  <form id="directLeaveForm">
-                    <div class="mb-3">
-                      <label class="form-label">Teacher</label>
-                      <select class="form-select" id="directLeaveTeacher" required>
-                        <option value="" selected>Select teacher</option>
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Leave Days</label>
-                      <input type="number" class="form-control" id="directLeaveDays" min="0.5" step="0.5" required>
-                    </div>
-                    <button type="submit" class="btn w-100" style="background-color: #5394ff; color: white;">
-                      <i class="bi bi-plus-circle me-2"></i>Add Days
-                    </button>
-                  </form>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
       
-        <!-- RECENT ACTIVITY -->
-        <div class="card shadow-sm mt-3">
-          <div class="card-header bg-secondary text-white">
-            <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Recent</h5>
-          </div>
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-sm mb-0">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Teacher</th>
-                    <th>Type</th>
-                    <th class="text-end">Points</th>
-                    <th class="text-end">Days</th>
-                  </tr>
-                </thead>
-                <tbody id="recentActivityTable">
-                  <!-- Will be filled by JavaScript -->
-                </tbody>
-              </table>
+      <!-- Help Modal -->
+      <div class="modal fade" id="convertHelpModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content" style="border-radius: 12px;">
+            <div class="modal-header text-white" style="background-color: #3498db; border-radius: 12px 12px 0 0; padding: 15px 20px;">
+              <h6 class="modal-title mb-0"><i class="bi bi-info-circle me-2"></i>Conversion Rules</h6>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+              <ul class="mb-3" style="padding-left: 20px;">
+                <li class="mb-2"><strong>1 service point = 1 leave day</strong></li>
+                <li class="mb-2">Maximum 5 points conversion per month</li>
+                <li class="mb-2">Points expire after 1 year</li>
+                <li>Conversion requires approval</li>
+              </ul>
+              <p class="small text-muted mb-0">Note: Only unused service points can be converted.</p>
+            </div>
+            <div class="modal-footer justify-content-center" style="border-top: none; padding-bottom: 20px;">
+              <button type="button" class="btn" style="background-color: #3498db; color: white; border-radius: 8px; padding: 8px 20px;" data-bs-dismiss="modal">Got it!</button>
             </div>
           </div>
         </div>
       </div>
       
-      <!-- MODALS -->
-      <div class="modal fade" id="serviceAwardModal" tabindex="-1">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body text-center py-4">
-              <i class="bi bi-award-fill text-primary" style="font-size: 3rem;"></i>
-              <h5 class="my-3">Credits Awarded!</h5>
-              <p id="awardDetails"></p>
-              <button type="button" class="btn btn-primary mt-2" data-bs-dismiss="modal">Done</button>
+      <!-- Success Modal -->
+      <div class="modal fade" id="convertSuccessModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content" style="border-radius: 12px;">
+            <div class="modal-body text-center p-5">
+              <div class="mb-4">
+                <i class="bi bi-check-circle-fill" style="font-size: 3rem; color: #2ecc71;"></i>
+              </div>
+              <h6 class="mb-2" style="color: #2c3e50;">Conversion Successful!</h6>
+              <p class="small text-muted mb-4">3 service points converted to 3 leave days</p>
+              <button type="button" class="btn" style="background-color: #2ecc71; color: white; border-radius: 8px; padding: 8px 20px;" data-bs-dismiss="modal">Continue</button>
             </div>
           </div>
         </div>
       </div>
-      
-      <div class="modal fade" id="leaveSuccessModal" tabindex="-1">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body text-center py-4">
-              <i class="bi bi-calendar-check" style="font-size: 3rem; color: #5394ff;"></i>
-              <h5 class="my-3">Leave Updated!</h5>
-              <p id="leaveAwardDetails"></p>
-              <button type="button" class="btn mt-2" style="background-color: #5394ff; color: white;" data-bs-dismiss="modal">Done</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    
+
       <!-- ==================== ADMIN SETTINGS ==================== -->
       <div class="content-section" id="admin-settings" style="margin-top: 25px;">
         <h5 class="text-primary">Admin Settings</h5>
