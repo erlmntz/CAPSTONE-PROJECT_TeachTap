@@ -393,7 +393,7 @@
                     </td>
                     <td class="text-start">-:-</td>
                     <td class="text-start pe-4">
-                      <span class="badge bg-primary" style="padding: 6px 10px; border-radius: 6px;">On-time</span>
+                      <span class="badge bg-danger" style="padding: 6px 10px; border-radius: 6px;">Missing</span>
                     </td>
                   </tr>
                   <tr style="border-bottom: 1px solid #f0f0f0;">
@@ -678,7 +678,7 @@
                     <label class="input-group-text bg-primary text-white" for="payroll-period">Period</label>
                     <select class="form-select border-primary" id="payroll-period">
                       <option value="mid-month">Mid-Month (1-15)</option>
-                      <option value="end-month">End-Month (16-31)</option>
+                      <option value="end-month">End-Month (16-30)</option>
                     </select>
                   </div>
                   
@@ -1038,7 +1038,7 @@
               <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
                   <h6 class="fw-bold text-primary mb-0">END MONTH PAYSLIP</h6>
-                  <small class="text-muted">March 1-31, 2025</small>
+                  <small class="text-muted">March 1-30, 2025</small>
                 </div>
                 <div class="text-end">
                   <small class="d-block fw-semibold">Pay Date:</small>
@@ -1899,14 +1899,14 @@
           <div class="card-body p-4">
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
               <div>
-                <h3 class="text-dark fw-semibold m-0" style="color: #2c3e50;">
+                <h3 class="fw-semibold m-0" style="color: #0066cc;">
                   <i class="bi bi-award-fill me-2"></i>Service Credits Management
                 </h3>
                 <p class="text-muted m-0 small mt-1">Award service points and convert to leave credits</p>
               </div>
               
               <div class="d-flex align-items-center gap-3 ms-auto">
-                <button class="btn btn-outline-primary d-flex align-items-center gap-2" id="convertHelpBtn" style="border-radius: 8px;">
+                <button class="btn btn-outline-primary d-flex align-items-center gap-2" id="convertHelpBtn" style="border-radius: 8px;" data-bs-toggle="modal" data-bs-target="#convertHelpModal">
                   <i class="bi bi-question-circle"></i> Conversion Help
                 </button>
                 <button class="btn btn-primary d-flex align-items-center gap-2" style="border-radius: 8px;">
@@ -1919,20 +1919,24 @@
               <!-- Award Points Section -->
               <div class="col-lg-6">
                 <div class="card border-0 shadow-sm" style="border-radius: 10px;">
-                  <div class="card-header text-white" style="background-color: #3498db; padding: 12px 20px;">
+                  <div class="card-header text-white" style="background-color: #0066cc; padding: 12px 20px;">
                     <h5 class="m-0 fw-medium"><i class="bi bi-plus-circle me-2"></i>Award Service Points</h5>
                   </div>
                   <div class="card-body p-3">
                     <form id="awardServiceForm">
                       <div class="row g-3">
-                        <div class="col-12">
+                        <div class="col-12">                                                                                          
                           <label class="form-label small fw-semibold mb-1">Teacher</label>
-                          <select class="form-select" id="teacherSelect" required style="border-radius: 8px; padding: 8px 12px;">
-                            <option value="" disabled selected>Select teacher...</option>
-                            <!-- Options populated by JS -->
+                          <select class="form-select select2" id="teacherSelect" required style="border-radius: 8px; padding: 8px 12px;">
+                            <option value="" disabled selected>Search or select teacher...</option>
+                            <option value="1">Maria Santos</option>
+                            <option value="2">Juan Cruz</option>
+                            <option value="3">Liza Dizon</option>
+                            <option value="4">Carlos Reyes</option>
+                            <option value="5">Ana Torres</option>
                           </select>
                         </div>
-                        
+      
                         <div class="col-md-7">
                           <label class="form-label small fw-semibold mb-1">Service Type</label>
                           <select class="form-select" id="serviceType" required style="border-radius: 8px; padding: 8px 12px;">
@@ -1967,7 +1971,7 @@
                         </div>
                         
                         <div class="col-12 mt-2">
-                          <button type="submit" class="btn w-100" style="background-color: #3498db; color: white; border-radius: 8px; padding: 8px;">
+                          <button type="submit" class="btn btn-primary w-100" style="border-radius: 8px; padding: 10px;">
                             <i class="bi bi-check-circle me-2"></i> Award Points
                           </button>
                         </div>
@@ -1980,7 +1984,7 @@
               <!-- Convert & Activity Section -->
               <div class="col-lg-6">
                 <div class="card border-0 shadow-sm mb-4" style="border-radius: 10px;">
-                  <div class="card-header text-white" style="background-color: #2c3e50; padding: 12px 20px;">
+                  <div class="card-header text-white" style="background-color: #0066cc; padding: 12px 20px;">
                     <h5 class="m-0 fw-medium"><i class="bi bi-arrow-repeat me-2"></i>Convert to Leave</h5>
                   </div>
                   <div class="card-body p-3">
@@ -1988,9 +1992,13 @@
                       <div class="row g-3">
                         <div class="col-md-7">
                           <label class="form-label small fw-semibold mb-1">Teacher</label>
-                          <select class="form-select" id="convertTeacherSelect" required style="border-radius: 8px; padding: 8px 12px;">
-                            <option value="" disabled selected>Select teacher...</option>
-                            <!-- Options populated by JS -->
+                          <select class="form-select select2" id="convertTeacherSelect" required style="border-radius: 8px; padding: 8px 12px;">
+                            <option value="" disabled selected>Search or select teacher...</option>
+                            <option value="1">Maria Santos (5 pts available)</option>
+                            <option value="2">Juan Cruz (3 pts available)</option>
+                            <option value="3">Liza Dizon (2 pts available)</option>
+                            <option value="4">Carlos Reyes (0 pts available)</option>
+                            <option value="5">Ana Torres (7 pts available)</option>
                           </select>
                         </div>
                         
@@ -2013,7 +2021,7 @@
                         </div>
                         
                         <div class="col-12 mt-2">
-                          <button type="submit" class="btn w-100" style="background-color: #2c3e50; color: white; border-radius: 8px; padding: 8px;">
+                          <button type="submit" class="btn btn-primary w-100" style="border-radius: 8px; padding: 10px;">
                             <i class="bi bi-arrow-repeat me-2"></i> Convert Now
                           </button>
                         </div>
@@ -2024,14 +2032,14 @@
                 
                 <!-- Recent Activity -->
                 <div class="card border-0 shadow-sm" style="border-radius: 10px;">
-                  <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #3498db; padding: 12px 20px;">
+                  <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #0066cc; padding: 12px 20px;">
                     <h5 class="m-0 fw-medium"><i class="bi bi-clock-history me-2"></i>Recent Activity</h5>
                     <a href="#" class="text-white small">View All</a>
                   </div>
                   <div class="card-body p-0">
                     <div class="table-responsive">
                       <table class="table table-hover mb-0">
-                        <thead style="background-color: rgba(52, 152, 219, 0.1);">
+                        <thead style="background-color: rgba(0, 102, 204, 0.1);">
                           <tr>
                             <th class="text-start ps-4" style="padding: 12px;">Teacher</th>
                             <th class="text-start" style="padding: 12px;">Type</th>
@@ -2043,21 +2051,21 @@
                             <td class="text-start ps-4 fw-medium">Maria Santos</td>
                             <td class="text-start">Election Duty</td>
                             <td class="text-end pe-4">
-                              <span class="badge" style="background-color: #3498db; padding: 5px 10px; border-radius: 6px;">5 pts</span>
+                              <span class="badge bg-primary" style="padding: 5px 10px; border-radius: 6px;">5 pts</span>
                             </td>
                           </tr>
                           <tr style="border-bottom: 1px solid #f0f0f0;">
                             <td class="text-start ps-4 fw-medium">Juan Cruz</td>
                             <td class="text-start">Seminar</td>
                             <td class="text-end pe-4">
-                              <span class="badge" style="background-color: #3498db; padding: 5px 10px; border-radius: 6px;">3 pts</span>
+                              <span class="badge bg-primary" style="padding: 5px 10px; border-radius: 6px;">3 pts</span>
                             </td>
                           </tr>
                           <tr style="border-bottom: 1px solid #f0f0f0;">
                             <td class="text-start ps-4 fw-medium">Liza Dizon</td>
                             <td class="text-start">Conversion</td>
                             <td class="text-end pe-4">
-                              <span class="badge" style="background-color: #2c3e50; padding: 5px 10px; border-radius: 6px;">2 days</span>
+                              <span class="badge bg-primary" style="padding: 5px 10px; border-radius: 6px;">2 days</span>
                             </td>
                           </tr>
                         </tbody>
@@ -2072,12 +2080,12 @@
       </div>
       
       <!-- Help Modal -->
-      <div class="modal fade" id="convertHelpModal" tabindex="-1">
+      <div class="modal fade" id="convertHelpModal" tabindex="-1" aria-labelledby="convertHelpModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content" style="border-radius: 12px;">
-            <div class="modal-header text-white" style="background-color: #3498db; border-radius: 12px 12px 0 0; padding: 15px 20px;">
-              <h6 class="modal-title mb-0"><i class="bi bi-info-circle me-2"></i>Conversion Rules</h6>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            <div class="modal-header text-white" style="background-color: #0066cc; border-radius: 12px 12px 0 0; padding: 15px 20px;">
+              <h6 class="modal-title mb-0" id="convertHelpModalLabel"><i class="bi bi-info-circle me-2"></i>Conversion Rules</h6>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
               <ul class="mb-3" style="padding-left: 20px;">
@@ -2089,7 +2097,7 @@
               <p class="small text-muted mb-0">Note: Only unused service points can be converted.</p>
             </div>
             <div class="modal-footer justify-content-center" style="border-top: none; padding-bottom: 20px;">
-              <button type="button" class="btn" style="background-color: #3498db; color: white; border-radius: 8px; padding: 8px 20px;" data-bs-dismiss="modal">Got it!</button>
+              <button type="button" class="btn btn-primary" style="border-radius: 8px; padding: 8px 20px;" data-bs-dismiss="modal">Got it!</button>
             </div>
           </div>
         </div>
@@ -2101,11 +2109,11 @@
           <div class="modal-content" style="border-radius: 12px;">
             <div class="modal-body text-center p-5">
               <div class="mb-4">
-                <i class="bi bi-check-circle-fill" style="font-size: 3rem; color: #2ecc71;"></i>
+                <i class="bi bi-check-circle-fill" style="font-size: 3rem; color: #0066cc;"></i>
               </div>
-              <h6 class="mb-2" style="color: #2c3e50;">Conversion Successful!</h6>
+              <h6 class="mb-2" style="color: #0066cc;">Conversion Successful!</h6>
               <p class="small text-muted mb-4">3 service points converted to 3 leave days</p>
-              <button type="button" class="btn" style="background-color: #2ecc71; color: white; border-radius: 8px; padding: 8px 20px;" data-bs-dismiss="modal">Continue</button>
+              <button type="button" class="btn btn-primary" style="border-radius: 8px; padding: 8px 20px;" data-bs-dismiss="modal">Continue</button>
             </div>
           </div>
         </div>
@@ -2113,47 +2121,117 @@
 
       <!-- ==================== ADMIN SETTINGS ==================== -->
       <div class="content-section" id="admin-settings" style="margin-top: 25px;">
-        <h5 class="text-primary">Admin Settings</h5>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="widget">
-              <h6>Change Email</h6>
-              <form id="changeEmailForm">
-                <div class="mb-3">
-                  <label for="currentEmail" class="form-label">Current Email</label>
-                  <input type="email" id="currentEmail" class="form-control" value="admin@example.com" disabled />
-                </div>
-                <div class="mb-3">
-                  <label for="newEmail" class="form-label">New Email</label>
-                  <input type="email" id="newEmail" class="form-control" placeholder="Enter new email" required />
-                </div>
-                <button type="submit" class="btn btn-primary">Update Email</button>
-              </form>
+        <div class="row g-4">
+          <!-- Left Column - TeachTap Customization -->
+          <div class="col-lg-6">
+            <div class="card shadow-sm border-0 h-100" style="border-radius: 12px;">
+              <div class="card-body p-4">
+                <h3 class="text-primary mb-4"><i class="bi bi-palette me-2"></i>TeachTap Customization</h3>
+                
+                <form id="customizationForm">
+                  <!-- Basic Information -->
+                  <div class="card border-0 shadow-sm mb-4" style="border-radius: 10px;">
+                    <div class="card-header bg-primary text-white py-3">
+                      <h5 class="m-0">Basic Information</h5>
+                    </div>
+                    <div class="card-body">
+                      <div class="mb-3">
+                        <label class="form-label">School/Organization Name</label>
+                        <input type="text" class="form-control" id="organizationName" placeholder="Your school or organization name">
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Design Customization -->
+                  <div class="card border-0 shadow-sm mb-4" style="border-radius: 10px;">
+                    <div class="card-header bg-primary text-white py-3">
+                      <h5 class="m-0">Design Customization</h5>
+                    </div>
+                    <div class="card-body">
+                      <!-- Logo Upload -->
+                      <div class="mb-4">
+                        <label class="form-label">Upload Logo</label>
+                        <div class="d-flex align-items-center gap-3">
+                          <div class="border rounded p-2 text-center bg-light" style="width: 120px; height: 60px;">
+                            <img id="logoPreview" src="placeholder-logo.png" alt="Logo preview" class="img-fluid h-100" style="object-fit: contain;">
+                          </div>
+                          <div class="flex-grow-1">
+                            <input type="file" class="form-control" id="customLogo" accept="image/*">
+                            <small class="text-muted">PNG or JPG, max 500KB</small>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!-- Color Theme -->
+                      <div class="mb-3">
+                        <label class="form-label">Main Color Theme</label>
+                        <div class="d-flex align-items-center gap-3">
+                          <input type="color" class="form-control form-control-color p-1" id="mainColor" value="#3B82F6" title="Choose main color">
+                          <input type="text" class="form-control flex-grow-1" id="mainColorText" value="#3B82F6" placeholder="Hex code">
+                        </div>
+                      </div>
+                      
+                      <div class="mb-3">
+                        <label class="form-label">Secondary Color</label>
+                        <div class="d-flex align-items-center gap-3">
+                          <input type="color" class="form-control form-control-color p-1" id="secondaryColor" value="#6B7280" title="Choose secondary color">
+                          <input type="text" class="form-control flex-grow-1" id="secondaryColorText" value="#6B7280" placeholder="Hex code">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary px-4 me-2">
+                      <i class="bi bi-check-circle me-2"></i>Save Changes
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" id="resetCustomization">
+                      <i class="bi bi-arrow-counterclockwise me-2"></i>Reset Defaults
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="widget">
-              <h6>Change Password</h6>
-              <form id="changePasswordForm">
-                <div class="mb-3">
-                  <label for="currentPassword" class="form-label">Current Password</label>
-                  <input type="password" id="currentPassword" class="form-control" placeholder="Enter current password" required />
+      
+          <!-- Right Column - Account Management -->
+          <div class="col-lg-6">
+            <div class="card shadow-sm border-0 h-100" style="border-radius: 12px;">
+              <div class="card-body p-4">
+                <h3 class="text-primary mb-4"><i class="bi bi-person-gear me-2"></i>Account Management</h3>
+                
+                <!-- Password Change Section -->
+                <div class="card border-0 shadow-sm mb-4" style="border-radius: 10px;">
+                  <div class="card-header bg-primary text-white py-3">
+                    <h5 class="m-0">Change Password</h5>
+                  </div>
+                  <div class="card-body">
+                    <form id="changePasswordForm">
+                      <div class="mb-3">
+                        <label for="currentPassword" class="form-label">Current Password</label>
+                        <input type="password" class="form-control" id="currentPassword" placeholder="Enter current password" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="newPassword" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="newPassword" placeholder="Enter new password" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="Re-enter new password" required>
+                      </div>
+                      <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary px-4">
+                          <i class="bi bi-key me-2"></i>Update Password
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
-                <div class="mb-3">
-                  <label for="newPassword" class="form-label">New Password</label>
-                  <input type="password" id="newPassword" class="form-control" placeholder="Enter new password" required />
-                </div>
-                <div class="mb-3">
-                  <label for="confirmPassword" class="form-label">Confirm New Password</label>
-                  <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm new password" required />
-                </div>
-                <button type="submit" class="btn btn-primary">Update Password</button>
-              </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
     <!-- JavaScript Section -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
