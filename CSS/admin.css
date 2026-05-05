@@ -413,6 +413,69 @@ body {
   animation: pulse 0.5s ease;
 }
 
+/* ==================== 201 FILES SECTION ==================== */
+.file201-section {
+  margin-bottom: 1.5rem;
+}
+.file201-section .section-title {
+  background: linear-gradient(to right, #f8f9fa, #e9ecef);
+  border-left: 4px solid #0d6efd;
+  margin-bottom: 0;
+}
+.file201-section .info-card {
+  transition: all 0.2s ease;
+  height: 100%;
+}
+.file201-section .info-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+.file201-section .info-card small {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  color: #6c757d;
+}
+.file201-section .file201-value {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #2c3e50;
+}
+.file201-section .file201-edit-input {
+  border: 2px solid #0d6efd;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+.file201-section .file201-edit-input:focus {
+  border-color: #0b5ed7;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* 201 Files Table */
+#files201Table th {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #495057;
+  white-space: nowrap;
+}
+#files201Table td {
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+#files201Table tbody tr:hover {
+  background-color: rgba(13, 110, 253, 0.04);
+}
+
+/* 201 Modal */
+#view201FileModal .modal-body {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   #monthly-absence-widget .card-header {
@@ -425,5 +488,8 @@ body {
   }
   #monthly-absence-widget .summary-card {
     margin-bottom: 1rem;
+  }
+  #view201FileModal .modal-dialog {
+    max-width: 95% !important;
   }
 }
