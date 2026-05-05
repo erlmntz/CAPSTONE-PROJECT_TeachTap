@@ -1528,7 +1528,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
               <div>
                 <h3 class="text-dark fw-semibold m-0">
-                  <i class="fas fa-chalkboard-teacher me-2 text-primary"></i>Teachers Directory
+                  <i class="fas fa-chalkboard-teacher me-2 text-primary"></i>Teachers 201 Files
                 </h3>
                 <p class="text-muted small mb-0">Manage and view teacher records and 201 files</p>
               </div>
@@ -1539,21 +1539,21 @@
                   <span class="input-group-text bg-white border-end-0">
                     <i class="fas fa-search text-muted"></i>
                   </span>
-                  <input type="text" class="form-control border-start-0 ps-0" placeholder="Search employee..." id="employeeSearch" onkeyup="searchEmployees()">
-                  <button class="btn btn-outline-secondary" type="button" id="clearSearch">
+                  <input type="text" class="form-control border-start-0 ps-0" placeholder="Search teacher..." id="files201Search" onkeyup="search201Files()">
+                  <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('files201Search').value=''; search201Files();">
                     <i class="fas fa-times"></i>
                   </button>
                 </div>
                 
                 <!-- Filter Dropdown -->
                 <div class="dropdown">
-                  <button class="btn btn-light border dropdown-toggle shadow-sm d-flex align-items-center" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  <button class="btn btn-light border dropdown-toggle shadow-sm d-flex align-items-center" type="button" id="filterDropdown201" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-filter me-1 text-primary"></i> Filters
                   </button>
-                  <ul class="dropdown-menu dropdown-menu-end p-3" style="width: 300px;" aria-labelledby="filterDropdown">
+                  <ul class="dropdown-menu dropdown-menu-end p-3" style="width: 300px;" aria-labelledby="filterDropdown201">
                     <div class="mb-3">
-                      <label for="positionFilter" class="form-label small text-muted">Position</label>
-                      <select id="positionFilter" class="form-select">
+                      <label for="positionFilter201" class="form-label small text-muted">Position</label>
+                      <select id="positionFilter201" class="form-select">
                         <option value="all" selected>All Positions</option>
                         <option value="Teacher I">Teacher I</option>
                         <option value="Teacher II">Teacher II</option>
@@ -1564,25 +1564,24 @@
                       </select>
                     </div>
                     <div class="mb-3">
-                      <label for="serviceFilter" class="form-label small text-muted">Years of Service</label>
-                      <select id="serviceFilter" class="form-select">
-                        <option value="all" selected>All Years</option>
-                        <option value="1-5">1-5 years</option>
-                        <option value="6-10">6-10 years</option>
-                        <option value="11-15">11-15 years</option>
-                        <option value="15+">15+ years</option>
+                      <label for="levelFilter201" class="form-label small text-muted">Level</label>
+                      <select id="levelFilter201" class="form-select">
+                        <option value="all" selected>All Levels</option>
+                        <option value="Elementary">Elementary</option>
+                        <option value="JHS">JHS</option>
+                        <option value="SHS">SHS</option>
                       </select>
                     </div>
                     <div class="d-flex justify-content-between">
-                      <button class="btn btn-sm btn-outline-secondary" id="resetFilters">Reset</button>
-                      <button class="btn btn-sm btn-primary" id="applyFilters">Apply</button>
+                      <button class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('positionFilter201').value='all'; document.getElementById('levelFilter201').value='all'; filter201Files();">Reset</button>
+                      <button class="btn btn-sm btn-primary" onclick="filter201Files();">Apply</button>
                     </div>
                   </ul>
                 </div>
-                
-                <!-- Add New Teacher Button -->
-                <button class="btn btn-primary shadow-sm d-flex align-items-center" id="addTeacherFilesBtn" data-bs-toggle="modal" data-bs-target="#addTeacherFilesModal">
-                  <i class="fas fa-plus me-1"></i> Add Teacher Files
+
+                <!-- Refresh Button -->
+                <button class="btn btn-outline-primary shadow-sm d-flex align-items-center" onclick="load201Files()">
+                  <i class="fas fa-sync-alt me-1"></i> Refresh
                 </button>
               </div>
             </div>
@@ -1595,7 +1594,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
                         <h6 class="text-muted mb-1 small">Total Teachers</h6>
-                        <h4 class="mb-0 fw-bold">24</h4>
+                        <h4 class="mb-0 fw-bold" id="totalTeachersCount">0</h4>
                       </div>
                       <div class="bg-primary bg-opacity-25 p-3 rounded">
                         <i class="fas fa-users text-primary"></i>
@@ -1609,8 +1608,8 @@
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
-                        <h6 class="text-muted mb-1 small">Active</h6>
-                        <h4 class="mb-0 fw-bold">22</h4>
+                        <h6 class="text-muted mb-1 small">With Complete Info</h6>
+                        <h4 class="mb-0 fw-bold" id="completeInfoCount">0</h4>
                       </div>
                       <div class="bg-success bg-opacity-25 p-3 rounded">
                         <i class="fas fa-check-circle text-success"></i>
@@ -1624,11 +1623,11 @@
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
-                        <h6 class="text-muted mb-1 small">On Leave</h6>
-                        <h4 class="mb-0 fw-bold">2</h4>
+                        <h6 class="text-muted mb-1 small">Incomplete Info</h6>
+                        <h4 class="mb-0 fw-bold" id="incompleteInfoCount">0</h4>
                       </div>
                       <div class="bg-warning bg-opacity-25 p-3 rounded">
-                        <i class="fas fa-umbrella-beach text-warning"></i>
+                        <i class="fas fa-exclamation-triangle text-warning"></i>
                       </div>
                     </div>
                   </div>
@@ -1639,11 +1638,11 @@
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
-                        <h6 class="text-muted mb-1 small">New Hires</h6>
-                        <h4 class="mb-0 fw-bold">3</h4>
+                        <h6 class="text-muted mb-1 small">Schools</h6>
+                        <h4 class="mb-0 fw-bold" id="schoolsCount">0</h4>
                       </div>
                       <div class="bg-info bg-opacity-25 p-3 rounded">
-                        <i class="fas fa-user-plus text-info"></i>
+                        <i class="fas fa-school text-info"></i>
                       </div>
                     </div>
                   </div>
@@ -1651,59 +1650,38 @@
               </div>
             </div>
           
+            <!-- Loading Spinner -->
+            <div id="files201Loading" class="text-center py-5">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="text-muted mt-2">Loading 201 files from Google Sheets...</p>
+            </div>
+
             <!-- Table -->
-            <div class="table-responsive rounded-3 border shadow-sm">
-              <table class="table table-hover align-middle mb-0">
+            <div class="table-responsive rounded-3 border shadow-sm" id="files201TableContainer" style="display:none;">
+              <table class="table table-hover align-middle mb-0" id="files201Table">
                 <thead class="bg-light">
                   <tr>
-                    <th class="ps-4 text-start fw-medium">Employee ID</th>
-                    <th class="text-start fw-medium">Position Title</th>
+                    <th class="ps-4 text-start fw-medium">#</th>
+                    <th class="text-start fw-medium">Employee ID</th>
                     <th class="text-start fw-medium">Last Name</th>
                     <th class="text-start fw-medium">First Name</th>
                     <th class="text-start fw-medium">Middle Name</th>
-                    <th class="text-center fw-medium">Age</th>
-                    <th class="text-center fw-medium">Teaching Service</th>
-                    <th class="text-center fw-medium">201 Files</th>
-                    <th class="pe-4 text-center fw-medium">Action</th>
+                    <th class="text-start fw-medium">Position Title</th>
+                    <th class="text-start fw-medium">School</th>
+                    <th class="text-center fw-medium">Level</th>
+                    <th class="text-center fw-medium">201 File</th>
                   </tr>
                 </thead>
-                <tbody id="files-list">
-                  <!-- Dummy Data Rows -->
-                  <tr>
-                    <td class="ps-4 text-start">4324729</td>
-                    <td class="text-start">Principal IV</td>
-                    <td class="text-start">Balanza</td>
-                    <td class="text-start">Alma</td>
-                    <td class="text-start">Santos</td>
-                    <td class="text-center">58</td>
-                    <td class="text-center">36 years</td>
-                    <td class="text-center">
-                      <button class="btn btn-sm btn-outline-primary view-files-btn" data-bs-toggle="modal" data-bs-target="#governmentNumbersModal">
-                        <i class="fas fa-folder-open me-1"></i> View Files
-                      </button>
-                    </td>
-                    <td class="pe-4 text-center">
-                      <button class="btn btn-sm btn-outline-danger archive-btn" data-bs-toggle="tooltip" title="Archive Teacher">
-                        <i class="fas fa-archive"></i> Archive
-                      </button>
-                    </td>
-                  </tr>
+                <tbody id="files201List">
                 </tbody>
               </table>
             </div>
             
             <!-- Pagination -->
-            <nav class="mt-3">
-              <ul class="pagination justify-content-end">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#">Next</a>
-                </li>
+            <nav class="mt-3" id="files201Pagination">
+              <ul class="pagination justify-content-end" id="files201PaginationList">
               </ul>
             </nav>
           </div>
@@ -1910,226 +1888,92 @@
         </div>
       </div>
 
-      <!-- 201 Files -->
-      <div class="modal fade" id="governmentNumbersModal" tabindex="-1" aria-labelledby="governmentNumbersModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" style="max-width: 900px;">
+      <!-- ==================== 201 FILE VIEW/EDIT MODAL ==================== -->
+      <div class="modal fade" id="view201FileModal" tabindex="-1" aria-labelledby="view201FileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="max-width: 960px;">
           <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-              <h5 class="modal-title fs-4" id="governmentNumbersModalLabel">
-                <i class="fas fa-user-graduate me-2"></i>Teacher 201 Files - <span id="teacherName">Ma. Alma Balanza</span>
+              <h5 class="modal-title fs-5" id="view201FileModalLabel">
+                <i class="fas fa-folder-open me-2"></i>Teacher 201 File - <span id="modal201TeacherName">Teacher</span>
               </h5>
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4">
+            <div class="modal-body p-4" id="modal201Body">
+
               <!-- Teacher Profile Summary -->
-              <div class="d-flex align-items-center mb-4 p-3 bg-light rounded-3 shadow-sm" id="teacherProfile">
-                <img src="/IMAGES/MaamAlma.png" class="rounded-circle me-3 border border-3 border-primary" width="100" height="100" alt="Teacher Photo">
+              <div class="d-flex align-items-center mb-4 p-3 bg-light rounded-3 shadow-sm">
+                <div class="me-3 d-flex align-items-center justify-content-center rounded-circle bg-primary text-white" style="width:70px;height:70px;font-size:28px;">
+                  <i class="fas fa-user"></i>
+                </div>
                 <div class="flex-grow-1">
-                  <h4 class="mb-1 fw-bold">
-                    <span id="teacherFirstName">Ma. Alma</span> 
-                    <span id="teacherMiddleName" class="text-muted">Santos</span> 
-                    <span id="teacherLastName">Balanza</span>
-                  </h4>
-                  <div class="d-flex flex-wrap gap-2 mb-2">
-                    <span class="badge bg-white text-dark border border-1 fs-6" id="employeeIdBadge">ID: 4324729</span>
-                    <span class="badge bg-primary fs-6" id="positionBadge">Position: Principal IV</span>
+                  <h4 class="mb-1 fw-bold" id="modal201FullName">No Info</h4>
+                  <div class="d-flex flex-wrap gap-2">
+                    <span class="badge bg-white text-dark border fs-6" id="modal201EmpId">ID: No Info</span>
+                    <span class="badge bg-primary fs-6" id="modal201Position">Position: No Info</span>
+                    <span class="badge bg-success fs-6" id="modal201Level">Level: No Info</span>
                   </div>
                 </div>
               </div>
-              
-              <!-- Personal Information -->
-              <div class="employee-section mb-4">
+
+              <!-- ===== SECTION 1: Personal Information ===== -->
+              <div class="file201-section mb-4">
                 <h5 class="section-title bg-light p-3 rounded-3 d-flex align-items-center">
                   <i class="fas fa-user fs-4 me-3 text-primary"></i>
                   <span class="fw-semibold">Personal Information</span>
                 </h5>
-                <div class="row g-3 mt-2" id="personalInfoList">
-                  <div class="col-md-4">
-                    <div class="info-card">
-                      <small class="text-muted d-block">First Name</small>
-                      <p>Ma. Alma</p>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Middle Name</small>
-                      <p>Santos</p>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Last Name</small>
-                      <p>Balanza</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Position</small>
-                      <p>Teacher III</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Date of Original Appointment</small>
-                      <p>March 1, 1990</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Date of Last Promotion</small>
-                      <p>June 15, 2015</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">DepEd Email</small>
-                      <p>maalma.balanza@deped.gov.ph</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Address</small>
-                      <p>0248 Lola's Way St., Caingin, San Rafael, Bulacan</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Birthday</small>
-                      <p>December 21, 1966</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Contact Number</small>
-                      <p>09123456789</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Gender</small>
-                      <p>Female</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Eligibility</small>
-                      <p>Professional Board Examination for Teachers</p>
-                    </div>
-                  </div>
+                <div class="row g-3 mt-2" id="section201Personal">
+                  <!-- Dynamically populated -->
                 </div>
               </div>
-              
-              <!-- Education Information -->
-              <div class="employee-section mb-4">
+
+              <!-- ===== SECTION 2: School / Employment Information ===== -->
+              <div class="file201-section mb-4">
                 <h5 class="section-title bg-light p-3 rounded-3 d-flex align-items-center">
                   <i class="fas fa-school fs-4 me-3 text-primary"></i>
-                  <span class="fw-semibold">Education Information</span>
+                  <span class="fw-semibold">School / Employment Information</span>
                 </h5>
-                <div class="row g-3 mt-2" id="schoolInfoList">
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">School</small>
-                      <p>Maguinao Elementary School</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Level</small>
-                      <p>Elementary</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">District</small>
-                      <p>San Rafael West</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Division</small>
-                      <p>SDO Bulacan</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">EDDS</small>
-                      <p>III</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Item Number</small>
-                      <p>OSEC-DECSB-SP4-150022-2023</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Salary Grade</small>
-                      <p>SG 22 (Step 1)</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Course and Major</small>
-                      <p>Bachelor of Elementary Education (Generalist)</p>
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <div class="info-card">
-                      <small class="text-muted d-block">Graduate Studies</small>
-                      <p>Doctor of Philosophy Major in Educational Psychology</p>
-                    </div>
-                  </div>
+                <div class="row g-3 mt-2" id="section201School">
+                  <!-- Dynamically populated -->
                 </div>
               </div>
-              
-              <!-- Government IDs -->
-              <div class="employee-section">
+
+              <!-- ===== SECTION 3: Education / Qualification ===== -->
+              <div class="file201-section mb-4">
+                <h5 class="section-title bg-light p-3 rounded-3 d-flex align-items-center">
+                  <i class="fas fa-graduation-cap fs-4 me-3 text-primary"></i>
+                  <span class="fw-semibold">Education / Qualification</span>
+                </h5>
+                <div class="row g-3 mt-2" id="section201Education">
+                  <!-- Dynamically populated -->
+                </div>
+              </div>
+
+              <!-- ===== SECTION 4: Government IDs (PhilHealth, GSIS, Pag-IBIG, TIN) ===== -->
+              <div class="file201-section mb-4">
                 <h5 class="section-title bg-light p-3 rounded-3 d-flex align-items-center">
                   <i class="fas fa-id-card fs-4 me-3 text-primary"></i>
-                  <span class="fw-semibold">Government IDs</span>
+                  <span class="fw-semibold">Government IDs (SSS / PhilHealth / GSIS / Pag-IBIG / TIN)</span>
                 </h5>
-                <div class="row g-3 mt-2" id="governmentNumbersList">
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">PHILHEALTH Number</small>
-                      <p>123456789012</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">GSIS BP Number</small>
-                      <p>9876543210</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">PAG-IBIG Number</small>
-                      <p>112233445566</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="info-card">
-                      <small class="text-muted d-block">TIN Number</small>
-                      <p>5566778899</p>
-                    </div>
-                  </div>
+                <div class="row g-3 mt-2" id="section201GovIds">
+                  <!-- Dynamically populated -->
                 </div>
               </div>
+
             </div>
             
             <div class="modal-footer d-flex justify-content-between border-top">
+              <button type="button" class="btn btn-outline-secondary px-4 py-2" data-bs-dismiss="modal">
+                <i class="fas fa-times me-1"></i> Close
+              </button>
               <div>
-                <button type="button" class="btn btn-outline-secondary px-4 py-2" data-bs-dismiss="modal">
-                  <i class="fas fa-times me-1"></i> Close
+                <button type="button" class="btn btn-warning px-4 py-2 me-2" id="btn201Edit" onclick="toggle201EditMode()">
+                  <i class="fas fa-edit me-1"></i> Edit
                 </button>
-              </div>
-              <div>
-                <button type="button" class="btn btn-light px-4 py-2 me-2" id="printEmployeeInfo">
-                  <i class="fas fa-print me-1"></i> Print
+                <button type="button" class="btn btn-success px-4 py-2 d-none" id="btn201Save" onclick="save201File()">
+                  <i class="fas fa-save me-1"></i> Save Changes
                 </button>
-                <button type="button" class="btn btn-primary px-4 py-2" id="downloadEmployeeInfo">
-                  <i class="fas fa-download me-1"></i> Download PDF
+                <button type="button" class="btn btn-secondary px-4 py-2 d-none" id="btn201Cancel" onclick="cancel201Edit()">
+                  <i class="fas fa-undo me-1"></i> Cancel
                 </button>
               </div>
             </div>
@@ -2814,52 +2658,414 @@
         }
     });
 
-    // 201 files data sample
-    const teachersData = {
-        teachers: [
-            {
-                "employeeId": "4324729",
-                "lastName": "Balanza",
-                "firstName": "Ma. Alma",
-                "middleName": "Santos",
-                "position": "Principal IV",
-                "dateOfOriginalAppt": "1988-07-05",
-                "dateOfLastPromotion": "2015-06-01",
-                "personalInformation": {
-                    "firstName": "Alma",
-                    "lastName": "Balanza",
-                    "middleName": "Santos",
-                    "position": "Teacher III",
-                    "dateOfOriginalAppointment": "March 1, 1990",
-                    "dateOfLastPromotion": "June 15, 2015",
-                    "depedEmail": "maalma.balanza@deped.gov.ph",
-                    "address": "0248 Lola's Way St., Caingin, San Rafael, Bulacan",
-                    "birthday": "December 21, 1966",
-                    "contactNumber": "09123456789",
-                    "gender": "Female",
-                    "eligibility": "Professional Board Examination for Teachers"
-                },
-                "schoolInformation": {
-                    "school": "Maguinao Elementary School",
-                    "level": "Elementary",
-                    "district": "San Rafael West",
-                    "division": "SDO Bulacan",
-                    "edds": "III",
-                    "itemNumber": "OSEC-DECSB-SP4-150022-2023",
-                    "sg": "22",
-                    "step": "1",
-                    "courseAndMajor": "Bachelor of Elementary Education (Generalist)",
-                    "graduateStudies": "Doctor of Philosophy Major in Educational Psychology"
-                },
-                "governmentNumbers": {
-                    "PHILHEALTH_NUMBER": "123456789012",
-                    "GSIS_BP_NUMBER": "9876543210",
-                    "PAG_IBIG_NUMBER": "112233445566",
-                    "TIN_NUMBER": "5566778899"
-                }
+    // ==================== 201 FILES - DYNAMIC DATA MANAGEMENT ====================
+    var all201Teachers = [];
+    var filtered201Teachers = [];
+    var current201Page = 1;
+    var rows201PerPage = 15;
+    var current201Teacher = null;
+    var is201EditMode = false;
+
+    // Load all 201 files from Google Sheets
+    function load201Files() {
+      document.getElementById('files201Loading').style.display = 'block';
+      document.getElementById('files201TableContainer').style.display = 'none';
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          if (result.success) {
+            all201Teachers = result.data;
+            filtered201Teachers = all201Teachers.slice();
+            update201Stats();
+            current201Page = 1;
+            render201Table();
+          } else {
+            alert('Error loading 201 files: ' + result.error);
+          }
+          document.getElementById('files201Loading').style.display = 'none';
+          document.getElementById('files201TableContainer').style.display = 'block';
+        })
+        .withFailureHandler(function(err) {
+          alert('Failed to load 201 files: ' + err);
+          document.getElementById('files201Loading').style.display = 'none';
+          document.getElementById('files201TableContainer').style.display = 'block';
+        })
+        .getAll201Files();
+    }
+
+    // Update statistics cards
+    function update201Stats() {
+      document.getElementById('totalTeachersCount').textContent = all201Teachers.length;
+      var complete = 0;
+      var incomplete = 0;
+      var schoolSet = new Set();
+      all201Teachers.forEach(function(t) {
+        if (t.lastName && t.firstName && t.philhealth && t.gsisBp && t.pagibig && t.tin) {
+          complete++;
+        } else {
+          incomplete++;
+        }
+        if (t.school) schoolSet.add(t.school);
+      });
+      document.getElementById('completeInfoCount').textContent = complete;
+      document.getElementById('incompleteInfoCount').textContent = incomplete;
+      document.getElementById('schoolsCount').textContent = schoolSet.size;
+    }
+
+    // Render the 201 files table with pagination
+    function render201Table() {
+      var tbody = document.getElementById('files201List');
+      tbody.innerHTML = '';
+
+      var start = (current201Page - 1) * rows201PerPage;
+      var end = Math.min(start + rows201PerPage, filtered201Teachers.length);
+      var pageData = filtered201Teachers.slice(start, end);
+
+      if (pageData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center text-muted py-4">No teacher records found.</td></tr>';
+      }
+
+      pageData.forEach(function(teacher, idx) {
+        var globalIdx = start + idx;
+        var fullName = (teacher.firstName || '') + ' ' + (teacher.lastName || '');
+        var displayName = fullName.trim() || 'No Info';
+        var tr = document.createElement('tr');
+        tr.style.cursor = 'pointer';
+        tr.innerHTML =
+          '<td class="ps-4 text-start">' + (globalIdx + 1) + '</td>' +
+          '<td class="text-start">' + (teacher.employee || '<span class="text-muted fst-italic">No Info</span>') + '</td>' +
+          '<td class="text-start">' + (teacher.lastName || '<span class="text-muted fst-italic">No Info</span>') + '</td>' +
+          '<td class="text-start">' + (teacher.firstName || '<span class="text-muted fst-italic">No Info</span>') + '</td>' +
+          '<td class="text-start">' + (teacher.middleName || '<span class="text-muted fst-italic">No Info</span>') + '</td>' +
+          '<td class="text-start">' + (teacher.positionTitle || '<span class="text-muted fst-italic">No Info</span>') + '</td>' +
+          '<td class="text-start">' + (teacher.school || '<span class="text-muted fst-italic">No Info</span>') + '</td>' +
+          '<td class="text-center"><span class="badge bg-info">' + (teacher.level || 'N/A') + '</span></td>' +
+          '<td class="text-center">' +
+            '<button class="btn btn-sm btn-outline-primary" onclick="open201FileModal(' + globalIdx + ')">' +
+              '<i class="fas fa-folder-open me-1"></i> View 201' +
+            '</button>' +
+          '</td>';
+        tbody.appendChild(tr);
+      });
+
+      render201Pagination();
+    }
+
+    // Render pagination controls
+    function render201Pagination() {
+      var totalPages = Math.ceil(filtered201Teachers.length / rows201PerPage);
+      var ul = document.getElementById('files201PaginationList');
+      ul.innerHTML = '';
+
+      if (totalPages <= 1) return;
+
+      // Previous button
+      var prevLi = document.createElement('li');
+      prevLi.className = 'page-item' + (current201Page === 1 ? ' disabled' : '');
+      prevLi.innerHTML = '<a class="page-link" href="#" onclick="go201Page(' + (current201Page - 1) + '); return false;">Previous</a>';
+      ul.appendChild(prevLi);
+
+      // Page numbers (show max 7 pages)
+      var startPage = Math.max(1, current201Page - 3);
+      var endPage = Math.min(totalPages, startPage + 6);
+      if (endPage - startPage < 6) startPage = Math.max(1, endPage - 6);
+
+      for (var p = startPage; p <= endPage; p++) {
+        var li = document.createElement('li');
+        li.className = 'page-item' + (p === current201Page ? ' active' : '');
+        li.innerHTML = '<a class="page-link" href="#" onclick="go201Page(' + p + '); return false;">' + p + '</a>';
+        ul.appendChild(li);
+      }
+
+      // Next button
+      var nextLi = document.createElement('li');
+      nextLi.className = 'page-item' + (current201Page === totalPages ? ' disabled' : '');
+      nextLi.innerHTML = '<a class="page-link" href="#" onclick="go201Page(' + (current201Page + 1) + '); return false;">Next</a>';
+      ul.appendChild(nextLi);
+    }
+
+    function go201Page(page) {
+      var totalPages = Math.ceil(filtered201Teachers.length / rows201PerPage);
+      if (page < 1 || page > totalPages) return;
+      current201Page = page;
+      render201Table();
+    }
+
+    // Search functionality
+    function search201Files() {
+      var query = document.getElementById('files201Search').value.toLowerCase().trim();
+      if (!query) {
+        filtered201Teachers = all201Teachers.slice();
+      } else {
+        filtered201Teachers = all201Teachers.filter(function(t) {
+          return (
+            (t.lastName || '').toLowerCase().includes(query) ||
+            (t.firstName || '').toLowerCase().includes(query) ||
+            (t.middleName || '').toLowerCase().includes(query) ||
+            (t.employee || '').toLowerCase().includes(query) ||
+            (t.positionTitle || '').toLowerCase().includes(query) ||
+            (t.school || '').toLowerCase().includes(query)
+          );
+        });
+      }
+      current201Page = 1;
+      render201Table();
+    }
+
+    // Filter functionality
+    function filter201Files() {
+      var posFilter = document.getElementById('positionFilter201').value;
+      var lvlFilter = document.getElementById('levelFilter201').value;
+      filtered201Teachers = all201Teachers.filter(function(t) {
+        var posMatch = (posFilter === 'all') || (t.positionTitle === posFilter);
+        var lvlMatch = (lvlFilter === 'all') || (t.level === lvlFilter);
+        return posMatch && lvlMatch;
+      });
+      current201Page = 1;
+      render201Table();
+    }
+
+    // Helper: display value or "No Info"
+    function displayVal(val) {
+      if (val === null || val === undefined || String(val).trim() === '') {
+        return '<span class="text-muted fst-italic">No Info</span>';
+      }
+      return String(val);
+    }
+
+    // Build an info card for view mode
+    function infoCard(label, value, fieldKey, colSize) {
+      colSize = colSize || 'col-md-6';
+      return '<div class="' + colSize + '">' +
+        '<div class="info-card p-3 border rounded-3 bg-white shadow-sm">' +
+          '<small class="text-muted d-block mb-1">' + label + '</small>' +
+          '<p class="mb-0 fw-medium file201-value" data-field="' + fieldKey + '">' + displayVal(value) + '</p>' +
+        '</div>' +
+      '</div>';
+    }
+
+    // Build an editable field for edit mode
+    function editableCard(label, value, fieldKey, colSize, inputType) {
+      colSize = colSize || 'col-md-6';
+      inputType = inputType || 'text';
+      var rawVal = (value === null || value === undefined) ? '' : String(value);
+      return '<div class="' + colSize + '">' +
+        '<div class="info-card p-3 border rounded-3 bg-white shadow-sm">' +
+          '<label class="form-label text-muted small mb-1">' + label + '</label>' +
+          '<input type="' + inputType + '" class="form-control file201-edit-input" data-field="' + fieldKey + '" value="' + rawVal.replace(/"/g, '&quot;') + '">' +
+        '</div>' +
+      '</div>';
+    }
+
+    // Open the 201 file modal for a specific teacher
+    function open201FileModal(index) {
+      current201Teacher = filtered201Teachers[index];
+      is201EditMode = false;
+      populate201Modal(current201Teacher);
+      var modal = new bootstrap.Modal(document.getElementById('view201FileModal'));
+      modal.show();
+    }
+
+    // Populate the 201 file modal with teacher data
+    function populate201Modal(t) {
+      // Header info
+      var fullName = ((t.firstName || '') + ' ' + (t.middleName || '') + ' ' + (t.lastName || '') + ' ' + (t.ext || '')).replace(/\s+/g, ' ').trim();
+      document.getElementById('modal201TeacherName').textContent = fullName || 'No Info';
+      document.getElementById('modal201FullName').textContent = fullName || 'No Info';
+      document.getElementById('modal201EmpId').textContent = 'ID: ' + (t.employee || 'No Info');
+      document.getElementById('modal201Position').textContent = 'Position: ' + (t.positionTitle || 'No Info');
+      document.getElementById('modal201Level').textContent = 'Level: ' + (t.level || 'No Info');
+
+      // Section 1: Personal Information
+      var personalHTML = '';
+      personalHTML += infoCard('Last Name', t.lastName, 'lastName', 'col-md-4');
+      personalHTML += infoCard('First Name', t.firstName, 'firstName', 'col-md-4');
+      personalHTML += infoCard('Middle Name', t.middleName, 'middleName', 'col-md-4');
+      personalHTML += infoCard('Name Extension (Jr, Sr, III)', t.ext, 'ext', 'col-md-4');
+      personalHTML += infoCard('Date of Birth', t.dateOfBirth, 'dateOfBirth', 'col-md-4');
+      personalHTML += infoCard('Gender', t.gender, 'gender', 'col-md-4');
+      personalHTML += infoCard('Complete Address', t.completeAddress, 'completeAddress', 'col-md-12');
+      personalHTML += infoCard('Eligibility', t.eligibility, 'eligibility', 'col-md-6');
+      personalHTML += infoCard('Employee ID', t.employee, 'employee', 'col-md-6');
+      document.getElementById('section201Personal').innerHTML = personalHTML;
+
+      // Section 2: School / Employment Information
+      var schoolHTML = '';
+      schoolHTML += infoCard('EDDIS', t.eddis, 'eddis', 'col-md-4');
+      schoolHTML += infoCard('District', t.district, 'district', 'col-md-4');
+      schoolHTML += infoCard('School', t.school, 'school', 'col-md-4');
+      schoolHTML += infoCard('Level (Elementary, JHS, SHS)', t.level, 'level', 'col-md-4');
+      schoolHTML += infoCard('If SHS: Track & Strand', t.shsTrackStrand, 'shsTrackStrand', 'col-md-4');
+      schoolHTML += infoCard('Item Number', t.itemNumber, 'itemNumber', 'col-md-4');
+      schoolHTML += infoCard('Position Title', t.positionTitle, 'positionTitle', 'col-md-4');
+      schoolHTML += infoCard('Salary Grade (SG)', t.sg, 'sg', 'col-md-4');
+      schoolHTML += infoCard('Step', t.step, 'step', 'col-md-4');
+      schoolHTML += infoCard('Date of Original Appointment', t.dateOfOriginalApt, 'dateOfOriginalApt', 'col-md-6');
+      schoolHTML += infoCard('Date of Last Promotion', t.dateOfLastPromotion, 'dateOfLastPromotion', 'col-md-6');
+      document.getElementById('section201School').innerHTML = schoolHTML;
+
+      // Section 3: Education / Qualification
+      var eduHTML = '';
+      eduHTML += infoCard('Course and Major (College)', t.courseMajorCollege, 'courseMajorCollege', 'col-md-6');
+      eduHTML += infoCard('Course and Major (Graduate Studies)', t.courseMajorGraduate, 'courseMajorGraduate', 'col-md-6');
+      document.getElementById('section201Education').innerHTML = eduHTML;
+
+      // Section 4: Government IDs
+      var govHTML = '';
+      govHTML += infoCard('PhilHealth Number (12 Digits)', t.philhealth, 'philhealth', 'col-md-6');
+      govHTML += infoCard('GSIS BP Number (10 Digits)', t.gsisBp, 'gsisBp', 'col-md-6');
+      govHTML += infoCard('Pag-IBIG Number (12 Digits)', t.pagibig, 'pagibig', 'col-md-6');
+      govHTML += infoCard('TIN Number', t.tin, 'tin', 'col-md-6');
+      document.getElementById('section201GovIds').innerHTML = govHTML;
+
+      // Reset buttons
+      document.getElementById('btn201Edit').classList.remove('d-none');
+      document.getElementById('btn201Save').classList.add('d-none');
+      document.getElementById('btn201Cancel').classList.add('d-none');
+    }
+
+    // Toggle edit mode for 201 file modal
+    function toggle201EditMode() {
+      is201EditMode = true;
+      var t = current201Teacher;
+
+      // Section 1: Personal Information (editable)
+      var personalHTML = '';
+      personalHTML += editableCard('Last Name', t.lastName, 'lastName', 'col-md-4');
+      personalHTML += editableCard('First Name', t.firstName, 'firstName', 'col-md-4');
+      personalHTML += editableCard('Middle Name', t.middleName, 'middleName', 'col-md-4');
+      personalHTML += editableCard('Name Extension (Jr, Sr, III)', t.ext, 'ext', 'col-md-4');
+      personalHTML += editableCard('Date of Birth', t.dateOfBirth, 'dateOfBirth', 'col-md-4');
+      var genderSelect = '<div class="col-md-4"><div class="info-card p-3 border rounded-3 bg-white shadow-sm">' +
+        '<label class="form-label text-muted small mb-1">Gender</label>' +
+        '<select class="form-select file201-edit-input" data-field="gender">' +
+          '<option value="">-- Select --</option>' +
+          '<option value="Male"' + (t.gender === 'Male' ? ' selected' : '') + '>Male</option>' +
+          '<option value="Female"' + (t.gender === 'Female' ? ' selected' : '') + '>Female</option>' +
+        '</select></div></div>';
+      personalHTML += genderSelect;
+      personalHTML += editableCard('Complete Address', t.completeAddress, 'completeAddress', 'col-md-12');
+      personalHTML += editableCard('Eligibility', t.eligibility, 'eligibility', 'col-md-6');
+      personalHTML += editableCard('Employee ID', t.employee, 'employee', 'col-md-6');
+      document.getElementById('section201Personal').innerHTML = personalHTML;
+
+      // Section 2: School / Employment Information (editable)
+      var schoolHTML = '';
+      schoolHTML += editableCard('EDDIS', t.eddis, 'eddis', 'col-md-4');
+      schoolHTML += editableCard('District', t.district, 'district', 'col-md-4');
+      schoolHTML += editableCard('School', t.school, 'school', 'col-md-4');
+      var levelSelect = '<div class="col-md-4"><div class="info-card p-3 border rounded-3 bg-white shadow-sm">' +
+        '<label class="form-label text-muted small mb-1">Level (Elementary, JHS, SHS)</label>' +
+        '<select class="form-select file201-edit-input" data-field="level">' +
+          '<option value="">-- Select --</option>' +
+          '<option value="Elementary"' + (t.level === 'Elementary' ? ' selected' : '') + '>Elementary</option>' +
+          '<option value="JHS"' + (t.level === 'JHS' ? ' selected' : '') + '>JHS</option>' +
+          '<option value="SHS"' + (t.level === 'SHS' ? ' selected' : '') + '>SHS</option>' +
+        '</select></div></div>';
+      schoolHTML += levelSelect;
+      schoolHTML += editableCard('If SHS: Track & Strand', t.shsTrackStrand, 'shsTrackStrand', 'col-md-4');
+      schoolHTML += editableCard('Item Number', t.itemNumber, 'itemNumber', 'col-md-4');
+      schoolHTML += editableCard('Position Title', t.positionTitle, 'positionTitle', 'col-md-4');
+      schoolHTML += editableCard('Salary Grade (SG)', t.sg, 'sg', 'col-md-4');
+      schoolHTML += editableCard('Step', t.step, 'step', 'col-md-4');
+      schoolHTML += editableCard('Date of Original Appointment', t.dateOfOriginalApt, 'dateOfOriginalApt', 'col-md-6');
+      schoolHTML += editableCard('Date of Last Promotion', t.dateOfLastPromotion, 'dateOfLastPromotion', 'col-md-6');
+      document.getElementById('section201School').innerHTML = schoolHTML;
+
+      // Section 3: Education (editable)
+      var eduHTML = '';
+      eduHTML += editableCard('Course and Major (College)', t.courseMajorCollege, 'courseMajorCollege', 'col-md-6');
+      eduHTML += editableCard('Course and Major (Graduate Studies)', t.courseMajorGraduate, 'courseMajorGraduate', 'col-md-6');
+      document.getElementById('section201Education').innerHTML = eduHTML;
+
+      // Section 4: Government IDs (editable)
+      var govHTML = '';
+      govHTML += editableCard('PhilHealth Number (12 Digits)', t.philhealth, 'philhealth', 'col-md-6');
+      govHTML += editableCard('GSIS BP Number (10 Digits)', t.gsisBp, 'gsisBp', 'col-md-6');
+      govHTML += editableCard('Pag-IBIG Number (12 Digits)', t.pagibig, 'pagibig', 'col-md-6');
+      govHTML += editableCard('TIN Number', t.tin, 'tin', 'col-md-6');
+      document.getElementById('section201GovIds').innerHTML = govHTML;
+
+      // Toggle buttons
+      document.getElementById('btn201Edit').classList.add('d-none');
+      document.getElementById('btn201Save').classList.remove('d-none');
+      document.getElementById('btn201Cancel').classList.remove('d-none');
+    }
+
+    // Cancel edit mode - revert to view mode
+    function cancel201Edit() {
+      is201EditMode = false;
+      populate201Modal(current201Teacher);
+    }
+
+    // Save edited 201 file data back to Google Sheets
+    function save201File() {
+      var inputs = document.querySelectorAll('.file201-edit-input');
+      var updatedData = {};
+
+      // Copy current teacher data
+      for (var key in current201Teacher) {
+        updatedData[key] = current201Teacher[key];
+      }
+
+      // Update with edited values
+      inputs.forEach(function(input) {
+        var field = input.getAttribute('data-field');
+        updatedData[field] = input.value;
+      });
+
+      // Disable save button while saving
+      var saveBtn = document.getElementById('btn201Save');
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Saving...';
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          if (result.success) {
+            // Update local data
+            for (var key in updatedData) {
+              current201Teacher[key] = updatedData[key];
             }
-        ],
-    };
+            // Return to view mode
+            is201EditMode = false;
+            populate201Modal(current201Teacher);
+            render201Table();
+            showToast201('201 file updated successfully!');
+          } else {
+            alert('Error saving: ' + result.error);
+          }
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = '<i class="fas fa-save me-1"></i> Save Changes';
+        })
+        .withFailureHandler(function(err) {
+          alert('Failed to save: ' + err);
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = '<i class="fas fa-save me-1"></i> Save Changes';
+        })
+        .update201File(current201Teacher.rowIndex, updatedData);
+    }
+
+    // Toast notification for 201 files
+    function showToast201(message) {
+      var toast = document.createElement('div');
+      toast.className = 'position-fixed bottom-0 end-0 p-3';
+      toast.style.zIndex = '9999';
+      toast.innerHTML =
+        '<div class="toast show" role="alert">' +
+          '<div class="toast-header bg-success text-white">' +
+            '<strong class="me-auto"><i class="fas fa-check-circle me-1"></i> Success</strong>' +
+            '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>' +
+          '</div>' +
+          '<div class="toast-body">' + message + '</div>' +
+        '</div>';
+      document.body.appendChild(toast);
+      setTimeout(function() { toast.remove(); }, 3000);
+    }
+
+    // Initialize 201 files on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      load201Files();
+    });
 
     // Add teacher 201 files
     document.addEventListener('DOMContentLoaded', function() {
