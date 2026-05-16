@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeachTap - Teacher Dashboard</title>
+  <style><?!= include('TeacherStylesheet'); ?></style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+</head>
+<body>
+  <div class="teacher-container">
+
+    <!-- Header -->
+    <div class="t-header">
+      <div class="t-header-left">
+        <div>
+          <h1 class="t-title">TeachTap</h1>
+          <div class="t-subtitle">Teacher Dashboard</div>
+        </div>
+      </div>
+      <div class="t-header-right">
+        <span class="t-user-email" id="userEmail"></span>
+        <!-- Notification Bell -->
+        <div class="t-notif-wrapper" id="notifWrapper" style="display:none;">
+          <button class="t-notif-bell" onclick="toggleNotifPanel()">
+            <span class="material-icons-outlined">notifications</span>
+            <span class="t-notif-badge" id="notifBadge" style="display:none;">0</span>
+          </button>
+          <div class="t-notif-panel" id="notifPanel">
+            <div class="t-notif-panel-header">
+              <h3>Notifications</h3>
+              <button class="t-notif-mark-all" onclick="markAllRead()">Mark all read</button>
+            </div>
+            <div class="t-notif-list" id="notifList">
+              <div class="t-notif-empty">No notifications</div>
+            </div>
+          </div>
+        </div>
+        <button class="t-btn" id="changePinBtn" style="display:none;" onclick="showChangePinScreen()">
+          <span class="material-icons-outlined">lock</span> Change PIN
+        </button>
+        <button class="t-btn" id="logoutBtn" style="display:none;" onclick="logoutTeacher()">
+          <span class="material-icons-outlined">logout</span> Logout
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="t-card" id="loadingCard" style="display:none;">
+      <div class="t-empty">Loading...</div>
+    </div>
+
+    <!-- Email Login -->
+    <div class="t-login-wrapper" id="emailLoginWrapper">
+      <div class="t-card" id="emailLoginCard">
+        <div class="t-card-header t-card-header-center">
+          <h2><span class="material-icons-outlined">login</span> Teacher Login</h2>
+        </div>
+        <p class="t-desc text-center">Enter your registered email address to access your dashboard.</p>
+        <div class="email-login-form">
+          <div class="email-input-wrap">
+            <span class="material-icons-outlined email-input-icon">email</span>
+            <input type="email" id="emailInput" class="email-input" placeholder="Enter your email address" autocomplete="email" autofocus>
+          </div>
+          <div class="pin-error" id="emailError"></div>
+          <button class="t-btn t-btn-primary email-login-btn" onclick="submitEmail()">
+            <span class="material-icons-outlined">arrow_forward</span> Continue
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Not Registered -->
+    <div class="t-card t-not-registered" id="notRegisteredCard" style="display:none;">
+      <div class="t-card-header">
+        <h2><span class="material-icons-outlined">error_outline</span> Not Registered</h2>
+      </div>
+      <p class="t-desc">The email <strong id="notRegEmail"></strong> is not registered in the NFC system. Please contact your administrator.</p>
+      <div class="text-center t-mt-sm">
+        <button class="t-btn" onclick="showEmailLogin()"><span class="material-icons-outlined">arrow_back</span> Try Another Email</button>
+      </div>
+    </div>
+
+    <!-- PIN Setup (first time) -->
+    <div class="t-card" id="pinSetupCard" style="display:none;">
+      <div class="t-card-header t-card-header-center">
+        <h2><span class="material-icons-outlined">lock</span> Set Your PIN</h2>
+      </div>
+      <p class="t-desc text-center">Welcome! Please set a 4-digit PIN to secure your dashboard.</p>
+      <div class="pin-input-group">
+        <div class="pin-dots" id="setupPinDots">
+          <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+        </div>
+        <input type="tel" id="setupPinInput" class="pin-hidden-input" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+        <div class="pin-label" id="setupPinLabel">Enter 4-digit PIN</div>
+      </div>
+      <div class="pin-input-group" id="confirmPinGroup" style="display:none;">
+        <div class="pin-dots" id="confirmPinDots">
+          <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+        </div>
+        <input type="tel" id="confirmPinInput" class="pin-hidden-input" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+        <div class="pin-label">Confirm your PIN</div>
+      </div>
+      <div class="pin-error" id="setupPinError"></div>
+      <div class="pin-numpad" id="setupNumpad"></div>
+    </div>
+
+    <!-- PIN Login -->
+    <div class="t-card" id="pinLoginCard" style="display:none;">
+      <div class="t-card-header t-card-header-center">
+        <h2><span class="material-icons-outlined">lock</span> Enter PIN</h2>
+      </div>
+      <div class="pin-welcome" id="pinWelcomeName"></div>
+      <div class="pin-input-group">
+        <div class="pin-dots" id="loginPinDots">
+          <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+        </div>
+        <input type="tel" id="loginPinInput" class="pin-hidden-input" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+        <div class="pin-label">Enter your 4-digit PIN</div>
+      </div>
+      <div class="pin-error" id="loginPinError"></div>
+      <div class="pin-numpad" id="loginNumpad"></div>
+      <div class="text-center t-mt-sm">
+        <button class="t-btn" onclick="showEmailLogin()"><span class="material-icons-outlined">arrow_back</span> Use Different Email</button>
+      </div>
+      <div class="text-center t-mt-xs">
+        <button onclick="handleForgotTeacherPin()" class="forgot-pin-link-teacher">Forgot PIN?</button>
+      </div>
+    </div>
+
+    <!-- Change PIN -->
+    <div class="t-card" id="changePinCard" style="display:none;">
+      <div class="t-card-header t-card-header-center">
+        <h2><span class="material-icons-outlined">lock_reset</span> Change PIN</h2>
+      </div>
+      <div class="pin-input-group">
+        <div class="pin-dots" id="oldPinDots">
+          <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+        </div>
+        <input type="tel" id="oldPinInput" class="pin-hidden-input" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+        <div class="pin-label" id="changePinLabel">Enter current PIN</div>
+      </div>
+      <div class="pin-input-group" id="newPinGroup" style="display:none;">
+        <div class="pin-dots" id="newPinDots">
+          <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+        </div>
+        <input type="tel" id="newPinInput" class="pin-hidden-input" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+        <div class="pin-label">Enter new PIN</div>
+      </div>
+      <div class="pin-error" id="changePinError"></div>
+      <div class="pin-numpad" id="changeNumpad"></div>
+      <div class="text-center t-mt-sm">
+        <button class="t-btn" onclick="cancelChangePin()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboardSection" style="display:none;">
+
+      <!-- Profile -->
+      <div class="t-card" id="profileCard">
+        <div class="t-profile">
+          <img id="teacherAvatar" class="t-profile-avatar" src="" style="display:none;">
+          <div class="t-profile-placeholder" id="teacherAvatarPlaceholder">
+            <span class="material-icons-outlined">person</span>
+          </div>
+          <div class="t-profile-info">
+            <div class="t-profile-name" id="teacherName"></div>
+            <div class="t-profile-detail" id="teacherUid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service Credit Overview -->
+      <div class="t-card t-sc-card">
+        <div class="t-card-header">
+          <h2><span class="material-icons-outlined">stars</span> Service Credits</h2>
+        </div>
+        <div class="t-sc-overview">
+          <div class="t-sc-balance">
+            <div class="t-sc-balance-num" id="teacherCredits">0</div>
+            <div class="t-sc-balance-label">Available Credits (Days)</div>
+          </div>
+          <button class="t-btn t-btn-primary" onclick="showLeaveForm()">
+            <span class="material-icons-outlined">event_available</span> Apply for Leave
+          </button>
+        </div>
+        <div id="leaveFormSection" class="t-leave-form hidden">
+          <div class="t-form-title">Leave Application</div>
+          <div class="t-form-row">
+            <div class="t-form-field">
+              <label>Number of Days</label>
+              <input type="number" id="leaveDays" class="t-input" placeholder="e.g. 1" min="0.5" step="0.5">
+            </div>
+            <div class="t-form-field">
+              <label>Start Date</label>
+              <input type="date" id="leaveStart" class="t-input">
+            </div>
+          </div>
+          <div class="t-form-row">
+            <div class="t-form-field">
+              <label>End Date</label>
+              <input type="date" id="leaveEnd" class="t-input">
+            </div>
+            <div class="t-form-field">
+              <label>Return Date</label>
+              <input type="date" id="leaveReturn" class="t-input">
+            </div>
+          </div>
+          <div class="t-form-field">
+            <label>Reason for Leave</label>
+            <textarea id="leaveReason" class="t-input t-textarea" placeholder="Enter your reason for leave..." rows="3"></textarea>
+          </div>
+          <div class="t-form-actions">
+            <button class="t-btn" onclick="hideLeaveForm()">Cancel</button>
+            <button class="t-btn t-btn-primary" id="submitLeaveBtn" onclick="submitLeave()">
+              <span class="material-icons-outlined">send</span> Submit Request
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leave Request History (collapsible) -->
+      <div class="t-card">
+        <div class="t-card-header t-card-header-toggle" onclick="toggleLeaveHistory()">
+          <h2><span class="material-icons-outlined">history</span> Leave Request History</h2>
+          <span class="material-icons-outlined t-toggle-icon" id="leaveHistoryToggle">expand_more</span>
+        </div>
+        <div class="t-collapsible" id="leaveHistorySection" style="display:none;">
+          <div class="t-table-wrap">
+            <table class="t-table">
+              <thead>
+                <tr><th>Date</th><th>Days</th><th>Reason</th><th>Period</th><th>Status</th><th>Comment</th></tr>
+              </thead>
+              <tbody id="leaveHistoryBody">
+                <tr><td colspan="6" class="t-empty">No leave requests yet</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Attendance -->
+      <div class="t-card t-today-card">
+        <div class="t-card-header">
+          <h2><span class="material-icons-outlined">today</span> Today's Attendance</h2>
+          <span class="t-date" id="todayDateLabel"></span>
+          <span class="t-live-time" id="liveTimeTeacher"></span>
+        </div>
+        <div id="todayContent">
+          <div class="t-empty">Loading...</div>
+        </div>
+      </div>
+
+      <!-- Monthly History -->
+      <div class="t-card">
+        <div class="t-card-header">
+          <h2><span class="material-icons-outlined">calendar_month</span> Monthly History</h2>
+          <div class="t-filter">
+            <input type="month" id="monthPicker" class="t-month-input" onchange="loadMonthlyData()">
+            <button class="t-btn" onclick="loadMonthlyData()">
+              <span class="material-icons-outlined">refresh</span>
+            </button>
+          </div>
+        </div>
+        <div class="t-stats-row" id="monthlyStats">
+          <div class="t-stat green"><div class="t-stat-num" id="mPresent">-</div><div class="t-stat-label">Present</div></div>
+          <div class="t-stat orange"><div class="t-stat-num" id="mLate">-</div><div class="t-stat-label">Late</div></div>
+          <div class="t-stat blue"><div class="t-stat-num" id="mOnTime">-</div><div class="t-stat-label">On Time</div></div>
+          <div class="t-stat red"><div class="t-stat-num" id="mEarlyOut">-</div><div class="t-stat-label">Early Out</div></div>
+        </div>
+        <div class="t-table-wrap">
+          <table class="t-table">
+            <thead>
+              <tr><th>Date</th><th>AM Time</th><th>AM Status</th><th>PM Time</th><th>PM Status</th></tr>
+            </thead>
+            <tbody id="monthlyTableBody">
+              <tr><td colspan="5" class="t-empty">Select a month</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- My 201 File -->
+      <div class="t-card text-center">
+        <div class="t-card-header t-card-header-center">
+          <h2><span class="material-icons-outlined">folder_shared</span> My 201 File</h2>
+        </div>
+        <p class="t-desc text-center">View your personal information, school details, and government IDs on file.</p>
+        <button class="t-btn t-btn-primary t-btn-view201" onclick="viewMy201File()">
+          <span class="material-icons-outlined">visibility</span> View My 201 File
+        </button>
+      </div>
+    </div>
+
+    <div class="t-footer">TeachTap NFC Attendance System &middot; Work Schedule 7:00 AM - 4:00 PM</div>
+  </div>
+
+  <div class="t-toast" id="toast"></div>
+
+  <script>
+  (function(){
+    "use strict";
+
+    var currentEmail = "";
+    var teacherName = "";
+    var teacherUid = "";
+    var teacherImageUrl = "";
+    var setupPin = "";
+    var changeOldPin = "";
+
+    // Live Manila time clock
+    function updateTeacherClock() {
+      var now = new Date();
+      var manilaTime = now.toLocaleString("en-US", { timeZone: "Asia/Manila", hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true });
+      var el = document.getElementById("liveTimeTeacher");
+      if (el) el.textContent = manilaTime;
+    }
+    setInterval(updateTeacherClock, 1000);
+    updateTeacherClock();
+
+    function showToast(msg, isError) {
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 't-toast show' + (isError ? ' error' : '');
+      setTimeout(function() { t.className = 't-toast'; }, 3500);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function getTodayStr() {
+      var d = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+      return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    }
+
+    function getCurrentMonth() {
+      var d = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+      return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+    }
+
+    function hideAllScreens() {
+      ['loadingCard','emailLoginCard','notRegisteredCard','pinSetupCard','pinLoginCard','changePinCard'].forEach(function(id) {
+        document.getElementById(id).style.display = 'none';
+      });
+      document.getElementById('emailLoginWrapper').style.display = 'none';
+      document.getElementById('dashboardSection').style.display = 'none';
+    }
+
+    function updatePinDots(dotsId, length) {
+      var dots = document.getElementById(dotsId).querySelectorAll('.pin-dot');
+      for (var i = 0; i < dots.length; i++) {
+        dots[i].classList.toggle('filled', i < length);
+      }
+    }
+
+    function buildNumpad(containerId, inputId, dotsId, onComplete) {
+      var container = document.getElementById(containerId);
+      var html = '<div class="numpad-grid">';
+      for (var i = 1; i <= 9; i++) {
+        html += '<button class="numpad-btn" data-num="' + i + '">' + i + '</button>';
+      }
+      html += '<button class="numpad-btn numpad-empty"></button>';
+      html += '<button class="numpad-btn" data-num="0">0</button>';
+      html += '<button class="numpad-btn numpad-del" data-action="del"><span class="material-icons-outlined">backspace</span></button>';
+      html += '</div>';
+      container.innerHTML = html;
+
+      container.querySelectorAll('.numpad-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var input = document.getElementById(inputId);
+          var num = this.getAttribute('data-num');
+          var action = this.getAttribute('data-action');
+          if (action === 'del') {
+            input.value = input.value.slice(0, -1);
+          } else if (num !== null && input.value.length < 4) {
+            input.value += num;
+          }
+          updatePinDots(dotsId, input.value.length);
+          if (input.value.length === 4 && onComplete) {
+            setTimeout(function() { onComplete(input.value); }, 200);
+          }
+        });
+      });
+    }
+
+    // ===== EMAIL LOGIN =====
+    window.showEmailLogin = function() {
+      hideAllScreens();
+      document.getElementById('emailLoginWrapper').style.display = 'flex';
+      document.getElementById('emailLoginCard').style.display = 'block';
+      document.getElementById('emailInput').value = currentEmail || '';
+      document.getElementById('emailError').textContent = '';
+      document.getElementById('userEmail').textContent = '';
+      document.getElementById('changePinBtn').style.display = 'none';
+      document.getElementById('logoutBtn').style.display = 'none';
+      setTimeout(function() { document.getElementById('emailInput').focus(); }, 100);
+    };
+
+    window.submitEmail = function() {
+      var email = document.getElementById('emailInput').value.trim().toLowerCase();
+      if (!email) { document.getElementById('emailError').textContent = 'Please enter your email address.'; return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { document.getElementById('emailError').textContent = 'Please enter a valid email address.'; return; }
+      document.getElementById('emailError').textContent = '';
+      currentEmail = email;
+      document.getElementById('userEmail').textContent = email;
+
+      google.script.run.withSuccessHandler(function(status) {
+        if (!status.registered) {
+          hideAllScreens();
+          document.getElementById('notRegEmail').textContent = email;
+          document.getElementById('notRegisteredCard').style.display = 'block';
+          return;
+        }
+        if (!status.hasPin) showPinSetup(status.name);
+        else showPinLogin(status.name, status.imageUrl);
+      }).withFailureHandler(function(err) {
+        document.getElementById('emailError').textContent = 'Error: ' + err.message;
+      }).checkTeacherByEmail(email);
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var emailInput = document.getElementById('emailInput');
+      if (emailInput) {
+        emailInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') submitEmail(); });
+      }
+    });
+
+    window.handleForgotTeacherPin = function() {
+      if (!currentEmail) { alert('Please enter your email first.'); return; }
+      if (!confirm('Send your PIN to your registered email (' + currentEmail + ')?')) return;
+      document.getElementById('loginPinError').textContent = 'Sending PIN to your email...';
+      google.script.run.withSuccessHandler(function(result) {
+        if (result.success) {
+          document.getElementById('loginPinError').textContent = '';
+          alert(result.message);
+        } else {
+          document.getElementById('loginPinError').textContent = result.message;
+        }
+      }).withFailureHandler(function(err) {
+        document.getElementById('loginPinError').textContent = 'Error: ' + err.message;
+      }).forgotTeacherPin(currentEmail);
+    };
+
+    window.logoutTeacher = function() {
+      currentEmail = "";
+      teacherName = "";
+      teacherUid = "";
+      teacherImageUrl = "";
+      showEmailLogin();
+    };
+
+    // ===== PIN SETUP =====
+    function showPinSetup(name) {
+      hideAllScreens();
+      setupPin = "";
+      document.getElementById('pinSetupCard').style.display = 'block';
+      document.getElementById('setupPinInput').value = '';
+      document.getElementById('confirmPinInput').value = '';
+      document.getElementById('confirmPinGroup').style.display = 'none';
+      document.getElementById('setupPinLabel').textContent = 'Enter 4-digit PIN';
+      document.getElementById('setupPinError').textContent = '';
+      updatePinDots('setupPinDots', 0);
+      updatePinDots('confirmPinDots', 0);
+
+      buildNumpad('setupNumpad', 'setupPinInput', 'setupPinDots', function onSetupComplete(pin) {
+        if (!setupPin) {
+          setupPin = pin;
+          document.getElementById('setupPinLabel').textContent = 'PIN entered';
+          document.getElementById('confirmPinGroup').style.display = 'block';
+          document.getElementById('setupPinInput').value = '';
+          updatePinDots('setupPinDots', 0);
+          buildNumpad('setupNumpad', 'confirmPinInput', 'confirmPinDots', function onConfirmComplete(confirmPin) {
+            if (confirmPin !== setupPin) {
+              document.getElementById('setupPinError').textContent = 'PINs do not match. Try again.';
+              document.getElementById('confirmPinInput').value = '';
+              updatePinDots('confirmPinDots', 0);
+              setupPin = "";
+              document.getElementById('confirmPinGroup').style.display = 'none';
+              document.getElementById('setupPinLabel').textContent = 'Enter 4-digit PIN';
+              buildNumpad('setupNumpad', 'setupPinInput', 'setupPinDots', onSetupComplete);
+              return;
+            }
+            document.getElementById('setupPinError').textContent = '';
+            google.script.run.withSuccessHandler(function(result) {
+              if (result.success) { showToast('PIN set successfully!'); showPinLogin(name, ''); }
+              else { document.getElementById('setupPinError').textContent = result.message; setupPin = ""; document.getElementById('confirmPinInput').value = ''; updatePinDots('confirmPinDots', 0); }
+            }).withFailureHandler(function(err) {
+              document.getElementById('setupPinError').textContent = 'Error: ' + err.message;
+            }).setTeacherPinByEmail(currentEmail, confirmPin);
+          });
+        }
+      });
+    }
+
+    // ===== PIN LOGIN =====
+    function showPinLogin(name, imageUrl) {
+      hideAllScreens();
+      document.getElementById('pinLoginCard').style.display = 'block';
+      document.getElementById('pinWelcomeName').textContent = 'Welcome, ' + (name || 'Teacher');
+      document.getElementById('loginPinInput').value = '';
+      document.getElementById('loginPinError').textContent = '';
+      updatePinDots('loginPinDots', 0);
+      teacherName = name || '';
+      teacherImageUrl = imageUrl || '';
+
+      buildNumpad('loginNumpad', 'loginPinInput', 'loginPinDots', function(pin) {
+        document.getElementById('loginPinError').textContent = '';
+        google.script.run.withSuccessHandler(function(result) {
+          if (result.success) {
+            teacherName = result.name;
+            teacherUid = result.uid;
+            teacherImageUrl = result.imageUrl || '';
+            showDashboard();
+          } else {
+            document.getElementById('loginPinError').textContent = result.message;
+            document.getElementById('loginPinInput').value = '';
+            updatePinDots('loginPinDots', 0);
+          }
+        }).withFailureHandler(function(err) {
+          document.getElementById('loginPinError').textContent = 'Error: ' + err.message;
+          document.getElementById('loginPinInput').value = '';
+          updatePinDots('loginPinDots', 0);
+        }).validateTeacherLogin(currentEmail, pin);
+      });
+    }
+
+    // ===== CHANGE PIN =====
+    window.showChangePinScreen = function() {
+      hideAllScreens();
+      changeOldPin = "";
+      document.getElementById('changePinCard').style.display = 'block';
+      document.getElementById('oldPinInput').value = '';
+      document.getElementById('newPinInput').value = '';
+      document.getElementById('newPinGroup').style.display = 'none';
+      document.getElementById('changePinLabel').textContent = 'Enter current PIN';
+      document.getElementById('changePinError').textContent = '';
+      updatePinDots('oldPinDots', 0);
+      updatePinDots('newPinDots', 0);
+
+      buildNumpad('changeNumpad', 'oldPinInput', 'oldPinDots', function onOldPinComplete(oldPin) {
+        changeOldPin = oldPin;
+        document.getElementById('changePinLabel').textContent = 'Current PIN entered';
+        document.getElementById('newPinGroup').style.display = 'block';
+        document.getElementById('oldPinInput').value = '';
+        updatePinDots('oldPinDots', 0);
+
+        buildNumpad('changeNumpad', 'newPinInput', 'newPinDots', function(newPin) {
+          google.script.run.withSuccessHandler(function(result) {
+            if (result.success) { showToast('PIN changed successfully!'); showDashboard(); }
+            else {
+              document.getElementById('changePinError').textContent = result.message;
+              document.getElementById('oldPinInput').value = '';
+              document.getElementById('newPinInput').value = '';
+              document.getElementById('newPinGroup').style.display = 'none';
+              document.getElementById('changePinLabel').textContent = 'Enter current PIN';
+              updatePinDots('oldPinDots', 0);
+              updatePinDots('newPinDots', 0);
+              changeOldPin = "";
+              buildNumpad('changeNumpad', 'oldPinInput', 'oldPinDots', onOldPinComplete);
+            }
+          }).withFailureHandler(function(err) {
+            document.getElementById('changePinError').textContent = 'Error: ' + err.message;
+          }).changeTeacherPinByEmail(currentEmail, changeOldPin, newPin);
+        });
+      });
+    };
+
+    window.cancelChangePin = function() { showDashboard(); };
+
+    // ===== DASHBOARD =====
+    function showDashboard() {
+      hideAllScreens();
+      document.getElementById('dashboardSection').style.display = 'block';
+      document.getElementById('changePinBtn').style.display = 'inline-flex';
+      document.getElementById('logoutBtn').style.display = 'inline-flex';
+      document.getElementById('userEmail').textContent = currentEmail;
+      document.getElementById('teacherName').textContent = teacherName;
+      document.getElementById('teacherUid').textContent = 'UID: ' + teacherUid;
+
+      if (teacherImageUrl) {
+        var avatar = document.getElementById('teacherAvatar');
+        avatar.src = teacherImageUrl;
+        avatar.style.display = 'block';
+        avatar.onerror = function() {
+          avatar.style.display = 'none';
+          document.getElementById('teacherAvatarPlaceholder').style.display = 'flex';
+        };
+        document.getElementById('teacherAvatarPlaceholder').style.display = 'none';
+      } else {
+        document.getElementById('teacherAvatar').style.display = 'none';
+        document.getElementById('teacherAvatarPlaceholder').style.display = 'flex';
+      }
+
+      document.getElementById('todayDateLabel').textContent = getTodayStr();
+      document.getElementById('monthPicker').value = getCurrentMonth();
+      loadTodayData();
+      loadMonthlyData();
+      loadTeacherCredits();
+      loadLeaveHistory();
+      // Show notification bell and load notifications
+      document.getElementById('notifWrapper').style.display = '';
+      loadNotifications();
+      // Poll for new notifications every 30 seconds
+      setInterval(loadNotifications, 30000);
+    }
+
+    function loadTodayData() {
+      document.getElementById('todayContent').innerHTML = '<div class="t-empty">Loading...</div>';
+      google.script.run.withSuccessHandler(function(record) {
+        var container = document.getElementById('todayContent');
+        if (!record) {
+          container.innerHTML = '<div class="t-today-status absent"><span class="material-icons-outlined">info</span> No attendance record for today.</div>';
+          return;
+        }
+        var html = '<div class="t-today-grid">';
+        html += '<div class="t-today-item"><div class="t-today-label">AM Time-In</div><div class="t-today-value"><span class="t-today-time">' + escapeHtml(record.amTime || '--') + '</span></div>';
+        if (record.amLabel) {
+          html += '<span class="t-badge ' + (record.amLabel === 'Late' ? 't-badge-late' : 't-badge-ontime') + '">' + escapeHtml(record.amLabel) + '</span>';
+        }
+        html += '</div>';
+        html += '<div class="t-today-item"><div class="t-today-label">PM Time-Out</div><div class="t-today-value"><span class="t-today-time">' + escapeHtml(record.pmTime || '--') + '</span></div>';
+        if (record.pmLabel) {
+          html += '<span class="t-badge ' + (record.pmLabel === 'Early Out' ? 't-badge-late' : 't-badge-ontime') + '">' + escapeHtml(record.pmLabel) + '</span>';
+        }
+        html += '</div></div>';
+        container.innerHTML = html;
+      }).withFailureHandler(function(err) {
+        showToast('Error loading today: ' + err.message, true);
+      }).getTeacherRecordsByDate(getTodayStr(), teacherName);
+    }
+
+    window.loadMonthlyData = function() {
+      var ym = document.getElementById('monthPicker').value;
+      if (!ym) return;
+      var tbody = document.getElementById('monthlyTableBody');
+      tbody.innerHTML = '<tr><td colspan="5" class="t-empty">Loading...</td></tr>';
+
+      google.script.run.withSuccessHandler(function(records) {
+        if (!records || records.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" class="t-empty">No records for this month</td></tr>';
+          document.getElementById('mPresent').textContent = '0';
+          document.getElementById('mLate').textContent = '0';
+          document.getElementById('mOnTime').textContent = '0';
+          document.getElementById('mEarlyOut').textContent = '0';
+          return;
+        }
+        var present = 0, late = 0, onTime = 0, earlyOut = 0;
+        var html = '';
+        records.forEach(function(r) {
+          if (r.amStatus === 'IN') present++;
+          if (r.amLabel === 'Late') late++;
+          if (r.amLabel === 'Early In') onTime++;
+          if (r.pmLabel === 'Early Out') earlyOut++;
+          if (r.pmLabel === 'On Time Out') onTime++;
+          var amBadge = r.amLabel ? (r.amLabel === 'Late' ? 't-badge-late' : 't-badge-ontime') : 't-badge-none';
+          var pmBadge = r.pmLabel ? (r.pmLabel === 'Early Out' ? 't-badge-late' : 't-badge-ontime') : 't-badge-none';
+          html += '<tr><td><strong>' + escapeHtml(r.date) + '</strong></td><td>' + escapeHtml(r.amTime || '-') + '</td><td><span class="t-badge ' + amBadge + '">' + escapeHtml(r.amLabel || '-') + '</span></td><td>' + escapeHtml(r.pmTime || '-') + '</td><td><span class="t-badge ' + pmBadge + '">' + escapeHtml(r.pmLabel || '-') + '</span></td></tr>';
+        });
+        tbody.innerHTML = html;
+        document.getElementById('mPresent').textContent = present;
+        document.getElementById('mLate').textContent = late;
+        document.getElementById('mOnTime').textContent = onTime;
+        document.getElementById('mEarlyOut').textContent = earlyOut;
+      }).withFailureHandler(function(err) {
+        showToast('Error loading monthly: ' + err.message, true);
+      }).getTeacherMonthlySummary(teacherName, ym);
+    };
+
+    // ===== MY 201 FILE =====
+    window.viewMy201File = function() {
+      var loadDiv = document.createElement('div');
+      loadDiv.id = 'my201loading';
+      loadDiv.className = 't-loading-overlay';
+      loadDiv.innerHTML = '<div class="t-loading-box"><div class="t-spinner"></div><p class="t-loading-text">Loading your 201 file...</p></div>';
+      document.body.appendChild(loadDiv);
+
+      google.script.run.withSuccessHandler(function(r) {
+        var ld = document.getElementById('my201loading'); if(ld) ld.remove();
+        if (r.success) showMy201(r.data);
+        else showToast('Could not load 201 file: ' + (r.error||'Not found'), true);
+      }).withFailureHandler(function(err) {
+        var ld = document.getElementById('my201loading'); if(ld) ld.remove();
+        showToast('Error: ' + err, true);
+      }).getTeacher201ByEmail(currentEmail);
+    };
+
+    function ni201(v) { return (!v || String(v).trim()==='') ? '<span class="t-no-info">No Info</span>' : escapeHtml(String(v)); }
+
+    function sh201t(icon, title) {
+      return '<div class="t-section-header"><span class="material-icons-outlined">'+icon+'</span><span>'+title+'</span></div>';
+    }
+
+    function ic201t(label, val, wide) {
+      return '<div class="'+(wide?'t-detail-field-full':'t-detail-field-half')+'"><div class="t-detail-field"><div class="t-detail-field-label">'+label+'</div><div class="t-detail-field-value">'+ni201(val)+'</div></div></div>';
+    }
+
+    function showMy201(t) {
+      var fn = ((t.firstName||'')+' '+(t.middleName||'')+' '+(t.lastName||'')+' '+(t.ext||'')).replace(/\s+/g,' ').trim()||'No Info';
+      var h = '<div class="t-modal-overlay" id="my201modal" onclick="if(event.target===this)closeMy201()">';
+      h += '<div class="t-modal-box">';
+      h += '<div class="t-modal-header"><div><h3>My 201 File</h3><div class="t-modal-subtitle">'+fn+'</div></div><button class="t-modal-close" onclick="closeMy201()">✕</button></div>';
+      h += '<div class="t-modal-profile-bar"><div class="t-modal-avatar" id="my201ProfileImg"><span class="material-icons-outlined">person</span></div><div><div class="t-modal-name">'+fn+'</div><div class="t-modal-tags"><span class="t-modal-tag t-modal-tag-blue">ID: '+ni201(t.employee)+'</span><span class="t-modal-tag t-modal-tag-primary">'+ni201(t.positionTitle)+'</span><span class="t-modal-tag t-modal-tag-green">'+ni201(t.level)+'</span></div></div></div>';
+      h += '<div class="t-modal-body">';
+      h += sh201t('person','Personal Information');
+      h += '<div class="flex-wrap-gap">';
+      h += ic201t('Last Name',t.lastName); h += ic201t('First Name',t.firstName); h += ic201t('Middle Name',t.middleName); h += ic201t('Extension',t.ext); h += ic201t('Date of Birth',t.dateOfBirth); h += ic201t('Gender',t.gender); h += ic201t('Complete Address',t.completeAddress,true); h += ic201t('Eligibility',t.eligibility); h += ic201t('Employee ID',t.employee); h += '</div>';
+      h += sh201t('school','School / Employment Information');
+      h += '<div class="flex-wrap-gap">';
+      h += ic201t('EDDIS',t.eddis); h += ic201t('District',t.district); h += ic201t('School',t.school); h += ic201t('Level',t.level); h += ic201t('SHS Track & Strand',t.shsTrackStrand); h += ic201t('Item Number',t.itemNumber); h += ic201t('Position Title',t.positionTitle); h += ic201t('Salary Grade',t.sg); h += ic201t('Step',t.step); h += ic201t('Date of Original Appointment',t.dateOfOriginalApt); h += ic201t('Date of Last Promotion',t.dateOfLastPromotion); h += '</div>';
+      h += sh201t('school','Education / Qualification');
+      h += '<div class="flex-wrap-gap">';
+      h += ic201t('Course & Major (College)',t.courseMajorCollege,true); h += ic201t('Graduate Studies',t.courseMajorGraduate,true); h += '</div>';
+      h += sh201t('badge','Government IDs');
+      h += '<div class="flex-wrap-gap">';
+      h += ic201t('PhilHealth (12 Digits)',t.philhealth); h += ic201t('GSIS BP (10 Digits)',t.gsisBp); h += ic201t('Pag-IBIG (12 Digits)',t.pagibig); h += ic201t('TIN Number',t.tin); h += '</div>';
+      h += '</div>';
+      h += '<div class="t-modal-footer"><button class="t-btn" onclick="closeMy201()">Close</button></div>';
+      h += '</div></div>';
+      var old = document.getElementById('my201modal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+      google.script.run.withSuccessHandler(function(imgSrc) {
+        var el = document.getElementById('my201ProfileImg');
+        if (el && imgSrc) { el.innerHTML = '<img src="'+imgSrc+'">'; }
+      }).get201ProfileImageByName(t.lastName, t.firstName);
+    }
+
+    window.closeMy201 = function() { var e = document.getElementById('my201modal'); if(e) e.remove(); };
+
+    // ===== SERVICE CREDITS =====
+    function loadTeacherCredits() {
+      google.script.run.withSuccessHandler(function(balance) {
+        document.getElementById('teacherCredits').textContent = balance || 0;
+      }).getMyServiceCredits(teacherName);
+    }
+
+    function loadLeaveHistory() {
+      google.script.run.withSuccessHandler(function(requests) {
+        var tbody = document.getElementById('leaveHistoryBody');
+        if (!requests || requests.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="t-empty">No leave requests yet</td></tr>';
+          return;
+        }
+        var h = '';
+        requests.forEach(function(r) {
+          var statusClass = r.status === 'Approved' ? 't-badge-ontime' : (r.status === 'Declined' ? 't-badge-late' : 't-badge-pending');
+          h += '<tr><td>' + escapeHtml(r.timestamp) + '</td><td>' + r.days + '</td><td>' + escapeHtml(r.reason) + '</td>';
+          h += '<td>' + escapeHtml(r.startDate) + ' to ' + escapeHtml(r.endDate) + '</td>';
+          h += '<td><span class="t-badge ' + statusClass + '">' + r.status + '</span></td>';
+          h += '<td>' + escapeHtml(r.comment || '-') + '</td></tr>';
+        });
+        tbody.innerHTML = h;
+      }).getMyLeaveRequests(teacherName);
+    }
+
+    window.toggleLeaveHistory = function() {
+      var section = document.getElementById('leaveHistorySection');
+      var icon = document.getElementById('leaveHistoryToggle');
+      if (section.style.display === 'none') {
+        section.style.display = 'block';
+        icon.textContent = 'expand_less';
+      } else {
+        section.style.display = 'none';
+        icon.textContent = 'expand_more';
+      }
+    };
+
+    window.showLeaveForm = function() {
+      document.getElementById('leaveFormSection').classList.remove('hidden');
+    };
+
+    window.hideLeaveForm = function() {
+      document.getElementById('leaveFormSection').classList.add('hidden');
+    };
+
+    window.submitLeave = function() {
+      var days = document.getElementById('leaveDays').value;
+      var reason = document.getElementById('leaveReason').value.trim();
+      var startDate = document.getElementById('leaveStart').value;
+      var endDate = document.getElementById('leaveEnd').value;
+      var returnDate = document.getElementById('leaveReturn').value;
+
+      if (!days || !reason || !startDate || !endDate || !returnDate) {
+        showToast('All fields are required', true);
+        return;
+      }
+
+      var btn = document.getElementById('submitLeaveBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-icons-outlined">hourglass_top</span> Submitting...';
+
+      google.script.run.withSuccessHandler(function(r) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-icons-outlined">send</span> Submit Request';
+        if (r.success) {
+          showToast(r.message);
+          hideLeaveForm();
+          document.getElementById('leaveDays').value = '';
+          document.getElementById('leaveReason').value = '';
+          document.getElementById('leaveStart').value = '';
+          document.getElementById('leaveEnd').value = '';
+          document.getElementById('leaveReturn').value = '';
+          loadTeacherCredits();
+          loadLeaveHistory();
+        } else {
+          showToast(r.message, true);
+        }
+      }).withFailureHandler(function(err) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-icons-outlined">send</span> Submit Request';
+        showToast('Error: ' + err.message, true);
+      }).submitLeaveRequest(teacherName, parseFloat(days), reason, startDate, endDate, returnDate);
+    };
+
+    // ===== NOTIFICATIONS =====
+    function loadNotifications() {
+      if (!teacherName) return;
+      google.script.run.withSuccessHandler(function(notifs) {
+        var list = document.getElementById('notifList');
+        var badge = document.getElementById('notifBadge');
+        if (!notifs || notifs.length === 0) {
+          list.innerHTML = '<div class="t-notif-empty"><span class="material-icons-outlined">notifications_none</span><br>No notifications</div>';
+          badge.style.display = 'none';
+          return;
+        }
+        var unread = notifs.filter(function(n) { return !n.read; }).length;
+        if (unread > 0) {
+          badge.textContent = unread > 9 ? '9+' : unread;
+          badge.style.display = 'flex';
+        } else {
+          badge.style.display = 'none';
+        }
+        var h = '';
+        notifs.forEach(function(n) {
+          var readClass = n.read ? 't-notif-read' : 't-notif-unread';
+          var icon = n.title.indexOf('Approved') !== -1 ? 'check_circle' : 'cancel';
+          h += '<div class="t-notif-item ' + readClass + '" onclick="readNotif(\'' + n.notifId + '\')">';
+          var iconClass = n.title.indexOf('Approved') !== -1 ? 't-notif-icon-approved' : 't-notif-icon-declined';
+          h += '<span class="material-icons-outlined t-notif-icon ' + iconClass + '">' + icon + '</span>';
+          h += '<div class="t-notif-content"><div class="t-notif-title">' + escapeHtml(n.title) + '</div>';
+          h += '<div class="t-notif-msg">' + escapeHtml(n.message) + '</div>';
+          h += '<div class="t-notif-time">' + escapeHtml(n.timestamp) + '</div></div></div>';
+        });
+        list.innerHTML = h;
+      }).getTeacherNotifications(teacherName);
+    }
+
+    window.toggleNotifPanel = function() {
+      var panel = document.getElementById('notifPanel');
+      panel.classList.toggle('open');
+      if (panel.classList.contains('open')) {
+        var bell = document.querySelector('.t-notif-bell');
+        if (bell) {
+          var rect = bell.getBoundingClientRect();
+          panel.style.top = (rect.bottom + 8) + 'px';
+          var rightPos = window.innerWidth - rect.right;
+          if (rightPos < 12) rightPos = 12;
+          panel.style.right = rightPos + 'px';
+          panel.style.left = 'auto';
+          if (window.innerWidth <= 480) {
+            panel.style.left = '12px';
+            panel.style.right = '12px';
+            panel.style.width = 'auto';
+          }
+        }
+        loadNotifications();
+      }
+    };
+
+    window.readNotif = function(notifId) {
+      google.script.run.withSuccessHandler(function() {
+        loadNotifications();
+        loadTeacherCredits();
+        loadLeaveHistory();
+      }).markNotificationRead(notifId);
+    };
+
+    window.markAllRead = function() {
+      if (!teacherName) return;
+      google.script.run.withSuccessHandler(function() {
+        loadNotifications();
+      }).markAllNotificationsRead(teacherName);
+    };
+
+    // Close notification panel when clicking outside
+    document.addEventListener('click', function(e) {
+      var wrapper = document.getElementById('notifWrapper');
+      if (wrapper && !wrapper.contains(e.target)) {
+        document.getElementById('notifPanel').classList.remove('open');
+      }
+    });
+
+    window.addEventListener('load', function() {
+      // Auto-detect email from Google account
+      google.script.run.withSuccessHandler(function(email) {
+        if (email) {
+          currentEmail = email.toLowerCase();
+          document.getElementById('userEmail').textContent = currentEmail;
+          document.getElementById('emailInput').value = currentEmail;
+          // Auto-submit with detected email
+          submitEmail();
+        } else {
+          showEmailLogin();
+        }
+      }).withFailureHandler(function() {
+        showEmailLogin();
+      }).getCurrentEmail();
+    });
+  })();
+  </script>
+</body>
+</html>

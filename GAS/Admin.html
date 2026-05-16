@@ -1,0 +1,2095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeachTap - Admin Dashboard</title>
+  <style><?!= include('AdminStylesheet'); ?></style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <!-- Admin PIN Login Overlay -->
+  <div id="adminPinOverlay" class="admin-pin-overlay">
+    <div class="admin-pin-card">
+      <div class="admin-pin-logo">
+        <img src="https://github.com/erlmntz/CAPSTONE-PROJECT_TeachTap/blob/main/IMAGES/LOGO2.png?raw=true" alt="TeachTap Logo" class="admin-pin-logo-img">
+      </div>
+      <h2 class="admin-pin-title">Admin Login</h2>
+      <p class="admin-pin-subtitle">Enter your 6-digit PIN to access the dashboard</p>
+      <div class="admin-pin-dots" id="adminPinDots">
+        <div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div>
+      </div>
+      <input type="tel" id="adminPinInput" class="admin-pin-hidden" maxlength="6" pattern="[0-9]*" inputmode="numeric" autocomplete="off">
+      <div class="admin-pin-error" id="adminPinError"></div>
+      <div class="admin-pin-numpad" id="adminPinNumpad"></div>
+      <div class="admin-pin-footer">
+        <button onclick="handleForgotAdminPin()" class="forgot-pin-link">Forgot PIN?</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 201 Files PIN Gate Overlay -->
+  <div id="files201PinOverlay" class="admin-pin-overlay files201-pin-overlay" style="display:none;">
+    <div class="admin-pin-card">
+      <div class="admin-pin-logo">
+        <span class="material-icons-outlined icon-lg-blue">lock</span>
+      </div>
+      <h2 class="admin-pin-title">Security Verification</h2>
+      <p class="admin-pin-subtitle">Enter your 6-digit PIN to view personal teacher records</p>
+      <div class="admin-pin-dots" id="files201PinDots">
+        <div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div>
+      </div>
+      <input type="tel" id="files201PinInput" class="admin-pin-hidden" maxlength="6" pattern="[0-9]*" inputmode="numeric" autocomplete="off">
+      <div class="admin-pin-error" id="files201PinError"></div>
+      <div class="admin-pin-numpad" id="files201PinNumpad"></div>
+      <div class="admin-pin-footer">
+        <button class="btn btn-xs btn-back-dashboard" onclick="cancelFilesPinGate()">
+          <span class="material-icons-outlined icon-inline-sm">arrow_back</span> Back to Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar" style="display:none;">
+    <div class="sidebar-header">
+      <img src="https://github.com/erlmntz/CAPSTONE-PROJECT_TeachTap/blob/main/IMAGES/LOGO2.png?raw=true" alt="Logo" class="sidebar-logo">
+      <span class="sidebar-title">TeachTap</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="javascript:void(0)" class="nav-item active" data-page="dashboard" onclick="showPage('dashboard')">
+        <span class="material-icons-outlined">dashboard</span> Dashboard
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="attendance" onclick="showPage('attendance')">
+        <span class="material-icons-outlined">fact_check</span> Attendance
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="users" onclick="showPage('users')">
+        <span class="material-icons-outlined">people</span> Registered Users
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="files201" onclick="showPage('files201')">
+        <span class="material-icons-outlined">folder_shared</span> 201 Files
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="archived201" onclick="showPage('archived201')">
+        <span class="material-icons-outlined">inventory_2</span> Archived 201 Files
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="serviceCredits" onclick="showPage('serviceCredits')">
+        <span class="material-icons-outlined">stars</span> Service Credits
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="leaveRequests" onclick="showPage('leaveRequests')">
+        <span class="material-icons-outlined">pending_actions</span> Credit Requests
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="scanner" onclick="showPage('scanner')">
+        <span class="material-icons-outlined">nfc</span> Scanner Settings
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="adminSettings" onclick="showPage('adminSettings')">
+        <span class="material-icons-outlined">settings</span> Admin Settings
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="admin-badge">
+        <span class="material-icons-outlined">admin_panel_settings</span>
+        <span id="adminEmail">Admin</span>
+      </div>
+      <a href="javascript:void(0)" class="nav-item logout-btn" onclick="adminLogout()">
+        <span class="material-icons-outlined">logout</span> Logout
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobile Header -->
+  <div class="mobile-header" id="mobileHeader" style="display:none;">
+    <button class="menu-toggle" onclick="toggleSidebar()">
+      <span class="material-icons-outlined">menu</span>
+    </button>
+    <span class="mobile-title">TeachTap Admin</span>
+  </div>
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent" style="display:none;">
+
+    <!-- Dashboard Page -->
+    <div id="dashboard-page" class="page-content active">
+      <div class="page-header">
+        <div>
+          <h2>Dashboard</h2>
+          <p>Welcome to TeachTap Admin Dashboard</p>
+        </div>
+        <button class="btn btn-primary btn-xs btn-refresh" onclick="refreshAllDashboardData()" id="dashRefreshBtn">
+          <span class="material-icons-outlined">refresh</span> Refresh
+        </button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card stat-card-clickable" onclick="showTotalUsersModal()">
+          <span class="material-icons-outlined stat-icon">people</span>
+          <div class="stat-info">
+            <div class="stat-number" id="totalUsers">0</div>
+            <div class="stat-label">Total Users</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card-clickable" onclick="showPresentAbsentModal('present')">
+          <span class="material-icons-outlined stat-icon stat-icon-green">check_circle</span>
+          <div class="stat-info">
+            <div class="stat-number" id="presentToday">0</div>
+            <div class="stat-label">Present Today</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card-clickable" onclick="showPresentAbsentModal('absent')">
+          <span class="material-icons-outlined stat-icon stat-icon-red">cancel</span>
+          <div class="stat-info">
+            <div class="stat-number" id="absentToday">0</div>
+            <div class="stat-label">Absent Today</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card-clickable" onclick="showPresentAbsentModal('late')">
+          <span class="material-icons-outlined stat-icon stat-icon-amber">schedule</span>
+          <div class="stat-info">
+            <div class="stat-number" id="lateToday">0</div>
+            <div class="stat-label">Late Today</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card-clickable" onclick="showPresentAbsentModal('earlyout')">
+          <span class="material-icons-outlined stat-icon stat-icon-purple">exit_to_app</span>
+          <div class="stat-info">
+            <div class="stat-number" id="earlyOutToday">0</div>
+            <div class="stat-label">Early Out</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attendance Page -->
+    <div id="attendance-page" class="page-content">
+      <div class="page-header">
+        <h2>Attendance Records</h2>
+        <p>View and manage teacher attendance</p>
+      </div>
+      <div class="card">
+        <div class="card-toolbar">
+          <h3>Daily Attendance</h3>
+          <div class="card-toolbar-actions">
+            <button class="att-nav-btn" onclick="shiftAttDate(-1)" title="Previous Day"><span class="material-icons-outlined">chevron_left</span></button>
+            <button class="btn btn-primary btn-xs" onclick="setAttToday()">Today</button>
+            <button class="btn btn-xs" onclick="setAttYesterday()">Yesterday</button>
+            <div class="date-input-wrap">
+              <span class="material-icons-outlined date-input-icon">calendar_today</span>
+              <input type="date" id="attendanceDate" class="att-date-input" onchange="loadAttendance()">
+            </div>
+            <button class="att-nav-btn" onclick="shiftAttDate(1)" title="Next Day"><span class="material-icons-outlined">chevron_right</span></button>
+            <button class="btn btn-info btn-xs" onclick="downloadAttendanceCSV()" title="Download CSV"><span class="material-icons-outlined">download</span> Download</button>
+          </div>
+        </div>
+        <div id="attDateLabel" class="att-date-label"></div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Name</th><th>AM Time-In</th><th>AM Status</th><th>PM Time-Out</th><th>PM Status</th></tr>
+          </thead>
+          <tbody id="attendanceList">
+            <tr><td colspan="5" class="empty-state"><span class="material-icons-outlined empty-state-icon">event_note</span>Select a date to view attendance</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Users Page -->
+    <div id="users-page" class="page-content">
+      <div class="page-header">
+        <h2>Registered Users</h2>
+        <p>Manage registered teachers and staff</p>
+      </div>
+      <div class="card">
+        <div class="card-toolbar">
+          <div class="card-toolbar-left">
+            <h3>User List</h3>
+            <span id="userCountBadge" class="user-count-badge">0</span>
+          </div>
+          <div class="card-toolbar-right">
+            <div class="search-wrapper">
+              <span class="material-icons-outlined search-icon">search</span>
+              <input type="text" placeholder="Search name, UID, email..." id="userSearch" oninput="searchUsers()">
+              <span class="material-icons-outlined search-clear" id="userSearchClear" onclick="document.getElementById('userSearch').value='';searchUsers();this.style.display='none';">close</span>
+            </div>
+            <button class="btn btn-success" onclick="openRegisterModal()"><span class="material-icons-outlined">person_add</span> Register NFC</button>
+          </div>
+        </div>
+        <div id="usersList" class="users-list-container"></div>
+      </div>
+    </div>
+
+    <!-- Scanner Page -->
+    <div id="scanner-page" class="page-content">
+      <div class="page-header">
+        <h2>Scanner Settings</h2>
+        <p>Configure auto service credit for NFC attendance on specific dates</p>
+      </div>
+      <div class="scanner-layout">
+        <div class="card scanner-input-card">
+          <div class="scanner-center">
+            <div class="scanner-settings-icon">
+              <span class="material-icons-outlined icon-lg-blue">settings</span>
+            </div>
+            <h3 class="scanner-title">Auto Credit Configuration</h3>
+            <p class="scanner-subtitle">Set a date and credit amount. When teachers scan their NFC on that date, credits are auto-granted.</p>
+            <div class="settings-form-wrapper">
+              <div class="settings-field">
+                <label class="settings-label">Date</label>
+                <input type="date" id="ssDate" class="sc-input settings-input">
+              </div>
+              <div class="settings-field">
+                <label class="settings-label">Credit Amount (Points)</label>
+                <input type="number" id="ssCredits" class="sc-input settings-input" placeholder="e.g. 1" min="0.5" step="0.5">
+              </div>
+              <div class="settings-field-lg">
+                <label class="settings-label">Reason</label>
+                <input type="text" id="ssReason" class="sc-input settings-input" placeholder="e.g. Flag Ceremony, Training Day">
+              </div>
+              <button class="btn-scan btn-full-mb" onclick="saveSSSettings()" id="ssSaveBtn">
+                <span class="material-icons-outlined">save</span> Save Settings
+              </button>
+            </div>
+            <div class="scanner-actions">
+              <button class="btn-open-scanner" onclick="openScannerNewTab()"><span class="material-icons-outlined">open_in_new</span> Open Full Scanner</button>
+            </div>
+          </div>
+        </div>
+        <div class="card scan-result-card">
+          <div class="scan-result-header">
+            <span class="material-icons-outlined">date_range</span>
+            <span class="scan-result-title">Configured Dates</span>
+          </div>
+          <div id="ssConfiguredDates" class="scan-result-body">
+            <div class="scan-result-placeholder">
+              <span class="material-icons-outlined">event_busy</span>
+              <p>No dates configured yet</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 201 Files Page -->
+    <div id="files201-page" class="page-content">
+      <div class="page-header">
+        <h2>Teachers 201 Files</h2>
+        <p>Manage and view teacher records and 201 files</p>
+      </div>
+      <div class="files-toolbar">
+        <input type="text" id="files201Search" class="files-search" placeholder="Search teacher..." oninput="search201Files()">
+        <select id="positionFilter201" class="files-select" onchange="filter201Files()">
+          <option value="all">All Positions</option><option value="Teacher I">Teacher I</option><option value="Teacher II">Teacher II</option><option value="Teacher III">Teacher III</option><option value="Master Teacher I">Master Teacher I</option><option value="Principal IV">Principal IV</option>
+        </select>
+        <select id="levelFilter201" class="files-select" onchange="filter201Files()">
+          <option value="all">All Levels</option><option value="Elementary">Elementary</option><option value="JHS">JHS</option><option value="SHS">SHS</option>
+        </select>
+        <button class="btn btn-primary btn-xs" onclick="load201Files()"><span class="material-icons-outlined">refresh</span> Refresh</button>
+        <button class="btn btn-success btn-xs" onclick="openAdd201Modal()"><span class="material-icons-outlined">add_circle</span> Add New 201 File</button>
+        <button class="btn btn-info btn-xs" onclick="downloadAll201FilesPDF()"><span class="material-icons-outlined">picture_as_pdf</span> Download PDF</button>
+      </div>
+      <div class="files-stats-grid">
+        <div class="files-stat-card"><div class="files-stat-label">Total Teachers</div><div id="totalTeachersCount" class="files-stat-value files-stat-blue">0</div></div>
+        <div class="files-stat-card"><div class="files-stat-label">Complete Info</div><div id="completeInfoCount" class="files-stat-value files-stat-green">0</div></div>
+        <div class="files-stat-card"><div class="files-stat-label">Incomplete Info</div><div id="incompleteInfoCount" class="files-stat-value files-stat-red">0</div></div>
+        <div class="files-stat-card"><div class="files-stat-label">Schools</div><div id="schoolsCount" class="files-stat-value files-stat-yellow">0</div></div>
+      </div>
+      <div id="files201Loading" class="loading-state">
+        <div class="spinner spinner-lg"></div>
+        <p>Loading 201 files...</p>
+      </div>
+      <div id="files201TableContainer" class="files-table-container hidden">
+        <table class="files-table">
+          <thead><tr>
+            <th>#</th><th>Employee ID</th><th>Last Name</th><th>First Name</th><th>Position</th><th>School</th><th class="text-center">Level</th><th class="text-center">Action</th>
+          </tr></thead>
+          <tbody id="files201List"></tbody>
+        </table>
+      </div>
+      <div id="files201Pagination" class="files-pagination"></div>
+    </div>
+
+    <!-- Archived 201 Files Page -->
+    <div id="archived201-page" class="page-content">
+      <div class="page-header">
+        <h2>Archived 201 Files</h2>
+        <p>View and restore archived teacher 201 files</p>
+      </div>
+      <div class="files-toolbar">
+        <input type="text" id="archived201Search" class="files-search" placeholder="Search archived files..." oninput="searchArchived201()">
+        <button class="btn btn-primary btn-xs" onclick="loadArchived201Files()"><span class="material-icons-outlined">refresh</span> Refresh</button>
+      </div>
+      <div class="files-stats-grid">
+        <div class="files-stat-card"><div class="files-stat-label">Archived Files</div><div id="archivedFilesCount" class="files-stat-value files-stat-yellow">0</div></div>
+      </div>
+      <div id="archived201Loading" class="loading-state">
+        <div class="spinner spinner-lg"></div>
+        <p>Loading archived files...</p>
+      </div>
+      <div id="archived201TableContainer" class="files-table-container hidden">
+        <table class="files-table">
+          <thead><tr>
+            <th>#</th><th>Employee ID</th><th>Last Name</th><th>First Name</th><th>Position</th><th>School</th><th class="text-center">Level</th><th class="text-center">Action</th>
+          </tr></thead>
+          <tbody id="archived201List"></tbody>
+        </table>
+      </div>
+      <div id="archived201Pagination" class="files-pagination"></div>
+    </div>
+
+    <!-- Service Credits Page -->
+    <div id="serviceCredits-page" class="page-content">
+      <div class="page-header">
+        <h2>Service Credits</h2>
+        <p>Manage teacher service credit points</p>
+      </div>
+      <!-- Add Points Panel -->
+      <div class="sc-add-card">
+        <div class="sc-add-header">
+          <span class="material-icons-outlined">add_circle</span>
+          <h3>Add Points</h3>
+        </div>
+        <div class="sc-add-body">
+          <div class="sc-add-grid">
+            <div class="sc-form-field">
+              <label>Teacher Name</label>
+              <div class="sc-search-wrap">
+                <span class="material-icons-outlined sc-search-icon">person_search</span>
+                <input type="text" id="scTeacherInput" class="sc-input" placeholder="Type teacher name..." autocomplete="off" oninput="filterTeacherSuggestions()">
+                <div id="scSuggestions" class="sc-suggestions hidden"></div>
+              </div>
+            </div>
+            <div class="sc-form-field">
+              <label>Date</label>
+              <input type="date" id="scDate" class="sc-input">
+            </div>
+            <div class="sc-form-field">
+              <label>Points</label>
+              <input type="number" id="scPoints" class="sc-input" placeholder="e.g. 1" min="0.5" step="0.5">
+            </div>
+            <div class="sc-form-field">
+              <label>Reason for Credit</label>
+              <input type="text" id="scReason" class="sc-input" placeholder="e.g. Worked during Election Day">
+            </div>
+          </div>
+          <button class="sc-add-btn" onclick="submitAddPoints()"><span class="material-icons-outlined">add_circle</span> Add Points</button>
+        </div>
+      </div>
+      <!-- Teacher Directory -->
+      <div class="card">
+        <div class="card-toolbar">
+          <div class="card-toolbar-left">
+            <h3><span class="material-icons-outlined">people</span> Teacher Directory</h3>
+            <span id="scTeacherCount" class="user-count-badge">0</span>
+          </div>
+          <div class="card-toolbar-right">
+            <div class="search-wrapper">
+              <span class="material-icons-outlined search-icon">search</span>
+              <input type="text" placeholder="Search teacher..." id="scSearch" oninput="searchSCTeachers()">
+            </div>
+            <button class="btn btn-primary btn-xs" onclick="loadServiceCredits()"><span class="material-icons-outlined">refresh</span> Refresh</button>
+          </div>
+        </div>
+        <div id="scLoading" class="loading-state"><div class="spinner spinner-lg"></div><p>Loading teachers...</p></div>
+        <div id="scTableContainer" class="hidden">
+          <div id="scTeacherList" class="sc-teacher-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leave Requests Page -->
+    <div id="leaveRequests-page" class="page-content">
+      <div class="page-header">
+        <h2>Credit Requests</h2>
+        <p>Review and manage teacher leave requests</p>
+      </div>
+      <div class="card">
+        <div class="card-toolbar">
+          <div class="card-toolbar-left">
+            <h3><span class="material-icons-outlined">pending_actions</span> Leave Requests</h3>
+          </div>
+          <div class="card-toolbar-right">
+            <select id="lrStatusFilter" class="files-select" onchange="filterLeaveRequests()">
+              <option value="all">All Requests</option>
+              <option value="Pending" selected>Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Declined">Declined</option>
+            </select>
+            <button class="btn btn-primary btn-xs" onclick="loadLeaveRequests()"><span class="material-icons-outlined">refresh</span> Refresh</button>
+          </div>
+        </div>
+        <div id="lrLoading" class="loading-state"><div class="spinner spinner-lg"></div><p>Loading requests...</p></div>
+        <div id="lrTableContainer" class="hidden">
+          <table class="data-table">
+            <thead><tr><th>Date</th><th>Teacher</th><th>Days</th><th>Reason</th><th>Period</th><th>Status</th><th class="text-center">Action</th></tr></thead>
+            <tbody id="lrList"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Settings Page -->
+    <div id="adminSettings-page" class="page-content">
+      <div class="page-header">
+        <h2>Admin Settings</h2>
+        <p>Configure your admin email and 6-digit PIN</p>
+      </div>
+      <div class="card card-narrow">
+        <div class="card-body">
+          <h3 class="admin-settings-title"><span class="material-icons-outlined">admin_panel_settings</span> Admin Account Settings</h3>
+          <div class="admin-settings-field">
+            <label class="admin-settings-label">Admin Email</label>
+            <input type="email" id="adminSettingsEmail" class="sc-input settings-input" placeholder="Enter admin email">
+          </div>
+          <div class="admin-settings-field">
+            <label class="admin-settings-label">Current 6-Digit PIN</label>
+            <input type="tel" id="adminSettingsCurrentPin" class="sc-input settings-input" placeholder="Enter current PIN" maxlength="6" pattern="[0-9]*" inputmode="numeric">
+          </div>
+          <div class="admin-settings-field">
+            <label class="admin-settings-label">New 6-Digit PIN (leave blank to keep current)</label>
+            <input type="tel" id="adminSettingsNewPin" class="sc-input settings-input" placeholder="Enter new 6-digit PIN" maxlength="6" pattern="[0-9]*" inputmode="numeric">
+          </div>
+          <div class="admin-settings-field">
+            <label class="admin-settings-label">Confirm New PIN</label>
+            <input type="tel" id="adminSettingsConfirmPin" class="sc-input settings-input" placeholder="Confirm new 6-digit PIN" maxlength="6" pattern="[0-9]*" inputmode="numeric">
+          </div>
+          <div id="adminSettingsError" class="admin-settings-error" style="display:none;"></div>
+          <div id="adminSettingsSuccess" class="admin-settings-success" style="display:none;"></div>
+          <button class="btn-scan btn-full" onclick="saveAdminSettings()">
+            <span class="material-icons-outlined">save</span> Save Settings
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin Management Section -->
+      <div class="card admin-mgmt-card">
+        <div class="admin-mgmt-header">
+          <span class="material-icons-outlined">group_add</span>
+          <h3>Admin Management</h3>
+        </div>
+        <div class="admin-mgmt-body">
+          <div class="admin-mgmt-add-form">
+            <input type="email" id="newAdminEmail" class="sc-input settings-input" placeholder="New admin email">
+            <input type="tel" id="newAdminPin" class="sc-input settings-input" placeholder="6-digit PIN" maxlength="6" pattern="[0-9]*" inputmode="numeric">
+            <button class="admin-mgmt-add-btn" onclick="addNewAdminUI()">
+              <span class="material-icons-outlined">person_add</span> Add Admin
+            </button>
+          </div>
+          <div id="adminListContainer" class="admin-list-loading">Loading admin list...</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ===== PAGE NAVIGATION =====
+    function showPage(pageName) {
+      document.querySelectorAll('.page-content').forEach(function(p) { p.classList.remove('active'); p.style.display = 'none'; });
+      document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+      var target = document.getElementById(pageName + '-page');
+      if (target) { target.classList.add('active'); target.style.display = 'block'; }
+      var navItem = document.querySelector('[data-page="' + pageName + '"]');
+      if (navItem) navItem.classList.add('active');
+      // Close sidebar on mobile after navigation
+      closeSidebar();
+      if (pageName === 'files201') {
+        if (!filesPinVerified) { showFilesPinGate('files201'); return; }
+        load201Files();
+      }
+      if (pageName === 'archived201') {
+        if (!filesPinVerified) { showFilesPinGate('archived201'); return; }
+        loadArchived201Files();
+      }
+      if (pageName === 'attendance') {
+        if (!document.getElementById('attendanceDate').value) {
+          document.getElementById('attendanceDate').value = getManilaToday();
+          loadAttendance();
+        }
+      }
+      if (pageName === 'serviceCredits') { loadServiceCredits(); document.getElementById('scDate').value = getManilaToday(); }
+      if (pageName === 'leaveRequests') loadLeaveRequests();
+      if (pageName === 'scanner') loadScannerSettings();
+      if (pageName === 'adminSettings') { loadAdminSettings(); loadAdminList(); }
+    }
+
+    function toggleSidebar() {
+      var sidebar = document.getElementById('sidebar');
+      var overlay = document.getElementById('sidebarOverlay');
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('active');
+    }
+
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebarOverlay').classList.remove('active');
+    }
+
+    // ===== DASHBOARD =====
+    var dashboardData = {};
+
+    function refreshDashboard() {
+      google.script.run.withSuccessHandler(function(d) {
+        dashboardData = d;
+        document.getElementById('totalUsers').textContent = d.totalRegistered || 0;
+        document.getElementById('presentToday').textContent = d.presentCount || 0;
+        document.getElementById('absentToday').textContent = d.absentCount || 0;
+        document.getElementById('lateToday').textContent = d.lateCount || 0;
+        document.getElementById('earlyOutToday').textContent = d.earlyOutCount || 0;
+      }).getAdminDashboardData();
+    }
+
+    function refreshAllDashboardData() {
+      var btn = document.getElementById('dashRefreshBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-icons-outlined icon-spin">refresh</span> Refreshing...';
+      refreshDashboard();
+      loadUsers();
+      document.getElementById('attendanceDate').value = getManilaToday();
+      loadAttendance();
+      setTimeout(function() {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-icons-outlined">refresh</span> Refresh';
+        showToast('Dashboard refreshed!');
+      }, 1500);
+    }
+
+    // Present/Absent name list modal
+    function showPresentAbsentModal(type) {
+      var names, title, icon, color;
+      if (type === 'present') { names = dashboardData.presentNames || []; title = 'Present Today'; icon = 'check_circle'; color = '#2563eb'; }
+      else if (type === 'absent') { names = dashboardData.absentNames || []; title = 'Absent Today'; icon = 'cancel'; color = '#ef4444'; }
+      else if (type === 'late') { names = dashboardData.lateNames || []; title = 'Late Today'; icon = 'schedule'; color = '#f59e0b'; }
+      else if (type === 'earlyout') { names = dashboardData.earlyOutNames || []; title = 'Early Out Today'; icon = 'exit_to_app'; color = '#8b5cf6'; }
+      else { names = []; title = ''; icon = ''; color = '#1e293b'; }
+      var h = '<div class="modal-overlay" id="paModal" onclick="if(event.target===this)closePAModal()">';
+      h += '<div class="modal-box">';
+      h += '<div class="modal-header-colored" style="background:'+color+'"><div><h3>'+title+'</h3><div class="modal-subtitle">'+names.length+' teacher(s)</div></div><button class="modal-close-btn" onclick="closePAModal()">&#10005;</button></div>';
+      h += '<div class="modal-body pa-modal-body">';
+      if (names.length === 0) {
+        h += '<div class="empty-state"><span class="material-icons-outlined empty-state-icon">'+icon+'</span><p>No teachers ' + (type === 'present' ? 'present' : 'absent') + ' today</p></div>';
+      } else {
+        h += '<ul class="pa-name-list">';
+        names.forEach(function(n, i) {
+          h += '<li class="pa-name-item"><span class="pa-name-num">'+(i+1)+'</span><span class="pa-name-text">'+escapeH(n)+'</span></li>';
+        });
+        h += '</ul>';
+      }
+      h += '</div>';
+      h += '<div class="modal-footer"><button class="btn" onclick="closePAModal()">Close</button></div>';
+      h += '</div></div>';
+      var old = document.getElementById('paModal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+    }
+
+    function closePAModal() { var e = document.getElementById('paModal'); if(e) e.remove(); }
+
+    // Total Users name list modal
+    function showTotalUsersModal() {
+      var allNames = [];
+      if (dashboardData.presentNames) allNames = allNames.concat(dashboardData.presentNames);
+      if (dashboardData.absentNames) allNames = allNames.concat(dashboardData.absentNames);
+      allNames.sort(function(a, b) { return a.localeCompare(b); });
+      var title = 'Total Registered Users';
+      var color = '#1e293b';
+      var h = '<div class="modal-overlay" id="paModal" onclick="if(event.target===this)closePAModal()">';
+      h += '<div class="modal-box">';
+      h += '<div class="modal-header-colored" style="background:'+color+'"><div><h3>'+title+'</h3><div class="modal-subtitle">'+allNames.length+' user(s)</div></div><button class="modal-close-btn" onclick="closePAModal()">&#10005;</button></div>';
+      h += '<div class="modal-body pa-modal-body">';
+      if (allNames.length === 0) {
+        h += '<div class="empty-state"><span class="material-icons-outlined empty-state-icon">people</span><p>No registered users</p></div>';
+      } else {
+        h += '<ul class="pa-name-list">';
+        allNames.forEach(function(n, i) {
+          h += '<li class="pa-name-item"><span class="pa-name-num">'+(i+1)+'</span><span class="pa-name-text">'+escapeH(n)+'</span></li>';
+        });
+        h += '</ul>';
+      }
+      h += '</div>';
+      h += '<div class="modal-footer"><button class="btn" onclick="closePAModal()">Close</button></div>';
+      h += '</div></div>';
+      var old = document.getElementById('paModal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+    }
+
+    // ===== TOAST =====
+    function showToast(msg, isError) {
+      var old = document.getElementById('adminToast');
+      if (old) old.remove();
+      var t = document.createElement('div');
+      t.id = 'adminToast';
+      t.className = 'toast ' + (isError ? 'toast-error' : 'toast-success');
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(function() { t.remove(); }, 3500);
+    }
+
+    function escapeH(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+    // ===== NFC SCANNER =====
+    var recentScansList = [];
+
+    function openScannerNewTab() {
+      google.script.run.withSuccessHandler(function(url) {
+        if (url) window.open(url + '?page=scanner', '_blank');
+      }).getScriptUrl();
+    }
+
+    
+    // ===== Scanner Settings Functions =====
+    function loadScannerSettings() {
+      var container = document.getElementById('ssConfiguredDates');
+      container.innerHTML = '<div class="scan-result-placeholder"><div class="spinner"></div><p>Loading...</p></div>';
+      google.script.run.withSuccessHandler(function(settings) {
+        if (!settings || settings.length === 0) {
+          container.innerHTML = '<div class="scan-result-placeholder"><span class="material-icons-outlined">event_busy</span><p>No dates configured yet</p></div>';
+          return;
+        }
+        var html = '';
+        settings.forEach(function(s) {
+          html += '<div class="ss-date-row">';
+          html += '<div class="ss-date-info"><strong>' + s.date + '</strong><br><span class="ss-date-reason">' + (s.reason || '') + '</span></div>';
+          html += '<div class="ss-date-actions">';
+          html += '<span class="ss-credit-amount">' + s.creditAmount + ' pts</span>';
+          if (s.active) {
+            html += '<span class="ss-status-active">Active</span>';
+            html += '<button onclick="toggleSS(' + s.rowIndex + ',false)" class="ss-toggle-btn">Disable</button>';
+          } else {
+            html += '<span class="ss-status-disabled">Disabled</span>';
+            html += '<button onclick="toggleSS(' + s.rowIndex + ',true)" class="ss-toggle-btn">Enable</button>';
+          }
+          html += '<button onclick="deleteSS(' + s.rowIndex + ')" class="ss-delete-btn"><span class="material-icons-outlined">delete</span></button>';
+          html += '</div></div>';
+        });
+        container.innerHTML = html;
+      }).withFailureHandler(function(e) {
+        container.innerHTML = '<div class="scan-result-placeholder"><span class="material-icons-outlined">error</span><p>Failed to load settings</p></div>';
+      }).getScannerSettings();
+    }
+
+    function saveSSSettings() {
+      var date = document.getElementById('ssDate').value;
+      var credits = document.getElementById('ssCredits').value;
+      var reason = document.getElementById('ssReason').value;
+      if (!date) { showToast('Please select a date.', true); return; }
+      if (!credits || parseFloat(credits) <= 0) { showToast('Please enter a valid credit amount.', true); return; }
+      if (!reason) { showToast('Please enter a reason.', true); return; }
+      var btn = document.getElementById('ssSaveBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner spinner-sm"></div> Saving...';
+      google.script.run.withSuccessHandler(function(r) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-icons-outlined">save</span> Save Settings';
+        if (r && r.success) {
+          showToast(r.message || 'Settings saved!');
+          document.getElementById('ssDate').value = '';
+          document.getElementById('ssCredits').value = '';
+          document.getElementById('ssReason').value = '';
+          loadScannerSettings();
+        } else {
+          showToast((r && r.message) || 'Failed to save settings.', true);
+        }
+      }).withFailureHandler(function(e) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-icons-outlined">save</span> Save Settings';
+        showToast('Error: ' + e.message, true);
+      }).saveScannerSettings(date, parseFloat(credits), reason);
+    }
+
+    function toggleSS(rowIndex, active) {
+      google.script.run.withSuccessHandler(function(r) {
+        if (r && r.success) {
+          showToast(r.message || 'Setting updated!');
+          loadScannerSettings();
+        } else {
+          showToast((r && r.message) || 'Failed to update.', true);
+        }
+      }).withFailureHandler(function(e) {
+        showToast('Error: ' + e.message, true);
+      }).toggleScannerSetting(rowIndex, active);
+    }
+
+    function deleteSS(rowIndex) {
+      if (!confirm('Delete this scanner setting?')) return;
+      google.script.run.withSuccessHandler(function(r) {
+        if (r && r.success) {
+          showToast(r.message || 'Setting deleted!');
+          loadScannerSettings();
+        } else {
+          showToast((r && r.message) || 'Failed to delete.', true);
+        }
+      }).withFailureHandler(function(e) {
+        showToast('Error: ' + e.message, true);
+      }).deleteScannerSetting(rowIndex);
+    }
+
+    function scanNfc() {
+      var uid = document.getElementById('scannerUidInput').value.trim();
+      if (!uid) { showToast('Please enter or scan an NFC UID.', true); return; }
+      var btn = document.getElementById('scanBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner spinner-sm"></div> Scanning...';
+      google.script.run.withSuccessHandler(function(r) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-icons-outlined">sensors</span> Record Attendance';
+        showScanResult(r);
+        document.getElementById('scannerUidInput').value = '';
+        document.getElementById('scannerUidInput').focus();
+      }).withFailureHandler(function(err) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-icons-outlined">sensors</span> Record Attendance';
+        document.getElementById('scanResult').innerHTML = '<div class="scan-error"><div class="scan-error-circle"><span class="material-icons-outlined">error</span></div><p class="scan-error-msg">Error</p><p>' + err + '</p></div>';
+      }).recordAttendance(uid);
+    }
+
+    function showScanResult(r) {
+      var el = document.getElementById('scanResult');
+      if (!r || !r.success) {
+        el.innerHTML = '<div class="scan-error"><div class="scan-error-circle"><span class="material-icons-outlined">error</span></div><p class="scan-error-msg">' + (r ? r.message : 'Unknown error') + '</p></div>';
+        return;
+      }
+      var d = r;
+      var imgHtml;
+      if (d.imageUrl) {
+        imgHtml = '<img class="scan-avatar" src="' + d.imageUrl + '">';
+      } else {
+        imgHtml = '<div class="scan-avatar-placeholder"><span class="material-icons-outlined">person</span></div>';
+      }
+      var greetHtml = '';
+      if (d.greeting) {
+        greetHtml = '<div class="greeting-banner" style="background:' + (d.greeting.bgColor || '#e8f5e9') + ';border-color:' + (d.greeting.borderColor || '#4caf50') + ';"><div class="greeting-text" style="color:' + (d.greeting.textColor || '#2e7d32') + ';">' + d.greeting.message + '</div></div>';
+      }
+      var bdayHtml = '';
+      if (d.birthday) {
+        bdayHtml = '<div class="birthday-card"><div class="birthday-emoji">🎂🎉🎈</div><div class="birthday-title">🎊 Happy Birthday! 🎊</div><div class="birthday-name">' + d.name + '</div><div class="birthday-wish">Wishing you a wonderful day filled with joy!</div><div class="birthday-emoji-bottom">🎁🥳🎶</div></div>';
+      }
+      var h = '<div class="scan-success">' + imgHtml;
+      h += '<div class="scan-name">' + escapeH(d.name) + '</div>';
+      h += '<div class="scan-badges"><span class="scan-badge scan-badge-type">' + (d.type || '') + '</span><span class="scan-badge scan-badge-time">' + (d.time || '') + '</span></div>';
+      h += greetHtml + bdayHtml;
+      h += '<div class="scan-confirm"><span class="material-icons-outlined">check_circle</span> ' + (d.message || 'Recorded') + '</div></div>';
+      el.innerHTML = h;
+      recentScansList.unshift({ name: d.name, type: d.type, time: d.time });
+      if (recentScansList.length > 10) recentScansList.pop();
+      renderRecentScans();
+      refreshDashboard();
+    }
+
+    function renderRecentScans() {
+      var el = document.getElementById('recentScans');
+      if (!recentScansList.length) { el.innerHTML = '<div class="recent-scans-empty">No scans yet</div>'; return; }
+      var h = '';
+      recentScansList.forEach(function(s) {
+        h += '<div class="recent-scan-item"><span class="recent-scan-name">' + escapeH(s.name) + '</span><span class="recent-scan-time">' + s.type + ' • ' + s.time + '</span></div>';
+      });
+      el.innerHTML = h;
+    }
+
+    // ===== USERS =====
+    var allUsersData = [];
+
+    function loadUsers() {
+      google.script.run.withSuccessHandler(function(users) {
+        allUsersData = users || [];
+        document.getElementById('userCountBadge').textContent = allUsersData.length;
+        renderUsers(allUsersData);
+      }).getRegisteredUsers();
+    }
+
+    function searchUsers() {
+      var q = document.getElementById('userSearch').value.toLowerCase();
+      var clear = document.getElementById('userSearchClear');
+      clear.style.display = q ? 'block' : 'none';
+      var filtered = !q ? allUsersData : allUsersData.filter(function(u) {
+        return ((u.name||'')+(u.uid||'')+(u.email||'')).toLowerCase().indexOf(q) !== -1;
+      });
+      renderUsers(filtered);
+    }
+
+    function renderUsers(users) {
+      var el = document.getElementById('usersList');
+      if (!users.length) { el.innerHTML = '<div class="empty-state"><span class="material-icons-outlined empty-state-icon">person_off</span><p>No users found</p></div>'; return; }
+      var h = '';
+      users.forEach(function(u, i) {
+        var imgHtml = u.imageUrl ? '<img class="user-avatar" src="' + u.imageUrl + '">' : '<div class="user-avatar-placeholder"><span class="material-icons-outlined">person</span></div>';
+        h += '<div class="user-card-item">' + imgHtml + '<div class="user-info"><div class="user-info-name">' + escapeH(u.name) + '</div><div class="user-info-meta"><span class="user-meta-tag"><span class="material-icons-outlined">nfc</span> ' + escapeH(u.uid) + '</span>';
+        if (u.email) h += '<span class="user-meta-tag"><span class="material-icons-outlined">email</span> ' + escapeH(u.email) + '</span>';
+        h += '</div></div><div class="user-actions"><button class="btn btn-primary btn-sm" onclick="openEditUserModal(' + i + ')"><span class="material-icons-outlined">edit</span></button><button class="btn btn-danger-outline btn-sm" onclick="if(confirm(\'Delete ' + escapeH(u.name).replace(/'/g,"\\'") + '?\'))deleteUser(\'' + escapeH(u.uid).replace(/'/g,"\\'") + '\')"><span class="material-icons-outlined">delete</span></button><button class="btn btn-sm" onclick="if(confirm(\'Reset PIN for ' + escapeH(u.name).replace(/'/g,"\\'") + '?\'))resetPin(\'' + escapeH(u.uid).replace(/'/g,"\\'") + '\')" title="Reset PIN"><span class="material-icons-outlined">lock_reset</span></button></div></div>';
+      });
+      el.innerHTML = h;
+    }
+
+    function deleteUser(uid) {
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) { showToast(r.message); loadUsers(); }
+        else showToast(r.message, true);
+      }).deleteRegisteredUser(uid);
+    }
+
+    function resetPin(uid) {
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) showToast(r.message);
+        else showToast(r.message, true);
+      }).resetTeacherPin(uid);
+    }
+
+    // ===== REGISTER USER MODAL =====
+    function openRegisterModal() {
+      var h = '<div class="modal-overlay" id="regUserModal" onclick="if(event.target===this)closeRegModal()">';
+      h += '<div class="modal-box">';
+      h += '<div class="modal-header-colored modal-header-green"><div><h3>Register New NFC User</h3><div class="modal-subtitle">Add a new teacher or staff member</div></div><button class="modal-close-btn" onclick="closeRegModal()">&#10005;</button></div>';
+      h += '<div class="modal-body">';
+      h += uf('NFC Card UID','regUid','text','Scan or enter the NFC UID');
+      h += uf('Full Name','regName','text','e.g. Juan Dela Cruz');
+      h += uf('Email Address','regEmail','email','e.g. juan@school.edu.ph');
+      h += uf('Profile Image URL (optional)','regImage','text','Google Drive link or image URL');
+      h += '</div>';
+      h += '<div class="modal-footer"><button class="btn" onclick="closeRegModal()">Cancel</button><button class="btn btn-success" id="regSubmitBtn" onclick="submitRegister()">Register</button></div>';
+      h += '</div></div>';
+      var old = document.getElementById('regUserModal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+    }
+
+    function uf(label, id, type, placeholder) {
+      return '<div class="modal-field"><label>'+label+'</label><input type="'+type+'" id="'+id+'" class="modal-input" placeholder="'+placeholder+'"></div>';
+    }
+
+    function closeRegModal() { var e = document.getElementById('regUserModal'); if(e) e.remove(); }
+
+    function submitRegister() {
+      var uid = document.getElementById('regUid').value.trim();
+      var name = document.getElementById('regName').value.trim();
+      var email = document.getElementById('regEmail').value.trim();
+      var image = document.getElementById('regImage').value.trim();
+      if (!uid || !name) { showToast('NFC UID and Name are required.', true); return; }
+      var btn = document.getElementById('regSubmitBtn');
+      btn.disabled = true; btn.textContent = 'Registering...';
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) { closeRegModal(); showToast(r.message); loadUsers(); }
+        else { showToast(r.message, true); btn.disabled = false; btn.textContent = 'Register'; }
+      }).withFailureHandler(function(err) { showToast('Error: ' + err, true); btn.disabled = false; btn.textContent = 'Register'; }).addRegisteredUser(uid, name, image, email);
+    }
+
+    // ===== EDIT USER MODAL =====
+    function openEditUserModal(idx) {
+      var u = allUsersData.filter(function(u) {
+        var q = (document.getElementById('userSearch').value || '').toLowerCase();
+        if (!q) return true;
+        return ((u.name||'')+(u.uid||'')+(u.email||'')).toLowerCase().indexOf(q) !== -1;
+      })[idx];
+      if (!u) return;
+      var h = '<div class="modal-overlay" id="editUserModal" onclick="if(event.target===this)closeEditUserModal()">';
+      h += '<div class="modal-box">';
+      h += '<div class="modal-header-colored modal-header-blue"><div><h3>Edit User</h3><div class="modal-subtitle">Update user information</div></div><button class="modal-close-btn" onclick="closeEditUserModal()">&#10005;</button></div>';
+      h += '<div class="modal-body">';
+      h += '<input type="hidden" id="editOrigUid" value="'+escapeH(u.uid)+'">';
+      h += uf('NFC Card UID','editUid','text','NFC UID');
+      h += uf('Full Name','editName','text','Full Name');
+      h += uf('Email Address','editEmail','email','Email');
+      h += uf('Profile Image URL','editImage','text','Google Drive link or image URL');
+      h += '</div>';
+      h += '<div class="modal-footer"><button class="btn" onclick="closeEditUserModal()">Cancel</button><button class="btn btn-primary" id="editSubmitBtn" onclick="submitEditUser()">Save Changes</button></div>';
+      h += '</div></div>';
+      var old = document.getElementById('editUserModal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+      document.getElementById('editUid').value = u.uid || '';
+      document.getElementById('editName').value = u.name || '';
+      document.getElementById('editEmail').value = u.email || '';
+      document.getElementById('editImage').value = u.imageRaw || '';
+    }
+
+    function closeEditUserModal() { var e = document.getElementById('editUserModal'); if(e) e.remove(); }
+
+    function submitEditUser() {
+      var origUid = document.getElementById('editOrigUid').value;
+      var uid = document.getElementById('editUid').value.trim();
+      var name = document.getElementById('editName').value.trim();
+      var email = document.getElementById('editEmail').value.trim();
+      var image = document.getElementById('editImage').value.trim();
+      if (!uid || !name) { showToast('UID and Name are required.', true); return; }
+      var btn = document.getElementById('editSubmitBtn');
+      btn.disabled = true; btn.textContent = 'Saving...';
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) { closeEditUserModal(); showToast(r.message); loadUsers(); }
+        else { showToast(r.message, true); btn.disabled = false; btn.textContent = 'Save Changes'; }
+      }).withFailureHandler(function(err) { showToast('Error: ' + err, true); btn.disabled = false; btn.textContent = 'Save Changes'; }).updateRegisteredUser(origUid, uid, name, image, email);
+    }
+
+    // ===== ATTENDANCE =====
+    function getManilaToday() {
+      var d = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+      return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    }
+
+    function setAttToday() {
+      document.getElementById('attendanceDate').value = getManilaToday();
+      loadAttendance();
+    }
+
+    function setAttYesterday() {
+      var d = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+      d.setDate(d.getDate() - 1);
+      document.getElementById('attendanceDate').value = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+      loadAttendance();
+    }
+
+    function shiftAttDate(dir) {
+      var inp = document.getElementById('attendanceDate');
+      if (!inp.value) { setAttToday(); return; }
+      var parts = inp.value.split('-');
+      var d = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+      d.setDate(d.getDate() + dir);
+      inp.value = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+      loadAttendance();
+    }
+
+    function formatAttDateLabel(dateStr) {
+      if (!dateStr) return '';
+      var parts = dateStr.split('-');
+      var d = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+      var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      var today = getManilaToday();
+      var label = days[d.getDay()] + ', ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+      if (dateStr === today) label += '  (Today)';
+      return label;
+    }
+
+    var currentAttRecords = [];
+    var currentAttDate = '';
+
+    function loadAttendance() {
+      var date = document.getElementById('attendanceDate').value;
+      if (!date) return;
+      currentAttDate = date;
+      var lbl = document.getElementById('attDateLabel');
+      lbl.innerHTML = '<span class="material-icons-outlined">event</span>' + formatAttDateLabel(date);
+      var tbody = document.getElementById('attendanceList');
+      tbody.innerHTML = '<tr><td colspan="5" class="loading-state"><div class="spinner spinner-md"></div><p>Loading...</p></td></tr>';
+      google.script.run.withSuccessHandler(function(result) {
+        tbody.innerHTML = '';
+        var records = result && result.records ? result.records : (Array.isArray(result) ? result : []);
+        currentAttRecords = records || [];
+        if (!records || records.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><span class="material-icons-outlined empty-state-icon">person_off</span>No records for this date</td></tr>';
+          return;
+        }
+        records.forEach(function(r) {
+          var tr = document.createElement('tr');
+          var amClass = r.amLabel ? (r.amLabel === 'Late' ? 'badge-late' : 'badge-early') : '';
+          var pmClass = r.pmLabel ? (r.pmLabel === 'Early Out' ? 'badge-late' : 'badge-early') : '';
+          tr.innerHTML = '<td>' + (r.name||'') + '</td><td>' + (r.amTime||'-') + '</td><td><span class="att-status ' + amClass + '">' + (r.amLabel||'-') + '</span></td><td>' + (r.pmTime||'-') + '</td><td><span class="att-status ' + pmClass + '">' + (r.pmLabel||'-') + '</span></td>';
+          tbody.appendChild(tr);
+        });
+      }).getAttendanceByDate(date);
+    }
+
+    // ===== CSV DOWNLOAD =====
+    function escapeCSV(val) {
+      var s = (val == null ? '' : String(val));
+      if (s.indexOf(',') > -1 || s.indexOf('"') > -1 || s.indexOf('\n') > -1) {
+        return '"' + s.replace(/"/g, '""') + '"';
+      }
+      return s;
+    }
+
+    function triggerCSVDownload(csvContent, filename) {
+      try {
+        var blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(function() { document.body.removeChild(link); URL.revokeObjectURL(url); }, 100);
+      } catch(e) {
+        var encoded = 'data:text/csv;charset=utf-8,' + encodeURIComponent('\uFEFF' + csvContent);
+        var w = window.open(encoded, '_blank');
+        if (!w) {
+          var link2 = document.createElement('a');
+          link2.href = encoded;
+          link2.target = '_blank';
+          link2.click();
+        }
+      }
+    }
+
+    function downloadAttendanceCSV() {
+      if (!currentAttRecords || currentAttRecords.length === 0) {
+        showToast('No attendance data to download. Select a date first.', true);
+        return;
+      }
+      var headers = ['Name', 'AM Time-In', 'AM Status', 'PM Time-Out', 'PM Status'];
+      var rows = [headers.map(escapeCSV).join(',')];
+      currentAttRecords.forEach(function(r) {
+        rows.push([escapeCSV(r.name||''), escapeCSV(r.amTime||'-'), escapeCSV(r.amLabel||'-'), escapeCSV(r.pmTime||'-'), escapeCSV(r.pmLabel||'-')].join(','));
+      });
+      triggerCSVDownload(rows.join('\n'), 'Attendance_' + (currentAttDate || 'unknown') + '.csv');
+      showToast('Attendance CSV downloaded!');
+    }
+
+    function downloadAll201FilesPDF() {
+      var data = filtered201Teachers && filtered201Teachers.length > 0 ? filtered201Teachers : all201Teachers;
+      if (!data || data.length === 0) {
+        showToast('No 201 files data to download.', true);
+        return;
+      }
+      var sorted = data.slice().sort(function(a, b) {
+        var la = (a.lastName || '').toLowerCase(), lb = (b.lastName || '').toLowerCase();
+        if (la !== lb) return la < lb ? -1 : 1;
+        var fa = (a.firstName || '').toLowerCase(), fb = (b.firstName || '').toLowerCase();
+        return fa < fb ? -1 : fa > fb ? 1 : 0;
+      });
+
+      var jsPDF = window.jspdf.jsPDF;
+      var doc = new jsPDF('l', 'mm', 'a4');
+      var pw = 297, ph = 210, mx = 10;
+
+      // --- Cover Page ---
+      doc.setFillColor(37, 99, 235);
+      doc.rect(0, 0, pw, 50, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(22);
+      doc.setFont('helvetica', 'bold');
+      doc.text('TeachTap - Teachers 201 Files', mx + 5, 25);
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Total Teachers: ' + sorted.length + '  |  Generated: ' + new Date().toLocaleString('en-PH', {timeZone: 'Asia/Manila'}), mx + 5, 40);
+
+      // --- Summary Table ---
+      var y = 60;
+      doc.setTextColor(30, 41, 59);
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Summary Table', mx + 2, y);
+      y += 8;
+
+      var sumHeaders = ['No.', 'Employee ID', 'Last Name', 'First Name', 'Position', 'School', 'Level'];
+      var colW = [12, 28, 32, 32, 38, 55, 22];
+      var tableW = colW.reduce(function(a,b){return a+b;}, 0);
+
+      // Header row
+      doc.setFillColor(37, 99, 235);
+      doc.rect(mx, y, tableW, 8, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'bold');
+      var cx = mx;
+      sumHeaders.forEach(function(h, idx) {
+        doc.text(h, cx + 2, y + 5.5);
+        cx += colW[idx];
+      });
+      y += 8;
+
+      doc.setFont('helvetica', 'normal');
+      sorted.forEach(function(t, idx) {
+        if (y > ph - 15) { doc.addPage('a4', 'l'); y = 15; }
+        var bg = idx % 2 === 0 ? [248, 250, 252] : [255, 255, 255];
+        doc.setFillColor(bg[0], bg[1], bg[2]);
+        doc.rect(mx, y, tableW, 7, 'F');
+        doc.setTextColor(30, 41, 59);
+        doc.setFontSize(7);
+        cx = mx;
+        var vals = [String(idx+1), t.employee||'', t.lastName||'', t.firstName||'', t.positionTitle||'', t.school||'', t.level||''];
+        vals.forEach(function(v, vi) {
+          var txt = String(v).substring(0, Math.floor(colW[vi] / 1.8));
+          doc.text(txt, cx + 2, y + 4.5);
+          cx += colW[vi];
+        });
+        y += 7;
+      });
+
+      // --- Individual 201 File pages ---
+      sorted.forEach(function(t) {
+        doc.addPage('a4', 'p');
+        var pw2 = 210, ph2 = 297, mx2 = 15, cw2 = pw2 - 2 * mx2;
+        var y2 = 15;
+
+        // Header bar
+        doc.setFillColor(37, 99, 235);
+        doc.rect(0, 0, pw2, 35, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(18);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Teacher 201 File', mx2, 15);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        var fn = ((t.firstName || '') + ' ' + (t.middleName || '') + ' ' + (t.lastName || '') + ' ' + (t.ext || '')).replace(/\s+/g, ' ').trim() || 'N/A';
+        doc.text(fn, mx2, 24);
+        doc.setFontSize(9);
+        doc.text('Employee ID: ' + (t.employee || 'N/A') + '  |  ' + (t.positionTitle || 'N/A') + '  |  ' + (t.level || 'N/A'), mx2, 31);
+        y2 = 45;
+
+        function secHead(title) {
+          if (y2 > ph2 - 30) { doc.addPage(); y2 = 15; }
+          doc.setFillColor(241, 245, 249);
+          doc.rect(mx2, y2, cw2, 8, 'F');
+          doc.setTextColor(30, 41, 59);
+          doc.setFontSize(11);
+          doc.setFont('helvetica', 'bold');
+          doc.text(title, mx2 + 3, y2 + 5.5);
+          y2 += 12;
+        }
+
+        function tblRow(rows2) {
+          if (y2 > ph2 - 20) { doc.addPage(); y2 = 15; }
+          var rw = cw2 / rows2.length;
+          rows2.forEach(function(pair, pi) {
+            var xp = mx2 + pi * rw;
+            doc.setTextColor(100, 116, 139);
+            doc.setFontSize(7);
+            doc.setFont('helvetica', 'bold');
+            doc.text(pair[0].toUpperCase(), xp + 2, y2);
+            doc.setTextColor(30, 41, 59);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            var val = (!pair[1] || String(pair[1]).trim() === '') ? 'N/A' : String(pair[1]);
+            var lines = doc.splitTextToSize(val, rw - 4);
+            doc.text(lines, xp + 2, y2 + 4);
+          });
+          y2 += 10;
+        }
+
+        secHead('Personal Information');
+        tblRow([['Last Name', t.lastName], ['First Name', t.firstName], ['Middle Name', t.middleName], ['Extension', t.ext]]);
+        tblRow([['Date of Birth', t.dateOfBirth], ['Gender', t.gender], ['Eligibility', t.eligibility], ['Employee ID', t.employee]]);
+        tblRow([['Complete Address', t.completeAddress]]);
+
+        secHead('School / Employment Information');
+        tblRow([['EDDIS', t.eddis], ['District', t.district], ['School', t.school], ['Level', t.level]]);
+        tblRow([['SHS Track & Strand', t.shsTrackStrand], ['Item Number', t.itemNumber], ['Position Title', t.positionTitle], ['Salary Grade', t.sg]]);
+        tblRow([['Step', t.step], ['Date of Original Appointment', t.dateOfOriginalApt], ['Date of Last Promotion', t.dateOfLastPromotion]]);
+
+        secHead('Education / Qualification');
+        tblRow([['Course & Major (College)', t.courseMajorCollege]]);
+        tblRow([['Graduate Studies', t.courseMajorGraduate]]);
+
+        secHead('Government IDs');
+        tblRow([['PhilHealth', t.philhealth], ['GSIS BP Number', t.gsisBp], ['Pag-IBIG Number', t.pagibig], ['TIN Number', t.tin]]);
+
+        // Footer
+        y2 += 5;
+        if (y2 > ph2 - 20) { doc.addPage(); y2 = 15; }
+        doc.setDrawColor(203, 213, 225);
+        doc.line(mx2, y2, pw2 - mx2, y2);
+        y2 += 5;
+        doc.setTextColor(148, 163, 184);
+        doc.setFontSize(8);
+        doc.text('Generated by TeachTap on ' + new Date().toLocaleString('en-PH', {timeZone: 'Asia/Manila'}), mx2, y2);
+      });
+
+      doc.save('201_Files_All_Teachers_' + new Date().toISOString().slice(0,10) + '.pdf');
+      showToast('201 Files PDF downloaded with ' + sorted.length + ' teacher records!');
+    }
+
+    // ===== 201 FILES =====
+    var all201Teachers = [];
+    var filtered201Teachers = [];
+    var current201Page = 1;
+    var rows201PerPage = 15;
+    var current201Teacher = null;
+
+    function load201Files() {
+      document.getElementById('files201Loading').style.display = 'block';
+      document.getElementById('files201TableContainer').style.display = 'none';
+      google.script.run.withSuccessHandler(function(result) {
+        if (result.success) {
+          all201Teachers = result.data;
+          filtered201Teachers = all201Teachers.slice();
+          update201Stats();
+          current201Page = 1;
+          render201Table();
+        } else { showToast('Error: ' + result.error, true); }
+        document.getElementById('files201Loading').style.display = 'none';
+        document.getElementById('files201TableContainer').style.display = 'block';
+      }).withFailureHandler(function(err) {
+        showToast('Failed: ' + err, true);
+        document.getElementById('files201Loading').style.display = 'none';
+        document.getElementById('files201TableContainer').style.display = 'block';
+      }).getAll201Files();
+    }
+
+    function update201Stats() {
+      document.getElementById('totalTeachersCount').textContent = all201Teachers.length;
+      var c=0, ic=0; var schools = new Set();
+      all201Teachers.forEach(function(t) {
+        if (t.lastName && t.firstName && t.philhealth && t.gsisBp && t.pagibig && t.tin) c++; else ic++;
+        if (t.school) schools.add(t.school);
+      });
+      document.getElementById('completeInfoCount').textContent = c;
+      document.getElementById('incompleteInfoCount').textContent = ic;
+      document.getElementById('schoolsCount').textContent = schools.size;
+    }
+
+    function ni(v) { return (!v || String(v).trim()==='') ? '<span class="no-info">No Info</span>' : String(v); }
+
+    function render201Table() {
+      var tb = document.getElementById('files201List'); tb.innerHTML = '';
+      var s = (current201Page-1)*rows201PerPage, e = Math.min(s+rows201PerPage, filtered201Teachers.length);
+      var pg = filtered201Teachers.slice(s, e);
+      if (!pg.length) { tb.innerHTML='<tr><td colspan="8" class="empty-state">No records found.</td></tr>'; return; }
+      pg.forEach(function(t,i) {
+        var g=s+i, tr=document.createElement('tr');
+        tr.innerHTML='<td>'+ni(g+1)+'</td><td>'+ni(t.employee)+'</td><td>'+ni(t.lastName)+'</td><td>'+ni(t.firstName)+'</td><td>'+ni(t.positionTitle)+'</td><td>'+ni(t.school)+'</td><td class="text-center"><span class="badge-level">'+(t.level||'N/A')+'</span></td><td class="text-center"><button class="btn btn-primary btn-xs" onclick="open201Modal('+g+')">View</button> <button class="btn btn-warning btn-xs" onclick="openArchiveConfirm('+t.rowIndex+',\''+((t.lastName||'')+(t.firstName?' '+t.firstName:'')).replace(/'/g,"\\'")+'\')" ><span class="material-icons-outlined" style="font-size:14px;vertical-align:middle">inventory_2</span> Archive</button></td>';
+        tb.appendChild(tr);
+      });
+      render201Pag();
+    }
+
+    function render201Pag() {
+      var tot=Math.ceil(filtered201Teachers.length/rows201PerPage), d=document.getElementById('files201Pagination'); d.innerHTML='';
+      if(tot<=1) return;
+      for(var p=1;p<=tot;p++){
+        var b=document.createElement('button');
+        b.textContent=p;
+        b.className='page-btn'+(p===current201Page?' active':'');
+        b.onclick=(function(pg){return function(){current201Page=pg;render201Table();};})(p);
+        d.appendChild(b);
+      }
+    }
+
+    function search201Files() {
+      var q=document.getElementById('files201Search').value.toLowerCase().trim();
+      filtered201Teachers=!q?all201Teachers.slice():all201Teachers.filter(function(t){return(t.lastName||'').toLowerCase().includes(q)||(t.firstName||'').toLowerCase().includes(q)||(t.employee||'').toLowerCase().includes(q)||(t.positionTitle||'').toLowerCase().includes(q)||(t.school||'').toLowerCase().includes(q);});
+      current201Page=1; render201Table();
+    }
+
+    function filter201Files() {
+      var p=document.getElementById('positionFilter201').value, l=document.getElementById('levelFilter201').value;
+      filtered201Teachers=all201Teachers.filter(function(t){return(p==='all'||t.positionTitle===p)&&(l==='all'||t.level===l);});
+      current201Page=1; render201Table();
+    }
+
+    // 201 detail info card
+    function ic201(label,val,key,wide) {
+      return '<div class="'+(wide?'detail-field-full':'detail-field-half')+'"><div class="detail-field i201" data-field="'+key+'"><div class="detail-field-label">'+label+'</div><div class="detail-field-value i201v">'+ni(val)+'</div></div></div>';
+    }
+
+    // 201 section header
+    function sh201(icon,title) {
+      return '<div class="detail-section"><span class="material-icons-outlined">'+icon+'</span><span>'+title+'</span></div>';
+    }
+
+    function open201Modal(idx) {
+      current201Teacher=filtered201Teachers[idx];
+      show201Detail(current201Teacher);
+    }
+
+    function show201Detail(t) {
+      var fn=((t.firstName||'')+' '+(t.middleName||'')+' '+(t.lastName||'')+' '+(t.ext||'')).replace(/\s+/g,' ').trim()||'No Info';
+      var h='<div class="modal-overlay modal-overlay-scroll" id="m201" onclick="if(event.target===this)closeM201()">';
+      h+='<div class="modal-box-dark modal-box-lg">';
+      h+='<div class="modal-header-colored modal-header-blue detail-header-lg"><div><h3>Teacher 201 File</h3><div class="modal-subtitle">'+fn+'</div></div><button class="modal-close-btn modal-close-btn-lg" onclick="closeM201()">✕</button></div>';
+      h+='<div class="detail-profile-bar"><div class="detail-profile-img" id="profile201Img"><span class="material-icons-outlined">person</span></div><div><div class="detail-name">'+fn+'</div><div class="detail-tags"><span class="detail-tag detail-tag-blue">ID: '+(t.employee||'No Info')+'</span><span class="detail-tag detail-tag-primary">'+(t.positionTitle||'No Info')+'</span><span class="detail-tag detail-tag-green">'+(t.level||'No Info')+'</span></div></div></div>';
+      h+='<div class="detail-body">';
+      h+=sh201('person','Personal Information');
+      h+='<div class="flex-wrap-gap">';
+      h+=ic201('Last Name',t.lastName,'lastName');h+=ic201('First Name',t.firstName,'firstName');h+=ic201('Middle Name',t.middleName,'middleName');h+=ic201('Extension',t.ext,'ext');h+=ic201('Date of Birth',t.dateOfBirth,'dateOfBirth');h+=ic201('Gender',t.gender,'gender');h+=ic201('Complete Address',t.completeAddress,'completeAddress',true);h+=ic201('Eligibility',t.eligibility,'eligibility');h+=ic201('Employee ID',t.employee,'employee');h+='</div>';
+      h+=sh201('school','School / Employment Information');
+      h+='<div class="flex-wrap-gap">';
+      h+=ic201('EDDIS',t.eddis,'eddis');h+=ic201('District',t.district,'district');h+=ic201('School',t.school,'school');h+=ic201('Level',t.level,'level');h+=ic201('SHS Track & Strand',t.shsTrackStrand,'shsTrackStrand');h+=ic201('Item Number',t.itemNumber,'itemNumber');h+=ic201('Position Title',t.positionTitle,'positionTitle');h+=ic201('Salary Grade',t.sg,'sg');h+=ic201('Step',t.step,'step');h+=ic201('Date of Original Appointment',t.dateOfOriginalApt,'dateOfOriginalApt');h+=ic201('Date of Last Promotion',t.dateOfLastPromotion,'dateOfLastPromotion');h+='</div>';
+      h+=sh201('school','Education / Qualification');
+      h+='<div class="flex-wrap-gap">';
+      h+=ic201('Course & Major (College)',t.courseMajorCollege,'courseMajorCollege',true);h+=ic201('Graduate Studies',t.courseMajorGraduate,'courseMajorGraduate',true);h+='</div>';
+      h+=sh201('badge','Government IDs');
+      h+='<div class="flex-wrap-gap">';
+      h+=ic201('PhilHealth (12 Digits)',t.philhealth,'philhealth');h+=ic201('GSIS BP (10 Digits)',t.gsisBp,'gsisBp');h+=ic201('Pag-IBIG (12 Digits)',t.pagibig,'pagibig');h+=ic201('TIN Number',t.tin,'tin');h+='</div>';
+      h+='</div>';
+      h+='<div class="modal-footer modal-footer-between"><button class="btn" onclick="closeM201()">Close</button><div class="user-actions"><button class="btn btn-info" onclick="download201PDF()"><span class="material-icons-outlined" style="font-size:16px;vertical-align:middle">picture_as_pdf</span> Download PDF</button><button class="btn btn-warning" id="be201" onclick="enterEdit201()">Edit</button><button class="btn btn-success hidden" id="bs201" onclick="save201()">Save</button><button class="btn btn-danger-fill hidden" id="bc201" onclick="cancelEdit201()">Cancel</button></div></div>';
+      h+='</div></div>';
+      var old=document.getElementById('m201');if(old)old.remove();
+      document.body.insertAdjacentHTML('beforeend',h);
+      google.script.run.withSuccessHandler(function(imgSrc) {
+        var el = document.getElementById('profile201Img');
+        if (el && imgSrc) { el.innerHTML = '<img src="'+imgSrc+'">'; }
+      }).get201ProfileImageByName(t.lastName, t.firstName);
+    }
+
+    function closeM201(){var e=document.getElementById('m201');if(e)e.remove();}
+
+    function enterEdit201() {
+      var t=current201Teacher;
+      document.querySelectorAll('.i201').forEach(function(c){
+        var f=c.getAttribute('data-field'),v=t[f]||'',lb=c.querySelector('div').textContent;
+        c.innerHTML='<label class="detail-field-label editing">'+lb+'</label><input type="text" class="e201i modal-input editing" data-field="'+f+'" value="'+String(v).replace(/"/g,'&quot;')+'">';
+        c.style.border='2px solid #3b82f6';
+      });
+      document.getElementById('be201').style.display='none';
+      document.getElementById('bs201').style.display='inline-block';
+      document.getElementById('bc201').style.display='inline-block';
+    }
+
+    function cancelEdit201(){closeM201();show201Detail(current201Teacher);}
+
+    function save201() {
+      var ud={};for(var k in current201Teacher)ud[k]=current201Teacher[k];
+      document.querySelectorAll('.e201i').forEach(function(inp){ud[inp.getAttribute('data-field')]=inp.value;});
+      var b=document.getElementById('bs201');b.disabled=true;b.textContent='Saving...';
+      google.script.run.withSuccessHandler(function(r){
+        if(r.success){for(var k in ud)current201Teacher[k]=ud[k];closeM201();render201Table();showToast('201 file updated!');}
+        else showToast('Error: '+r.error,true);
+        b.disabled=false;b.textContent='Save';
+      }).withFailureHandler(function(err){showToast('Failed: '+err,true);b.disabled=false;b.textContent='Save';}).update201File(current201Teacher.rowIndex,ud);
+    }
+
+    // ===== DOWNLOAD 201 PDF =====
+    function download201PDF() {
+      if (!current201Teacher) { showToast('No teacher data loaded', true); return; }
+      var t = current201Teacher;
+      var jsPDF = window.jspdf.jsPDF;
+      var doc = new jsPDF('p', 'mm', 'a4');
+      var pw = 210, ph = 297, mx = 15, cw = pw - 2 * mx;
+      var y = 15;
+
+      // Header bar
+      doc.setFillColor(37, 99, 235);
+      doc.rect(0, 0, pw, 35, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(18);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Teacher 201 File', mx, 15);
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      var fn = ((t.firstName || '') + ' ' + (t.middleName || '') + ' ' + (t.lastName || '') + ' ' + (t.ext || '')).replace(/\s+/g, ' ').trim() || 'N/A';
+      doc.text(fn, mx, 24);
+      doc.setFontSize(9);
+      doc.text('Employee ID: ' + (t.employee || 'N/A') + '  |  ' + (t.positionTitle || 'N/A') + '  |  ' + (t.level || 'N/A'), mx, 31);
+      y = 45;
+
+      function sectionHeader(title) {
+        if (y > ph - 30) { doc.addPage(); y = 15; }
+        doc.setFillColor(241, 245, 249);
+        doc.rect(mx, y, cw, 8, 'F');
+        doc.setTextColor(30, 41, 59);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.text(title, mx + 3, y + 5.5);
+        y += 12;
+      }
+
+      function fieldRow(label, value) {
+        if (y > ph - 15) { doc.addPage(); y = 15; }
+        doc.setTextColor(100, 116, 139);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.text(label.toUpperCase(), mx + 2, y);
+        y += 4;
+        doc.setTextColor(30, 41, 59);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        var val = (value == null || String(value).trim() === '') ? 'N/A' : String(value);
+        var lines = doc.splitTextToSize(val, cw - 4);
+        doc.text(lines, mx + 2, y);
+        y += lines.length * 5 + 3;
+      }
+
+      function fieldPair(l1, v1, l2, v2) {
+        if (y > ph - 15) { doc.addPage(); y = 15; }
+        var halfW = (cw - 4) / 2;
+        doc.setTextColor(100, 116, 139);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.text(l1.toUpperCase(), mx + 2, y);
+        doc.text(l2.toUpperCase(), mx + 2 + halfW + 4, y);
+        y += 4;
+        doc.setTextColor(30, 41, 59);
+        doc.setFontSize(10);
+        var v1s = (v1 == null || String(v1).trim() === '') ? 'N/A' : String(v1);
+        var v2s = (v2 == null || String(v2).trim() === '') ? 'N/A' : String(v2);
+        doc.text(v1s, mx + 2, y);
+        doc.text(v2s, mx + 2 + halfW + 4, y);
+        y += 7;
+      }
+
+      // Personal Information
+      sectionHeader('Personal Information');
+      fieldPair('Last Name', t.lastName, 'First Name', t.firstName);
+      fieldPair('Middle Name', t.middleName, 'Extension', t.ext);
+      fieldPair('Date of Birth', t.dateOfBirth, 'Gender', t.gender);
+      fieldRow('Complete Address', t.completeAddress);
+      fieldPair('Eligibility', t.eligibility, 'Employee ID', t.employee);
+
+      // School / Employment
+      sectionHeader('School / Employment Information');
+      fieldPair('EDDIS', t.eddis, 'District', t.district);
+      fieldPair('School', t.school, 'Level', t.level);
+      fieldPair('SHS Track & Strand', t.shsTrackStrand, 'Item Number', t.itemNumber);
+      fieldPair('Position Title', t.positionTitle, 'Salary Grade', t.sg);
+      fieldPair('Step', t.step, 'Date of Original Appointment', t.dateOfOriginalApt);
+      fieldRow('Date of Last Promotion', t.dateOfLastPromotion);
+
+      // Education
+      sectionHeader('Education / Qualification');
+      fieldRow('Course & Major (College)', t.courseMajorCollege);
+      fieldRow('Graduate Studies', t.courseMajorGraduate);
+
+      // Government IDs
+      sectionHeader('Government IDs');
+      fieldPair('PhilHealth', t.philhealth, 'GSIS BP Number', t.gsisBp);
+      fieldPair('Pag-IBIG Number', t.pagibig, 'TIN Number', t.tin);
+
+      // Footer
+      y += 5;
+      if (y > ph - 20) { doc.addPage(); y = 15; }
+      doc.setDrawColor(203, 213, 225);
+      doc.line(mx, y, pw - mx, y);
+      y += 5;
+      doc.setTextColor(148, 163, 184);
+      doc.setFontSize(8);
+      doc.text('Generated by TeachTap on ' + new Date().toLocaleString('en-PH', {timeZone: 'Asia/Manila'}), mx, y);
+
+      var safeName = fn.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '_');
+      doc.save('201_File_' + safeName + '.pdf');
+      showToast('PDF downloaded!');
+    }
+
+    // ===== ARCHIVE 201 =====
+    function openArchiveConfirm(rowIndex, name) {
+      var h = '<div class="modal-overlay" id="archiveConfirmModal" onclick="if(event.target===this)closeArchiveConfirm()">';
+      h += '<div class="modal-box-dark" style="max-width:440px">';
+      h += '<div class="modal-header-colored" style="background:linear-gradient(135deg,#f59e0b,#d97706)"><div><h3>Archive 201 File</h3><div class="modal-subtitle">'+name+'</div></div><button class="modal-close-btn" onclick="closeArchiveConfirm()">✕</button></div>';
+      h += '<div style="padding:24px;text-align:center">';
+      h += '<span class="material-icons-outlined" style="font-size:48px;color:#f59e0b;margin-bottom:12px">inventory_2</span>';
+      h += '<p style="margin-bottom:16px;color:#64748b">This will move the 201 file for <strong>'+name+'</strong> to the archived section. You can restore it later.</p>';
+      h += '<p style="margin-bottom:8px;font-weight:600;color:#334155">Type <span style="color:#ef4444;font-family:monospace;font-size:1.1em">CONFIRM</span> to proceed:</p>';
+      h += '<input type="text" id="archiveConfirmInput" class="modal-input" placeholder="Type CONFIRM here" style="text-align:center;font-size:1rem;letter-spacing:2px;margin-bottom:16px" autocomplete="off">';
+      h += '<div style="display:flex;gap:8px;justify-content:center">';
+      h += '<button class="btn" onclick="closeArchiveConfirm()">Cancel</button>';
+      h += '<button class="btn btn-warning" id="archiveConfirmBtn" onclick="executeArchive('+rowIndex+')" disabled>Archive</button>';
+      h += '</div></div></div></div>';
+      var old = document.getElementById('archiveConfirmModal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+      var inp = document.getElementById('archiveConfirmInput');
+      inp.addEventListener('input', function() {
+        document.getElementById('archiveConfirmBtn').disabled = (inp.value.trim() !== 'CONFIRM');
+      });
+      inp.focus();
+    }
+
+    function closeArchiveConfirm() {
+      var el = document.getElementById('archiveConfirmModal'); if(el) el.remove();
+    }
+
+    function executeArchive(rowIndex) {
+      var inp = document.getElementById('archiveConfirmInput');
+      if (inp.value.trim() !== 'CONFIRM') { showToast('Please type CONFIRM to proceed', true); return; }
+      var btn = document.getElementById('archiveConfirmBtn');
+      btn.disabled = true; btn.textContent = 'Archiving...';
+      google.script.run.withSuccessHandler(function(r) {
+        closeArchiveConfirm();
+        if (r.success) { showToast(r.message); load201Files(); }
+        else showToast('Error: ' + (r.error || r.message), true);
+      }).withFailureHandler(function(err) { closeArchiveConfirm(); showToast('Failed: ' + err, true); }).archive201File(rowIndex);
+    }
+
+    // ===== ARCHIVED 201 FILES =====
+    var allArchived201 = [];
+    var filteredArchived201 = [];
+    var currentArchived201Page = 1;
+    var rowsArchived201PerPage = 15;
+
+    function loadArchived201Files() {
+      document.getElementById('archived201Loading').style.display = 'block';
+      document.getElementById('archived201TableContainer').style.display = 'none';
+      google.script.run.withSuccessHandler(function(result) {
+        if (result.success) {
+          allArchived201 = result.data;
+          filteredArchived201 = allArchived201.slice();
+          document.getElementById('archivedFilesCount').textContent = allArchived201.length;
+          currentArchived201Page = 1;
+          renderArchived201Table();
+        } else { showToast('Error: ' + result.error, true); }
+        document.getElementById('archived201Loading').style.display = 'none';
+        document.getElementById('archived201TableContainer').style.display = 'block';
+      }).withFailureHandler(function(err) {
+        showToast('Failed: ' + err, true);
+        document.getElementById('archived201Loading').style.display = 'none';
+        document.getElementById('archived201TableContainer').style.display = 'block';
+      }).getArchived201Files();
+    }
+
+    function renderArchived201Table() {
+      var tb = document.getElementById('archived201List'); tb.innerHTML = '';
+      var s = (currentArchived201Page-1)*rowsArchived201PerPage, e = Math.min(s+rowsArchived201PerPage, filteredArchived201.length);
+      var pg = filteredArchived201.slice(s, e);
+      if (!pg.length) { tb.innerHTML='<tr><td colspan="8" class="empty-state"><span class="material-icons-outlined empty-state-icon">inventory_2</span>No archived files found.</td></tr>'; return; }
+      pg.forEach(function(t,i) {
+        var g=s+i, tr=document.createElement('tr');
+        tr.innerHTML='<td>'+ni(g+1)+'</td><td>'+ni(t.employee)+'</td><td>'+ni(t.lastName)+'</td><td>'+ni(t.firstName)+'</td><td>'+ni(t.positionTitle)+'</td><td>'+ni(t.school)+'</td><td class="text-center"><span class="badge-level">'+(t.level||'N/A')+'</span></td><td class="text-center"><button class="btn btn-success btn-xs" onclick="restore201('+t.rowIndex+',\''+((t.lastName||'')+(t.firstName?' '+t.firstName:'')).replace(/'/g,"\\'")+'\')" ><span class="material-icons-outlined" style="font-size:14px;vertical-align:middle">restore</span> Restore</button></td>';
+        tb.appendChild(tr);
+      });
+      renderArchived201Pag();
+    }
+
+    function renderArchived201Pag() {
+      var tot=Math.ceil(filteredArchived201.length/rowsArchived201PerPage), d=document.getElementById('archived201Pagination'); d.innerHTML='';
+      if(tot<=1) return;
+      for(var p=1;p<=tot;p++){
+        var b=document.createElement('button');
+        b.textContent=p;
+        b.className='page-btn'+(p===currentArchived201Page?' active':'');
+        b.onclick=(function(pg){return function(){currentArchived201Page=pg;renderArchived201Table();};})(p);
+        d.appendChild(b);
+      }
+    }
+
+    function searchArchived201() {
+      var q=document.getElementById('archived201Search').value.toLowerCase().trim();
+      filteredArchived201=!q?allArchived201.slice():allArchived201.filter(function(t){return(t.lastName||'').toLowerCase().includes(q)||(t.firstName||'').toLowerCase().includes(q)||(t.employee||'').toLowerCase().includes(q)||(t.positionTitle||'').toLowerCase().includes(q)||(t.school||'').toLowerCase().includes(q);});
+      currentArchived201Page=1; renderArchived201Table();
+    }
+
+    function restore201(rowIndex, name) {
+      if (!confirm('Restore 201 file for "' + name + '" back to active files?')) return;
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) { showToast(r.message); loadArchived201Files(); }
+        else showToast('Error: ' + (r.error || r.message), true);
+      }).withFailureHandler(function(err) { showToast('Failed: ' + err, true); }).restore201File(rowIndex);
+    }
+
+    // ===== ADD 201 FILE MODAL =====
+    function openAdd201Modal() {
+      var h = '<div class="modal-overlay modal-overlay-scroll" id="add201modal" onclick="if(event.target===this)closeAdd201()">';
+      h += '<div class="modal-box-dark modal-box-lg">';
+      h += '<div class="modal-header-colored modal-header-green detail-header-lg"><div><h3>Add New 201 File</h3><div class="modal-subtitle">Fill in the teacher information below</div></div><button class="modal-close-btn modal-close-btn-lg" onclick="closeAdd201()">✕</button></div>';
+      h += '<div class="detail-body detail-body-tall">';
+      h += sh201('person','Personal Information');
+      h += '<div class="flex-wrap-gap">';
+      h += af('Last Name','lastName'); h += af('First Name','firstName'); h += af('Middle Name','middleName'); h += af('Extension (e.g. Jr., III)','ext');
+      h += af('Date of Birth','dateOfBirth','date'); h += afs('Gender','gender',['','Male','Female']); h += af('Complete Address','completeAddress','text',true); h += af('Eligibility','eligibility');
+      h += af('Employee ID','employee');
+      h += '</div>';
+      h += sh201('school','School / Employment Information');
+      h += '<div class="flex-wrap-gap">';
+      h += af('EDDIS','eddis'); h += af('District','district'); h += af('School','school');
+      h += afs('Level','level',['','Elementary','JHS','SHS']); h += af('SHS Track & Strand','shsTrackStrand');
+      h += af('Item Number','itemNumber','text',true); h += af('Position Title','positionTitle'); h += af('Salary Grade','sg'); h += af('Step','step');
+      h += af('Date of Original Appointment','dateOfOriginalApt','date'); h += af('Date of Last Promotion','dateOfLastPromotion','date');
+      h += '</div>';
+      h += sh201('school','Education / Qualification');
+      h += '<div class="flex-wrap-gap">';
+      h += af('Course & Major (College)','courseMajorCollege','text',true); h += af('Course & Major (Graduate Studies)','courseMajorGraduate','text',true);
+      h += '</div>';
+      h += sh201('badge','Government IDs');
+      h += '<div class="flex-wrap-gap">';
+      h += af('PhilHealth (12 Digits)','philhealth'); h += af('GSIS BP Number (10 Digits)','gsisBp'); h += af('Pag-IBIG Number (12 Digits)','pagibig'); h += af('TIN Number','tin');
+      h += '</div>';
+      h += '</div>';
+      h += '<div class="modal-footer"><button class="btn" onclick="closeAdd201()">Cancel</button><button class="btn btn-success" id="submitAdd201" onclick="submitAdd201()">Add Teacher</button></div>';
+      h += '</div></div>';
+      var old = document.getElementById('add201modal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+    }
+
+    function af(label, key, type, wide) {
+      var t = type || 'text';
+      return '<div class="'+(wide?'detail-field-full':'detail-field-half')+'"><label class="detail-field-label">'+label+'</label><input type="'+t+'" class="add201field modal-input" data-field="'+key+'" placeholder="'+label+'"></div>';
+    }
+
+    function afs(label, key, options) {
+      var opts = '';
+      options.forEach(function(o) { opts += '<option value="'+o+'">'+(o||'-- Select --')+'</option>'; });
+      return '<div class="detail-field-half"><label class="detail-field-label">'+label+'</label><select class="add201field modal-select" data-field="'+key+'">'+opts+'</select></div>';
+    }
+
+    function closeAdd201() { var e = document.getElementById('add201modal'); if(e) e.remove(); }
+
+    function submitAdd201() {
+      var data = {};
+      document.querySelectorAll('.add201field').forEach(function(el) {
+        data[el.getAttribute('data-field')] = el.value || '';
+      });
+      if (!data.lastName && !data.firstName) {
+        showToast('Last Name and First Name are required.', true);
+        return;
+      }
+      var btn = document.getElementById('submitAdd201');
+      btn.disabled = true; btn.textContent = 'Adding...';
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) { closeAdd201(); showToast(r.message); load201Files(); }
+        else { showToast('Error: ' + (r.error || r.message), true); btn.disabled = false; btn.textContent = 'Add Teacher'; }
+      }).withFailureHandler(function(err) {
+        showToast('Failed: ' + err, true); btn.disabled = false; btn.textContent = 'Add Teacher';
+      }).add201File(data);
+    }
+
+    // ===== SERVICE CREDITS =====
+    var allSCTeachers = [];
+
+    function loadServiceCredits() {
+      document.getElementById('scLoading').style.display = 'block';
+      document.getElementById('scTableContainer').style.display = 'none';
+      google.script.run.withSuccessHandler(function(result) {
+        document.getElementById('scLoading').style.display = 'none';
+        document.getElementById('scTableContainer').style.display = 'block';
+        if (result.success) {
+          allSCTeachers = result.data || [];
+          document.getElementById('scTeacherCount').textContent = allSCTeachers.length;
+          renderSCTeachers(allSCTeachers);
+        } else { showToast('Error: ' + result.error, true); }
+      }).withFailureHandler(function(err) {
+        document.getElementById('scLoading').style.display = 'none';
+        showToast('Failed: ' + err, true);
+      }).getTeachersWithCredits();
+    }
+
+    function filterTeacherSuggestions() {
+      var q = document.getElementById('scTeacherInput').value.toLowerCase().trim();
+      var box = document.getElementById('scSuggestions');
+      if (!q || q.length < 1) { box.classList.add('hidden'); return; }
+      var matches = allSCTeachers.filter(function(t) { return t.name.toLowerCase().indexOf(q) !== -1; }).slice(0, 8);
+      if (!matches.length) { box.classList.add('hidden'); return; }
+      var h = '';
+      matches.forEach(function(t) {
+        h += '<div class="sc-suggestion-item" onclick="selectSCTeacher(\'' + escapeH(t.name).replace(/'/g, "\\'") + '\')">';
+        h += '<span class="material-icons-outlined">person</span> ' + escapeH(t.name);
+        h += '<span class="sc-suggestion-pts">' + t.credits + ' pts</span></div>';
+      });
+      box.innerHTML = h;
+      box.classList.remove('hidden');
+    }
+
+    function selectSCTeacher(name) {
+      document.getElementById('scTeacherInput').value = name;
+      document.getElementById('scSuggestions').classList.add('hidden');
+    }
+
+    // Close suggestions when clicking outside
+    document.addEventListener('click', function(e) {
+      var box = document.getElementById('scSuggestions');
+      if (box && !e.target.closest('.sc-search-wrap')) box.classList.add('hidden');
+    });
+
+    function searchSCTeachers() {
+      var q = document.getElementById('scSearch').value.toLowerCase().trim();
+      var filtered = !q ? allSCTeachers : allSCTeachers.filter(function(t) {
+        return t.name.toLowerCase().indexOf(q) !== -1;
+      });
+      renderSCTeachers(filtered);
+    }
+
+    function renderSCTeachers(teachers) {
+      var container = document.getElementById('scTeacherList');
+      if (!teachers.length) {
+        container.innerHTML = '<div class="empty-state"><span class="material-icons-outlined empty-state-icon">person_off</span><p>No teachers found</p></div>';
+        return;
+      }
+      var h = '';
+      teachers.forEach(function(t) {
+        var eName = escapeH(t.name).replace(/'/g, "\\'");
+        h += '<div class="sc-teacher-card">';
+        h += '<div class="sc-teacher-card-main" onclick="viewCreditHistory(\'' + eName + '\')">';
+        h += '<div class="sc-teacher-avatar"><span class="material-icons-outlined">person</span></div>';
+        h += '<div class="sc-teacher-info"><div class="sc-teacher-name">' + escapeH(t.name) + '</div><div class="sc-teacher-meta">' + escapeH(t.position || '') + (t.school ? ' · ' + escapeH(t.school) : '') + '</div></div>';
+        h += '<div class="sc-teacher-points"><div class="sc-teacher-points-num">' + t.credits + '</div><div class="sc-teacher-points-label">pts</div></div>';
+        h += '</div>';
+        h += '<div class="sc-teacher-actions">';
+        h += '<button class="sc-edit-btn" onclick="event.stopPropagation();openEditCreditsModal(\'' + eName + '\',' + t.credits + ')" title="Edit Credits"><span class="material-icons-outlined">edit</span></button>';
+        h += '</div>';
+        h += '</div>';
+      });
+      container.innerHTML = h;
+    }
+
+    function openEditCreditsModal(name, currentPts) {
+      var h = '<div class="modal-overlay" id="editCreditsModal" onclick="if(event.target===this)closeEditCreditsModal()">';
+      h += '<div class="modal-box-dark" style="max-width:420px">';
+      h += '<div class="modal-header-colored modal-header-blue"><div><h3>Edit Service Credits</h3><div class="modal-subtitle">' + name + '</div></div><button class="modal-close-btn" onclick="closeEditCreditsModal()">&#10005;</button></div>';
+      h += '<div style="padding:24px">';
+      h += '<div style="text-align:center;margin-bottom:16px"><span class="material-icons-outlined" style="font-size:48px;color:#3b82f6">stars</span></div>';
+      h += '<label style="display:block;margin-bottom:6px;font-weight:600;color:#334155;font-size:13px">Current Points</label>';
+      h += '<div style="font-size:24px;font-weight:700;color:#3b82f6;margin-bottom:16px">' + currentPts + ' PTS</div>';
+      h += '<label style="display:block;margin-bottom:6px;font-weight:600;color:#334155;font-size:13px">New Total Points</label>';
+      h += '<input type="number" id="editCreditsNewPts" class="modal-input" value="' + currentPts + '" min="0" step="0.5" style="font-size:16px;text-align:center;margin-bottom:16px">';
+      h += '<label style="display:block;margin-bottom:6px;font-weight:600;color:#334155;font-size:13px">Reason for Change</label>';
+      h += '<input type="text" id="editCreditsReason" class="modal-input" placeholder="e.g. Manual adjustment" style="margin-bottom:20px">';
+      h += '<div style="display:flex;gap:8px;justify-content:flex-end">';
+      h += '<button class="btn" onclick="closeEditCreditsModal()">Cancel</button>';
+      h += '<button class="btn btn-success" id="editCreditsSaveBtn" onclick="saveEditCredits(\'' + name + '\',' + currentPts + ')">Save</button>';
+      h += '</div></div></div></div>';
+      var old = document.getElementById('editCreditsModal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+    }
+
+    function closeEditCreditsModal() { var e = document.getElementById('editCreditsModal'); if(e) e.remove(); }
+
+    function saveEditCredits(name, oldPts) {
+      var newPts = parseFloat(document.getElementById('editCreditsNewPts').value);
+      var reason = document.getElementById('editCreditsReason').value.trim();
+      if (isNaN(newPts) || newPts < 0) { showToast('Please enter a valid point value', true); return; }
+      if (!reason) { showToast('Please enter a reason for the change', true); return; }
+      if (newPts === oldPts) { closeEditCreditsModal(); return; }
+      var btn = document.getElementById('editCreditsSaveBtn'); btn.disabled = true; btn.textContent = 'Saving...';
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) { showToast(r.message); closeEditCreditsModal(); loadServiceCredits(); }
+        else { showToast(r.message || 'Error updating credits', true); btn.disabled = false; btn.textContent = 'Save'; }
+      }).withFailureHandler(function(err) { showToast('Failed: ' + err, true); btn.disabled = false; btn.textContent = 'Save'; }).updateServiceCreditPoints(name, newPts, reason);
+    }
+
+    function submitAddPoints() {
+      var name = document.getElementById('scTeacherInput').value.trim();
+      var dateVal = document.getElementById('scDate').value;
+      var points = document.getElementById('scPoints').value;
+      var reason = document.getElementById('scReason').value.trim();
+      if (!name) { showToast('Please enter a teacher name', true); return; }
+      // Verify teacher exists
+      var found = allSCTeachers.some(function(t) { return t.name.toLowerCase() === name.toLowerCase(); });
+      if (!found) { showToast('Teacher not found. Please select from suggestions.', true); return; }
+      if (!dateVal) { showToast('Please select a date', true); return; }
+      if (!points || parseFloat(points) <= 0) { showToast('Please enter valid points', true); return; }
+      if (!reason) { showToast('Please enter a reason', true); return; }
+      if (!confirm('Add ' + points + ' point(s) to ' + name + '?')) return;
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) {
+          showToast(r.message);
+          loadServiceCredits();
+          document.getElementById('scPoints').value = '';
+          document.getElementById('scReason').value = '';
+          document.getElementById('scTeacherInput').value = '';
+        } else showToast(r.message, true);
+      }).withFailureHandler(function(err) { showToast('Failed: ' + err, true); }).addServiceCredit(name, parseFloat(points), reason, dateVal);
+    }
+
+    function viewCreditHistory(name) {
+      google.script.run.withSuccessHandler(function(history) {
+        var h = '<div class="modal-overlay" id="chModal" onclick="if(event.target===this)closeCHModal()">';
+        h += '<div class="modal-box">';
+        h += '<div class="modal-header-colored modal-header-blue"><div><h3>Credit History</h3><div class="modal-subtitle">' + escapeH(name) + '</div></div><button class="modal-close-btn" onclick="closeCHModal()">&#10005;</button></div>';
+        h += '<div class="modal-body">';
+        if (!history || history.length === 0) {
+          h += '<div class="empty-state"><span class="material-icons-outlined empty-state-icon">history</span><p>No credit history</p></div>';
+        } else {
+          h += '<table class="data-table"><thead><tr><th>Date</th><th>Points</th><th>Reason</th></tr></thead><tbody>';
+          history.forEach(function(r) {
+            h += '<tr><td>' + escapeH(r.date) + '</td><td><span class="sc-points-badge">' + r.points + '</span></td><td>' + escapeH(r.reason) + '</td></tr>';
+          });
+          h += '</tbody></table>';
+        }
+        h += '</div><div class="modal-footer"><button class="btn" onclick="closeCHModal()">Close</button></div></div></div>';
+        var old = document.getElementById('chModal'); if(old) old.remove();
+        document.body.insertAdjacentHTML('beforeend', h);
+      }).getTeacherCreditHistory(name);
+    }
+
+    function closeCHModal() { var e = document.getElementById('chModal'); if(e) e.remove(); }
+
+    // ===== LEAVE REQUESTS =====
+    var allLeaveRequests = [];
+
+    function loadLeaveRequests() {
+      document.getElementById('lrLoading').style.display = 'block';
+      document.getElementById('lrTableContainer').style.display = 'none';
+      google.script.run.withSuccessHandler(function(requests) {
+        document.getElementById('lrLoading').style.display = 'none';
+        document.getElementById('lrTableContainer').style.display = 'block';
+        allLeaveRequests = requests || [];
+        filterLeaveRequests();
+      }).withFailureHandler(function(err) {
+        document.getElementById('lrLoading').style.display = 'none';
+        showToast('Failed: ' + err, true);
+      }).getPendingLeaveRequests();
+    }
+
+    function filterLeaveRequests() {
+      var status = document.getElementById('lrStatusFilter').value;
+      var filtered = status === 'all' ? allLeaveRequests : allLeaveRequests.filter(function(r) { return r.status === status; });
+      renderLeaveRequests(filtered);
+    }
+
+    function renderLeaveRequests(requests) {
+      var tbody = document.getElementById('lrList');
+      if (!requests.length) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><span class="material-icons-outlined empty-state-icon">inbox</span>No requests found</td></tr>';
+        return;
+      }
+      var h = '';
+      requests.forEach(function(r) {
+        var statusClass = r.status === 'Approved' ? 'badge-early' : (r.status === 'Declined' ? 'badge-late' : 'badge-pending');
+        h += '<tr><td>' + escapeH(r.timestamp) + '</td><td>' + escapeH(r.teacherName) + '</td><td>' + r.days + '</td><td>' + escapeH(r.reason) + '</td>';
+        h += '<td>' + escapeH(r.startDate) + ' to ' + escapeH(r.endDate) + '</td>';
+        h += '<td><span class="att-status ' + statusClass + '">' + r.status + '</span></td>';
+        h += '<td class="text-center">';
+        if (r.status === 'Pending') {
+          h += '<button class="btn btn-success btn-xs" onclick="handleLeaveAction(\'approve\',' + r.rowIndex + ',\'' + escapeH(r.teacherName).replace(/'/g,"\\'") + '\')"><span class="material-icons-outlined">check</span> Accept</button> ';
+          h += '<button class="btn btn-danger-fill btn-xs" onclick="handleLeaveAction(\'decline\',' + r.rowIndex + ',\'' + escapeH(r.teacherName).replace(/'/g,"\\'") + '\')"><span class="material-icons-outlined">close</span> Decline</button>';
+        } else {
+          h += '<span class="lr-comment-text">' + escapeH(r.comment || '-') + '</span>';
+        }
+        h += '</td></tr>';
+      });
+      tbody.innerHTML = h;
+    }
+
+    function handleLeaveAction(action, rowIndex, name) {
+      var actionLabel = action === 'approve' ? 'Approve' : 'Decline';
+      var comment = prompt(actionLabel + ' request for ' + name + '.\nPlease enter a comment (required):');
+      if (comment === null) return;
+      if (!comment.trim()) { showToast('Comment is required', true); return; }
+      var fn = action === 'approve' ? 'approveLeaveRequest' : 'declineLeaveRequest';
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) { showToast(r.message); loadLeaveRequests(); }
+        else showToast(r.message, true);
+      }).withFailureHandler(function(err) { showToast('Failed: ' + err, true); })[fn](rowIndex, comment.trim());
+    }
+
+    // ===== ADMIN PIN SYSTEM =====
+    var adminPinVerified = false;
+    var filesPinVerified = false;
+    var pendingFilesPage = '';
+
+    function updateAdminPinDots(dotsId, length) {
+      var dots = document.getElementById(dotsId).querySelectorAll('.apin-dot');
+      for (var i = 0; i < dots.length; i++) {
+        dots[i].classList.toggle('filled', i < length);
+      }
+    }
+
+    function buildAdminNumpad(numpadId, inputId, dotsId, onComplete) {
+      var keys = [1,2,3,4,5,6,7,8,9,'empty',0,'del'];
+      var h = '';
+      keys.forEach(function(k) {
+        if (k === 'empty') { h += '<button class="apin-key empty" type="button"></button>'; }
+        else if (k === 'del') { h += '<button class="apin-key del" type="button" data-action="del"><span class="material-icons-outlined">backspace</span></button>'; }
+        else { h += '<button class="apin-key" type="button" data-num="' + k + '">' + k + '</button>'; }
+      });
+      var pad = document.getElementById(numpadId);
+      pad.innerHTML = h;
+      pad.onclick = function(e) {
+        var btn = e.target.closest('.apin-key');
+        if (!btn) return;
+        var input = document.getElementById(inputId);
+        if (btn.dataset.action === 'del') {
+          input.value = input.value.slice(0, -1);
+        } else if (btn.dataset.num !== undefined && input.value.length < 6) {
+          input.value += btn.dataset.num;
+        }
+        updateAdminPinDots(dotsId, input.value.length);
+        if (input.value.length === 6 && onComplete) {
+          setTimeout(function() { onComplete(input.value); }, 200);
+        }
+      };
+    }
+
+    // Main admin PIN login
+    function initAdminPinLogin() {
+      document.getElementById('adminPinInput').value = '';
+      document.getElementById('adminPinError').textContent = '';
+      updateAdminPinDots('adminPinDots', 0);
+      buildAdminNumpad('adminPinNumpad', 'adminPinInput', 'adminPinDots', function(pin) {
+        document.getElementById('adminPinError').textContent = '';
+        google.script.run.withSuccessHandler(function(result) {
+          if (result.success) {
+            adminPinVerified = true;
+            document.getElementById('adminPinOverlay').style.display = 'none';
+            startAdminDashboard();
+          } else {
+            document.getElementById('adminPinError').textContent = result.message || 'Incorrect PIN';
+            document.getElementById('adminPinInput').value = '';
+            updateAdminPinDots('adminPinDots', 0);
+          }
+        }).withFailureHandler(function(err) {
+          document.getElementById('adminPinError').textContent = 'Error: ' + err.message;
+          document.getElementById('adminPinInput').value = '';
+          updateAdminPinDots('adminPinDots', 0);
+        }).verifyAdminPin(pin);
+      });
+    }
+
+    // 201 Files PIN gate
+    function showFilesPinGate(pageName) {
+      pendingFilesPage = pageName;
+      document.getElementById('files201PinOverlay').style.display = 'flex';
+      document.getElementById('files201PinInput').value = '';
+      document.getElementById('files201PinError').textContent = '';
+      updateAdminPinDots('files201PinDots', 0);
+      buildAdminNumpad('files201PinNumpad', 'files201PinInput', 'files201PinDots', function(pin) {
+        document.getElementById('files201PinError').textContent = '';
+        google.script.run.withSuccessHandler(function(result) {
+          if (result.success) {
+            filesPinVerified = true;
+            document.getElementById('files201PinOverlay').style.display = 'none';
+            proceedToFilesPage(pendingFilesPage);
+          } else {
+            document.getElementById('files201PinError').textContent = result.message || 'Incorrect PIN';
+            document.getElementById('files201PinInput').value = '';
+            updateAdminPinDots('files201PinDots', 0);
+          }
+        }).withFailureHandler(function(err) {
+          document.getElementById('files201PinError').textContent = 'Error: ' + err.message;
+          document.getElementById('files201PinInput').value = '';
+          updateAdminPinDots('files201PinDots', 0);
+        }).verifyAdminPin(pin);
+      });
+    }
+
+    function cancelFilesPinGate() {
+      document.getElementById('files201PinOverlay').style.display = 'none';
+      showPage('dashboard');
+    }
+
+    function proceedToFilesPage(pageName) {
+      if (pageName === 'files201') load201Files();
+      if (pageName === 'archived201') loadArchived201Files();
+    }
+
+    function startAdminDashboard() {
+      document.getElementById('sidebar').style.display = '';
+      document.getElementById('mobileHeader').style.display = '';
+      document.getElementById('mainContent').style.display = '';
+      google.script.run.withSuccessHandler(function(role) {
+        document.getElementById('adminEmail').textContent = role.email || 'Admin';
+      }).getCurrentUserRole();
+      refreshDashboard();
+      loadUsers();
+      document.getElementById('attendanceDate').value = getManilaToday();
+      loadAttendance();
+    }
+
+    function adminLogout() {
+      if (confirm('Are you sure you want to logout?')) {
+        adminPinVerified = false;
+        filesPinVerified = false;
+        document.getElementById('sidebar').style.display = 'none';
+        document.getElementById('mobileHeader').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'none';
+        document.getElementById('adminPinOverlay').style.display = '';
+        document.getElementById('adminPinInput').value = '';
+        document.getElementById('adminPinError').textContent = '';
+        updateAdminPinDots('adminPinDots', 0);
+      }
+    }
+
+    // ===== FORGOT ADMIN PIN =====
+    function handleForgotAdminPin() {
+      if (!confirm('Send your PIN to your registered admin email?')) return;
+      document.getElementById('adminPinError').textContent = 'Sending PIN to your email...';
+      google.script.run.withSuccessHandler(function(result) {
+        if (result.success) {
+          document.getElementById('adminPinError').textContent = '';
+          alert(result.message);
+        } else {
+          document.getElementById('adminPinError').textContent = result.message;
+        }
+      }).withFailureHandler(function(err) {
+        document.getElementById('adminPinError').textContent = 'Error: ' + err.message;
+      }).forgotAdminPin();
+    }
+
+    // ===== ADMIN SETTINGS =====
+    function loadAdminSettings() {
+      google.script.run.withSuccessHandler(function(data) {
+        if (data && data.email) {
+          document.getElementById('adminSettingsEmail').value = data.email;
+        }
+        document.getElementById('adminSettingsCurrentPin').value = '';
+        document.getElementById('adminSettingsNewPin').value = '';
+        document.getElementById('adminSettingsConfirmPin').value = '';
+        document.getElementById('adminSettingsError').style.display = 'none';
+        document.getElementById('adminSettingsSuccess').style.display = 'none';
+      }).withFailureHandler(function(err) {
+        showToast('Error loading admin settings: ' + err.message, true);
+      }).getAdminSettings();
+    }
+
+    function saveAdminSettings() {
+      var email = document.getElementById('adminSettingsEmail').value.trim();
+      var currentPin = document.getElementById('adminSettingsCurrentPin').value.trim();
+      var newPin = document.getElementById('adminSettingsNewPin').value.trim();
+      var confirmPin = document.getElementById('adminSettingsConfirmPin').value.trim();
+      var errEl = document.getElementById('adminSettingsError');
+      var successEl = document.getElementById('adminSettingsSuccess');
+      errEl.style.display = 'none';
+      successEl.style.display = 'none';
+
+      if (!email) { errEl.textContent = 'Email is required.'; errEl.style.display = 'block'; return; }
+      if (!currentPin || currentPin.length !== 6) { errEl.textContent = 'Current PIN must be 6 digits.'; errEl.style.display = 'block'; return; }
+      if (newPin && newPin.length !== 6) { errEl.textContent = 'New PIN must be exactly 6 digits.'; errEl.style.display = 'block'; return; }
+      if (newPin && newPin !== confirmPin) { errEl.textContent = 'New PIN and confirmation do not match.'; errEl.style.display = 'block'; return; }
+
+      google.script.run.withSuccessHandler(function(result) {
+        if (result.success) {
+          successEl.textContent = result.message || 'Settings saved successfully.';
+          successEl.style.display = 'block';
+          errEl.style.display = 'none';
+          document.getElementById('adminSettingsCurrentPin').value = '';
+          document.getElementById('adminSettingsNewPin').value = '';
+          document.getElementById('adminSettingsConfirmPin').value = '';
+          showToast('Admin settings saved!');
+          // Update admin email display
+          document.getElementById('adminEmail').textContent = email;
+        } else {
+          errEl.textContent = result.message || 'Failed to save settings.';
+          errEl.style.display = 'block';
+          successEl.style.display = 'none';
+        }
+      }).withFailureHandler(function(err) {
+        errEl.textContent = 'Error: ' + err.message;
+        errEl.style.display = 'block';
+      }).updateAdminSettings(email, currentPin, newPin || null);
+    }
+
+    // ===== ADMIN MANAGEMENT =====
+    function loadAdminList() {
+      var container = document.getElementById('adminListContainer');
+      container.innerHTML = '<div class="admin-list-loading">Loading admin list...</div>';
+      google.script.run.withSuccessHandler(function(admins) {
+        if (!admins || admins.length === 0) {
+          container.innerHTML = '<div class="admin-list-empty">No admins configured</div>';
+          return;
+        }
+        var html = '';
+        admins.forEach(function(a) {
+          html += '<div class="admin-list-item">';
+          html += '<div class="admin-list-email"><span class="material-icons-outlined">admin_panel_settings</span>' + escapeH(a.email) + '</div>';
+          html += '<button class="admin-list-remove" onclick="removeAdminUI(\'' + escapeH(a.email).replace(/'/g, "\\'") + '\')"><span class="material-icons-outlined">person_remove</span> Remove</button>';
+          html += '</div>';
+        });
+        container.innerHTML = html;
+      }).withFailureHandler(function(e) {
+        container.innerHTML = '<div class="admin-list-empty">Failed to load admin list</div>';
+      }).getAdminList();
+    }
+
+    function addNewAdminUI() {
+      var email = document.getElementById('newAdminEmail').value.trim();
+      var pin = document.getElementById('newAdminPin').value.trim();
+      if (!email) { showToast('Please enter an admin email.', true); return; }
+      if (!pin || pin.length !== 6) { showToast('PIN must be exactly 6 digits.', true); return; }
+      google.script.run.withSuccessHandler(function(r) {
+        if (r && r.success) {
+          showToast(r.message || 'Admin added!');
+          document.getElementById('newAdminEmail').value = '';
+          document.getElementById('newAdminPin').value = '';
+          loadAdminList();
+        } else {
+          showToast((r && r.message) || 'Failed to add admin.', true);
+        }
+      }).withFailureHandler(function(e) {
+        showToast('Error: ' + e.message, true);
+      }).addNewAdmin(email, pin);
+    }
+
+    function removeAdminUI(email) {
+      if (!confirm('Remove admin: ' + email + '?')) return;
+      google.script.run.withSuccessHandler(function(r) {
+        if (r && r.success) {
+          showToast(r.message || 'Admin removed!');
+          loadAdminList();
+        } else {
+          showToast((r && r.message) || 'Failed to remove admin.', true);
+        }
+      }).withFailureHandler(function(e) {
+        showToast('Error: ' + e.message, true);
+      }).removeAdmin(email);
+    }
+
+    // ===== INIT =====
+    window.addEventListener('load', function() {
+      initAdminPinLogin();
+    });
+  </script>
+</body>
+</html>

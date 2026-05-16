@@ -1,0 +1,412 @@
+/* ScannerStylesheet.css — NFC Scanner Page Styles */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 40%, #1a4d6e 70%, #0f172a 100%);
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(ellipse at 20% 50%, rgba(56,189,248,0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 20%, rgba(99,102,241,0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, rgba(16,185,129,0.06) 0%, transparent 50%);
+  animation: bgShift 12s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+@keyframes bgShift {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(-3%, -3%) rotate(2deg); }
+}
+
+/* Main Card */
+.scanner-card {
+  width: 100%;
+  max-width: 560px;
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 28px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.1);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* Header */
+.scanner-header {
+  background: linear-gradient(135deg, #1a73e8, #1557b0);
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.scanner-header .logo-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.scanner-header .logo-area img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: contain;
+}
+.scanner-header .logo-area h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.3px;
+}
+.scanner-header .nfc-chip {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  letter-spacing: 0.5px;
+}
+
+/* Live Clock */
+.live-clock {
+  background: #f0f4ff;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-bottom: 1px solid #e5e9f0;
+}
+.live-clock .material-icons-outlined { font-size: 16px; color: #1a73e8; }
+.live-clock .clock-time {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a73e8;
+  font-variant-numeric: tabular-nums;
+}
+.live-clock .clock-date {
+  font-size: 12px;
+  color: #5f6368;
+  margin-left: 4px;
+}
+
+/* Body */
+.scanner-body { padding: 28px; }
+
+/* NFC Tap Prompt */
+.tap-prompt {
+  text-align: center;
+  padding: 20px 0 16px;
+}
+.tap-prompt .nfc-ring {
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e8f0fe, #d2e3fc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: ringPulse 2.5s ease-in-out infinite;
+}
+.tap-prompt .nfc-ring::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(26,115,232,0.15);
+  animation: ripple 2.5s ease-in-out infinite;
+}
+.tap-prompt .nfc-ring::after {
+  content: '';
+  position: absolute;
+  inset: -18px;
+  border-radius: 50%;
+  border: 2px solid rgba(26,115,232,0.08);
+  animation: ripple 2.5s ease-in-out infinite 0.3s;
+}
+.tap-prompt .nfc-ring .material-icons-outlined {
+  font-size: 56px;
+  color: #1a73e8;
+}
+.tap-prompt h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1d1d1f;
+  margin-bottom: 4px;
+}
+.tap-prompt p {
+  font-size: 14px;
+  color: #86868b;
+}
+
+@keyframes ringPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(26,115,232,0.15); }
+  50% { transform: scale(1.03); box-shadow: 0 0 20px 4px rgba(26,115,232,0.1); }
+}
+@keyframes ripple {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.08); opacity: 0.5; }
+}
+
+/* Greeting Banner */
+.greeting-banner {
+  display: none;
+  text-align: center;
+  padding: 14px 18px;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  animation: greetSlideIn 0.5s ease-out;
+}
+.greeting-banner.morning {
+  background: linear-gradient(135deg, #fffde7, #fff9c4);
+  border: 1.5px solid #fdd835;
+}
+.greeting-banner.afternoon {
+  background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+  border: 1.5px solid #ffa726;
+}
+.greeting-banner.evening {
+  background: linear-gradient(135deg, #e8eaf6, #c5cae9);
+  border: 1.5px solid #7986cb;
+}
+.greeting-text { font-size: 18px; font-weight: 700; }
+.greeting-banner.morning .greeting-text { color: #f57f17; }
+.greeting-banner.afternoon .greeting-text { color: #e65100; }
+.greeting-banner.evening .greeting-text { color: #283593; }
+
+@keyframes greetSlideIn {
+  from { transform: translateY(-12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Employee Result Card */
+.employee-result {
+  display: none;
+  text-align: center;
+  padding: 8px 0;
+  animation: resultFadeIn 0.4s ease-out;
+}
+.employee-result .emp-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #34a853;
+  margin: 0 auto 10px;
+  display: block;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.employee-result .emp-avatar.birthday-border { border-color: #ff9800; }
+.employee-result .emp-default-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e6f4ea, #c8e6c9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.employee-result .emp-default-avatar .material-icons-outlined {
+  font-size: 36px;
+  color: #34a853;
+}
+.employee-result .emp-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1d1d1f;
+  margin-bottom: 8px;
+}
+.employee-result .emp-badges {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.emp-badge {
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.emp-badge.event { background: #e8f0fe; color: #1a73e8; }
+.emp-badge.time { background: #f5f5f5; color: #3c4043; }
+.emp-badge.status-good { background: #e6f4ea; color: #137333; }
+.emp-badge.status-bad { background: #fce8e6; color: #c5221f; }
+
+@keyframes resultFadeIn {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Input Area */
+.input-area { margin-top: 16px; }
+.input-area label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #5f6368;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  display: block;
+  margin-bottom: 8px;
+}
+.input-row {
+  display: flex;
+  gap: 8px;
+}
+.input-row input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #e0e3e8;
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: inherit;
+  color: #1d1d1f;
+  background: #fafbfc;
+  transition: all 0.2s;
+  outline: none;
+}
+.input-row input:focus {
+  border-color: #1a73e8;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(26,115,232,0.12);
+}
+.input-row input::placeholder { color: #b0b5bd; }
+.input-row button {
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #1a73e8, #1557b0);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.input-row button:hover {
+  background: linear-gradient(135deg, #1557b0, #0d47a1);
+  box-shadow: 0 4px 12px rgba(26,115,232,0.3);
+}
+.input-row button:active { transform: scale(0.97); }
+.input-row button .material-icons-outlined { font-size: 18px; }
+
+/* Status Bar */
+.status-bar {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+.status-bar.ready { background: #f0f4ff; color: #1a73e8; }
+.status-bar.success { background: #e6f4ea; color: #137333; }
+.status-bar.error { background: #fce8e6; color: #c5221f; }
+.status-bar.loading { background: #fff8e1; color: #f57f17; }
+.status-bar .material-icons-outlined { font-size: 16px; }
+
+/* Footer */
+.scanner-footer {
+  padding: 12px 24px;
+  background: #f8f9fa;
+  border-top: 1px solid #e8ebed;
+  text-align: center;
+  font-size: 12px;
+  color: #80868b;
+  font-weight: 500;
+}
+
+/* Birthday Overlay */
+.birthday-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.birthday-overlay.show { display: flex; }
+.birthday-card {
+  background: linear-gradient(135deg, #fff8e1, #ffe0b2, #ffcc80);
+  border-radius: 28px;
+  padding: 36px 28px;
+  text-align: center;
+  max-width: 380px;
+  width: 90%;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+  animation: bdayBounce 0.6s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+.birthday-card::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle, rgba(255,215,0,0.12) 0%, transparent 70%);
+  animation: bdayGlow 4s ease-in-out infinite;
+}
+.bday-emoji { font-size: 44px; margin-bottom: 6px; position: relative; z-index: 1; }
+.bday-img {
+  width: 88px; height: 88px;
+  border-radius: 50%; object-fit: cover;
+  border: 4px solid #ff9800;
+  margin: 0 auto 10px; display: block;
+  position: relative; z-index: 1;
+  box-shadow: 0 4px 16px rgba(255,152,0,0.3);
+}
+.bday-title {
+  font-size: 26px; font-weight: 800; color: #e65100;
+  margin-bottom: 2px; position: relative; z-index: 1;
+}
+.bday-name {
+  font-size: 22px; font-weight: 700; color: #bf360c;
+  margin-bottom: 6px; position: relative; z-index: 1;
+}
+.bday-msg {
+  font-size: 14px; color: #795548;
+  position: relative; z-index: 1;
+}
+.bday-close {
+  margin-top: 14px; padding: 8px 24px;
+  background: #ff9800; color: white; border: none;
+  border-radius: 20px; font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+  position: relative; z-index: 1;
+}
+
+@keyframes bdayBounce {
+  0% { transform: scale(0.7); opacity: 0; }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes bdayGlow {
+  0%, 100% { transform: rotate(0deg); opacity: 0.6; }
+  50% { transform: rotate(180deg); opacity: 1; }
+}

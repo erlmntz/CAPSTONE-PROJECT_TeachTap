@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>TeachTap Attendance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <style><?!= include('ScannerStylesheet'); ?></style>
+</head>
+<body>
+  <div class="scanner-card">
+    <!-- Header -->
+    <div class="scanner-header">
+      <div class="logo-area">
+        <img src="https://github.com/erlmntz/CAPSTONE-PROJECT_TeachTap/blob/main/IMAGES/LOGO2.png?raw=true" alt="TeachTap">
+        <h1>TeachTap</h1>
+      </div>
+      <div class="nfc-chip">NFC SCANNER</div>
+    </div>
+
+    <!-- Live Clock -->
+    <div class="live-clock">
+      <span class="material-icons-outlined">schedule</span>
+      <span class="clock-time" id="clockTime">--:--:--</span>
+      <span class="clock-date" id="clockDate"></span>
+    </div>
+
+    <!-- Body -->
+    <div class="scanner-body">
+      <!-- Greeting -->
+      <div class="greeting-banner" id="greetingBanner">
+        <div class="greeting-text" id="greetingText"></div>
+      </div>
+
+      <!-- NFC Tap Prompt -->
+      <div class="tap-prompt" id="bigTapDiv">
+        <div class="nfc-ring">
+          <span class="material-icons-outlined">contactless</span>
+        </div>
+        <h3>Tap Your NFC Card</h3>
+        <p>Hold your card near the reader to record attendance</p>
+      </div>
+
+      <!-- Employee Result -->
+      <div class="employee-result" id="employeeResult">
+        <img id="empImage" class="emp-avatar" src="" alt="">
+        <div class="emp-default-avatar" id="empDefaultAvatar" style="display:none;">
+          <span class="material-icons-outlined">person</span>
+        </div>
+        <div class="emp-name" id="empName"></div>
+        <div class="emp-badges" id="empBadges"></div>
+      </div>
+
+      <!-- Input -->
+      <div class="input-area">
+        <label>Card UID / Manual Entry</label>
+        <div class="input-row">
+          <input type="text" id="cardInput" placeholder="Scan or type card UID..." autofocus autocomplete="off">
+          <button id="manualBtn">
+            <span class="material-icons-outlined">touch_app</span> Punch
+          </button>
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div class="status-bar ready" id="statusBar">
+        <span class="material-icons-outlined">info</span>
+        <span id="statusText">Ready — tap your NFC card</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="scanner-footer">TeachTap NFC Attendance System &middot; Work Schedule 7:00 AM – 4:00 PM</div>
+  </div>
+
+  <!-- Birthday Overlay -->
+  <div class="birthday-overlay" id="birthdayOverlay">
+    <div class="birthday-card">
+      <div class="bday-emoji">🎂🎉</div>
+      <img id="bdayImage" class="bday-img" src="" alt="" style="display:none;">
+      <div class="bday-title">Happy Birthday!</div>
+      <div class="bday-name" id="bdayName"></div>
+      <div class="bday-msg">Wishing you a wonderful day filled with joy! 🎈</div>
+      <button class="bday-close" onclick="closeBirthday()">Thank You! 🥳</button>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    "use strict";
+
+    var DEBOUNCE_MS = 2000;
+    var PRIVACY_RESET_DELAY = 8000;
+    var lastRequest = 0;
+    var resetTimer = null;
+    var validTapOccurred = false;
+
+    var cardInput = document.getElementById('cardInput');
+    var manualBtn = document.getElementById('manualBtn');
+    var statusBar = document.getElementById('statusBar');
+    var statusText = document.getElementById('statusText');
+    var bigTapDiv = document.getElementById('bigTapDiv');
+    var employeeResult = document.getElementById('employeeResult');
+    var empImage = document.getElementById('empImage');
+    var empDefaultAvatar = document.getElementById('empDefaultAvatar');
+    var empName = document.getElementById('empName');
+    var empBadges = document.getElementById('empBadges');
+
+    function safeText(s) {
+      if (!s) return '';
+      var d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    function updateClock() {
+      var now = new Date();
+      var opts = { timeZone: 'Asia/Manila' };
+      document.getElementById('clockTime').textContent = now.toLocaleTimeString('en-US', Object.assign({ hour: '2-digit', minute: '2-digit', second: '2-digit' }, opts));
+      document.getElementById('clockDate').textContent = now.toLocaleDateString('en-US', Object.assign({ weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }, opts));
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function setStatusBar(type, icon, text) {
+      statusBar.className = 'status-bar ' + type;
+      statusBar.innerHTML = '<span class="material-icons-outlined">' + icon + '</span><span>' + safeText(text) + '</span>';
+    }
+
+    function clearResetTimer() { if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; } }
+
+    function resetToInitial(keepStatus) {
+      clearResetTimer();
+      bigTapDiv.style.display = 'block';
+      employeeResult.style.display = 'none';
+      empImage.style.display = 'none';
+      empDefaultAvatar.style.display = 'none';
+      document.getElementById('greetingBanner').style.display = 'none';
+      validTapOccurred = false;
+      if (!keepStatus) setStatusBar('ready', 'info', 'Ready — tap your NFC card');
+      cardInput.value = '';
+      cardInput.focus();
+    }
+
+    function closeBirthday() {
+      document.getElementById('birthdayOverlay').classList.remove('show');
+    }
+
+    function showGreeting(response) {
+      var hour = parseInt(response.hour || new Date().getHours());
+      var greetBanner = document.getElementById('greetingBanner');
+      var greetText = document.getElementById('greetingText');
+      var firstName = (response.employeeName || '').split(' ')[0] || response.employeeName;
+      var period, cls;
+      if (hour >= 5 && hour < 12) { period = 'Good Morning'; cls = 'morning'; }
+      else if (hour >= 12 && hour < 17) { period = 'Good Afternoon'; cls = 'afternoon'; }
+      else { period = 'Good Evening'; cls = 'evening'; }
+      greetText.textContent = period + ', ' + firstName + '! ☀️';
+      greetBanner.className = 'greeting-banner ' + cls;
+      greetBanner.style.display = 'block';
+    }
+
+    function showBirthday(response) {
+      if (!response.isBirthday) return;
+      var firstName = (response.employeeName || '').split(' ')[0] || response.employeeName;
+      document.getElementById('bdayName').textContent = firstName + '!';
+
+      var bdayImg = document.getElementById('bdayImage');
+      if (response.imageUrl && response.imageUrl.trim() !== '') {
+        bdayImg.src = response.imageUrl;
+        bdayImg.style.display = 'block';
+      } else {
+        bdayImg.style.display = 'none';
+      }
+
+      document.getElementById('birthdayOverlay').classList.add('show');
+      setTimeout(function() { closeBirthday(); }, 5000);
+    }
+
+    function showEmployeePanel(response) {
+      clearResetTimer();
+      var eventLabel = response.eventType === 'AM IN' ? 'AM IN' : 'PM OUT';
+      var statusVal = response.status || '';
+
+      empName.textContent = safeText(response.employeeName) || 'Teacher';
+
+      if (response.imageUrl && response.imageUrl.trim() !== '') {
+        empImage.src = response.imageUrl;
+        empImage.className = 'emp-avatar' + (response.isBirthday ? ' birthday-border' : '');
+        empImage.style.display = 'block';
+        empDefaultAvatar.style.display = 'none';
+        empImage.onerror = function() {
+          empImage.style.display = 'none';
+          empDefaultAvatar.style.display = 'flex';
+        };
+      } else {
+        empImage.style.display = 'none';
+        empDefaultAvatar.style.display = 'flex';
+      }
+
+      var statusClass = (statusVal.indexOf('Late') !== -1 || statusVal.indexOf('Early Out') !== -1) ? 'status-bad' : 'status-good';
+      empBadges.innerHTML =
+        '<span class="emp-badge event">' + safeText(eventLabel) + '</span>' +
+        '<span class="emp-badge time">' + safeText(response.timeRecorded || '') + '</span>' +
+        (statusVal ? '<span class="emp-badge ' + statusClass + '">' + safeText(statusVal) + '</span>' : '');
+
+      bigTapDiv.style.display = 'none';
+      employeeResult.style.display = 'block';
+      validTapOccurred = true;
+
+      resetTimer = setTimeout(function() { resetToInitial(true); }, PRIVACY_RESET_DELAY);
+    }
+
+    function recordAttendance(uidRaw) {
+      var uid = uidRaw.trim();
+      if (!uid) { setStatusBar('error', 'error', 'Card UID cannot be empty'); cardInput.focus(); return; }
+      var now = Date.now();
+      if (now - lastRequest < DEBOUNCE_MS) { setStatusBar('loading', 'hourglass_empty', 'Processing previous tap...'); return; }
+      lastRequest = now;
+
+      clearResetTimer();
+      cardInput.disabled = true;
+      setStatusBar('loading', 'hourglass_empty', 'Recording attendance...');
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          cardInput.disabled = false;
+          if (response.success) {
+            var eventLabel = response.eventType === 'AM IN' ? 'AM IN' : 'PM OUT';
+            var statusVal = response.status || '';
+            var successMsg = (response.employeeName || '') + ' ' + eventLabel + ' at ' + (response.timeRecorded || '');
+            if (statusVal) successMsg += ' (' + statusVal + ')';
+            setStatusBar('success', 'check_circle', successMsg);
+
+            showGreeting(response);
+            showEmployeePanel(response);
+            showBirthday(response);
+          } else {
+            setStatusBar('error', 'error', response.message || 'Attendance not recorded');
+            if (!validTapOccurred) resetToInitial(true);
+          }
+          cardInput.value = '';
+          cardInput.focus();
+        })
+        .withFailureHandler(function(err) {
+          cardInput.disabled = false;
+          setStatusBar('error', 'wifi_off', 'Connection issue — try again');
+          cardInput.value = '';
+          cardInput.focus();
+          if (!validTapOccurred) resetToInitial(true);
+        })
+        .recordAttendance(uid);
+    }
+
+    function onManualPunch() {
+      var uid = cardInput.value.trim();
+      if (!uid) { setStatusBar('error', 'error', 'Enter or scan card UID first'); cardInput.focus(); return; }
+      recordAttendance(uid);
+    }
+
+    function bindEvents() {
+      cardInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          var scanned = cardInput.value.trim();
+          scanned ? recordAttendance(scanned) : setStatusBar('ready', 'info', 'Tap your card or enter UID');
+        }
+      });
+      cardInput.addEventListener('blur', function() { setTimeout(function() { cardInput.focus(); }, 100); });
+      manualBtn.addEventListener('click', onManualPunch);
+    }
+
+    window.addEventListener('load', function() {
+      resetToInitial();
+      bindEvents();
+    });
+  })();
+  </script>
+</body>
+</html>
