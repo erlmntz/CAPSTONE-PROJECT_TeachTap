@@ -1,0 +1,2833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeachTap - Admin Dashboard</title>
+  <style><?!= include('AdminStylesheet'); ?></style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <!-- Admin PIN Login Overlay -->
+  <div id="adminPinOverlay" class="admin-pin-overlay">
+    <div class="admin-pin-card">
+      <div class="admin-pin-logo">
+        <img src="https://github.com/erlmntz/CAPSTONE-PROJECT_TeachTap/blob/main/IMAGES/LOGO2.png?raw=true" alt="TeachTap Logo" style="width:120px;height:auto;border-radius:14px;">
+      </div>
+      <h2 style="margin:0 0 4px;font-size:22px;font-weight:700;color:#1e293b;">Admin Login</h2>
+      <p style="margin:0 0 20px;color:#64748b;font-size:13px;">Enter your 6-digit PIN to access the dashboard</p>
+      <div class="admin-pin-dots" id="adminPinDots">
+        <div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div>
+      </div>
+      <input type="tel" id="adminPinInput" class="admin-pin-hidden" maxlength="6" pattern="[0-9]*" inputmode="numeric" autocomplete="off">
+      <div class="admin-pin-error" id="adminPinError"></div>
+      <div class="admin-pin-numpad" id="adminPinNumpad"></div>
+      <div style="margin-top:12px;text-align:center;">
+        <button onclick="handleForgotAdminPin()" style="background:none;border:none;color:#2563eb;font-size:13px;cursor:pointer;font-family:Poppins,sans-serif;text-decoration:underline;">Forgot PIN?</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 201 Files PIN Gate Overlay -->
+  <div id="files201PinOverlay" class="admin-pin-overlay" style="display:none;z-index:10000;">
+    <div class="admin-pin-card">
+      <div class="admin-pin-logo">
+        <span class="material-icons-outlined" style="font-size:48px;color:#2563eb;">lock</span>
+      </div>
+      <h2 style="margin:0 0 4px;font-size:20px;font-weight:700;color:#1e293b;">Security Verification</h2>
+      <p style="margin:0 0 20px;color:#64748b;font-size:13px;">Enter your 6-digit PIN to view personal teacher records</p>
+      <div class="admin-pin-dots" id="files201PinDots">
+        <div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div><div class="apin-dot"></div>
+      </div>
+      <input type="tel" id="files201PinInput" class="admin-pin-hidden" maxlength="6" pattern="[0-9]*" inputmode="numeric" autocomplete="off">
+      <div class="admin-pin-error" id="files201PinError"></div>
+      <div class="admin-pin-numpad" id="files201PinNumpad"></div>
+      <div style="margin-top:12px;text-align:center;">
+        <button class="btn btn-xs" onclick="cancelFilesPinGate()" style="background:#e2e8f0;color:#475569;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-family:Poppins,sans-serif;font-size:13px;">
+          <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle;">arrow_back</span> Back to Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar" style="display:none;">
+    <div class="sidebar-header">
+      <img src="https://github.com/erlmntz/CAPSTONE-PROJECT_TeachTap/blob/main/IMAGES/LOGO2.png?raw=true" alt="Logo" class="sidebar-logo">
+      <span class="sidebar-title">TeachTap</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="javascript:void(0)" class="nav-item active" data-page="dashboard" onclick="showPage('dashboard')">
+        <span class="material-icons-outlined">dashboard</span> Dashboard
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="attendance" onclick="showPage('attendance')">
+        <span class="material-icons-outlined">fact_check</span> Attendance
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="monitoring" onclick="showPage('monitoring')">
+        <span class="material-icons-outlined">analytics</span> Monthly Monitoring
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="users" onclick="showPage('users')">
+        <span class="material-icons-outlined">people</span> Registered Users
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="files201" onclick="showPage('files201')">
+        <span class="material-icons-outlined">folder_shared</span> 201 Files
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="archived201" onclick="showPage('archived201')">
+        <span class="material-icons-outlined">inventory_2</span> Archived 201 Files
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="serviceCredits" onclick="showPage('serviceCredits')">
+        <span class="material-icons-outlined">stars</span> Service Credits
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="leaveRequests" onclick="showPage('leaveRequests')">
+        <span class="material-icons-outlined">pending_actions</span> Credit Requests
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="scanner" onclick="showPage('scanner')">
+        <span class="material-icons-outlined">nfc</span> Scanner Settings
+      </a>
+      <a href="javascript:void(0)" class="nav-item" data-page="adminSettings" onclick="showPage('adminSettings')">
+        <span class="material-icons-outlined">settings</span> Admin Settings
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="admin-badge">
+        <span class="material-icons-outlined">admin_panel_settings</span>
+        <span id="adminEmail">Admin</span>
+      </div>
+      <a href="javascript:void(0)" class="nav-item logout-btn" onclick="adminLogout()">
+        <span class="material-icons-outlined">logout</span> Logout
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobile Header -->
+  <div class="mobile-header" id="mobileHeader" style="display:none;">
+    <button class="menu-toggle" onclick="toggleSidebar()">
+      <span class="material-icons-outlined">menu</span>
+    </button>
+    <span class="mobile-title">TeachTap Admin</span>
+  </div>
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent" style="display:none;">
+
+    <!-- Dashboard Page -->
+    <div id="dashboard-page" class="page-content active">
+      <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;">
+        <div>
+          <h2>Dashboard</h2>
+          <p>Welcome to TeachTap Admin Dashboard</p>
+        </div>
+        <button class="btn btn-primary btn-xs" onclick="refreshAllDashboardData()" id="dashRefreshBtn" style="height:36px;">
+          <span class="material-icons-outlined">refresh</span> Refresh
+        </button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card stat-card-clickable" onclick="showTotalUsersModal()">
+          <span class="material-icons-outlined stat-icon">people</span>
+          <div class="stat-info">
+            <div class="stat-number" id="totalUsers">0</div>
+            <div class="stat-label">Total Users</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card-clickable" onclick="showPresentAbsentModal('present')">
+          <span class="material-icons-outlined stat-icon stat-icon-green">check_circle</span>
+          <div class="stat-info">
+            <div class="stat-number" id="presentToday">0</div>
+            <div class="stat-label">Present Today</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card-clickable" onclick="showPresentAbsentModal('absent')">
+          <span class="material-icons-outlined stat-icon stat-icon-red">cancel</span>
+          <div class="stat-info">
+            <div class="stat-number" id="absentToday">0</div>
+            <div class="stat-label">Absent Today</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card-clickable" onclick="showPresentAbsentModal('late')">
+          <span class="material-icons-outlined stat-icon" style="color:#f59e0b;">schedule</span>
+          <div class="stat-info">
+            <div class="stat-number" id="lateToday">0</div>
+            <div class="stat-label">Late Today</div>
+          </div>
+        </div>
+        <div class="stat-card stat-card-clickable" onclick="showPresentAbsentModal('earlyout')">
+          <span class="material-icons-outlined stat-icon" style="color:#8b5cf6;">exit_to_app</span>
+          <div class="stat-info">
+            <div class="stat-number" id="earlyOutToday">0</div>
+            <div class="stat-label">Early Out</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attendance Page -->
+    <div id="attendance-page" class="page-content">
+      <div class="page-header">
+        <h2>Attendance Records</h2>
+        <p>View and manage teacher attendance</p>
+      </div>
+      <div class="card">
+        <div class="card-toolbar">
+          <h3>Daily Attendance</h3>
+          <div class="card-toolbar-actions">
+            <button class="att-nav-btn" onclick="shiftAttDate(-1)" title="Previous Day"><span class="material-icons-outlined">chevron_left</span></button>
+            <button class="btn btn-primary btn-xs" onclick="setAttToday()">Today</button>
+            <button class="btn btn-xs" onclick="setAttYesterday()">Yesterday</button>
+            <div class="date-input-wrap">
+              <span class="material-icons-outlined date-input-icon">calendar_today</span>
+              <input type="date" id="attendanceDate" class="att-date-input" onchange="loadAttendance()">
+            </div>
+            <button class="att-nav-btn" onclick="shiftAttDate(1)" title="Next Day"><span class="material-icons-outlined">chevron_right</span></button>
+          </div>
+        </div>
+        <div id="attDateLabel" class="att-date-label"></div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Name</th><th>AM Time-In</th><th>AM Status</th><th>PM Time-Out</th><th>PM Status</th></tr>
+          </thead>
+          <tbody id="attendanceList">
+            <tr><td colspan="5" class="empty-state"><span class="material-icons-outlined empty-state-icon">event_note</span>Select a date to view attendance</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Date Range PDF Download -->
+      <div class="card" style="margin-top:20px;">
+        <div class="card-toolbar">
+          <h3><span class="material-icons-outlined" style="vertical-align:middle;margin-right:6px;">date_range</span>Download Attendance PDF (Date Range)</h3>
+        </div>
+        <div style="padding:16px 0 0;">
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;">
+            <div>
+              <label style="display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#64748b;margin-bottom:6px;">From Date</label>
+              <div class="date-input-wrap">
+                <span class="material-icons-outlined date-input-icon">calendar_today</span>
+                <input type="date" id="attRangeFrom" class="att-date-input">
+              </div>
+            </div>
+            <div>
+              <label style="display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#64748b;margin-bottom:6px;">To Date</label>
+              <div class="date-input-wrap">
+                <span class="material-icons-outlined date-input-icon">calendar_today</span>
+                <input type="date" id="attRangeTo" class="att-date-input">
+              </div>
+            </div>
+            <button class="btn btn-primary btn-xs" onclick="loadAttendanceRange()" style="height:38px;">
+              <span class="material-icons-outlined" style="font-size:16px;vertical-align:middle;">search</span> View Range
+            </button>
+            <button class="btn btn-info btn-xs" onclick="downloadAttendanceRangePDF()" title="Download PDF" style="height:38px;">
+              <span class="material-icons-outlined" style="font-size:16px;vertical-align:middle;">picture_as_pdf</span> Download PDF
+            </button>
+          </div>
+          <div id="attRangeLabel" style="margin-top:12px;font-size:13px;color:#64748b;"></div>
+          <div id="attRangeContent" style="margin-top:12px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monthly Monitoring Page -->
+    <div id="monitoring-page" class="page-content">
+      <div class="page-header">
+        <h2>Monthly Monitoring</h2>
+        <p>Attendance analytics and reporting</p>
+      </div>
+
+      <!-- Month Picker -->
+      <div class="card">
+        <div class="card-toolbar">
+          <h3><span class="material-icons-outlined" style="vertical-align:middle;margin-right:6px;">calendar_month</span>Select Month</h3>
+          <div class="card-toolbar-actions">
+            <div class="date-input-wrap">
+              <span class="material-icons-outlined date-input-icon">calendar_today</span>
+              <input type="month" id="monitoringMonth" class="att-date-input" onchange="loadMonthlyMonitoring()">
+            </div>
+            <button class="btn btn-info btn-xs" onclick="downloadMonthlyReportPDF()" title="Download Monthly Report PDF" style="height:38px;">
+              <span class="material-icons-outlined" style="font-size:16px;vertical-align:middle;">picture_as_pdf</span> Download Report
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary Cards -->
+      <div id="monitoringSummary" style="display:none;">
+        <div class="stats-grid" style="margin-top:16px;">
+          <div class="stat-card stat-card-clickable" onclick="showMonitoringDetail('absent')">
+            <span class="material-icons-outlined stat-icon" style="color:#ef4444;">person_off</span>
+            <div class="stat-info">
+              <div class="stat-number" id="monTotalAbsences">0</div>
+              <div class="stat-label">Total Absences</div>
+            </div>
+          </div>
+          <div class="stat-card stat-card-clickable" onclick="showMonitoringDetail('late')">
+            <span class="material-icons-outlined stat-icon" style="color:#f59e0b;">schedule</span>
+            <div class="stat-info">
+              <div class="stat-number" id="monTotalLate">0</div>
+              <div class="stat-label">Total Late Arrivals</div>
+            </div>
+          </div>
+          <div class="stat-card stat-card-clickable" onclick="showMonitoringDetail('earlyout')">
+            <span class="material-icons-outlined stat-icon" style="color:#8b5cf6;">exit_to_app</span>
+            <div class="stat-info">
+              <div class="stat-number" id="monTotalEarlyOut">0</div>
+              <div class="stat-label">Total Early Outs</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <span class="material-icons-outlined stat-icon" style="color:#3b82f6;">groups</span>
+            <div class="stat-info">
+              <div class="stat-number" id="monTotalTeachers">0</div>
+              <div class="stat-label">Total Teachers</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <span class="material-icons-outlined stat-icon" style="color:#10b981;">work_history</span>
+            <div class="stat-info">
+              <div class="stat-number" id="monWorkingDays">0</div>
+              <div class="stat-label">Working Days</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daily Attendance Chart (Table) -->
+        <div class="card" style="margin-top:20px;">
+          <div class="card-toolbar"><h3><span class="material-icons-outlined" style="vertical-align:middle;margin-right:6px;">bar_chart</span>Daily Attendance Summary</h3></div>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr><th>Date</th><th>Day</th><th>Present</th><th>Absent</th><th>Total</th><th>Rate</th></tr>
+              </thead>
+              <tbody id="monDailySummary"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="monitoringLoading" style="display:none;text-align:center;padding:40px;">
+        <div class="spinner spinner-md"></div>
+        <p style="margin-top:12px;color:#64748b;">Loading monitoring data...</p>
+      </div>
+      <div id="monitoringEmpty" style="display:none;text-align:center;padding:40px;color:#94a3b8;">
+        <span class="material-icons-outlined" style="font-size:48px;display:block;margin-bottom:8px;">analytics</span>
+        Select a month to view monitoring data
+      </div>
+    </div>
+
+    <!-- Monitoring Detail Modal -->
+    <div id="monitoringDetailModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;">
+      <div style="background:white;border-radius:16px;max-width:700px;width:95%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid #e2e8f0;position:sticky;top:0;background:white;border-radius:16px 16px 0 0;z-index:1;">
+          <h3 id="monDetailTitle" style="font-family:Poppins,sans-serif;font-size:18px;font-weight:600;color:#1e293b;">Detail</h3>
+          <button onclick="closeMonitoringDetail()" style="background:none;border:none;cursor:pointer;padding:4px;"><span class="material-icons-outlined" style="color:#64748b;">close</span></button>
+        </div>
+        <div id="monDetailContent" style="padding:20px 24px;"></div>
+      </div>
+    </div>
+
+    <!-- Users Page -->
+    <div id="users-page" class="page-content">
+      <div class="page-header">
+        <h2>Registered Users</h2>
+        <p>Manage registered teachers and staff</p>
+      </div>
+      <div class="card">
+        <div class="card-toolbar">
+          <div class="card-toolbar-left">
+            <h3>User List</h3>
+            <span id="userCountBadge" class="user-count-badge">0</span>
+          </div>
+          <div class="card-toolbar-right">
+            <div class="search-wrapper">
+              <span class="material-icons-outlined search-icon">search</span>
+              <input type="text" placeholder="Search name, UID, email..." id="userSearch" oninput="searchUsers()">
+              <span class="material-icons-outlined search-clear" id="userSearchClear" onclick="document.getElementById('userSearch').value='';searchUsers();this.style.display='none';">close</span>
+            </div>
+            <button class="btn btn-success" onclick="openRegisterModal()"><span class="material-icons-outlined">person_add</span> Register NFC</button>
+          </div>
+        </div>
+        <div id="usersList" class="users-list-container"></div>
+      </div>
+    </div>
+
+    <!-- Scanner Page -->
+    <div id="scanner-page" class="page-content">
+      <div class="page-header">
+        <h2>Scanner Settings</h2>
+        <p>Configure auto service credit for NFC attendance on specific dates</p>
+      </div>
+      <div class="scanner-layout">
+        <div class="card scanner-input-card">
+          <div class="scanner-center">
+            <div class="scanner-settings-icon">
+              <span class="material-icons-outlined" style="font-size:48px;color:#2563eb;">settings</span>
+            </div>
+            <h3 class="scanner-title" style="margin-top:12px;">Auto Credit Configuration</h3>
+            <p class="scanner-subtitle">Set a date and credit amount. When teachers scan their NFC on that date, credits are auto-granted.</p>
+            <div style="width:100%;max-width:360px;margin:0 auto;">
+              <div style="margin-bottom:14px;">
+                <label style="display:block;text-align:center;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#64748b;margin-bottom:6px;">Date</label>
+                <input type="date" id="ssDate" class="sc-input" style="width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:Poppins,sans-serif;font-size:14px;">
+              </div>
+              <div style="margin-bottom:14px;">
+                <label style="display:block;text-align:center;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#64748b;margin-bottom:6px;">Credit Amount (Points)</label>
+                <input type="number" id="ssCredits" class="sc-input" placeholder="e.g. 1" min="0.5" step="0.5" style="width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:Poppins,sans-serif;font-size:14px;">
+              </div>
+              <div style="margin-bottom:18px;">
+                <label style="display:block;text-align:center;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#64748b;margin-bottom:6px;">Reason</label>
+                <input type="text" id="ssReason" class="sc-input" placeholder="e.g. Flag Ceremony, Training Day" style="width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:Poppins,sans-serif;font-size:14px;">
+              </div>
+              <button class="btn-scan" onclick="saveSSSettings()" id="ssSaveBtn" style="width:100%;margin-bottom:10px;">
+                <span class="material-icons-outlined">save</span> Save Settings
+              </button>
+            </div>
+            <div class="scanner-actions">
+              <button class="btn-open-scanner" onclick="openScannerNewTab()"><span class="material-icons-outlined">open_in_new</span> Open Full Scanner</button>
+            </div>
+          </div>
+        </div>
+        <div class="card scan-result-card">
+          <div class="scan-result-header">
+            <span class="material-icons-outlined">date_range</span>
+            <span class="scan-result-title">Configured Dates</span>
+          </div>
+          <div id="ssConfiguredDates" class="scan-result-body" style="padding:0;">
+            <div class="scan-result-placeholder">
+              <span class="material-icons-outlined">event_busy</span>
+              <p>No dates configured yet</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Work Schedule Section -->
+      <div style="margin-top:24px;">
+        <div class="scanner-layout">
+          <div class="card scanner-input-card">
+            <div class="scanner-center">
+              <div class="scanner-settings-icon">
+                <span class="material-icons-outlined" style="font-size:48px;color:#7c3aed;">schedule</span>
+              </div>
+              <h3 class="scanner-title" style="margin-top:12px;">Work Schedule Configuration</h3>
+              <p class="scanner-subtitle">Set custom work hours for specific dates. Default is <strong>7:00 AM - 5:00 PM</strong>. Only dates with custom schedules will override the default.</p>
+              <div style="width:100%;max-width:360px;margin:0 auto;">
+                <div style="margin-bottom:14px;">
+                  <label style="display:block;text-align:center;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#64748b;margin-bottom:6px;">Date</label>
+                  <input type="date" id="wsDate" class="sc-input" style="width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:Poppins,sans-serif;font-size:14px;">
+                </div>
+                <div style="display:flex;gap:12px;margin-bottom:14px;">
+                  <div style="flex:1;">
+                    <label style="display:block;text-align:center;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#64748b;margin-bottom:6px;">Time In</label>
+                    <input type="time" id="wsTimeIn" class="sc-input" value="07:00" style="width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:Poppins,sans-serif;font-size:14px;">
+                  </div>
+                  <div style="flex:1;">
+                    <label style="display:block;text-align:center;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#64748b;margin-bottom:6px;">Time Out</label>
+                    <input type="time" id="wsTimeOut" class="sc-input" value="17:00" style="width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:Poppins,sans-serif;font-size:14px;">
+                  </div>
+                </div>
+                <button class="btn-scan" onclick="saveWSSettings()" id="wsSaveBtn" style="width:100%;margin-bottom:10px;background:linear-gradient(135deg,#7c3aed,#6d28d9);">
+                  <span class="material-icons-outlined">save</span> Save Work Schedule
+                </button>
+              </div>
+              <div class="scanner-actions">
+                <button class="btn-open-scanner" onclick="openScannerNewTab()"><span class="material-icons-outlined">open_in_new</span> Open Full Scanner</button>
+              </div>
+            </div>
+          </div>
+          <div class="card scan-result-card">
+            <div class="scan-result-header">
+              <span class="material-icons-outlined">event_note</span>
+              <span class="scan-result-title">Configured Work Schedules</span>
+            </div>
+            <div style="padding:12px 20px;background:#f8fafc;border-bottom:1px solid #f1f5f9;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span class="material-icons-outlined" style="font-size:16px;color:#7c3aed;">info</span>
+                <span style="font-size:12px;color:#64748b;">Default schedule: <strong>7:00 AM - 5:00 PM</strong> (applies to all dates without custom settings)</span>
+              </div>
+            </div>
+            <div id="wsConfiguredDates" class="scan-result-body" style="padding:0;">
+              <div class="scan-result-placeholder">
+                <span class="material-icons-outlined">event_busy</span>
+                <p>No custom work schedules configured</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 201 Files Page -->
+    <div id="files201-page" class="page-content">
+      <div class="page-header">
+        <h2>Teachers 201 Files</h2>
+        <p>Manage and view teacher records and 201 files</p>
+      </div>
+      <div class="files-toolbar">
+        <input type="text" id="files201Search" class="files-search" placeholder="Search teacher..." oninput="search201Files()">
+        <select id="positionFilter201" class="files-select" onchange="filter201Files()">
+          <option value="all">All Positions</option><option value="Teacher I">Teacher I</option><option value="Teacher II">Teacher II</option><option value="Teacher III">Teacher III</option><option value="Master Teacher I">Master Teacher I</option><option value="Principal IV">Principal IV</option>
+        </select>
+        <select id="levelFilter201" class="files-select" onchange="filter201Files()">
+          <option value="all">All Levels</option><option value="Elementary">Elementary</option><option value="JHS">JHS</option><option value="SHS">SHS</option>
+        </select>
+        <button class="btn btn-primary btn-xs" onclick="load201Files()"><span class="material-icons-outlined">refresh</span> Refresh</button>
+        <button class="btn btn-success btn-xs" onclick="openAdd201Modal()"><span class="material-icons-outlined">add_circle</span> Add New 201 File</button>
+        <button class="btn btn-info btn-xs" onclick="downloadAll201FilesPDF()"><span class="material-icons-outlined">picture_as_pdf</span> Download PDF</button>
+      </div>
+      <div class="files-stats-grid">
+        <div class="files-stat-card"><div class="files-stat-label">Total Teachers</div><div id="totalTeachersCount" class="files-stat-value files-stat-blue">0</div></div>
+        <div class="files-stat-card"><div class="files-stat-label">Complete Info</div><div id="completeInfoCount" class="files-stat-value files-stat-green">0</div></div>
+        <div class="files-stat-card"><div class="files-stat-label">Incomplete Info</div><div id="incompleteInfoCount" class="files-stat-value files-stat-red">0</div></div>
+        <div class="files-stat-card"><div class="files-stat-label">Schools</div><div id="schoolsCount" class="files-stat-value files-stat-yellow">0</div></div>
+      </div>
+      <div id="files201Loading" class="loading-state">
+        <div class="spinner spinner-lg"></div>
+        <p>Loading 201 files...</p>
+      </div>
+      <div id="files201TableContainer" class="files-table-container hidden">
+        <table class="files-table">
+          <thead><tr>
+            <th>#</th><th>Employee ID</th><th>Last Name</th><th>First Name</th><th>Position</th><th>School</th><th class="text-center">Level</th><th class="text-center">Action</th>
+          </tr></thead>
+          <tbody id="files201List"></tbody>
+        </table>
+      </div>
+      <div id="files201Pagination" class="files-pagination"></div>
+    </div>
+
+    <!-- Archived 201 Files Page -->
+    <div id="archived201-page" class="page-content">
+      <div class="page-header">
+        <h2>Archived 201 Files</h2>
+        <p>View and restore archived teacher 201 files</p>
+      </div>
+      <div class="files-toolbar">
+        <input type="text" id="archived201Search" class="files-search" placeholder="Search archived files..." oninput="searchArchived201()">
+        <button class="btn btn-primary btn-xs" onclick="loadArchived201Files()"><span class="material-icons-outlined">refresh</span> Refresh</button>
+      </div>
+      <div class="files-stats-grid">
+        <div class="files-stat-card"><div class="files-stat-label">Archived Files</div><div id="archivedFilesCount" class="files-stat-value files-stat-yellow">0</div></div>
+      </div>
+      <div id="archived201Loading" class="loading-state">
+        <div class="spinner spinner-lg"></div>
+        <p>Loading archived files...</p>
+      </div>
+      <div id="archived201TableContainer" class="files-table-container hidden">
+        <table class="files-table">
+          <thead><tr>
+            <th>#</th><th>Employee ID</th><th>Last Name</th><th>First Name</th><th>Position</th><th>School</th><th class="text-center">Level</th><th class="text-center">Action</th>
+          </tr></thead>
+          <tbody id="archived201List"></tbody>
+        </table>
+      </div>
+      <div id="archived201Pagination" class="files-pagination"></div>
+    </div>
+
+    <!-- Service Credits Page -->
+    <div id="serviceCredits-page" class="page-content">
+      <div class="page-header">
+        <h2>Service Credits</h2>
+        <p>Manage teacher service credit points</p>
+      </div>
+      <!-- Add Points Panel -->
+      <div class="sc-add-card">
+        <div class="sc-add-header">
+          <span class="material-icons-outlined">add_circle</span>
+          <h3>Add Points</h3>
+        </div>
+        <div class="sc-add-body">
+          <div class="sc-add-grid">
+            <div class="sc-form-field">
+              <label>Teacher Name</label>
+              <div class="sc-search-wrap">
+                <span class="material-icons-outlined sc-search-icon">person_search</span>
+                <input type="text" id="scTeacherInput" class="sc-input" placeholder="Type teacher name..." autocomplete="off" oninput="filterTeacherSuggestions()">
+                <div id="scSuggestions" class="sc-suggestions hidden"></div>
+              </div>
+            </div>
+            <div class="sc-form-field">
+              <label>Date</label>
+              <input type="date" id="scDate" class="sc-input">
+            </div>
+            <div class="sc-form-field">
+              <label>Points</label>
+              <input type="number" id="scPoints" class="sc-input" placeholder="e.g. 1" min="0.5" step="0.5">
+            </div>
+            <div class="sc-form-field">
+              <label>Reason for Credit</label>
+              <input type="text" id="scReason" class="sc-input" placeholder="e.g. Worked during Election Day">
+            </div>
+          </div>
+          <button class="sc-add-btn" onclick="submitAddPoints()"><span class="material-icons-outlined">add_circle</span> Add Points</button>
+        </div>
+      </div>
+      <!-- Teacher Directory -->
+      <div class="card">
+        <div class="card-toolbar">
+          <div class="card-toolbar-left">
+            <h3><span class="material-icons-outlined">people</span> Teacher Directory</h3>
+            <span id="scTeacherCount" class="user-count-badge">0</span>
+          </div>
+          <div class="card-toolbar-right">
+            <div class="search-wrapper">
+              <span class="material-icons-outlined search-icon">search</span>
+              <input type="text" placeholder="Search teacher..." id="scSearch" oninput="searchSCTeachers()">
+            </div>
+            <button class="btn btn-primary btn-xs" onclick="loadServiceCredits()"><span class="material-icons-outlined">refresh</span> Refresh</button>
+          </div>
+        </div>
+        <div id="scLoading" class="loading-state"><div class="spinner spinner-lg"></div><p>Loading teachers...</p></div>
+        <div id="scTableContainer" class="hidden">
+          <div id="scTeacherList" class="sc-teacher-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leave Requests Page -->
+    <div id="leaveRequests-page" class="page-content">
+      <div class="page-header">
+        <h2>Credit Requests</h2>
+        <p>Review and manage teacher leave requests</p>
+      </div>
+      <div class="card">
+        <div class="card-toolbar">
+          <div class="card-toolbar-left">
+            <h3><span class="material-icons-outlined">pending_actions</span> Leave Requests</h3>
+          </div>
+          <div class="card-toolbar-right">
+            <select id="lrStatusFilter" class="files-select" onchange="filterLeaveRequests()">
+              <option value="all">All Requests</option>
+              <option value="Pending" selected>Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Declined">Declined</option>
+            </select>
+            <button class="btn btn-primary btn-xs" onclick="loadLeaveRequests()"><span class="material-icons-outlined">refresh</span> Refresh</button>
+          </div>
+        </div>
+        <div id="lrLoading" class="loading-state"><div class="spinner spinner-lg"></div><p>Loading requests...</p></div>
+        <div id="lrTableContainer" class="hidden">
+          <table class="data-table">
+            <thead><tr><th>Date</th><th>Teacher</th><th>Days</th><th>Reason</th><th>Period</th><th>Status</th><th class="text-center">Action</th></tr></thead>
+            <tbody id="lrList"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Settings Page -->
+    <div id="adminSettings-page" class="page-content">
+      <div class="page-header">
+        <h2>Admin Settings</h2>
+        <p>Configure your admin email and 6-digit PIN</p>
+      </div>
+      <div class="card" style="max-width:500px;">
+        <div style="padding:24px;">
+          <h3 style="margin:0 0 20px;font-size:16px;font-weight:600;color:#1e293b;"><span class="material-icons-outlined" style="vertical-align:middle;margin-right:6px;">admin_panel_settings</span> Admin Account Settings</h3>
+          <div style="margin-bottom:16px;">
+            <label style="display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#64748b;margin-bottom:6px;">Admin Email</label>
+            <input type="email" id="adminSettingsEmail" class="sc-input" placeholder="Enter admin email" style="width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:Poppins,sans-serif;font-size:14px;">
+          </div>
+          <div style="margin-bottom:16px;">
+            <label style="display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#64748b;margin-bottom:6px;">Current 6-Digit PIN</label>
+            <input type="tel" id="adminSettingsCurrentPin" class="sc-input" placeholder="Enter current PIN" maxlength="6" pattern="[0-9]*" inputmode="numeric" style="width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:Poppins,sans-serif;font-size:14px;">
+          </div>
+          <div style="margin-bottom:16px;">
+            <label style="display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#64748b;margin-bottom:6px;">New 6-Digit PIN (leave blank to keep current)</label>
+            <input type="tel" id="adminSettingsNewPin" class="sc-input" placeholder="Enter new 6-digit PIN" maxlength="6" pattern="[0-9]*" inputmode="numeric" style="width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:Poppins,sans-serif;font-size:14px;">
+          </div>
+          <div style="margin-bottom:16px;">
+            <label style="display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#64748b;margin-bottom:6px;">Confirm New PIN</label>
+            <input type="tel" id="adminSettingsConfirmPin" class="sc-input" placeholder="Confirm new 6-digit PIN" maxlength="6" pattern="[0-9]*" inputmode="numeric" style="width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-family:Poppins,sans-serif;font-size:14px;">
+          </div>
+          <div id="adminSettingsError" style="color:#ef4444;font-size:13px;margin-bottom:12px;display:none;"></div>
+          <div id="adminSettingsSuccess" style="color:#22c55e;font-size:13px;margin-bottom:12px;display:none;"></div>
+          <button class="btn-scan" onclick="saveAdminSettings()" style="width:100%;">
+            <span class="material-icons-outlined">save</span> Save Settings
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ===== PAGE NAVIGATION =====
+    function showPage(pageName) {
+      document.querySelectorAll('.page-content').forEach(function(p) { p.classList.remove('active'); p.style.display = 'none'; });
+      document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+      var target = document.getElementById(pageName + '-page');
+      if (target) { target.classList.add('active'); target.style.display = 'block'; }
+      var navItem = document.querySelector('[data-page="' + pageName + '"]');
+      if (navItem) navItem.classList.add('active');
+      // Close sidebar on mobile after navigation
+      closeSidebar();
+      if (pageName === 'files201') {
+        if (!filesPinVerified) { showFilesPinGate('files201'); return; }
+        load201Files();
+      }
+      if (pageName === 'archived201') {
+        if (!filesPinVerified) { showFilesPinGate('archived201'); return; }
+        loadArchived201Files();
+      }
+      if (pageName === 'attendance') {
+        if (!document.getElementById('attendanceDate').value) {
+          document.getElementById('attendanceDate').value = getManilaToday();
+          loadAttendance();
+        }
+      }
+      if (pageName === 'serviceCredits') { loadServiceCredits(); document.getElementById('scDate').value = getManilaToday(); }
+      if (pageName === 'leaveRequests') loadLeaveRequests();
+      if (pageName === 'scanner') { loadScannerSettings(); loadWorkScheduleSettings(); }
+      if (pageName === 'adminSettings') loadAdminSettings();
+      if (pageName === 'monitoring') {
+        if (!document.getElementById('monitoringMonth').value) {
+          var t = getManilaToday();
+          document.getElementById('monitoringMonth').value = t.substring(0, 7);
+          loadMonthlyMonitoring();
+        }
+      }
+    }
+
+    function toggleSidebar() {
+      var sidebar = document.getElementById('sidebar');
+      var overlay = document.getElementById('sidebarOverlay');
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('active');
+    }
+
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebarOverlay').classList.remove('active');
+    }
+
+    // ===== DASHBOARD =====
+    var dashboardData = {};
+
+    function refreshDashboard() {
+      google.script.run.withSuccessHandler(function(d) {
+        dashboardData = d;
+        document.getElementById('totalUsers').textContent = d.totalRegistered || 0;
+        document.getElementById('presentToday').textContent = d.presentCount || 0;
+        document.getElementById('absentToday').textContent = d.absentCount || 0;
+        document.getElementById('lateToday').textContent = d.lateCount || 0;
+        document.getElementById('earlyOutToday').textContent = d.earlyOutCount || 0;
+      }).getAdminDashboardData();
+    }
+
+    function refreshAllDashboardData() {
+      var btn = document.getElementById('dashRefreshBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-icons-outlined" style="animation:spin 1s linear infinite;">refresh</span> Refreshing...';
+      refreshDashboard();
+      loadUsers();
+      document.getElementById('attendanceDate').value = getManilaToday();
+      loadAttendance();
+      setTimeout(function() {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-icons-outlined">refresh</span> Refresh';
+        showToast('Dashboard refreshed!');
+      }, 1500);
+    }
+
+    // Present/Absent name list modal
+    function showPresentAbsentModal(type) {
+      var names, title, icon, color;
+      if (type === 'present') { names = dashboardData.presentNames || []; title = 'Present Today'; icon = 'check_circle'; color = '#2563eb'; }
+      else if (type === 'absent') { names = dashboardData.absentNames || []; title = 'Absent Today'; icon = 'cancel'; color = '#ef4444'; }
+      else if (type === 'late') { names = dashboardData.lateNames || []; title = 'Late Today'; icon = 'schedule'; color = '#f59e0b'; }
+      else if (type === 'earlyout') { names = dashboardData.earlyOutNames || []; title = 'Early Out Today'; icon = 'exit_to_app'; color = '#8b5cf6'; }
+      else { names = []; title = ''; icon = ''; color = '#1e293b'; }
+      var h = '<div class="modal-overlay" id="paModal" onclick="if(event.target===this)closePAModal()">';
+      h += '<div class="modal-box">';
+      h += '<div class="modal-header-colored" style="background:'+color+'"><div><h3>'+title+'</h3><div class="modal-subtitle">'+names.length+' teacher(s)</div></div><button class="modal-close-btn" onclick="closePAModal()">&#10005;</button></div>';
+      h += '<div class="modal-body pa-modal-body">';
+      if (names.length === 0) {
+        h += '<div class="empty-state"><span class="material-icons-outlined empty-state-icon">'+icon+'</span><p>No teachers ' + (type === 'present' ? 'present' : 'absent') + ' today</p></div>';
+      } else {
+        h += '<ul class="pa-name-list">';
+        names.forEach(function(n, i) {
+          h += '<li class="pa-name-item"><span class="pa-name-num">'+(i+1)+'</span><span class="pa-name-text">'+escapeH(n)+'</span></li>';
+        });
+        h += '</ul>';
+      }
+      h += '</div>';
+      h += '<div class="modal-footer"><button class="btn" onclick="closePAModal()">Close</button></div>';
+      h += '</div></div>';
+      var old = document.getElementById('paModal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+    }
+
+    function closePAModal() { var e = document.getElementById('paModal'); if(e) e.remove(); }
+
+    // Total Users name list modal
+    function showTotalUsersModal() {
+      var allNames = [];
+      if (dashboardData.presentNames) allNames = allNames.concat(dashboardData.presentNames);
+      if (dashboardData.absentNames) allNames = allNames.concat(dashboardData.absentNames);
+      allNames.sort(function(a, b) { return a.localeCompare(b); });
+      var title = 'Total Registered Users';
+      var color = '#1e293b';
+      var h = '<div class="modal-overlay" id="paModal" onclick="if(event.target===this)closePAModal()">';
+      h += '<div class="modal-box">';
+      h += '<div class="modal-header-colored" style="background:'+color+'"><div><h3>'+title+'</h3><div class="modal-subtitle">'+allNames.length+' user(s)</div></div><button class="modal-close-btn" onclick="closePAModal()">&#10005;</button></div>';
+      h += '<div class="modal-body pa-modal-body">';
+      if (allNames.length === 0) {
+        h += '<div class="empty-state"><span class="material-icons-outlined empty-state-icon">people</span><p>No registered users</p></div>';
+      } else {
+        h += '<ul class="pa-name-list">';
+        allNames.forEach(function(n, i) {
+          h += '<li class="pa-name-item"><span class="pa-name-num">'+(i+1)+'</span><span class="pa-name-text">'+escapeH(n)+'</span></li>';
+        });
+        h += '</ul>';
+      }
+      h += '</div>';
+      h += '<div class="modal-footer"><button class="btn" onclick="closePAModal()">Close</button></div>';
+      h += '</div></div>';
+      var old = document.getElementById('paModal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+    }
+
+    // ===== TOAST =====
+    function showToast(msg, isError) {
+      var old = document.getElementById('adminToast');
+      if (old) old.remove();
+      var t = document.createElement('div');
+      t.id = 'adminToast';
+      t.className = 'toast ' + (isError ? 'toast-error' : 'toast-success');
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(function() { t.remove(); }, 3500);
+    }
+
+    function escapeH(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+    // ===== NFC SCANNER =====
+    var recentScansList = [];
+
+    function openScannerNewTab() {
+      google.script.run.withSuccessHandler(function(url) {
+        if (url) window.open(url + '?page=scanner', '_blank');
+      }).getScriptUrl();
+    }
+
+    
+    // ===== Scanner Settings Functions =====
+    function loadScannerSettings() {
+      var container = document.getElementById('ssConfiguredDates');
+      container.innerHTML = '<div class="scan-result-placeholder"><div class="spinner"></div><p>Loading...</p></div>';
+      google.script.run.withSuccessHandler(function(settings) {
+        if (!settings || settings.length === 0) {
+          container.innerHTML = '<div class="scan-result-placeholder"><span class="material-icons-outlined">event_busy</span><p>No dates configured yet</p></div>';
+          return;
+        }
+        var html = '';
+        settings.forEach(function(s) {
+          var readableDate = formatDateReadable(s.date);
+          html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #f1f5f9;">';
+          html += '<div style="flex:1;"><strong style="font-size:15px;color:#1e293b;">' + readableDate + '</strong><br><span style="color:#94a3b8;font-size:11px;">' + s.date + '</span><br><span style="color:#64748b;font-size:13px;">' + (s.reason || '') + '</span></div>';
+          html += '<div style="display:flex;align-items:center;gap:8px;">';
+          html += '<span style="color:#2563eb;font-weight:600;font-size:14px;">' + s.creditAmount + ' pts</span>';
+          if (s.active) {
+            html += '<span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;background:#dcfce7;color:#16a34a;">Active</span>';
+            html += '<button onclick="toggleSS(' + s.rowIndex + ',false)" style="padding:4px 12px;border-radius:6px;border:1.5px solid #e2e8f0;background:#fff;cursor:pointer;font-family:Poppins,sans-serif;font-size:12px;color:#64748b;">Disable</button>';
+          } else {
+            html += '<span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;background:#fef2f2;color:#dc2626;">Disabled</span>';
+            html += '<button onclick="toggleSS(' + s.rowIndex + ',true)" style="padding:4px 12px;border-radius:6px;border:1.5px solid #e2e8f0;background:#fff;cursor:pointer;font-family:Poppins,sans-serif;font-size:12px;color:#64748b;">Enable</button>';
+          }
+          html += '<button onclick="deleteSS(' + s.rowIndex + ')" style="padding:4px 8px;border-radius:6px;border:none;background:#fee2e2;cursor:pointer;color:#dc2626;font-size:16px;line-height:1;"><span class="material-icons-outlined" style="font-size:18px;">delete</span></button>';
+          html += '</div></div>';
+        });
+        container.innerHTML = html;
+      }).withFailureHandler(function(e) {
+        container.innerHTML = '<div class="scan-result-placeholder"><span class="material-icons-outlined">error</span><p>Failed to load settings</p></div>';
+      }).getScannerSettings();
+    }
+
+    function saveSSSettings() {
+      var date = document.getElementById('ssDate').value;
+      var credits = document.getElementById('ssCredits').value;
+      var reason = document.getElementById('ssReason').value;
+      if (!date) { showToast('Please select a date.', true); return; }
+      if (!credits || parseFloat(credits) <= 0) { showToast('Please enter a valid credit amount.', true); return; }
+      if (!reason) { showToast('Please enter a reason.', true); return; }
+      var btn = document.getElementById('ssSaveBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner spinner-sm"></div> Saving...';
+      google.script.run.withSuccessHandler(function(r) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-icons-outlined">save</span> Save Settings';
+        if (r && r.success) {
+          showToast(r.message || 'Settings saved!');
+          document.getElementById('ssDate').value = '';
+          document.getElementById('ssCredits').value = '';
+          document.getElementById('ssReason').value = '';
+          loadScannerSettings();
+        } else {
+          showToast((r && r.message) || 'Failed to save settings.', true);
+        }
+      }).withFailureHandler(function(e) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-icons-outlined">save</span> Save Settings';
+        showToast('Error: ' + e.message, true);
+      }).saveScannerSettings(date, parseFloat(credits), reason);
+    }
+
+    function toggleSS(rowIndex, active) {
+      google.script.run.withSuccessHandler(function(r) {
+        if (r && r.success) {
+          showToast(r.message || 'Setting updated!');
+          loadScannerSettings();
+        } else {
+          showToast((r && r.message) || 'Failed to update.', true);
+        }
+      }).withFailureHandler(function(e) {
+        showToast('Error: ' + e.message, true);
+      }).toggleScannerSetting(rowIndex, active);
+    }
+
+    function deleteSS(rowIndex) {
+      if (!confirm('Delete this scanner setting?')) return;
+      google.script.run.withSuccessHandler(function(r) {
+        if (r && r.success) {
+          showToast(r.message || 'Setting deleted!');
+          loadScannerSettings();
+        } else {
+          showToast((r && r.message) || 'Failed to delete.', true);
+        }
+      }).withFailureHandler(function(e) {
+        showToast('Error: ' + e.message, true);
+      }).deleteScannerSetting(rowIndex);
+    }
+
+    // ===== Date/Time Formatting Helpers =====
+    function formatDateReadable(dateStr) {
+      if (!dateStr) return '';
+      try {
+        var parts = dateStr.split('-');
+        if (parts.length !== 3) return dateStr;
+        var dt = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+        if (isNaN(dt.getTime())) return dateStr;
+        var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        return days[dt.getDay()] + ', ' + months[dt.getMonth()] + ' ' + dt.getDate() + ', ' + dt.getFullYear();
+      } catch(e) { return dateStr; }
+    }
+
+    function convertTo12h(timeStr) {
+      if (!timeStr) return '';
+      var parts = timeStr.split(':');
+      if (parts.length < 2) return timeStr;
+      var h = parseInt(parts[0]);
+      var m = parseInt(parts[1]);
+      var ampm = h >= 12 ? 'PM' : 'AM';
+      if (h === 0) h = 12;
+      else if (h > 12) h = h - 12;
+      return h + ':' + (m < 10 ? '0' : '') + m + ' ' + ampm;
+    }
+
+    function loadWorkScheduleSettings() {
+      var container = document.getElementById('wsConfiguredDates');
+      container.innerHTML = '<div class="scan-result-placeholder"><div class="spinner"></div><p>Loading...</p></div>';
+      google.script.run.withSuccessHandler(function(settings) {
+        if (!settings || settings.length === 0) {
+          container.innerHTML = '<div class="scan-result-placeholder"><span class="material-icons-outlined">event_busy</span><p>No custom work schedules configured</p><p style="font-size:12px;color:#94a3b8;">Default: 7:00 AM - 5:00 PM</p></div>';
+          return;
+        }
+        var html = '';
+        settings.forEach(function(s) {
+          var readableDate = formatDateReadable(s.date);
+          html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #f1f5f9;">';
+          html += '<div style="flex:1;">';
+          html += '<strong style="font-size:15px;color:#1e293b;">' + readableDate + '</strong>';
+          html += '<br><span style="color:#94a3b8;font-size:11px;">' + s.date + '</span>';
+          html += '<br><span style="color:#7c3aed;font-weight:600;font-size:14px;">' + convertTo12h(s.timeIn) + ' - ' + convertTo12h(s.timeOut) + '</span>';
+          if (s.createdBy) html += '<br><span style="color:#94a3b8;font-size:11px;">Set by: ' + s.createdBy + '</span>';
+          html += '</div>';
+          html += '<div style="display:flex;align-items:center;gap:8px;">';
+          html += '<span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;background:#ede9fe;color:#7c3aed;">Custom</span>';
+          html += '<button onclick="deleteWS(' + s.rowIndex + ')" style="padding:4px 8px;border-radius:6px;border:none;background:#fee2e2;cursor:pointer;color:#dc2626;font-size:16px;line-height:1;"><span class="material-icons-outlined" style="font-size:18px;">delete</span></button>';
+          html += '</div></div>';
+        });
+        container.innerHTML = html;
+      }).withFailureHandler(function(e) {
+        container.innerHTML = '<div class="scan-result-placeholder"><span class="material-icons-outlined">error</span><p>Failed to load work schedules</p></div>';
+      }).getWorkScheduleSettings();
+    }
+
+    function saveWSSettings() {
+      var date = document.getElementById('wsDate').value;
+      var timeIn = document.getElementById('wsTimeIn').value;
+      var timeOut = document.getElementById('wsTimeOut').value;
+      if (!date) { showToast('Please select a date.', true); return; }
+      if (!timeIn) { showToast('Please set Time In.', true); return; }
+      if (!timeOut) { showToast('Please set Time Out.', true); return; }
+      if (timeIn >= timeOut) { showToast('Time In must be before Time Out.', true); return; }
+      var btn = document.getElementById('wsSaveBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner spinner-sm"></div> Saving...';
+      google.script.run.withSuccessHandler(function(r) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-icons-outlined">save</span> Save Work Schedule';
+        if (r && r.success) {
+          showToast(r.message || 'Work schedule saved!');
+          document.getElementById('wsDate').value = '';
+          document.getElementById('wsTimeIn').value = '07:00';
+          document.getElementById('wsTimeOut').value = '17:00';
+          loadWorkScheduleSettings();
+        } else {
+          showToast((r && r.message) || 'Failed to save work schedule.', true);
+        }
+      }).withFailureHandler(function(e) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-icons-outlined">save</span> Save Work Schedule';
+        showToast('Error: ' + e.message, true);
+      }).saveWorkSchedule(date, timeIn, timeOut);
+    }
+
+    function deleteWS(rowIndex) {
+      if (!confirm('Delete this work schedule? The default 7:00 AM - 5:00 PM will apply for this date.')) return;
+      google.script.run.withSuccessHandler(function(r) {
+        if (r && r.success) {
+          showToast(r.message || 'Work schedule deleted!');
+          loadWorkScheduleSettings();
+        } else {
+          showToast((r && r.message) || 'Failed to delete.', true);
+        }
+      }).withFailureHandler(function(e) {
+        showToast('Error: ' + e.message, true);
+      }).deleteWorkSchedule(rowIndex);
+    }
+
+    function scanNfc() {
+      var uid = document.getElementById('scannerUidInput').value.trim();
+      if (!uid) { showToast('Please enter or scan an NFC UID.', true); return; }
+      var btn = document.getElementById('scanBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner spinner-sm"></div> Scanning...';
+      google.script.run.withSuccessHandler(function(r) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-icons-outlined">sensors</span> Record Attendance';
+        showScanResult(r);
+        document.getElementById('scannerUidInput').value = '';
+        document.getElementById('scannerUidInput').focus();
+      }).withFailureHandler(function(err) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-icons-outlined">sensors</span> Record Attendance';
+        document.getElementById('scanResult').innerHTML = '<div class="scan-error"><div class="scan-error-circle"><span class="material-icons-outlined">error</span></div><p class="scan-error-msg">Error</p><p>' + err + '</p></div>';
+      }).recordAttendance(uid);
+    }
+
+    function showScanResult(r) {
+      var el = document.getElementById('scanResult');
+      if (!r || !r.success) {
+        el.innerHTML = '<div class="scan-error"><div class="scan-error-circle"><span class="material-icons-outlined">error</span></div><p class="scan-error-msg">' + (r ? r.message : 'Unknown error') + '</p></div>';
+        return;
+      }
+      var d = r;
+      var imgHtml;
+      if (d.imageUrl) {
+        imgHtml = '<img class="scan-avatar" src="' + d.imageUrl + '">';
+      } else {
+        imgHtml = '<div class="scan-avatar-placeholder"><span class="material-icons-outlined">person</span></div>';
+      }
+      var greetHtml = '';
+      if (d.greeting) {
+        greetHtml = '<div class="greeting-banner" style="background:' + (d.greeting.bgColor || '#e8f5e9') + ';border-color:' + (d.greeting.borderColor || '#4caf50') + ';"><div class="greeting-text" style="color:' + (d.greeting.textColor || '#2e7d32') + ';">' + d.greeting.message + '</div></div>';
+      }
+      var bdayHtml = '';
+      if (d.birthday) {
+        bdayHtml = '<div class="birthday-card"><div class="birthday-emoji">🎂🎉🎈</div><div class="birthday-title">🎊 Happy Birthday! 🎊</div><div class="birthday-name">' + d.name + '</div><div class="birthday-wish">Wishing you a wonderful day filled with joy!</div><div class="birthday-emoji-bottom">🎁🥳🎶</div></div>';
+      }
+      var h = '<div class="scan-success">' + imgHtml;
+      h += '<div class="scan-name">' + escapeH(d.name) + '</div>';
+      h += '<div class="scan-badges"><span class="scan-badge scan-badge-type">' + (d.type || '') + '</span><span class="scan-badge scan-badge-time">' + (d.time || '') + '</span></div>';
+      h += greetHtml + bdayHtml;
+      h += '<div class="scan-confirm"><span class="material-icons-outlined">check_circle</span> ' + (d.message || 'Recorded') + '</div></div>';
+      el.innerHTML = h;
+      recentScansList.unshift({ name: d.name, type: d.type, time: d.time });
+      if (recentScansList.length > 10) recentScansList.pop();
+      renderRecentScans();
+      refreshDashboard();
+    }
+
+    function renderRecentScans() {
+      var el = document.getElementById('recentScans');
+      if (!recentScansList.length) { el.innerHTML = '<div class="recent-scans-empty">No scans yet</div>'; return; }
+      var h = '';
+      recentScansList.forEach(function(s) {
+        h += '<div class="recent-scan-item"><span class="recent-scan-name">' + escapeH(s.name) + '</span><span class="recent-scan-time">' + s.type + ' • ' + s.time + '</span></div>';
+      });
+      el.innerHTML = h;
+    }
+
+    // ===== USERS =====
+    var allUsersData = [];
+
+    function loadUsers() {
+      google.script.run.withSuccessHandler(function(users) {
+        allUsersData = users || [];
+        document.getElementById('userCountBadge').textContent = allUsersData.length;
+        renderUsers(allUsersData);
+      }).getRegisteredUsers();
+    }
+
+    function searchUsers() {
+      var q = document.getElementById('userSearch').value.toLowerCase();
+      var clear = document.getElementById('userSearchClear');
+      clear.style.display = q ? 'block' : 'none';
+      var filtered = !q ? allUsersData : allUsersData.filter(function(u) {
+        return ((u.name||'')+(u.uid||'')+(u.email||'')).toLowerCase().indexOf(q) !== -1;
+      });
+      renderUsers(filtered);
+    }
+
+    function renderUsers(users) {
+      var el = document.getElementById('usersList');
+      if (!users.length) { el.innerHTML = '<div class="empty-state"><span class="material-icons-outlined empty-state-icon">person_off</span><p>No users found</p></div>'; return; }
+      var h = '';
+      users.forEach(function(u, i) {
+        var imgHtml = u.imageUrl ? '<img class="user-avatar" src="' + u.imageUrl + '">' : '<div class="user-avatar-placeholder"><span class="material-icons-outlined">person</span></div>';
+        h += '<div class="user-card-item">' + imgHtml + '<div class="user-info"><div class="user-info-name">' + escapeH(u.name) + '</div><div class="user-info-meta"><span class="user-meta-tag"><span class="material-icons-outlined">nfc</span> ' + escapeH(u.uid) + '</span>';
+        if (u.email) h += '<span class="user-meta-tag"><span class="material-icons-outlined">email</span> ' + escapeH(u.email) + '</span>';
+        h += '</div></div><div class="user-actions"><button class="btn btn-primary btn-sm" onclick="openEditUserModal(' + i + ')"><span class="material-icons-outlined">edit</span></button><button class="btn btn-danger-outline btn-sm" onclick="if(confirm(\'Delete ' + escapeH(u.name).replace(/'/g,"\\'") + '?\'))deleteUser(\'' + escapeH(u.uid).replace(/'/g,"\\'") + '\')"><span class="material-icons-outlined">delete</span></button><button class="btn btn-sm" onclick="if(confirm(\'Reset PIN for ' + escapeH(u.name).replace(/'/g,"\\'") + '?\'))resetPin(\'' + escapeH(u.uid).replace(/'/g,"\\'") + '\')" title="Reset PIN"><span class="material-icons-outlined">lock_reset</span></button></div></div>';
+      });
+      el.innerHTML = h;
+    }
+
+    function deleteUser(uid) {
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) { showToast(r.message); loadUsers(); }
+        else showToast(r.message, true);
+      }).deleteRegisteredUser(uid);
+    }
+
+    function resetPin(uid) {
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) showToast(r.message);
+        else showToast(r.message, true);
+      }).resetTeacherPin(uid);
+    }
+
+    // ===== REGISTER USER MODAL =====
+    function openRegisterModal() {
+      var h = '<div class="modal-overlay" id="regUserModal" onclick="if(event.target===this)closeRegModal()">';
+      h += '<div class="modal-box">';
+      h += '<div class="modal-header-colored modal-header-green"><div><h3>Register New NFC User</h3><div class="modal-subtitle">Add a new teacher or staff member</div></div><button class="modal-close-btn" onclick="closeRegModal()">&#10005;</button></div>';
+      h += '<div class="modal-body">';
+      h += uf('NFC Card UID','regUid','text','Scan or enter the NFC UID');
+      h += uf('Full Name','regName','text','e.g. Juan Dela Cruz');
+      h += uf('Email Address','regEmail','email','e.g. juan@school.edu.ph');
+      h += uf('Profile Image URL (optional)','regImage','text','Google Drive link or image URL');
+      h += '</div>';
+      h += '<div class="modal-footer"><button class="btn" onclick="closeRegModal()">Cancel</button><button class="btn btn-success" id="regSubmitBtn" onclick="submitRegister()">Register</button></div>';
+      h += '</div></div>';
+      var old = document.getElementById('regUserModal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+    }
+
+    function uf(label, id, type, placeholder) {
+      return '<div class="modal-field"><label>'+label+'</label><input type="'+type+'" id="'+id+'" class="modal-input" placeholder="'+placeholder+'"></div>';
+    }
+
+    function closeRegModal() { var e = document.getElementById('regUserModal'); if(e) e.remove(); }
+
+    function submitRegister() {
+      var uid = document.getElementById('regUid').value.trim();
+      var name = document.getElementById('regName').value.trim();
+      var email = document.getElementById('regEmail').value.trim();
+      var image = document.getElementById('regImage').value.trim();
+      if (!uid || !name) { showToast('NFC UID and Name are required.', true); return; }
+      var btn = document.getElementById('regSubmitBtn');
+      btn.disabled = true; btn.textContent = 'Registering...';
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) { closeRegModal(); showToast(r.message); loadUsers(); }
+        else { showToast(r.message, true); btn.disabled = false; btn.textContent = 'Register'; }
+      }).withFailureHandler(function(err) { showToast('Error: ' + err, true); btn.disabled = false; btn.textContent = 'Register'; }).addRegisteredUser(uid, name, image, email);
+    }
+
+    // ===== EDIT USER MODAL =====
+    function openEditUserModal(idx) {
+      var u = allUsersData.filter(function(u) {
+        var q = (document.getElementById('userSearch').value || '').toLowerCase();
+        if (!q) return true;
+        return ((u.name||'')+(u.uid||'')+(u.email||'')).toLowerCase().indexOf(q) !== -1;
+      })[idx];
+      if (!u) return;
+      var h = '<div class="modal-overlay" id="editUserModal" onclick="if(event.target===this)closeEditUserModal()">';
+      h += '<div class="modal-box">';
+      h += '<div class="modal-header-colored modal-header-blue"><div><h3>Edit User</h3><div class="modal-subtitle">Update user information</div></div><button class="modal-close-btn" onclick="closeEditUserModal()">&#10005;</button></div>';
+      h += '<div class="modal-body">';
+      h += '<input type="hidden" id="editOrigUid" value="'+escapeH(u.uid)+'">';
+      h += uf('NFC Card UID','editUid','text','NFC UID');
+      h += uf('Full Name','editName','text','Full Name');
+      h += uf('Email Address','editEmail','email','Email');
+      h += uf('Profile Image URL','editImage','text','Google Drive link or image URL');
+      h += '</div>';
+      h += '<div class="modal-footer"><button class="btn" onclick="closeEditUserModal()">Cancel</button><button class="btn btn-primary" id="editSubmitBtn" onclick="submitEditUser()">Save Changes</button></div>';
+      h += '</div></div>';
+      var old = document.getElementById('editUserModal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+      document.getElementById('editUid').value = u.uid || '';
+      document.getElementById('editName').value = u.name || '';
+      document.getElementById('editEmail').value = u.email || '';
+      document.getElementById('editImage').value = u.imageRaw || '';
+    }
+
+    function closeEditUserModal() { var e = document.getElementById('editUserModal'); if(e) e.remove(); }
+
+    function submitEditUser() {
+      var origUid = document.getElementById('editOrigUid').value;
+      var uid = document.getElementById('editUid').value.trim();
+      var name = document.getElementById('editName').value.trim();
+      var email = document.getElementById('editEmail').value.trim();
+      var image = document.getElementById('editImage').value.trim();
+      if (!uid || !name) { showToast('UID and Name are required.', true); return; }
+      var btn = document.getElementById('editSubmitBtn');
+      btn.disabled = true; btn.textContent = 'Saving...';
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) { closeEditUserModal(); showToast(r.message); loadUsers(); }
+        else { showToast(r.message, true); btn.disabled = false; btn.textContent = 'Save Changes'; }
+      }).withFailureHandler(function(err) { showToast('Error: ' + err, true); btn.disabled = false; btn.textContent = 'Save Changes'; }).updateRegisteredUser(origUid, uid, name, image, email);
+    }
+
+    // ===== ATTENDANCE =====
+    function getManilaToday() {
+      var d = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+      return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    }
+
+    function setAttToday() {
+      document.getElementById('attendanceDate').value = getManilaToday();
+      loadAttendance();
+    }
+
+    function setAttYesterday() {
+      var d = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+      d.setDate(d.getDate() - 1);
+      document.getElementById('attendanceDate').value = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+      loadAttendance();
+    }
+
+    function shiftAttDate(dir) {
+      var inp = document.getElementById('attendanceDate');
+      if (!inp.value) { setAttToday(); return; }
+      var parts = inp.value.split('-');
+      var d = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+      d.setDate(d.getDate() + dir);
+      inp.value = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+      loadAttendance();
+    }
+
+    function formatAttDateLabel(dateStr) {
+      if (!dateStr) return '';
+      var parts = dateStr.split('-');
+      var d = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+      var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      var today = getManilaToday();
+      var label = days[d.getDay()] + ', ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+      if (dateStr === today) label += '  (Today)';
+      return label;
+    }
+
+    var currentAttRecords = [];
+    var currentAttDate = '';
+
+    function loadAttendance() {
+      var date = document.getElementById('attendanceDate').value;
+      if (!date) return;
+      currentAttDate = date;
+      var lbl = document.getElementById('attDateLabel');
+      lbl.innerHTML = '<span class="material-icons-outlined">event</span>' + formatAttDateLabel(date);
+      var tbody = document.getElementById('attendanceList');
+      tbody.innerHTML = '<tr><td colspan="5" class="loading-state"><div class="spinner spinner-md"></div><p>Loading...</p></td></tr>';
+      google.script.run.withSuccessHandler(function(result) {
+        tbody.innerHTML = '';
+        var records = result && result.records ? result.records : (Array.isArray(result) ? result : []);
+        currentAttRecords = records || [];
+        if (!records || records.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><span class="material-icons-outlined empty-state-icon">person_off</span>No records for this date</td></tr>';
+          return;
+        }
+        records.forEach(function(r) {
+          var tr = document.createElement('tr');
+          var amClass = r.amLabel ? (r.amLabel === 'Late' ? 'badge-late' : 'badge-early') : '';
+          var pmClass = r.pmLabel ? (r.pmLabel === 'Early Out' ? 'badge-late' : 'badge-early') : '';
+          tr.innerHTML = '<td>' + (r.name||'') + '</td><td>' + (r.amTime||'-') + '</td><td><span class="att-status ' + amClass + '">' + (r.amLabel||'-') + '</span></td><td>' + (r.pmTime||'-') + '</td><td><span class="att-status ' + pmClass + '">' + (r.pmLabel||'-') + '</span></td>';
+          tbody.appendChild(tr);
+        });
+      }).getAttendanceByDate(date);
+    }
+
+    // ===== CSV DOWNLOAD (kept for compatibility) =====
+    function escapeCSV(val) {
+      var s = (val == null ? '' : String(val));
+      if (s.indexOf(',') > -1 || s.indexOf('"') > -1 || s.indexOf('\n') > -1) {
+        return '"' + s.replace(/"/g, '""') + '"';
+      }
+      return s;
+    }
+
+    function triggerCSVDownload(csvContent, filename) {
+      try {
+        var blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(function() { document.body.removeChild(link); URL.revokeObjectURL(url); }, 100);
+      } catch(e) {
+        var encoded = 'data:text/csv;charset=utf-8,' + encodeURIComponent('\uFEFF' + csvContent);
+        var w = window.open(encoded, '_blank');
+        if (!w) {
+          var link2 = document.createElement('a');
+          link2.href = encoded;
+          link2.target = '_blank';
+          link2.click();
+        }
+      }
+    }
+
+    // ===== DATE RANGE ATTENDANCE =====
+    var currentRangeData = [];
+
+    function loadAttendanceRange() {
+      var fromDate = document.getElementById('attRangeFrom').value;
+      var toDate = document.getElementById('attRangeTo').value;
+      if (!fromDate || !toDate) {
+        showToast('Please select both From and To dates.', true);
+        return;
+      }
+      if (fromDate > toDate) {
+        showToast('From date must be before To date.', true);
+        return;
+      }
+      var label = document.getElementById('attRangeLabel');
+      label.innerHTML = '<span class="material-icons-outlined" style="font-size:14px;vertical-align:middle;">date_range</span> ' + formatAttDateLabel(fromDate) + ' — ' + formatAttDateLabel(toDate);
+      var content = document.getElementById('attRangeContent');
+      content.innerHTML = '<div style="text-align:center;padding:30px;"><div class="spinner spinner-md"></div><p style="margin-top:10px;color:#64748b;">Loading attendance for date range...</p></div>';
+
+      google.script.run.withSuccessHandler(function(result) {
+        currentRangeData = result || [];
+        if (!result || result.length === 0) {
+          content.innerHTML = '<div style="text-align:center;padding:30px;color:#94a3b8;"><span class="material-icons-outlined" style="font-size:40px;display:block;margin-bottom:8px;">event_busy</span>No attendance records found for this date range</div>';
+          return;
+        }
+        var html = '';
+        result.forEach(function(day) {
+          html += '<div style="margin-bottom:16px;">';
+          html += '<h4 style="font-family:Poppins,sans-serif;font-size:14px;font-weight:600;color:#1e293b;margin-bottom:8px;padding:8px 12px;background:#f1f5f9;border-radius:8px;">';
+          html += '<span class="material-icons-outlined" style="font-size:16px;vertical-align:middle;margin-right:4px;">event</span>' + formatAttDateLabel(day.date);
+          html += ' <span style="font-size:12px;color:#64748b;font-weight:400;">(' + day.records.length + ' records)</span></h4>';
+          html += '<table class="data-table"><thead><tr><th>Name</th><th>AM Time-In</th><th>AM Status</th><th>PM Time-Out</th><th>PM Status</th></tr></thead><tbody>';
+          day.records.forEach(function(r) {
+            var amClass = r.amLabel ? (r.amLabel === 'Late' ? 'badge-late' : 'badge-early') : '';
+            var pmClass = r.pmLabel ? (r.pmLabel === 'Early Out' ? 'badge-late' : 'badge-early') : '';
+            html += '<tr><td>' + (r.name||'') + '</td><td>' + (r.amTime||'-') + '</td><td><span class="att-status ' + amClass + '">' + (r.amLabel||'-') + '</span></td><td>' + (r.pmTime||'-') + '</td><td><span class="att-status ' + pmClass + '">' + (r.pmLabel||'-') + '</span></td></tr>';
+          });
+          html += '</tbody></table></div>';
+        });
+        content.innerHTML = html;
+      }).withFailureHandler(function(err) {
+        content.innerHTML = '<div style="text-align:center;padding:30px;color:#ef4444;">Error loading data: ' + err.message + '</div>';
+      }).getAttendanceByDateRange(fromDate, toDate);
+    }
+
+    function downloadAttendanceRangePDF() {
+      var fromDate = document.getElementById('attRangeFrom').value;
+      var toDate = document.getElementById('attRangeTo').value;
+      if (!fromDate || !toDate) {
+        showToast('Please select both From and To dates first.', true);
+        return;
+      }
+      if (fromDate > toDate) {
+        showToast('From date must be before To date.', true);
+        return;
+      }
+      if (!currentRangeData || currentRangeData.length === 0) {
+        showToast('No data loaded. Click "View Range" first.', true);
+        return;
+      }
+
+      try {
+        var jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('l', 'mm', 'a4');
+        var pw = 297, mx = 10;
+
+        // Cover page
+        doc.setFillColor(37, 99, 235);
+        doc.rect(0, 0, pw, 50, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(22);
+        doc.setFont('helvetica', 'bold');
+        doc.text('TeachTap - Attendance Report', mx + 5, 22);
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Date Range: ' + fromDate + ' to ' + toDate, mx + 5, 34);
+        doc.text('Generated: ' + new Date().toLocaleString('en-PH', {timeZone: 'Asia/Manila'}), mx + 5, 44);
+
+        var headers = ['No.', 'Name', 'AM Time-In', 'AM Status', 'PM Time-Out', 'PM Status'];
+        var colW = [12, 60, 45, 40, 45, 40];
+        var startX = mx + 5;
+
+        currentRangeData.forEach(function(day, dayIdx) {
+          if (dayIdx > 0) doc.addPage();
+          var y = 20;
+
+          // Date header
+          doc.setFillColor(241, 245, 249);
+          doc.rect(mx, y - 6, pw - mx * 2, 12, 'F');
+          doc.setTextColor(30, 41, 59);
+          doc.setFontSize(13);
+          doc.setFont('helvetica', 'bold');
+          doc.text(formatAttDateLabel(day.date) + ' (' + day.records.length + ' records)', mx + 5, y + 1);
+          y += 14;
+
+          // Table header
+          doc.setFillColor(37, 99, 235);
+          doc.rect(startX, y - 5, colW.reduce(function(a, b) { return a + b; }, 0), 8, 'F');
+          doc.setTextColor(255, 255, 255);
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'bold');
+          var hx = startX;
+          headers.forEach(function(h, i) {
+            doc.text(h, hx + 2, y);
+            hx += colW[i];
+          });
+          y += 6;
+
+          // Table rows
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(9);
+          day.records.forEach(function(r, ri) {
+            if (y > 190) {
+              doc.addPage();
+              y = 20;
+              doc.setFillColor(37, 99, 235);
+              doc.rect(startX, y - 5, colW.reduce(function(a, b) { return a + b; }, 0), 8, 'F');
+              doc.setTextColor(255, 255, 255);
+              doc.setFont('helvetica', 'bold');
+              hx = startX;
+              headers.forEach(function(h, i) { doc.text(h, hx + 2, y); hx += colW[i]; });
+              y += 6;
+              doc.setFont('helvetica', 'normal');
+            }
+            if (ri % 2 === 0) {
+              doc.setFillColor(248, 250, 252);
+              doc.rect(startX, y - 4, colW.reduce(function(a, b) { return a + b; }, 0), 7, 'F');
+            }
+            doc.setTextColor(30, 41, 59);
+            var rx = startX;
+            var vals = [String(ri + 1), r.name || '', r.amTime || '-', r.amLabel || '-', r.pmTime || '-', r.pmLabel || '-'];
+            vals.forEach(function(v, vi) {
+              if (v === 'Late' || v === 'Early Out') {
+                doc.setTextColor(239, 68, 68);
+              } else if (v === 'On Time' || v === 'Regular') {
+                doc.setTextColor(34, 197, 94);
+              } else {
+                doc.setTextColor(30, 41, 59);
+              }
+              doc.text(String(v).substring(0, 25), rx + 2, y);
+              rx += colW[vi];
+            });
+            y += 7;
+          });
+        });
+
+        doc.save('Attendance_' + fromDate + '_to_' + toDate + '.pdf');
+        showToast('Attendance PDF downloaded!');
+      } catch(e) {
+        showToast('Error generating PDF: ' + e.message, true);
+      }
+    }
+
+    // ===== MONTHLY MONITORING =====
+    var currentMonitoringData = null;
+
+    function loadMonthlyMonitoring() {
+      var ym = document.getElementById('monitoringMonth').value;
+      if (!ym) return;
+
+      document.getElementById('monitoringSummary').style.display = 'none';
+      document.getElementById('monitoringEmpty').style.display = 'none';
+      document.getElementById('monitoringLoading').style.display = 'block';
+
+      google.script.run.withSuccessHandler(function(data) {
+        currentMonitoringData = data;
+        document.getElementById('monitoringLoading').style.display = 'none';
+
+        if (!data || data.workingDays === 0) {
+          document.getElementById('monitoringEmpty').style.display = 'block';
+          document.getElementById('monitoringEmpty').innerHTML = '<span class="material-icons-outlined" style="font-size:48px;display:block;margin-bottom:8px;">event_busy</span>No attendance data found for this month';
+          return;
+        }
+
+        document.getElementById('monitoringSummary').style.display = 'block';
+        document.getElementById('monTotalAbsences').textContent = data.totalAbsences || 0;
+        document.getElementById('monTotalLate').textContent = data.totalLate || 0;
+        document.getElementById('monTotalEarlyOut').textContent = data.totalEarlyOut || 0;
+        document.getElementById('monTotalTeachers').textContent = data.totalTeachers || 0;
+        document.getElementById('monWorkingDays').textContent = data.workingDays || 0;
+
+        // Build daily summary table
+        var tbody = document.getElementById('monDailySummary');
+        tbody.innerHTML = '';
+        var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        (data.dailyData || []).forEach(function(d) {
+          var parts = d.date.split('-');
+          var dt = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+          var dayName = days[dt.getDay()];
+          var rate = d.total > 0 ? Math.round((d.present / d.total) * 100) : 0;
+          var rateClass = rate >= 90 ? 'badge-early' : (rate >= 75 ? '' : 'badge-late');
+          var tr = document.createElement('tr');
+          tr.innerHTML = '<td>' + d.date + '</td><td>' + dayName + '</td><td style="color:#22c55e;font-weight:600;">' + d.present + '</td><td style="color:#ef4444;font-weight:600;">' + d.absent + '</td><td>' + d.total + '</td><td><span class="att-status ' + rateClass + '">' + rate + '%</span></td>';
+          tbody.appendChild(tr);
+        });
+      }).withFailureHandler(function(err) {
+        document.getElementById('monitoringLoading').style.display = 'none';
+        document.getElementById('monitoringEmpty').style.display = 'block';
+        document.getElementById('monitoringEmpty').innerHTML = '<span class="material-icons-outlined" style="font-size:48px;display:block;margin-bottom:8px;color:#ef4444;">error</span>Error: ' + err.message;
+      }).getMonthlyMonitoringData(ym);
+    }
+
+    function showMonitoringDetail(type) {
+      if (!currentMonitoringData) return;
+      var modal = document.getElementById('monitoringDetailModal');
+      var title = document.getElementById('monDetailTitle');
+      var content = document.getElementById('monDetailContent');
+      var monthLabel = document.getElementById('monitoringMonth').value || '';
+      var html = '';
+
+      if (type === 'absent') {
+        title.textContent = 'Absences - ' + monthLabel;
+        var list = currentMonitoringData.absentList || [];
+        if (list.length === 0) {
+          html = '<p style="text-align:center;color:#94a3b8;padding:20px;">No absences recorded this month.</p>';
+        } else {
+          html = '<table class="data-table"><thead><tr><th>Name</th><th>Absences</th><th>Dates</th></tr></thead><tbody>';
+          list.forEach(function(item) {
+            html += '<tr><td style="font-weight:500;">' + item.name + '</td><td style="color:#ef4444;font-weight:600;">' + item.count + '</td><td style="font-size:12px;color:#64748b;">' + (item.dates || []).join(', ') + '</td></tr>';
+          });
+          html += '</tbody></table>';
+        }
+      } else if (type === 'late') {
+        title.textContent = 'Late Arrivals - ' + monthLabel;
+        var list = currentMonitoringData.lateList || [];
+        if (list.length === 0) {
+          html = '<p style="text-align:center;color:#94a3b8;padding:20px;">No late arrivals recorded this month.</p>';
+        } else {
+          html = '<table class="data-table"><thead><tr><th>Name</th><th>Late Count</th><th>Details</th></tr></thead><tbody>';
+          list.forEach(function(item) {
+            var details = (item.details || []).map(function(d) { return d.date + ' (' + d.time + ')'; }).join(', ');
+            html += '<tr><td style="font-weight:500;">' + item.name + '</td><td style="color:#f59e0b;font-weight:600;">' + item.count + '</td><td style="font-size:12px;color:#64748b;">' + details + '</td></tr>';
+          });
+          html += '</tbody></table>';
+        }
+      } else if (type === 'earlyout') {
+        title.textContent = 'Early Outs - ' + monthLabel;
+        var list = currentMonitoringData.earlyOutList || [];
+        if (list.length === 0) {
+          html = '<p style="text-align:center;color:#94a3b8;padding:20px;">No early outs recorded this month.</p>';
+        } else {
+          html = '<table class="data-table"><thead><tr><th>Name</th><th>Early Out Count</th><th>Details</th></tr></thead><tbody>';
+          list.forEach(function(item) {
+            var details = (item.details || []).map(function(d) { return d.date + ' (' + d.time + ')'; }).join(', ');
+            html += '<tr><td style="font-weight:500;">' + item.name + '</td><td style="color:#8b5cf6;font-weight:600;">' + item.count + '</td><td style="font-size:12px;color:#64748b;">' + details + '</td></tr>';
+          });
+          html += '</tbody></table>';
+        }
+      }
+
+      content.innerHTML = html;
+      modal.style.display = 'flex';
+    }
+
+    function closeMonitoringDetail() {
+      document.getElementById('monitoringDetailModal').style.display = 'none';
+    }
+
+    function downloadMonthlyReportPDF() {
+      var ym = document.getElementById('monitoringMonth').value;
+      if (!ym || !currentMonitoringData) {
+        showToast('Load monitoring data first by selecting a month.', true);
+        return;
+      }
+      var data = currentMonitoringData;
+
+      try {
+        var jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('l', 'mm', 'a4');
+        var pw = 297, mx = 10;
+
+        // Cover page
+        doc.setFillColor(37, 99, 235);
+        doc.rect(0, 0, pw, 55, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(24);
+        doc.setFont('helvetica', 'bold');
+        doc.text('TeachTap - Monthly Monitoring Report', mx + 5, 22);
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Month: ' + ym, mx + 5, 34);
+        doc.text('Total Teachers: ' + data.totalTeachers + '  |  Working Days: ' + data.workingDays, mx + 5, 44);
+        doc.setFontSize(10);
+        doc.text('Generated: ' + new Date().toLocaleString('en-PH', {timeZone: 'Asia/Manila'}), mx + 5, 52);
+
+        // Summary stats
+        var y = 70;
+        doc.setTextColor(30, 41, 59);
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Summary', mx + 5, y);
+        y += 10;
+
+        // Summary boxes
+        var boxW = 85, boxH = 25, gap = 10;
+        var boxes = [
+          { label: 'Total Absences', value: String(data.totalAbsences), color: [239, 68, 68] },
+          { label: 'Total Late Arrivals', value: String(data.totalLate), color: [245, 158, 11] },
+          { label: 'Total Early Outs', value: String(data.totalEarlyOut), color: [139, 92, 246] }
+        ];
+        boxes.forEach(function(box, i) {
+          var bx = mx + 5 + i * (boxW + gap);
+          doc.setFillColor(248, 250, 252);
+          doc.roundedRect(bx, y, boxW, boxH, 3, 3, 'F');
+          doc.setFontSize(18);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(box.color[0], box.color[1], box.color[2]);
+          doc.text(box.value, bx + boxW / 2, y + 12, { align: 'center' });
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(100, 116, 139);
+          doc.text(box.label, bx + boxW / 2, y + 20, { align: 'center' });
+        });
+        y += boxH + 15;
+
+        // Daily Summary Table
+        doc.setTextColor(30, 41, 59);
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Daily Attendance Summary', mx + 5, y);
+        y += 8;
+
+        var dHeaders = ['Date', 'Day', 'Present', 'Absent', 'Total', 'Rate'];
+        var dColW = [35, 20, 25, 25, 25, 25];
+        var startX = mx + 5;
+        var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+        doc.setFillColor(37, 99, 235);
+        doc.rect(startX, y - 5, dColW.reduce(function(a, b) { return a + b; }, 0), 8, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'bold');
+        var hx = startX;
+        dHeaders.forEach(function(h, i) { doc.text(h, hx + 2, y); hx += dColW[i]; });
+        y += 6;
+
+        doc.setFont('helvetica', 'normal');
+        (data.dailyData || []).forEach(function(d, ri) {
+          if (y > 190) {
+            doc.addPage();
+            y = 20;
+            doc.setFillColor(37, 99, 235);
+            doc.rect(startX, y - 5, dColW.reduce(function(a, b) { return a + b; }, 0), 8, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont('helvetica', 'bold');
+            hx = startX;
+            dHeaders.forEach(function(h, i) { doc.text(h, hx + 2, y); hx += dColW[i]; });
+            y += 6;
+            doc.setFont('helvetica', 'normal');
+          }
+          if (ri % 2 === 0) {
+            doc.setFillColor(248, 250, 252);
+            doc.rect(startX, y - 4, dColW.reduce(function(a, b) { return a + b; }, 0), 7, 'F');
+          }
+          var parts = d.date.split('-');
+          var dt = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+          var rate = d.total > 0 ? Math.round((d.present / d.total) * 100) + '%' : '0%';
+          doc.setTextColor(30, 41, 59);
+          var rx = startX;
+          var vals = [d.date, days[dt.getDay()], String(d.present), String(d.absent), String(d.total), rate];
+          vals.forEach(function(v, vi) {
+            if (vi === 2) doc.setTextColor(34, 197, 94);
+            else if (vi === 3) doc.setTextColor(239, 68, 68);
+            else doc.setTextColor(30, 41, 59);
+            doc.text(v, rx + 2, y);
+            rx += dColW[vi];
+          });
+          y += 7;
+        });
+
+        // Absences page
+        if (data.absentList && data.absentList.length > 0) {
+          doc.addPage();
+          y = 20;
+          doc.setTextColor(30, 41, 59);
+          doc.setFontSize(14);
+          doc.setFont('helvetica', 'bold');
+          doc.text('Absences Detail', mx + 5, y);
+          y += 8;
+
+          var aHeaders = ['No.', 'Name', 'Absent Days', 'Dates'];
+          var aColW = [12, 55, 25, 185];
+          doc.setFillColor(239, 68, 68);
+          doc.rect(startX, y - 5, aColW.reduce(function(a, b) { return a + b; }, 0), 8, 'F');
+          doc.setTextColor(255, 255, 255);
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'bold');
+          hx = startX;
+          aHeaders.forEach(function(h, i) { doc.text(h, hx + 2, y); hx += aColW[i]; });
+          y += 6;
+
+          doc.setFont('helvetica', 'normal');
+          data.absentList.forEach(function(item, ri) {
+            if (y > 190) {
+              doc.addPage();
+              y = 20;
+              doc.setFillColor(239, 68, 68);
+              doc.rect(startX, y - 5, aColW.reduce(function(a, b) { return a + b; }, 0), 8, 'F');
+              doc.setTextColor(255, 255, 255);
+              doc.setFont('helvetica', 'bold');
+              hx = startX;
+              aHeaders.forEach(function(h, i) { doc.text(h, hx + 2, y); hx += aColW[i]; });
+              y += 6;
+              doc.setFont('helvetica', 'normal');
+            }
+            if (ri % 2 === 0) {
+              doc.setFillColor(254, 242, 242);
+              doc.rect(startX, y - 4, aColW.reduce(function(a, b) { return a + b; }, 0), 7, 'F');
+            }
+            doc.setTextColor(30, 41, 59);
+            var rx = startX;
+            var dates = (item.dates || []).join(', ');
+            if (dates.length > 90) dates = dates.substring(0, 87) + '...';
+            [String(ri + 1), item.name, String(item.count), dates].forEach(function(v, vi) {
+              doc.text(v, rx + 2, y);
+              rx += aColW[vi];
+            });
+            y += 7;
+          });
+        }
+
+        // Late Arrivals page
+        if (data.lateList && data.lateList.length > 0) {
+          doc.addPage();
+          y = 20;
+          doc.setTextColor(30, 41, 59);
+          doc.setFontSize(14);
+          doc.setFont('helvetica', 'bold');
+          doc.text('Late Arrivals Detail', mx + 5, y);
+          y += 8;
+
+          var lHeaders = ['No.', 'Name', 'Late Count', 'Details (Date & Time)'];
+          var lColW = [12, 55, 25, 185];
+          doc.setFillColor(245, 158, 11);
+          doc.rect(startX, y - 5, lColW.reduce(function(a, b) { return a + b; }, 0), 8, 'F');
+          doc.setTextColor(255, 255, 255);
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'bold');
+          hx = startX;
+          lHeaders.forEach(function(h, i) { doc.text(h, hx + 2, y); hx += lColW[i]; });
+          y += 6;
+
+          doc.setFont('helvetica', 'normal');
+          data.lateList.forEach(function(item, ri) {
+            if (y > 190) {
+              doc.addPage();
+              y = 20;
+              doc.setFillColor(245, 158, 11);
+              doc.rect(startX, y - 5, lColW.reduce(function(a, b) { return a + b; }, 0), 8, 'F');
+              doc.setTextColor(255, 255, 255);
+              doc.setFont('helvetica', 'bold');
+              hx = startX;
+              lHeaders.forEach(function(h, i) { doc.text(h, hx + 2, y); hx += lColW[i]; });
+              y += 6;
+              doc.setFont('helvetica', 'normal');
+            }
+            if (ri % 2 === 0) {
+              doc.setFillColor(255, 251, 235);
+              doc.rect(startX, y - 4, lColW.reduce(function(a, b) { return a + b; }, 0), 7, 'F');
+            }
+            doc.setTextColor(30, 41, 59);
+            var rx = startX;
+            var details = (item.details || []).map(function(d) { return d.date + ' ' + d.time; }).join(', ');
+            if (details.length > 90) details = details.substring(0, 87) + '...';
+            [String(ri + 1), item.name, String(item.count), details].forEach(function(v, vi) {
+              doc.text(v, rx + 2, y);
+              rx += lColW[vi];
+            });
+            y += 7;
+          });
+        }
+
+        // Early Outs page
+        if (data.earlyOutList && data.earlyOutList.length > 0) {
+          doc.addPage();
+          y = 20;
+          doc.setTextColor(30, 41, 59);
+          doc.setFontSize(14);
+          doc.setFont('helvetica', 'bold');
+          doc.text('Early Outs Detail', mx + 5, y);
+          y += 8;
+
+          var eHeaders = ['No.', 'Name', 'Early Out Count', 'Details (Date & Time)'];
+          var eColW = [12, 55, 30, 180];
+          doc.setFillColor(139, 92, 246);
+          doc.rect(startX, y - 5, eColW.reduce(function(a, b) { return a + b; }, 0), 8, 'F');
+          doc.setTextColor(255, 255, 255);
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'bold');
+          hx = startX;
+          eHeaders.forEach(function(h, i) { doc.text(h, hx + 2, y); hx += eColW[i]; });
+          y += 6;
+
+          doc.setFont('helvetica', 'normal');
+          data.earlyOutList.forEach(function(item, ri) {
+            if (y > 190) {
+              doc.addPage();
+              y = 20;
+              doc.setFillColor(139, 92, 246);
+              doc.rect(startX, y - 5, eColW.reduce(function(a, b) { return a + b; }, 0), 8, 'F');
+              doc.setTextColor(255, 255, 255);
+              doc.setFont('helvetica', 'bold');
+              hx = startX;
+              eHeaders.forEach(function(h, i) { doc.text(h, hx + 2, y); hx += eColW[i]; });
+              y += 6;
+              doc.setFont('helvetica', 'normal');
+            }
+            if (ri % 2 === 0) {
+              doc.setFillColor(245, 243, 255);
+              doc.rect(startX, y - 4, eColW.reduce(function(a, b) { return a + b; }, 0), 7, 'F');
+            }
+            doc.setTextColor(30, 41, 59);
+            var rx = startX;
+            var details = (item.details || []).map(function(d) { return d.date + ' ' + d.time; }).join(', ');
+            if (details.length > 90) details = details.substring(0, 87) + '...';
+            [String(ri + 1), item.name, String(item.count), details].forEach(function(v, vi) {
+              doc.text(v, rx + 2, y);
+              rx += eColW[vi];
+            });
+            y += 7;
+          });
+        }
+
+        doc.save('Monthly_Report_' + ym + '.pdf');
+        showToast('Monthly report PDF downloaded!');
+      } catch(e) {
+        showToast('Error generating PDF: ' + e.message, true);
+      }
+    }
+
+    function downloadAll201FilesPDF() {
+      var data = filtered201Teachers && filtered201Teachers.length > 0 ? filtered201Teachers : all201Teachers;
+      if (!data || data.length === 0) {
+        showToast('No 201 files data to download.', true);
+        return;
+      }
+      var sorted = data.slice().sort(function(a, b) {
+        var la = (a.lastName || '').toLowerCase(), lb = (b.lastName || '').toLowerCase();
+        if (la !== lb) return la < lb ? -1 : 1;
+        var fa = (a.firstName || '').toLowerCase(), fb = (b.firstName || '').toLowerCase();
+        return fa < fb ? -1 : fa > fb ? 1 : 0;
+      });
+
+      var jsPDF = window.jspdf.jsPDF;
+      var doc = new jsPDF('l', 'mm', 'a4');
+      var pw = 297, ph = 210, mx = 10;
+
+      // --- Cover Page ---
+      doc.setFillColor(37, 99, 235);
+      doc.rect(0, 0, pw, 50, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(22);
+      doc.setFont('helvetica', 'bold');
+      doc.text('TeachTap - Teachers 201 Files', mx + 5, 25);
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Total Teachers: ' + sorted.length + '  |  Generated: ' + new Date().toLocaleString('en-PH', {timeZone: 'Asia/Manila'}), mx + 5, 40);
+
+      // --- Summary Table ---
+      var y = 60;
+      doc.setTextColor(30, 41, 59);
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Summary Table', mx + 2, y);
+      y += 8;
+
+      var sumHeaders = ['No.', 'Employee ID', 'Last Name', 'First Name', 'Position', 'School', 'Level'];
+      var colW = [12, 28, 32, 32, 38, 55, 22];
+      var tableW = colW.reduce(function(a,b){return a+b;}, 0);
+
+      // Header row
+      doc.setFillColor(37, 99, 235);
+      doc.rect(mx, y, tableW, 8, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'bold');
+      var cx = mx;
+      sumHeaders.forEach(function(h, idx) {
+        doc.text(h, cx + 2, y + 5.5);
+        cx += colW[idx];
+      });
+      y += 8;
+
+      doc.setFont('helvetica', 'normal');
+      sorted.forEach(function(t, idx) {
+        if (y > ph - 15) { doc.addPage('a4', 'l'); y = 15; }
+        var bg = idx % 2 === 0 ? [248, 250, 252] : [255, 255, 255];
+        doc.setFillColor(bg[0], bg[1], bg[2]);
+        doc.rect(mx, y, tableW, 7, 'F');
+        doc.setTextColor(30, 41, 59);
+        doc.setFontSize(7);
+        cx = mx;
+        var vals = [String(idx+1), t.employee||'', t.lastName||'', t.firstName||'', t.positionTitle||'', t.school||'', t.level||''];
+        vals.forEach(function(v, vi) {
+          var txt = String(v).substring(0, Math.floor(colW[vi] / 1.8));
+          doc.text(txt, cx + 2, y + 4.5);
+          cx += colW[vi];
+        });
+        y += 7;
+      });
+
+      // --- Individual 201 File pages ---
+      sorted.forEach(function(t) {
+        doc.addPage('a4', 'p');
+        var pw2 = 210, ph2 = 297, mx2 = 15, cw2 = pw2 - 2 * mx2;
+        var y2 = 15;
+
+        // Header bar
+        doc.setFillColor(37, 99, 235);
+        doc.rect(0, 0, pw2, 35, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(18);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Teacher 201 File', mx2, 15);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        var fn = ((t.firstName || '') + ' ' + (t.middleName || '') + ' ' + (t.lastName || '') + ' ' + (t.ext || '')).replace(/\s+/g, ' ').trim() || 'N/A';
+        doc.text(fn, mx2, 24);
+        doc.setFontSize(9);
+        doc.text('Employee ID: ' + (t.employee || 'N/A') + '  |  ' + (t.positionTitle || 'N/A') + '  |  ' + (t.level || 'N/A'), mx2, 31);
+        y2 = 45;
+
+        function secHead(title) {
+          if (y2 > ph2 - 30) { doc.addPage(); y2 = 15; }
+          doc.setFillColor(241, 245, 249);
+          doc.rect(mx2, y2, cw2, 8, 'F');
+          doc.setTextColor(30, 41, 59);
+          doc.setFontSize(11);
+          doc.setFont('helvetica', 'bold');
+          doc.text(title, mx2 + 3, y2 + 5.5);
+          y2 += 12;
+        }
+
+        function tblRow(rows2) {
+          if (y2 > ph2 - 20) { doc.addPage(); y2 = 15; }
+          var rw = cw2 / rows2.length;
+          rows2.forEach(function(pair, pi) {
+            var xp = mx2 + pi * rw;
+            doc.setTextColor(100, 116, 139);
+            doc.setFontSize(7);
+            doc.setFont('helvetica', 'bold');
+            doc.text(pair[0].toUpperCase(), xp + 2, y2);
+            doc.setTextColor(30, 41, 59);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            var val = (!pair[1] || String(pair[1]).trim() === '') ? 'N/A' : String(pair[1]);
+            var lines = doc.splitTextToSize(val, rw - 4);
+            doc.text(lines, xp + 2, y2 + 4);
+          });
+          y2 += 10;
+        }
+
+        secHead('Personal Information');
+        tblRow([['Last Name', t.lastName], ['First Name', t.firstName], ['Middle Name', t.middleName], ['Extension', t.ext]]);
+        tblRow([['Date of Birth', t.dateOfBirth], ['Gender', t.gender], ['Eligibility', t.eligibility], ['Employee ID', t.employee]]);
+        tblRow([['Complete Address', t.completeAddress]]);
+
+        secHead('School / Employment Information');
+        tblRow([['EDDIS', t.eddis], ['District', t.district], ['School', t.school], ['Level', t.level]]);
+        tblRow([['SHS Track & Strand', t.shsTrackStrand], ['Item Number', t.itemNumber], ['Position Title', t.positionTitle], ['Salary Grade', t.sg]]);
+        tblRow([['Step', t.step], ['Date of Original Appointment', t.dateOfOriginalApt], ['Date of Last Promotion', t.dateOfLastPromotion]]);
+
+        secHead('Education / Qualification');
+        tblRow([['Course & Major (College)', t.courseMajorCollege]]);
+        tblRow([['Graduate Studies', t.courseMajorGraduate]]);
+
+        secHead('Government IDs');
+        tblRow([['PhilHealth', t.philhealth], ['GSIS BP Number', t.gsisBp], ['Pag-IBIG Number', t.pagibig], ['TIN Number', t.tin]]);
+
+        // Footer
+        y2 += 5;
+        if (y2 > ph2 - 20) { doc.addPage(); y2 = 15; }
+        doc.setDrawColor(203, 213, 225);
+        doc.line(mx2, y2, pw2 - mx2, y2);
+        y2 += 5;
+        doc.setTextColor(148, 163, 184);
+        doc.setFontSize(8);
+        doc.text('Generated by TeachTap on ' + new Date().toLocaleString('en-PH', {timeZone: 'Asia/Manila'}), mx2, y2);
+      });
+
+      doc.save('201_Files_All_Teachers_' + new Date().toISOString().slice(0,10) + '.pdf');
+      showToast('201 Files PDF downloaded with ' + sorted.length + ' teacher records!');
+    }
+
+    // ===== 201 FILES =====
+    var all201Teachers = [];
+    var filtered201Teachers = [];
+    var current201Page = 1;
+    var rows201PerPage = 15;
+    var current201Teacher = null;
+
+    function load201Files() {
+      document.getElementById('files201Loading').style.display = 'block';
+      document.getElementById('files201TableContainer').style.display = 'none';
+      google.script.run.withSuccessHandler(function(result) {
+        if (result.success) {
+          all201Teachers = result.data;
+          filtered201Teachers = all201Teachers.slice();
+          update201Stats();
+          current201Page = 1;
+          render201Table();
+        } else { showToast('Error: ' + result.error, true); }
+        document.getElementById('files201Loading').style.display = 'none';
+        document.getElementById('files201TableContainer').style.display = 'block';
+      }).withFailureHandler(function(err) {
+        showToast('Failed: ' + err, true);
+        document.getElementById('files201Loading').style.display = 'none';
+        document.getElementById('files201TableContainer').style.display = 'block';
+      }).getAll201Files();
+    }
+
+    function update201Stats() {
+      document.getElementById('totalTeachersCount').textContent = all201Teachers.length;
+      var c=0, ic=0; var schools = new Set();
+      all201Teachers.forEach(function(t) {
+        if (t.lastName && t.firstName && t.philhealth && t.gsisBp && t.pagibig && t.tin) c++; else ic++;
+        if (t.school) schools.add(t.school);
+      });
+      document.getElementById('completeInfoCount').textContent = c;
+      document.getElementById('incompleteInfoCount').textContent = ic;
+      document.getElementById('schoolsCount').textContent = schools.size;
+    }
+
+    function ni(v) { return (!v || String(v).trim()==='') ? '<span class="no-info">No Info</span>' : String(v); }
+
+    function render201Table() {
+      var tb = document.getElementById('files201List'); tb.innerHTML = '';
+      var s = (current201Page-1)*rows201PerPage, e = Math.min(s+rows201PerPage, filtered201Teachers.length);
+      var pg = filtered201Teachers.slice(s, e);
+      if (!pg.length) { tb.innerHTML='<tr><td colspan="8" class="empty-state">No records found.</td></tr>'; return; }
+      pg.forEach(function(t,i) {
+        var g=s+i, tr=document.createElement('tr');
+        tr.innerHTML='<td>'+ni(g+1)+'</td><td>'+ni(t.employee)+'</td><td>'+ni(t.lastName)+'</td><td>'+ni(t.firstName)+'</td><td>'+ni(t.positionTitle)+'</td><td>'+ni(t.school)+'</td><td class="text-center"><span class="badge-level">'+(t.level||'N/A')+'</span></td><td class="text-center"><button class="btn btn-primary btn-xs" onclick="open201Modal('+g+')">View</button> <button class="btn btn-warning btn-xs" onclick="openArchiveConfirm('+t.rowIndex+',\''+((t.lastName||'')+(t.firstName?' '+t.firstName:'')).replace(/'/g,"\\'")+'\')" ><span class="material-icons-outlined" style="font-size:14px;vertical-align:middle">inventory_2</span> Archive</button></td>';
+        tb.appendChild(tr);
+      });
+      render201Pag();
+    }
+
+    function render201Pag() {
+      var tot=Math.ceil(filtered201Teachers.length/rows201PerPage), d=document.getElementById('files201Pagination'); d.innerHTML='';
+      if(tot<=1) return;
+      for(var p=1;p<=tot;p++){
+        var b=document.createElement('button');
+        b.textContent=p;
+        b.className='page-btn'+(p===current201Page?' active':'');
+        b.onclick=(function(pg){return function(){current201Page=pg;render201Table();};})(p);
+        d.appendChild(b);
+      }
+    }
+
+    function search201Files() {
+      var q=document.getElementById('files201Search').value.toLowerCase().trim();
+      filtered201Teachers=!q?all201Teachers.slice():all201Teachers.filter(function(t){return(t.lastName||'').toLowerCase().includes(q)||(t.firstName||'').toLowerCase().includes(q)||(t.employee||'').toLowerCase().includes(q)||(t.positionTitle||'').toLowerCase().includes(q)||(t.school||'').toLowerCase().includes(q);});
+      current201Page=1; render201Table();
+    }
+
+    function filter201Files() {
+      var p=document.getElementById('positionFilter201').value, l=document.getElementById('levelFilter201').value;
+      filtered201Teachers=all201Teachers.filter(function(t){return(p==='all'||t.positionTitle===p)&&(l==='all'||t.level===l);});
+      current201Page=1; render201Table();
+    }
+
+    // 201 detail info card
+    function ic201(label,val,key,wide) {
+      return '<div class="'+(wide?'detail-field-full':'detail-field-half')+'"><div class="detail-field i201" data-field="'+key+'"><div class="detail-field-label">'+label+'</div><div class="detail-field-value i201v">'+ni(val)+'</div></div></div>';
+    }
+
+    // 201 section header
+    function sh201(icon,title) {
+      return '<div class="detail-section"><span class="material-icons-outlined">'+icon+'</span><span>'+title+'</span></div>';
+    }
+
+    function open201Modal(idx) {
+      current201Teacher=filtered201Teachers[idx];
+      show201Detail(current201Teacher);
+    }
+
+    function show201Detail(t) {
+      var fn=((t.firstName||'')+' '+(t.middleName||'')+' '+(t.lastName||'')+' '+(t.ext||'')).replace(/\s+/g,' ').trim()||'No Info';
+      var h='<div class="modal-overlay modal-overlay-scroll" id="m201" onclick="if(event.target===this)closeM201()">';
+      h+='<div class="modal-box-dark modal-box-lg">';
+      h+='<div class="modal-header-colored modal-header-blue detail-header-lg"><div><h3>Teacher 201 File</h3><div class="modal-subtitle">'+fn+'</div></div><button class="modal-close-btn modal-close-btn-lg" onclick="closeM201()">✕</button></div>';
+      h+='<div class="detail-profile-bar"><div class="detail-profile-img" id="profile201Img"><span class="material-icons-outlined">person</span></div><div><div class="detail-name">'+fn+'</div><div class="detail-tags"><span class="detail-tag detail-tag-blue">ID: '+(t.employee||'No Info')+'</span><span class="detail-tag detail-tag-primary">'+(t.positionTitle||'No Info')+'</span><span class="detail-tag detail-tag-green">'+(t.level||'No Info')+'</span></div></div></div>';
+      h+='<div class="detail-body">';
+      h+=sh201('person','Personal Information');
+      h+='<div class="flex-wrap-gap">';
+      h+=ic201('Last Name',t.lastName,'lastName');h+=ic201('First Name',t.firstName,'firstName');h+=ic201('Middle Name',t.middleName,'middleName');h+=ic201('Extension',t.ext,'ext');h+=ic201('Date of Birth',t.dateOfBirth,'dateOfBirth');h+=ic201('Gender',t.gender,'gender');h+=ic201('Complete Address',t.completeAddress,'completeAddress',true);h+=ic201('Eligibility',t.eligibility,'eligibility');h+=ic201('Employee ID',t.employee,'employee');h+='</div>';
+      h+=sh201('school','School / Employment Information');
+      h+='<div class="flex-wrap-gap">';
+      h+=ic201('EDDIS',t.eddis,'eddis');h+=ic201('District',t.district,'district');h+=ic201('School',t.school,'school');h+=ic201('Level',t.level,'level');h+=ic201('SHS Track & Strand',t.shsTrackStrand,'shsTrackStrand');h+=ic201('Item Number',t.itemNumber,'itemNumber');h+=ic201('Position Title',t.positionTitle,'positionTitle');h+=ic201('Salary Grade',t.sg,'sg');h+=ic201('Step',t.step,'step');h+=ic201('Date of Original Appointment',t.dateOfOriginalApt,'dateOfOriginalApt');h+=ic201('Date of Last Promotion',t.dateOfLastPromotion,'dateOfLastPromotion');h+='</div>';
+      h+=sh201('school','Education / Qualification');
+      h+='<div class="flex-wrap-gap">';
+      h+=ic201('Course & Major (College)',t.courseMajorCollege,'courseMajorCollege',true);h+=ic201('Graduate Studies',t.courseMajorGraduate,'courseMajorGraduate',true);h+='</div>';
+      h+=sh201('badge','Government IDs');
+      h+='<div class="flex-wrap-gap">';
+      h+=ic201('PhilHealth (12 Digits)',t.philhealth,'philhealth');h+=ic201('GSIS BP (10 Digits)',t.gsisBp,'gsisBp');h+=ic201('Pag-IBIG (12 Digits)',t.pagibig,'pagibig');h+=ic201('TIN Number',t.tin,'tin');h+='</div>';
+      h+='</div>';
+      h+='<div class="modal-footer modal-footer-between"><button class="btn" onclick="closeM201()">Close</button><div class="user-actions"><button class="btn btn-info" onclick="download201PDF()"><span class="material-icons-outlined" style="font-size:16px;vertical-align:middle">picture_as_pdf</span> Download PDF</button><button class="btn btn-warning" id="be201" onclick="enterEdit201()">Edit</button><button class="btn btn-success hidden" id="bs201" onclick="save201()">Save</button><button class="btn btn-danger-fill hidden" id="bc201" onclick="cancelEdit201()">Cancel</button></div></div>';
+      h+='</div></div>';
+      var old=document.getElementById('m201');if(old)old.remove();
+      document.body.insertAdjacentHTML('beforeend',h);
+      google.script.run.withSuccessHandler(function(imgSrc) {
+        var el = document.getElementById('profile201Img');
+        if (el && imgSrc) { el.innerHTML = '<img src="'+imgSrc+'">'; }
+      }).get201ProfileImageByName(t.lastName, t.firstName);
+    }
+
+    function closeM201(){var e=document.getElementById('m201');if(e)e.remove();}
+
+    function enterEdit201() {
+      var t=current201Teacher;
+      document.querySelectorAll('.i201').forEach(function(c){
+        var f=c.getAttribute('data-field'),v=t[f]||'',lb=c.querySelector('div').textContent;
+        c.innerHTML='<label class="detail-field-label editing">'+lb+'</label><input type="text" class="e201i modal-input editing" data-field="'+f+'" value="'+String(v).replace(/"/g,'&quot;')+'">';
+        c.style.border='2px solid #3b82f6';
+      });
+      document.getElementById('be201').style.display='none';
+      document.getElementById('bs201').style.display='inline-block';
+      document.getElementById('bc201').style.display='inline-block';
+    }
+
+    function cancelEdit201(){closeM201();show201Detail(current201Teacher);}
+
+    function save201() {
+      var ud={};for(var k in current201Teacher)ud[k]=current201Teacher[k];
+      document.querySelectorAll('.e201i').forEach(function(inp){ud[inp.getAttribute('data-field')]=inp.value;});
+      var b=document.getElementById('bs201');b.disabled=true;b.textContent='Saving...';
+      google.script.run.withSuccessHandler(function(r){
+        if(r.success){for(var k in ud)current201Teacher[k]=ud[k];closeM201();render201Table();showToast('201 file updated!');}
+        else showToast('Error: '+r.error,true);
+        b.disabled=false;b.textContent='Save';
+      }).withFailureHandler(function(err){showToast('Failed: '+err,true);b.disabled=false;b.textContent='Save';}).update201File(current201Teacher.rowIndex,ud);
+    }
+
+    // ===== DOWNLOAD 201 PDF =====
+    function download201PDF() {
+      if (!current201Teacher) { showToast('No teacher data loaded', true); return; }
+      var t = current201Teacher;
+      var jsPDF = window.jspdf.jsPDF;
+      var doc = new jsPDF('p', 'mm', 'a4');
+      var pw = 210, ph = 297, mx = 15, cw = pw - 2 * mx;
+      var y = 15;
+
+      // Header bar
+      doc.setFillColor(37, 99, 235);
+      doc.rect(0, 0, pw, 35, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(18);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Teacher 201 File', mx, 15);
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      var fn = ((t.firstName || '') + ' ' + (t.middleName || '') + ' ' + (t.lastName || '') + ' ' + (t.ext || '')).replace(/\s+/g, ' ').trim() || 'N/A';
+      doc.text(fn, mx, 24);
+      doc.setFontSize(9);
+      doc.text('Employee ID: ' + (t.employee || 'N/A') + '  |  ' + (t.positionTitle || 'N/A') + '  |  ' + (t.level || 'N/A'), mx, 31);
+      y = 45;
+
+      function sectionHeader(title) {
+        if (y > ph - 30) { doc.addPage(); y = 15; }
+        doc.setFillColor(241, 245, 249);
+        doc.rect(mx, y, cw, 8, 'F');
+        doc.setTextColor(30, 41, 59);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.text(title, mx + 3, y + 5.5);
+        y += 12;
+      }
+
+      function fieldRow(label, value) {
+        if (y > ph - 15) { doc.addPage(); y = 15; }
+        doc.setTextColor(100, 116, 139);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.text(label.toUpperCase(), mx + 2, y);
+        y += 4;
+        doc.setTextColor(30, 41, 59);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        var val = (value == null || String(value).trim() === '') ? 'N/A' : String(value);
+        var lines = doc.splitTextToSize(val, cw - 4);
+        doc.text(lines, mx + 2, y);
+        y += lines.length * 5 + 3;
+      }
+
+      function fieldPair(l1, v1, l2, v2) {
+        if (y > ph - 15) { doc.addPage(); y = 15; }
+        var halfW = (cw - 4) / 2;
+        doc.setTextColor(100, 116, 139);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.text(l1.toUpperCase(), mx + 2, y);
+        doc.text(l2.toUpperCase(), mx + 2 + halfW + 4, y);
+        y += 4;
+        doc.setTextColor(30, 41, 59);
+        doc.setFontSize(10);
+        var v1s = (v1 == null || String(v1).trim() === '') ? 'N/A' : String(v1);
+        var v2s = (v2 == null || String(v2).trim() === '') ? 'N/A' : String(v2);
+        doc.text(v1s, mx + 2, y);
+        doc.text(v2s, mx + 2 + halfW + 4, y);
+        y += 7;
+      }
+
+      // Personal Information
+      sectionHeader('Personal Information');
+      fieldPair('Last Name', t.lastName, 'First Name', t.firstName);
+      fieldPair('Middle Name', t.middleName, 'Extension', t.ext);
+      fieldPair('Date of Birth', t.dateOfBirth, 'Gender', t.gender);
+      fieldRow('Complete Address', t.completeAddress);
+      fieldPair('Eligibility', t.eligibility, 'Employee ID', t.employee);
+
+      // School / Employment
+      sectionHeader('School / Employment Information');
+      fieldPair('EDDIS', t.eddis, 'District', t.district);
+      fieldPair('School', t.school, 'Level', t.level);
+      fieldPair('SHS Track & Strand', t.shsTrackStrand, 'Item Number', t.itemNumber);
+      fieldPair('Position Title', t.positionTitle, 'Salary Grade', t.sg);
+      fieldPair('Step', t.step, 'Date of Original Appointment', t.dateOfOriginalApt);
+      fieldRow('Date of Last Promotion', t.dateOfLastPromotion);
+
+      // Education
+      sectionHeader('Education / Qualification');
+      fieldRow('Course & Major (College)', t.courseMajorCollege);
+      fieldRow('Graduate Studies', t.courseMajorGraduate);
+
+      // Government IDs
+      sectionHeader('Government IDs');
+      fieldPair('PhilHealth', t.philhealth, 'GSIS BP Number', t.gsisBp);
+      fieldPair('Pag-IBIG Number', t.pagibig, 'TIN Number', t.tin);
+
+      // Footer
+      y += 5;
+      if (y > ph - 20) { doc.addPage(); y = 15; }
+      doc.setDrawColor(203, 213, 225);
+      doc.line(mx, y, pw - mx, y);
+      y += 5;
+      doc.setTextColor(148, 163, 184);
+      doc.setFontSize(8);
+      doc.text('Generated by TeachTap on ' + new Date().toLocaleString('en-PH', {timeZone: 'Asia/Manila'}), mx, y);
+
+      var safeName = fn.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '_');
+      doc.save('201_File_' + safeName + '.pdf');
+      showToast('PDF downloaded!');
+    }
+
+    // ===== ARCHIVE 201 =====
+    function openArchiveConfirm(rowIndex, name) {
+      var h = '<div class="modal-overlay" id="archiveConfirmModal" onclick="if(event.target===this)closeArchiveConfirm()">';
+      h += '<div class="modal-box-dark" style="max-width:440px">';
+      h += '<div class="modal-header-colored" style="background:linear-gradient(135deg,#f59e0b,#d97706)"><div><h3>Archive 201 File</h3><div class="modal-subtitle">'+name+'</div></div><button class="modal-close-btn" onclick="closeArchiveConfirm()">✕</button></div>';
+      h += '<div style="padding:24px;text-align:center">';
+      h += '<span class="material-icons-outlined" style="font-size:48px;color:#f59e0b;margin-bottom:12px">inventory_2</span>';
+      h += '<p style="margin-bottom:16px;color:#64748b">This will move the 201 file for <strong>'+name+'</strong> to the archived section. You can restore it later.</p>';
+      h += '<p style="margin-bottom:8px;font-weight:600;color:#334155">Type <span style="color:#ef4444;font-family:monospace;font-size:1.1em">CONFIRM</span> to proceed:</p>';
+      h += '<input type="text" id="archiveConfirmInput" class="modal-input" placeholder="Type CONFIRM here" style="text-align:center;font-size:1rem;letter-spacing:2px;margin-bottom:16px" autocomplete="off">';
+      h += '<div style="display:flex;gap:8px;justify-content:center">';
+      h += '<button class="btn" onclick="closeArchiveConfirm()">Cancel</button>';
+      h += '<button class="btn btn-warning" id="archiveConfirmBtn" onclick="executeArchive('+rowIndex+')" disabled>Archive</button>';
+      h += '</div></div></div></div>';
+      var old = document.getElementById('archiveConfirmModal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+      var inp = document.getElementById('archiveConfirmInput');
+      inp.addEventListener('input', function() {
+        document.getElementById('archiveConfirmBtn').disabled = (inp.value.trim() !== 'CONFIRM');
+      });
+      inp.focus();
+    }
+
+    function closeArchiveConfirm() {
+      var el = document.getElementById('archiveConfirmModal'); if(el) el.remove();
+    }
+
+    function executeArchive(rowIndex) {
+      var inp = document.getElementById('archiveConfirmInput');
+      if (inp.value.trim() !== 'CONFIRM') { showToast('Please type CONFIRM to proceed', true); return; }
+      var btn = document.getElementById('archiveConfirmBtn');
+      btn.disabled = true; btn.textContent = 'Archiving...';
+      google.script.run.withSuccessHandler(function(r) {
+        closeArchiveConfirm();
+        if (r.success) { showToast(r.message); load201Files(); }
+        else showToast('Error: ' + (r.error || r.message), true);
+      }).withFailureHandler(function(err) { closeArchiveConfirm(); showToast('Failed: ' + err, true); }).archive201File(rowIndex);
+    }
+
+    // ===== ARCHIVED 201 FILES =====
+    var allArchived201 = [];
+    var filteredArchived201 = [];
+    var currentArchived201Page = 1;
+    var rowsArchived201PerPage = 15;
+
+    function loadArchived201Files() {
+      document.getElementById('archived201Loading').style.display = 'block';
+      document.getElementById('archived201TableContainer').style.display = 'none';
+      google.script.run.withSuccessHandler(function(result) {
+        if (result.success) {
+          allArchived201 = result.data;
+          filteredArchived201 = allArchived201.slice();
+          document.getElementById('archivedFilesCount').textContent = allArchived201.length;
+          currentArchived201Page = 1;
+          renderArchived201Table();
+        } else { showToast('Error: ' + result.error, true); }
+        document.getElementById('archived201Loading').style.display = 'none';
+        document.getElementById('archived201TableContainer').style.display = 'block';
+      }).withFailureHandler(function(err) {
+        showToast('Failed: ' + err, true);
+        document.getElementById('archived201Loading').style.display = 'none';
+        document.getElementById('archived201TableContainer').style.display = 'block';
+      }).getArchived201Files();
+    }
+
+    function renderArchived201Table() {
+      var tb = document.getElementById('archived201List'); tb.innerHTML = '';
+      var s = (currentArchived201Page-1)*rowsArchived201PerPage, e = Math.min(s+rowsArchived201PerPage, filteredArchived201.length);
+      var pg = filteredArchived201.slice(s, e);
+      if (!pg.length) { tb.innerHTML='<tr><td colspan="8" class="empty-state"><span class="material-icons-outlined empty-state-icon">inventory_2</span>No archived files found.</td></tr>'; return; }
+      pg.forEach(function(t,i) {
+        var g=s+i, tr=document.createElement('tr');
+        tr.innerHTML='<td>'+ni(g+1)+'</td><td>'+ni(t.employee)+'</td><td>'+ni(t.lastName)+'</td><td>'+ni(t.firstName)+'</td><td>'+ni(t.positionTitle)+'</td><td>'+ni(t.school)+'</td><td class="text-center"><span class="badge-level">'+(t.level||'N/A')+'</span></td><td class="text-center"><button class="btn btn-success btn-xs" onclick="restore201('+t.rowIndex+',\''+((t.lastName||'')+(t.firstName?' '+t.firstName:'')).replace(/'/g,"\\'")+'\')" ><span class="material-icons-outlined" style="font-size:14px;vertical-align:middle">restore</span> Restore</button></td>';
+        tb.appendChild(tr);
+      });
+      renderArchived201Pag();
+    }
+
+    function renderArchived201Pag() {
+      var tot=Math.ceil(filteredArchived201.length/rowsArchived201PerPage), d=document.getElementById('archived201Pagination'); d.innerHTML='';
+      if(tot<=1) return;
+      for(var p=1;p<=tot;p++){
+        var b=document.createElement('button');
+        b.textContent=p;
+        b.className='page-btn'+(p===currentArchived201Page?' active':'');
+        b.onclick=(function(pg){return function(){currentArchived201Page=pg;renderArchived201Table();};})(p);
+        d.appendChild(b);
+      }
+    }
+
+    function searchArchived201() {
+      var q=document.getElementById('archived201Search').value.toLowerCase().trim();
+      filteredArchived201=!q?allArchived201.slice():allArchived201.filter(function(t){return(t.lastName||'').toLowerCase().includes(q)||(t.firstName||'').toLowerCase().includes(q)||(t.employee||'').toLowerCase().includes(q)||(t.positionTitle||'').toLowerCase().includes(q)||(t.school||'').toLowerCase().includes(q);});
+      currentArchived201Page=1; renderArchived201Table();
+    }
+
+    function restore201(rowIndex, name) {
+      if (!confirm('Restore 201 file for "' + name + '" back to active files?')) return;
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) { showToast(r.message); loadArchived201Files(); }
+        else showToast('Error: ' + (r.error || r.message), true);
+      }).withFailureHandler(function(err) { showToast('Failed: ' + err, true); }).restore201File(rowIndex);
+    }
+
+    // ===== ADD 201 FILE MODAL =====
+    function openAdd201Modal() {
+      var h = '<div class="modal-overlay modal-overlay-scroll" id="add201modal" onclick="if(event.target===this)closeAdd201()">';
+      h += '<div class="modal-box-dark modal-box-lg">';
+      h += '<div class="modal-header-colored modal-header-green detail-header-lg"><div><h3>Add New 201 File</h3><div class="modal-subtitle">Fill in the teacher information below</div></div><button class="modal-close-btn modal-close-btn-lg" onclick="closeAdd201()">✕</button></div>';
+      h += '<div class="detail-body detail-body-tall">';
+      h += sh201('person','Personal Information');
+      h += '<div class="flex-wrap-gap">';
+      h += af('Last Name','lastName'); h += af('First Name','firstName'); h += af('Middle Name','middleName'); h += af('Extension (e.g. Jr., III)','ext');
+      h += af('Date of Birth','dateOfBirth','date'); h += afs('Gender','gender',['','Male','Female']); h += af('Complete Address','completeAddress','text',true); h += af('Eligibility','eligibility');
+      h += af('Employee ID','employee');
+      h += '</div>';
+      h += sh201('school','School / Employment Information');
+      h += '<div class="flex-wrap-gap">';
+      h += af('EDDIS','eddis'); h += af('District','district'); h += af('School','school');
+      h += afs('Level','level',['','Elementary','JHS','SHS']); h += af('SHS Track & Strand','shsTrackStrand');
+      h += af('Item Number','itemNumber','text',true); h += af('Position Title','positionTitle'); h += af('Salary Grade','sg'); h += af('Step','step');
+      h += af('Date of Original Appointment','dateOfOriginalApt','date'); h += af('Date of Last Promotion','dateOfLastPromotion','date');
+      h += '</div>';
+      h += sh201('school','Education / Qualification');
+      h += '<div class="flex-wrap-gap">';
+      h += af('Course & Major (College)','courseMajorCollege','text',true); h += af('Course & Major (Graduate Studies)','courseMajorGraduate','text',true);
+      h += '</div>';
+      h += sh201('badge','Government IDs');
+      h += '<div class="flex-wrap-gap">';
+      h += af('PhilHealth (12 Digits)','philhealth'); h += af('GSIS BP Number (10 Digits)','gsisBp'); h += af('Pag-IBIG Number (12 Digits)','pagibig'); h += af('TIN Number','tin');
+      h += '</div>';
+      h += '</div>';
+      h += '<div class="modal-footer"><button class="btn" onclick="closeAdd201()">Cancel</button><button class="btn btn-success" id="submitAdd201" onclick="submitAdd201()">Add Teacher</button></div>';
+      h += '</div></div>';
+      var old = document.getElementById('add201modal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+    }
+
+    function af(label, key, type, wide) {
+      var t = type || 'text';
+      return '<div class="'+(wide?'detail-field-full':'detail-field-half')+'"><label class="detail-field-label">'+label+'</label><input type="'+t+'" class="add201field modal-input" data-field="'+key+'" placeholder="'+label+'"></div>';
+    }
+
+    function afs(label, key, options) {
+      var opts = '';
+      options.forEach(function(o) { opts += '<option value="'+o+'">'+(o||'-- Select --')+'</option>'; });
+      return '<div class="detail-field-half"><label class="detail-field-label">'+label+'</label><select class="add201field modal-select" data-field="'+key+'">'+opts+'</select></div>';
+    }
+
+    function closeAdd201() { var e = document.getElementById('add201modal'); if(e) e.remove(); }
+
+    function submitAdd201() {
+      var data = {};
+      document.querySelectorAll('.add201field').forEach(function(el) {
+        data[el.getAttribute('data-field')] = el.value || '';
+      });
+      if (!data.lastName && !data.firstName) {
+        showToast('Last Name and First Name are required.', true);
+        return;
+      }
+      var btn = document.getElementById('submitAdd201');
+      btn.disabled = true; btn.textContent = 'Adding...';
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) { closeAdd201(); showToast(r.message); load201Files(); }
+        else { showToast('Error: ' + (r.error || r.message), true); btn.disabled = false; btn.textContent = 'Add Teacher'; }
+      }).withFailureHandler(function(err) {
+        showToast('Failed: ' + err, true); btn.disabled = false; btn.textContent = 'Add Teacher';
+      }).add201File(data);
+    }
+
+    // ===== SERVICE CREDITS =====
+    var allSCTeachers = [];
+
+    function loadServiceCredits() {
+      document.getElementById('scLoading').style.display = 'block';
+      document.getElementById('scTableContainer').style.display = 'none';
+      google.script.run.withSuccessHandler(function(result) {
+        document.getElementById('scLoading').style.display = 'none';
+        document.getElementById('scTableContainer').style.display = 'block';
+        if (result.success) {
+          allSCTeachers = result.data || [];
+          document.getElementById('scTeacherCount').textContent = allSCTeachers.length;
+          renderSCTeachers(allSCTeachers);
+        } else { showToast('Error: ' + result.error, true); }
+      }).withFailureHandler(function(err) {
+        document.getElementById('scLoading').style.display = 'none';
+        showToast('Failed: ' + err, true);
+      }).getTeachersWithCredits();
+    }
+
+    function filterTeacherSuggestions() {
+      var q = document.getElementById('scTeacherInput').value.toLowerCase().trim();
+      var box = document.getElementById('scSuggestions');
+      if (!q || q.length < 1) { box.classList.add('hidden'); return; }
+      var matches = allSCTeachers.filter(function(t) { return t.name.toLowerCase().indexOf(q) !== -1; }).slice(0, 8);
+      if (!matches.length) { box.classList.add('hidden'); return; }
+      var h = '';
+      matches.forEach(function(t) {
+        h += '<div class="sc-suggestion-item" onclick="selectSCTeacher(\'' + escapeH(t.name).replace(/'/g, "\\'") + '\')">';
+        h += '<span class="material-icons-outlined">person</span> ' + escapeH(t.name);
+        h += '<span class="sc-suggestion-pts">' + t.credits + ' pts</span></div>';
+      });
+      box.innerHTML = h;
+      box.classList.remove('hidden');
+    }
+
+    function selectSCTeacher(name) {
+      document.getElementById('scTeacherInput').value = name;
+      document.getElementById('scSuggestions').classList.add('hidden');
+    }
+
+    // Close suggestions when clicking outside
+    document.addEventListener('click', function(e) {
+      var box = document.getElementById('scSuggestions');
+      if (box && !e.target.closest('.sc-search-wrap')) box.classList.add('hidden');
+    });
+
+    function searchSCTeachers() {
+      var q = document.getElementById('scSearch').value.toLowerCase().trim();
+      var filtered = !q ? allSCTeachers : allSCTeachers.filter(function(t) {
+        return t.name.toLowerCase().indexOf(q) !== -1;
+      });
+      renderSCTeachers(filtered);
+    }
+
+    function renderSCTeachers(teachers) {
+      var container = document.getElementById('scTeacherList');
+      if (!teachers.length) {
+        container.innerHTML = '<div class="empty-state"><span class="material-icons-outlined empty-state-icon">person_off</span><p>No teachers found</p></div>';
+        return;
+      }
+      var h = '';
+      teachers.forEach(function(t) {
+        var eName = escapeH(t.name).replace(/'/g, "\\'");
+        h += '<div class="sc-teacher-card">';
+        h += '<div class="sc-teacher-card-main" onclick="viewCreditHistory(\'' + eName + '\')">';
+        h += '<div class="sc-teacher-avatar"><span class="material-icons-outlined">person</span></div>';
+        h += '<div class="sc-teacher-info"><div class="sc-teacher-name">' + escapeH(t.name) + '</div><div class="sc-teacher-meta">' + escapeH(t.position || '') + (t.school ? ' · ' + escapeH(t.school) : '') + '</div></div>';
+        h += '<div class="sc-teacher-points"><div class="sc-teacher-points-num">' + t.credits + '</div><div class="sc-teacher-points-label">pts</div></div>';
+        h += '</div>';
+        h += '<div class="sc-teacher-actions">';
+        h += '<button class="sc-edit-btn" onclick="event.stopPropagation();openEditCreditsModal(\'' + eName + '\',' + t.credits + ')" title="Edit Credits"><span class="material-icons-outlined">edit</span></button>';
+        h += '</div>';
+        h += '</div>';
+      });
+      container.innerHTML = h;
+    }
+
+    function openEditCreditsModal(name, currentPts) {
+      var h = '<div class="modal-overlay" id="editCreditsModal" onclick="if(event.target===this)closeEditCreditsModal()">';
+      h += '<div class="modal-box-dark" style="max-width:420px">';
+      h += '<div class="modal-header-colored modal-header-blue"><div><h3>Edit Service Credits</h3><div class="modal-subtitle">' + name + '</div></div><button class="modal-close-btn" onclick="closeEditCreditsModal()">&#10005;</button></div>';
+      h += '<div style="padding:24px">';
+      h += '<div style="text-align:center;margin-bottom:16px"><span class="material-icons-outlined" style="font-size:48px;color:#3b82f6">stars</span></div>';
+      h += '<label style="display:block;margin-bottom:6px;font-weight:600;color:#334155;font-size:13px">Current Points</label>';
+      h += '<div style="font-size:24px;font-weight:700;color:#3b82f6;margin-bottom:16px">' + currentPts + ' PTS</div>';
+      h += '<label style="display:block;margin-bottom:6px;font-weight:600;color:#334155;font-size:13px">New Total Points</label>';
+      h += '<input type="number" id="editCreditsNewPts" class="modal-input" value="' + currentPts + '" min="0" step="0.5" style="font-size:16px;text-align:center;margin-bottom:16px">';
+      h += '<label style="display:block;margin-bottom:6px;font-weight:600;color:#334155;font-size:13px">Reason for Change</label>';
+      h += '<input type="text" id="editCreditsReason" class="modal-input" placeholder="e.g. Manual adjustment" style="margin-bottom:20px">';
+      h += '<div style="display:flex;gap:8px;justify-content:flex-end">';
+      h += '<button class="btn" onclick="closeEditCreditsModal()">Cancel</button>';
+      h += '<button class="btn btn-success" id="editCreditsSaveBtn" onclick="saveEditCredits(\'' + name + '\',' + currentPts + ')">Save</button>';
+      h += '</div></div></div></div>';
+      var old = document.getElementById('editCreditsModal'); if(old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', h);
+    }
+
+    function closeEditCreditsModal() { var e = document.getElementById('editCreditsModal'); if(e) e.remove(); }
+
+    function saveEditCredits(name, oldPts) {
+      var newPts = parseFloat(document.getElementById('editCreditsNewPts').value);
+      var reason = document.getElementById('editCreditsReason').value.trim();
+      if (isNaN(newPts) || newPts < 0) { showToast('Please enter a valid point value', true); return; }
+      if (!reason) { showToast('Please enter a reason for the change', true); return; }
+      if (newPts === oldPts) { closeEditCreditsModal(); return; }
+      var btn = document.getElementById('editCreditsSaveBtn'); btn.disabled = true; btn.textContent = 'Saving...';
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) { showToast(r.message); closeEditCreditsModal(); loadServiceCredits(); }
+        else { showToast(r.message || 'Error updating credits', true); btn.disabled = false; btn.textContent = 'Save'; }
+      }).withFailureHandler(function(err) { showToast('Failed: ' + err, true); btn.disabled = false; btn.textContent = 'Save'; }).updateServiceCreditPoints(name, newPts, reason);
+    }
+
+    function submitAddPoints() {
+      var name = document.getElementById('scTeacherInput').value.trim();
+      var dateVal = document.getElementById('scDate').value;
+      var points = document.getElementById('scPoints').value;
+      var reason = document.getElementById('scReason').value.trim();
+      if (!name) { showToast('Please enter a teacher name', true); return; }
+      // Verify teacher exists
+      var found = allSCTeachers.some(function(t) { return t.name.toLowerCase() === name.toLowerCase(); });
+      if (!found) { showToast('Teacher not found. Please select from suggestions.', true); return; }
+      if (!dateVal) { showToast('Please select a date', true); return; }
+      if (!points || parseFloat(points) <= 0) { showToast('Please enter valid points', true); return; }
+      if (!reason) { showToast('Please enter a reason', true); return; }
+      if (!confirm('Add ' + points + ' point(s) to ' + name + '?')) return;
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) {
+          showToast(r.message);
+          loadServiceCredits();
+          document.getElementById('scPoints').value = '';
+          document.getElementById('scReason').value = '';
+          document.getElementById('scTeacherInput').value = '';
+        } else showToast(r.message, true);
+      }).withFailureHandler(function(err) { showToast('Failed: ' + err, true); }).addServiceCredit(name, parseFloat(points), reason, dateVal);
+    }
+
+    function viewCreditHistory(name) {
+      google.script.run.withSuccessHandler(function(history) {
+        var h = '<div class="modal-overlay" id="chModal" onclick="if(event.target===this)closeCHModal()">';
+        h += '<div class="modal-box">';
+        h += '<div class="modal-header-colored modal-header-blue"><div><h3>Credit History</h3><div class="modal-subtitle">' + escapeH(name) + '</div></div><button class="modal-close-btn" onclick="closeCHModal()">&#10005;</button></div>';
+        h += '<div class="modal-body">';
+        if (!history || history.length === 0) {
+          h += '<div class="empty-state"><span class="material-icons-outlined empty-state-icon">history</span><p>No credit history</p></div>';
+        } else {
+          h += '<table class="data-table"><thead><tr><th>Date</th><th>Points</th><th>Reason</th></tr></thead><tbody>';
+          history.forEach(function(r) {
+            h += '<tr><td>' + escapeH(r.date) + '</td><td><span class="sc-points-badge">' + r.points + '</span></td><td>' + escapeH(r.reason) + '</td></tr>';
+          });
+          h += '</tbody></table>';
+        }
+        h += '</div><div class="modal-footer"><button class="btn" onclick="closeCHModal()">Close</button></div></div></div>';
+        var old = document.getElementById('chModal'); if(old) old.remove();
+        document.body.insertAdjacentHTML('beforeend', h);
+      }).getTeacherCreditHistory(name);
+    }
+
+    function closeCHModal() { var e = document.getElementById('chModal'); if(e) e.remove(); }
+
+    // ===== LEAVE REQUESTS =====
+    var allLeaveRequests = [];
+
+    function loadLeaveRequests() {
+      document.getElementById('lrLoading').style.display = 'block';
+      document.getElementById('lrTableContainer').style.display = 'none';
+      google.script.run.withSuccessHandler(function(requests) {
+        document.getElementById('lrLoading').style.display = 'none';
+        document.getElementById('lrTableContainer').style.display = 'block';
+        allLeaveRequests = requests || [];
+        filterLeaveRequests();
+      }).withFailureHandler(function(err) {
+        document.getElementById('lrLoading').style.display = 'none';
+        showToast('Failed: ' + err, true);
+      }).getPendingLeaveRequests();
+    }
+
+    function filterLeaveRequests() {
+      var status = document.getElementById('lrStatusFilter').value;
+      var filtered = status === 'all' ? allLeaveRequests : allLeaveRequests.filter(function(r) { return r.status === status; });
+      renderLeaveRequests(filtered);
+    }
+
+    function renderLeaveRequests(requests) {
+      var tbody = document.getElementById('lrList');
+      if (!requests.length) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><span class="material-icons-outlined empty-state-icon">inbox</span>No requests found</td></tr>';
+        return;
+      }
+      var h = '';
+      requests.forEach(function(r) {
+        var statusClass = r.status === 'Approved' ? 'badge-early' : (r.status === 'Declined' ? 'badge-late' : 'badge-pending');
+        h += '<tr><td>' + escapeH(r.timestamp) + '</td><td>' + escapeH(r.teacherName) + '</td><td>' + r.days + '</td><td>' + escapeH(r.reason) + '</td>';
+        h += '<td>' + escapeH(r.startDate) + ' to ' + escapeH(r.endDate) + '</td>';
+        h += '<td><span class="att-status ' + statusClass + '">' + r.status + '</span></td>';
+        h += '<td class="text-center">';
+        if (r.status === 'Pending') {
+          h += '<button class="btn btn-success btn-xs" onclick="handleLeaveAction(\'approve\',' + r.rowIndex + ',\'' + escapeH(r.teacherName).replace(/'/g,"\\'") + '\')"><span class="material-icons-outlined">check</span> Accept</button> ';
+          h += '<button class="btn btn-danger-fill btn-xs" onclick="handleLeaveAction(\'decline\',' + r.rowIndex + ',\'' + escapeH(r.teacherName).replace(/'/g,"\\'") + '\')"><span class="material-icons-outlined">close</span> Decline</button>';
+        } else {
+          h += '<span class="lr-comment-text">' + escapeH(r.comment || '-') + '</span>';
+        }
+        h += '</td></tr>';
+      });
+      tbody.innerHTML = h;
+    }
+
+    function handleLeaveAction(action, rowIndex, name) {
+      var actionLabel = action === 'approve' ? 'Approve' : 'Decline';
+      var comment = prompt(actionLabel + ' request for ' + name + '.\nPlease enter a comment (required):');
+      if (comment === null) return;
+      if (!comment.trim()) { showToast('Comment is required', true); return; }
+      var fn = action === 'approve' ? 'approveLeaveRequest' : 'declineLeaveRequest';
+      google.script.run.withSuccessHandler(function(r) {
+        if (r.success) { showToast(r.message); loadLeaveRequests(); }
+        else showToast(r.message, true);
+      }).withFailureHandler(function(err) { showToast('Failed: ' + err, true); })[fn](rowIndex, comment.trim());
+    }
+
+    // ===== ADMIN PIN SYSTEM =====
+    var adminPinVerified = false;
+    var filesPinVerified = false;
+    var pendingFilesPage = '';
+
+    function updateAdminPinDots(dotsId, length) {
+      var dots = document.getElementById(dotsId).querySelectorAll('.apin-dot');
+      for (var i = 0; i < dots.length; i++) {
+        dots[i].classList.toggle('filled', i < length);
+      }
+    }
+
+    function buildAdminNumpad(numpadId, inputId, dotsId, onComplete) {
+      var keys = [1,2,3,4,5,6,7,8,9,'empty',0,'del'];
+      var h = '';
+      keys.forEach(function(k) {
+        if (k === 'empty') { h += '<button class="apin-key empty" type="button"></button>'; }
+        else if (k === 'del') { h += '<button class="apin-key del" type="button" data-action="del"><span class="material-icons-outlined">backspace</span></button>'; }
+        else { h += '<button class="apin-key" type="button" data-num="' + k + '">' + k + '</button>'; }
+      });
+      var pad = document.getElementById(numpadId);
+      pad.innerHTML = h;
+      pad.onclick = function(e) {
+        var btn = e.target.closest('.apin-key');
+        if (!btn) return;
+        var input = document.getElementById(inputId);
+        if (btn.dataset.action === 'del') {
+          input.value = input.value.slice(0, -1);
+        } else if (btn.dataset.num !== undefined && input.value.length < 6) {
+          input.value += btn.dataset.num;
+        }
+        updateAdminPinDots(dotsId, input.value.length);
+        if (input.value.length === 6 && onComplete) {
+          setTimeout(function() { onComplete(input.value); }, 200);
+        }
+      };
+    }
+
+    // Main admin PIN login
+    function initAdminPinLogin() {
+      document.getElementById('adminPinInput').value = '';
+      document.getElementById('adminPinError').textContent = '';
+      updateAdminPinDots('adminPinDots', 0);
+      buildAdminNumpad('adminPinNumpad', 'adminPinInput', 'adminPinDots', function(pin) {
+        document.getElementById('adminPinError').textContent = '';
+        google.script.run.withSuccessHandler(function(result) {
+          if (result.success) {
+            adminPinVerified = true;
+            document.getElementById('adminPinOverlay').style.display = 'none';
+            startAdminDashboard();
+          } else {
+            document.getElementById('adminPinError').textContent = result.message || 'Incorrect PIN';
+            document.getElementById('adminPinInput').value = '';
+            updateAdminPinDots('adminPinDots', 0);
+          }
+        }).withFailureHandler(function(err) {
+          document.getElementById('adminPinError').textContent = 'Error: ' + err.message;
+          document.getElementById('adminPinInput').value = '';
+          updateAdminPinDots('adminPinDots', 0);
+        }).verifyAdminPin(pin);
+      });
+    }
+
+    // 201 Files PIN gate
+    function showFilesPinGate(pageName) {
+      pendingFilesPage = pageName;
+      document.getElementById('files201PinOverlay').style.display = 'flex';
+      document.getElementById('files201PinInput').value = '';
+      document.getElementById('files201PinError').textContent = '';
+      updateAdminPinDots('files201PinDots', 0);
+      buildAdminNumpad('files201PinNumpad', 'files201PinInput', 'files201PinDots', function(pin) {
+        document.getElementById('files201PinError').textContent = '';
+        google.script.run.withSuccessHandler(function(result) {
+          if (result.success) {
+            filesPinVerified = true;
+            document.getElementById('files201PinOverlay').style.display = 'none';
+            proceedToFilesPage(pendingFilesPage);
+          } else {
+            document.getElementById('files201PinError').textContent = result.message || 'Incorrect PIN';
+            document.getElementById('files201PinInput').value = '';
+            updateAdminPinDots('files201PinDots', 0);
+          }
+        }).withFailureHandler(function(err) {
+          document.getElementById('files201PinError').textContent = 'Error: ' + err.message;
+          document.getElementById('files201PinInput').value = '';
+          updateAdminPinDots('files201PinDots', 0);
+        }).verifyAdminPin(pin);
+      });
+    }
+
+    function cancelFilesPinGate() {
+      document.getElementById('files201PinOverlay').style.display = 'none';
+      showPage('dashboard');
+    }
+
+    function proceedToFilesPage(pageName) {
+      if (pageName === 'files201') load201Files();
+      if (pageName === 'archived201') loadArchived201Files();
+    }
+
+    function startAdminDashboard() {
+      document.getElementById('sidebar').style.display = '';
+      document.getElementById('mobileHeader').style.display = '';
+      document.getElementById('mainContent').style.display = '';
+      google.script.run.withSuccessHandler(function(role) {
+        document.getElementById('adminEmail').textContent = role.email || 'Admin';
+      }).getCurrentUserRole();
+      refreshDashboard();
+      loadUsers();
+      document.getElementById('attendanceDate').value = getManilaToday();
+      loadAttendance();
+    }
+
+    function adminLogout() {
+      if (confirm('Are you sure you want to logout?')) {
+        adminPinVerified = false;
+        filesPinVerified = false;
+        document.getElementById('sidebar').style.display = 'none';
+        document.getElementById('mobileHeader').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'none';
+        document.getElementById('adminPinOverlay').style.display = '';
+        document.getElementById('adminPinInput').value = '';
+        document.getElementById('adminPinError').textContent = '';
+        updateAdminPinDots('adminPinDots', 0);
+      }
+    }
+
+    // ===== FORGOT ADMIN PIN =====
+    function handleForgotAdminPin() {
+      if (!confirm('Send your PIN to your registered admin email?')) return;
+      document.getElementById('adminPinError').textContent = 'Sending PIN to your email...';
+      google.script.run.withSuccessHandler(function(result) {
+        if (result.success) {
+          document.getElementById('adminPinError').textContent = '';
+          alert(result.message);
+        } else {
+          document.getElementById('adminPinError').textContent = result.message;
+        }
+      }).withFailureHandler(function(err) {
+        document.getElementById('adminPinError').textContent = 'Error: ' + err.message;
+      }).forgotAdminPin();
+    }
+
+    // ===== ADMIN SETTINGS =====
+    function loadAdminSettings() {
+      google.script.run.withSuccessHandler(function(data) {
+        if (data && data.email) {
+          document.getElementById('adminSettingsEmail').value = data.email;
+        }
+        document.getElementById('adminSettingsCurrentPin').value = '';
+        document.getElementById('adminSettingsNewPin').value = '';
+        document.getElementById('adminSettingsConfirmPin').value = '';
+        document.getElementById('adminSettingsError').style.display = 'none';
+        document.getElementById('adminSettingsSuccess').style.display = 'none';
+      }).withFailureHandler(function(err) {
+        showToast('Error loading admin settings: ' + err.message, true);
+      }).getAdminSettings();
+    }
+
+    function saveAdminSettings() {
+      var email = document.getElementById('adminSettingsEmail').value.trim();
+      var currentPin = document.getElementById('adminSettingsCurrentPin').value.trim();
+      var newPin = document.getElementById('adminSettingsNewPin').value.trim();
+      var confirmPin = document.getElementById('adminSettingsConfirmPin').value.trim();
+      var errEl = document.getElementById('adminSettingsError');
+      var successEl = document.getElementById('adminSettingsSuccess');
+      errEl.style.display = 'none';
+      successEl.style.display = 'none';
+
+      if (!email) { errEl.textContent = 'Email is required.'; errEl.style.display = 'block'; return; }
+      if (!currentPin || currentPin.length !== 6) { errEl.textContent = 'Current PIN must be 6 digits.'; errEl.style.display = 'block'; return; }
+      if (newPin && newPin.length !== 6) { errEl.textContent = 'New PIN must be exactly 6 digits.'; errEl.style.display = 'block'; return; }
+      if (newPin && newPin !== confirmPin) { errEl.textContent = 'New PIN and confirmation do not match.'; errEl.style.display = 'block'; return; }
+
+      google.script.run.withSuccessHandler(function(result) {
+        if (result.success) {
+          successEl.textContent = result.message || 'Settings saved successfully.';
+          successEl.style.display = 'block';
+          errEl.style.display = 'none';
+          document.getElementById('adminSettingsCurrentPin').value = '';
+          document.getElementById('adminSettingsNewPin').value = '';
+          document.getElementById('adminSettingsConfirmPin').value = '';
+          showToast('Admin settings saved!');
+          // Update admin email display
+          document.getElementById('adminEmail').textContent = email;
+        } else {
+          errEl.textContent = result.message || 'Failed to save settings.';
+          errEl.style.display = 'block';
+          successEl.style.display = 'none';
+        }
+      }).withFailureHandler(function(err) {
+        errEl.textContent = 'Error: ' + err.message;
+        errEl.style.display = 'block';
+      }).updateAdminSettings(email, currentPin, newPin || null);
+    }
+
+    // ===== INIT =====
+    window.addEventListener('load', function() {
+      initAdminPinLogin();
+    });
+  </script>
+</body>
+</html>
